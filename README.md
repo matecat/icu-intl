@@ -174,7 +174,7 @@ This library focuses on parsing and structure. If you want to format values usin
 
 ## High-level API
 
-- `Utils\ICU\MessagePattern`
+- `Matecat\ICU\MessagePattern`
   - `__construct(?string $pattern = null, int $apostropheMode = MessagePattern::APOSTROPHE_DOUBLE_OPTIONAL)`
   - `parse(string $pattern): self`
   - `parseChoiceStyle(string $pattern): self`
@@ -194,7 +194,7 @@ This library focuses on parsing and structure. If you want to format values usin
   - `appendReducedApostrophes(string $s, int $start, int $limit, string &$out): void` (static helper)
   - Implements `Iterator` to iterate parts.
 
-- `Utils\ICU\Part`
+- `Matecat\ICU\Part`
   - Represents a parsed token/part.
   - Accessors: 
     - `getType(): Parts\TokenType`, 
@@ -206,11 +206,11 @@ This library focuses on parsing and structure. If you want to format values usin
     - `Part::MAX_LENGTH`, 
     - `Part::MAX_VALUE` 
 
-- `Utils\ICU\Parts\TokenType` (enum)
+- `Matecat\ICU\Parts\TokenType` (enum)
   - Token types used by the parser, for example: `MSG_START`, `MSG_LIMIT`, `ARG_START`, `ARG_NAME`, `ARG_NUMBER`, `ARG_INT`, `ARG_DOUBLE`, `ARG_TYPE`, `ARG_STYLE`, `ARG_SELECTOR`, `ARG_LIMIT`, `INSERT_CHAR`, `REPLACE_NUMBER`, `SKIP_SYNTAX`, etc.
   - Token types expose whether they carry a numeric value.
 
-- `Utils\ICU\ArgType` (enum)
+- `Matecat\ICU\ArgType` (enum)
   - Argument classifications such as `NONE`, `SIMPLE`, `CHOICE`, `PLURAL`, `SELECT`, `SELECTORDINAL`.
 
 ## Exceptions
@@ -227,11 +227,11 @@ The parser throws standard PHP exceptions used by the tests and implementation:
 - Run tests: `vendor/bin/phpunit` or `composer test`.
 
 ## Where to find parser code and tests
-- Parser core: `lib/Utils/ICU/MessagePattern.php`
-- Part/token model: `lib/Utils/ICU/Part.php`
-- Token types: `lib/Utils/ICU/Parts/TokenType.php`
-- Argument types: `lib/Utils/ICU/ArgType.php`
-- Tests: `tests/unit/Utils/ICU/MessagePatternTest.php`
+- Parser core: `src/MessagePattern.php`
+- Part/token model: `src/Part.php`
+- Token types: `src/Parts/TokenType.php`
+- Argument types: `src/ArgType.php`
+- Tests: `tests/Matecat/Tests/ICU/MessagePatternTest.php`
 
 #### Search tips:
 - `git grep -n "class MessagePattern\|class Part\|TokenType\|ArgType"`
