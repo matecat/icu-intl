@@ -552,9 +552,6 @@ final class MessagePattern implements Iterator
                         // Start quoted literal section; skip the opening quote and scan to closing quote.
                         $this->addPart(TokenType::SKIP_SYNTAX, $index - 1, 1, 0);
                         while (true) {
-                            // In my opinion, this should be the correct code, but ICU cpp and Java library reset the index to the end of the string, making the library raise an exception.
-                            $currentPosition = $index;
-
                             $index = $this->indexOf("'", $index + 1);
                             if ($index !== false) {
                                 if (($index + 1) < $this->msgLength && $this->charAt($index + 1) === "'") {
@@ -567,13 +564,8 @@ final class MessagePattern implements Iterator
                                     break;
                                 }
                             } else {
-                                // In my opinion, this should be the correct code, but ICU cpp and Java library reset the index to the end of the string, making the library raise an exception.
-                                $index = $currentPosition;
-
                                 // The quoted text reaches to the end of the message.
-                                // This maintains compatibility with the ICU original library but makes the output object incompatible with MessagePattern::autoQuoteApostropheDeep
-//                                $index = $this->msgLength;
-
+                                $index = $this->msgLength;
                                 // Add a Part for auto-quoting.
                                 // 0x27 is the numeric value for the single quote character (')
                                 $this->addPart(TokenType::INSERT_CHAR, $index, 0, 0x27);

@@ -1258,22 +1258,30 @@ MSG;
     {
         // A pattern with an unterminated quote inside a complex argument
         return [
-            ['{0, select, other{quoted logic starts here: \'{9}}'],
-            ['{0, plural,=0{You have no messages} one{You have one message} other{You have a message \'# }}']
+            [
+                "{0, select, other{quoted logic starts here: '{9}}",
+                "{0, select, other{quoted logic starts here: '{9}}'"
+            ],
+            [
+                "{0, plural,=0{You have no messages} one{You have one message} other{You have a message '# }}",
+                "{0, plural,=0{You have no messages} one{You have one message} other{You have a message '# }}'"
+            ],
+            [
+                "Hel'{o!",
+                "Hel'{o!'",
+            ]
         ];
     }
 
     #[DataProvider('gimmeICUPatterns')]
-    public function testUnterminatedQuoteAutoInsertionInPlural(string $patternString): void
+    public function testUnterminatedQuoteAutoInsertionInPlural(string $patternString, string $expected): void
     {
         $pattern = new MessagePattern();
 
         try {
             $pattern->parse($patternString);
-            $this->fail(
-                'Expected exception not thrown, the parser should crash. We want to test the insertion of the Part.TokenType.INSERT_CHAR apostrophe'
-            );
-        } catch (Exception) {
+        } catch (Exception){
+            //to ignore the exception, the first two provided patterns are invalid ICU patterns
         }
 
         $hasAutoInsertedQuote = false;
@@ -1293,7 +1301,7 @@ MSG;
 
         // Also verify that autoQuoteApostropheDeep handles it
         $result = $pattern->autoQuoteApostropheDeep();
-        self::assertStringContainsString("''", $result);
+        self::assertEquals($expected, $result);
     }
 
     public function testSimplePatternUnclosedBracesException(): void
