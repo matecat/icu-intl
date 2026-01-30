@@ -134,8 +134,12 @@ final class MessagePattern implements Iterator
 
     private string $aposMode;
 
-    private const string Pattern_White_Space = '\x{0009}-\x{000D}\x{0020}\x{0085}\x{200E}\x{200F}\x{2028}\x{2029}';
-    private const string Pattern_Identifier = '\x{0021}-\x{002F}\x{003A}-\x{0040}\x{005B}-\x{005E}\x{0060}\x{007B}-\x{007E}\x{00A1}-\x{00A7}\x{00A9}\x{00AB}\x{00AC}\x{00AE}\x{00B0}\x{00B1}\x{00B6}\x{00BB}\x{00BF}\x{00D7}\x{00F7}\x{2010}-\x{2027}\x{2030}-\x{203E}\x{2041}-\x{2053}\x{2055}-\x{205E}\x{2190}-\x{245F}\x{2500}-\x{2775}\x{2794}-\x{2BFF}\x{2E00}-\x{2E7F}\x{3001}-\x{3003}\x{3008}-\x{3020}\x{3030}\x{FD3E}\x{FD3F}\x{FE45}\x{FE46}';
+    private const string PATTERN_WHITE_SPACE = '\x{0009}-\x{000D}\x{0020}\x{0085}\x{200E}\x{200F}\x{2028}\x{2029}';
+    private const string PATTERN_IDENTIFIER =
+        '\x{0021}-\x{002F}\x{003A}-\x{0040}\x{005B}-\x{005E}\x{0060}\x{007B}-\x{007E}\x{00A1}-\x{00A7}\x{00A9}' .
+        '\x{00AB}\x{00AC}\x{00AE}\x{00B0}\x{00B1}\x{00B6}\x{00BB}\x{00BF}\x{00D7}\x{00F7}\x{2010}-\x{2027}' .
+        '\x{2030}-\x{203E}\x{2041}-\x{2053}\x{2055}-\x{205E}\x{2190}-\x{245F}\x{2500}-\x{2775}\x{2794}-\x{2BFF}' .
+        '\x{2E00}-\x{2E7F}\x{3001}-\x{3003}\x{3008}-\x{3020}\x{3030}\x{FD3E}\x{FD3F}\x{FE45}\x{FE46}';
     /**
      * @var string[]
      */
@@ -621,7 +625,8 @@ final class MessagePattern implements Iterator
      * @throws OutOfBoundsException If the argument number, name, or type exceeds predefined limits.
      */
     private function parseArg(int $index, int $nestingLevel): int
-    {// Mark the start of this argument and record a placeholder ArgType.
+    {
+        // Mark the start of this argument and record a placeholder ArgType.
         $argStart = count($this->parts);
         $argType = ArgType::NONE;
         $this->addPart(TokenType::ARG_START, $index, 1, $this->argTypeOrdinal($argType));
@@ -940,7 +945,8 @@ final class MessagePattern implements Iterator
                 }
 
                 // plural "offset:" must be first and only once
-                if ($argType->hasPluralStyle() &&
+                if (
+                    $argType->hasPluralStyle() &&
                     $len === 6 &&
                     $index < $length &&
                     $this->startsWithAt(
@@ -1136,7 +1142,7 @@ final class MessagePattern implements Iterator
     private function skipWhiteSpace(int $index): int
     {
         $length = $this->msgLength;
-        while ($index < $length && preg_match('#\G[' . self::Pattern_White_Space . ']#xu', $this->msg, $m, 0, $index)) {
+        while ($index < $length && preg_match('#\G[' . self::PATTERN_WHITE_SPACE . ']#xu', $this->msg, $m, 0, $index)) {
             $index += mb_strlen($m[0]);
         }
         return $index;
@@ -1152,13 +1158,15 @@ final class MessagePattern implements Iterator
     private function skipIdentifier(int $index): int
     {
         // ICU Pattern_Syntax + Pattern_White_Space (exact, hard-coded)
-        if (preg_match(
-            '#\G[^' . self::Pattern_White_Space . self::Pattern_Identifier . ']+#xu',
-            $this->msg,
-            $m,
-            0,
-            $index
-        )) {
+        if (
+            preg_match(
+                '#\G[^' . self::PATTERN_WHITE_SPACE . self::PATTERN_IDENTIFIER . ']+#xu',
+                $this->msg,
+                $m,
+                0,
+                $index
+            )
+        ) {
             return $index + mb_strlen($m[0]);
         }
         return $index;
@@ -1245,7 +1253,7 @@ final class MessagePattern implements Iterator
      */
     private static function isIdentifier(string $s): bool
     {
-        return (bool)preg_match('/^[^' . self::Pattern_White_Space . self::Pattern_Identifier . ']+$/u', $s);
+        return (bool)preg_match('/^[^' . self::PATTERN_WHITE_SPACE . self::PATTERN_IDENTIFIER . ']+$/u', $s);
     }
 
     /**
@@ -1464,6 +1472,4 @@ final class MessagePattern implements Iterator
     {
         return isset($this->parts[$this->position]);
     }
-
-
 }

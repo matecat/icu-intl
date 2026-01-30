@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * @author Domenico Lupinetti (hashashiyyin) domenico@translated.net / ostico@gmail.com
@@ -8,7 +9,6 @@
  */
 
 namespace Matecat\ICU;
-
 
 use Matecat\ICU\Parts\TokenType;
 
@@ -28,8 +28,8 @@ final class Part
         // e.g., ArgType::NONE, ArgType::SOME_TYPE, ...
     ];
 
-    const int MAX_LENGTH = 0xffff;
-    const int MAX_VALUE = 32767;
+    public const int MAX_LENGTH = 0xffff;
+    public const int MAX_VALUE = 32767;
 
     public function __construct(
         private readonly TokenType $type,
@@ -67,7 +67,8 @@ final class Part
     }
 
     /**
-     * Returns the pattern string limit (exclusive-end) index associated with this Part. Convenience method for getIndex()+getLength().
+     * Returns the pattern string limit (exclusive-end) index associated with this Part.
+     * Convenience method for getIndex()+getLength().
      * Returns: this part's pattern string limit index, same as getIndex()+getLength().
      */
     public function getLimit(): int
@@ -105,8 +106,11 @@ final class Part
      */
     public function __toString(): string
     {
-        $valueString = ($this->type == TokenType::ARG_START || $this->type == TokenType::ARG_LIMIT) ? $this->getArgType()->name : $this->value;
+        $valueString =
+            ($this->type == TokenType::ARG_START || $this->type == TokenType::ARG_LIMIT) ?
+                $this->getArgType()->name :
+                $this->value;
+
         return $this->type->name . "(" . $valueString . ")@" . $this->index;
     }
-
 }

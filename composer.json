@@ -22,7 +22,8 @@
         "phpunit/phpunit": "^12",
         "phpunit/php-code-coverage": "^12",
         "phpstan/phpstan": "@stable",
-        "ext-xdebug": "*"
+        "ext-xdebug": "*",
+        "squizlabs/php_codesniffer": "^4"
     },
     "autoload-dev": {
         "psr-4": {
