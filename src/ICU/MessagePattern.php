@@ -311,7 +311,7 @@ final class MessagePattern implements Iterator
      * Returns the Part.TokenType of the i-th pattern "part".
      * Convenience method for getPart(i)->getType().
      * @param int $i The index of the Part data. (0…countParts()-1)
-     * @return TokenType The Part.TokenType of the i-th Part.
+     * @return \Matecat\ICU\Parts\TokenType The Part.TokenType of the i-th Part.
      * @throws OutOfBoundsException if the index i is outside the (0...countParts()-1) range
      */
     public function getPartType(int $i): TokenType

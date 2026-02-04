@@ -5,7 +5,8 @@
     "license": "LGPL-3.0-or-later",
     "autoload": {
         "psr-4": {
-            "Matecat\\ICU\\": "src/"
+            "Matecat\\ICU\\": "src/ICU",
+            "Matecat\\Locales\\": "src/Locales"
         }
     },
     "authors": [
@@ -26,7 +27,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Matecat\\ICU\\Tests\\": "tests/Matecat/Tests/ICU"
+            "Matecat\\ICU\\Tests\\": "tests/Matecat/Tests/ICU",
+            "Matecat\\Locales\\Tests\\": "tests/Matecat/Tests/Locales"
         }
     }
 }

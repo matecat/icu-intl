@@ -37,8 +37,7 @@ composer require matecat/icu-message-pattern
 ### Basic parse and inspect
 
 ```php
-use Matecat\ICU\MessagePattern;
-use Matecat\ICU\Parts\TokenType;
+use Matecat\ICU\ICU\MessagePattern;use Matecat\ICU\ICU\Parts\TokenType;
 
 $patternText = "You have {num, plural, offset:1 =0{no messages} =1{one message} other{# messages}} in {folder}.";
 $pattern = new MessagePattern($patternText);

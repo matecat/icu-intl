@@ -39,31 +39,31 @@ use PHPUnit\Framework\TestCase;
 final class MessagePatternTest extends TestCase
 {
 
-    public function testParseEmpty()
+    public function testParseEmpty(): void
     {
-        $pattern = new MessagePattern();
+        $pattern = new \Matecat\ICU\MessagePattern();
         self::assertEquals(2, $pattern->parse('Hi')->countParts());
     }
 
-    public function testParse()
+    public function testParse(): void
     {
-        $pattern = new MessagePattern();
+        $pattern = new \Matecat\ICU\MessagePattern();
         self::assertTrue($pattern->parse('Hi {0}')->countParts() > 2);
     }
 
     public function testValidateArgumentName(): void
     {
-        self::assertSame(0, MessagePattern::validateArgumentName('0'));
-        self::assertSame(12, MessagePattern::validateArgumentName('12'));
+        self::assertSame(0, \Matecat\ICU\MessagePattern::validateArgumentName('0'));
+        self::assertSame(12, \Matecat\ICU\MessagePattern::validateArgumentName('12'));
 
-        self::assertSame(MessagePattern::ARG_NAME_NOT_VALID, MessagePattern::validateArgumentName('01'));
-        self::assertSame(MessagePattern::ARG_NAME_NOT_NUMBER, MessagePattern::validateArgumentName('name'));
-        self::assertSame(MessagePattern::ARG_NAME_NOT_VALID, MessagePattern::validateArgumentName('bad name'));
+        self::assertSame(\Matecat\ICU\MessagePattern::ARG_NAME_NOT_VALID, MessagePattern::validateArgumentName('01'));
+        self::assertSame(\Matecat\ICU\MessagePattern::ARG_NAME_NOT_NUMBER, \Matecat\ICU\MessagePattern::validateArgumentName('name'));
+        self::assertSame(\Matecat\ICU\MessagePattern::ARG_NAME_NOT_VALID, MessagePattern::validateArgumentName('bad name'));
     }
 
     public function testParseSimpleNamedAndNumberedArgs(): void
     {
-        $pattern = new MessagePattern();
+        $pattern = new \Matecat\ICU\MessagePattern();
         $pattern->parse('Hi {0} {name}');
 
         self::assertTrue($pattern->hasNumberedArguments());
@@ -90,7 +90,7 @@ final class MessagePatternTest extends TestCase
 
     public function testParseChoiceStyle(): void
     {
-        $pattern = new MessagePattern();
+        $pattern = new \Matecat\ICU\MessagePattern();
         $pattern->parseChoiceStyle('0#no|1#one|2#two');
 
         $countNumeric = 0;
@@ -111,7 +111,7 @@ final class MessagePatternTest extends TestCase
 
     public function testParsePluralStyleAndOffset(): void
     {
-        $pattern = new MessagePattern();
+        $pattern = new \Matecat\ICU\MessagePattern();
         $pattern->parsePluralStyle('offset:1 one{# item} other{# items}');
 
         self::assertSame(1.0, $pattern->getPluralOffset(0));
@@ -129,7 +129,7 @@ final class MessagePatternTest extends TestCase
 
     public function testParseSelectStyle(): void
     {
-        $pattern = new MessagePattern();
+        $pattern = new \Matecat\ICU\MessagePattern();
         $pattern->parseSelectStyle('male{He} female{She} other{They}');
 
         $hasOtherSelector = false;
@@ -146,7 +146,7 @@ final class MessagePatternTest extends TestCase
 
     public function testAutoQuoteApostropheDeep(): void
     {
-        $pattern = new MessagePattern();
+        $pattern = new \Matecat\ICU\MessagePattern();
         $pattern->parse("I don't {name}");
 
         self::assertSame("I don''t {name}", $pattern->autoQuoteApostropheDeep());
@@ -154,7 +154,7 @@ final class MessagePatternTest extends TestCase
 
     public function testParsePluralInMessageFormatPattern(): void
     {
-        $pattern = new MessagePattern();
+        $pattern = new \Matecat\ICU\MessagePattern();
         $pattern->parse('{count, plural, one{# file} other{# files}}');
 
         $argStartFound = false;
@@ -174,7 +174,7 @@ final class MessagePatternTest extends TestCase
 
     public function testParseNestedSelectAndPlural(): void
     {
-        $pattern = new MessagePattern();
+        $pattern = new \Matecat\ICU\MessagePattern();
         $pattern->parse('{gender, select, female{{count, plural, one{# file} other{# files}}} other{No files}}');
 
         $hasSelect = false;
@@ -203,7 +203,7 @@ final class MessagePatternTest extends TestCase
 
     public function testParseSelectOrdinalStyle(): void
     {
-        $pattern = new MessagePattern();
+        $pattern = new \Matecat\ICU\MessagePattern();
         $pattern->parse('{pos, selectordinal, one{#st} two{#nd} few{#rd} other{#th}}');
 
         $hasSelectOrdinal = false;
@@ -220,7 +220,7 @@ final class MessagePatternTest extends TestCase
 
     public function testParseChoiceStyleWithInfinityAndLeq(): void
     {
-        $pattern = new MessagePattern();
+        $pattern = new \Matecat\ICU\MessagePattern();
         $pattern->parseChoiceStyle('0#none|1<single|∞≤many');
 
         $selectorCount = 0;
@@ -286,7 +286,7 @@ final class MessagePatternTest extends TestCase
 
     public function testParseComplexQuotedPattern(): void
     {
-        $pattern = new MessagePattern();
+        $pattern = new \Matecat\ICU\MessagePattern();
         $input = <<<'MSG'
 I don't {a,plural,other{w'{'on't #'#'}} and {b,select,other{shan't'}'}} '{'''know'''}' and {c,choice,0#can't'|'}{z,number,#'#'###.00'}'}.
 MSG;
@@ -345,7 +345,7 @@ MSG;
         $expected = [
             [TokenType::MSG_START, 0, 0, 0, '', null, null],
             [TokenType::INSERT_CHAR, 6, 0, 39, '', null, null],
-            [TokenType::ARG_START, 8, 1, 0, '{', null, ArgType::PLURAL],
+            [TokenType::ARG_START, 8, 1, 0, '{', null, \Matecat\ICU\ArgType::PLURAL],
             [TokenType::ARG_NAME, 9, 1, 0, 'a', null, null],
             [TokenType::ARG_SELECTOR, 18, 5, 0, 'other', null, null],
             [TokenType::MSG_START, 23, 1, 1, '{', null, null],
@@ -357,7 +357,7 @@ MSG;
             [TokenType::SKIP_SYNTAX, 36, 1, 0, "'", null, null],
             [TokenType::MSG_LIMIT, 37, 1, 1, '}', null, null],
             [TokenType::ARG_LIMIT, 38, 1, 0, '}', null, ArgType::PLURAL],
-            [TokenType::ARG_START, 44, 1, 0, '{', null, ArgType::SELECT],
+            [TokenType::ARG_START, 44, 1, 0, '{', null, \Matecat\ICU\ArgType::SELECT],
             [TokenType::ARG_NAME, 45, 1, 0, 'b', null, null],
             [TokenType::ARG_SELECTOR, 54, 5, 0, 'other', null, null],
             [TokenType::MSG_START, 59, 1, 1, '{', null, null],
@@ -430,7 +430,7 @@ MSG;
 
     public function testAutoQuoteApostropheWithQuotedLiterals(): void
     {
-        $pattern = new MessagePattern();
+        $pattern = new \Matecat\ICU\MessagePattern();
         $pattern->parse("He said it's(?!) '{name}' and it's ok");
 
         self::assertSame("He said it''s(?!) '{name}' and it''s ok", $pattern->autoQuoteApostropheDeep());
@@ -438,7 +438,7 @@ MSG;
 
     public function testClear(): void
     {
-        $pattern = new MessagePattern();
+        $pattern = new \Matecat\ICU\MessagePattern();
         $pattern->parse('Hi {0}');
         self::assertGreaterThan(0, $pattern->countParts());
 
@@ -451,23 +451,23 @@ MSG;
 
     public function testClearPatternAndSetApostropheMode(): void
     {
-        $pattern = new MessagePattern();
+        $pattern = new \Matecat\ICU\MessagePattern();
         $pattern->parse('Hi {0}');
 
-        $pattern->clearPatternAndSetApostropheMode(MessagePattern::APOSTROPHE_DOUBLE_REQUIRED);
+        $pattern->clearPatternAndSetApostropheMode(\Matecat\ICU\MessagePattern::APOSTROPHE_DOUBLE_REQUIRED);
         self::assertSame(0, $pattern->countParts());
-        self::assertSame(MessagePattern::APOSTROPHE_DOUBLE_REQUIRED, $pattern->getApostropheMode());
+        self::assertSame(\Matecat\ICU\MessagePattern::APOSTROPHE_DOUBLE_REQUIRED, $pattern->getApostropheMode());
     }
 
     public function testGetApostropheModeDoubleRequired(): void
     {
-        $pattern = new MessagePattern(null, MessagePattern::APOSTROPHE_DOUBLE_REQUIRED);
-        self::assertSame(MessagePattern::APOSTROPHE_DOUBLE_REQUIRED, $pattern->getApostropheMode());
+        $pattern = new MessagePattern(null, \Matecat\ICU\MessagePattern::APOSTROPHE_DOUBLE_REQUIRED);
+        self::assertSame(\Matecat\ICU\MessagePattern::APOSTROPHE_DOUBLE_REQUIRED, $pattern->getApostropheMode());
     }
 
     public function testPartSubstringMatches(): void
     {
-        $pattern = new MessagePattern();
+        $pattern = new \Matecat\ICU\MessagePattern();
         $pattern->parse('{name}');
 
         $part = $pattern->getPart(2);
@@ -478,7 +478,7 @@ MSG;
 
     public function testGetNumericValueWithNonNumeric(): void
     {
-        $pattern = new MessagePattern();
+        $pattern = new \Matecat\ICU\MessagePattern();
         $pattern->parse('{name}');
 
         $part = $pattern->getPart(1);
@@ -487,7 +487,7 @@ MSG;
 
     public function testGetPluralOffsetWithoutOffset(): void
     {
-        $pattern = new MessagePattern();
+        $pattern = new \Matecat\ICU\MessagePattern();
         $pattern->parsePluralStyle('one{# item} other{# items}');
 
         self::assertSame(0.0, $pattern->getPluralOffset(0));
@@ -505,7 +505,7 @@ MSG;
     {
         $this->expectException(OutOfBoundsException::class);
 
-        $pattern = new MessagePattern();
+        $pattern = new \Matecat\ICU\MessagePattern();
         $pattern->parse('Hi');
         $pattern->getPart(999);
     }
@@ -515,7 +515,7 @@ MSG;
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("Unmatched '{'");
 
-        $pattern = new MessagePattern();
+        $pattern = new \Matecat\ICU\MessagePattern();
         $pattern->parse('Hi {name');
     }
 
@@ -524,7 +524,7 @@ MSG;
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Bad argument syntax');
 
-        $pattern = new MessagePattern();
+        $pattern = new \Matecat\ICU\MessagePattern();
         $pattern->parse('Hi {name?}');
     }
 
@@ -533,7 +533,7 @@ MSG;
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Bad argument syntax');
 
-        $pattern = new MessagePattern();
+        $pattern = new \Matecat\ICU\MessagePattern();
         $pattern->parse('Hi {na me}');
     }
 
@@ -542,7 +542,7 @@ MSG;
         $this->expectException(OutOfBoundsException::class);
         $this->expectExceptionMessage('Argument number too large');
 
-        $pattern = new MessagePattern();
+        $pattern = new \Matecat\ICU\MessagePattern();
         $pattern->parse('{99999999999999999999}');
     }
 
@@ -551,7 +551,7 @@ MSG;
         $this->expectException(OutOfBoundsException::class);
         $this->expectExceptionMessage('Argument name too long');
 
-        $pattern = new MessagePattern();
+        $pattern = new \Matecat\ICU\MessagePattern();
         $longName = str_repeat('a', Part::MAX_LENGTH + 1);
         $pattern->parse("{{$longName}}");
     }
@@ -571,7 +571,7 @@ MSG;
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('No style field for complex argument');
 
-        $pattern = new MessagePattern();
+        $pattern = new \Matecat\ICU\MessagePattern();
         $pattern->parse('{name, plural}');
     }
 
@@ -580,7 +580,7 @@ MSG;
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Quoted literal argument style text reaches to the end');
 
-        $pattern = new MessagePattern();
+        $pattern = new \Matecat\ICU\MessagePattern();
         $pattern->parse("{name, number, '#.00}");
     }
 
@@ -589,8 +589,8 @@ MSG;
         $this->expectException(OutOfBoundsException::class);
         $this->expectExceptionMessage('Argument style text too long');
 
-        $pattern = new MessagePattern();
-        $longStyle = str_repeat('a', Part::MAX_LENGTH + 1);
+        $pattern = new \Matecat\ICU\MessagePattern();
+        $longStyle = str_repeat('a', \Matecat\ICU\Part::MAX_LENGTH + 1);
         $pattern->parse("{name, number, $longStyle}");
     }
 
@@ -599,7 +599,7 @@ MSG;
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Missing choice argument pattern');
 
-        $pattern = new MessagePattern();
+        $pattern = new \Matecat\ICU\MessagePattern();
         $pattern->parseChoiceStyle('');
     }
 
@@ -608,7 +608,7 @@ MSG;
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Bad choice pattern syntax');
 
-        $pattern = new MessagePattern();
+        $pattern = new \Matecat\ICU\MessagePattern();
         $pattern->parseChoiceStyle('abc#test');
     }
 
@@ -617,7 +617,7 @@ MSG;
         $this->expectException(OutOfBoundsException::class);
         $this->expectExceptionMessage('Choice number too long');
 
-        $pattern = new MessagePattern();
+        $pattern = new \Matecat\ICU\MessagePattern();
         $longNumber = str_repeat('9', Part::MAX_LENGTH + 1);
         $pattern->parseChoiceStyle("$longNumber#test");
     }
@@ -627,7 +627,7 @@ MSG;
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Expected choice separator');
 
-        $pattern = new MessagePattern();
+        $pattern = new \Matecat\ICU\MessagePattern();
         $pattern->parseChoiceStyle('0?test');
     }
 
@@ -636,7 +636,7 @@ MSG;
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("Missing 'other' keyword");
 
-        $pattern = new MessagePattern();
+        $pattern = new \Matecat\ICU\MessagePattern();
         $pattern->parsePluralStyle('one{# item}');
     }
 
@@ -645,7 +645,7 @@ MSG;
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Bad plural pattern syntax');
 
-        $pattern = new MessagePattern();
+        $pattern = new \Matecat\ICU\MessagePattern();
         $pattern->parsePluralStyle('={none} other{items}');
     }
 
@@ -654,7 +654,7 @@ MSG;
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("Plural argument 'offset:' (if present) must precede");
 
-        $pattern = new MessagePattern();
+        $pattern = new \Matecat\ICU\MessagePattern();
         $pattern->parsePluralStyle('one{# item} offset:1 other{# items}');
     }
 
@@ -663,7 +663,7 @@ MSG;
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("Missing value for plural 'offset:'");
 
-        $pattern = new MessagePattern();
+        $pattern = new \Matecat\ICU\MessagePattern();
         $pattern->parsePluralStyle('offset: other{# items}');
     }
 
@@ -672,7 +672,7 @@ MSG;
         $this->expectException(OutOfBoundsException::class);
         $this->expectExceptionMessage('Plural offset value too long');
 
-        $pattern = new MessagePattern();
+        $pattern = new \Matecat\ICU\MessagePattern();
         $longNumber = str_repeat('9', Part::MAX_LENGTH + 1);
         $pattern->parsePluralStyle("offset:$longNumber other{# items}");
     }
@@ -682,7 +682,7 @@ MSG;
         $this->expectException(OutOfBoundsException::class);
         $this->expectExceptionMessage('Argument selector too long');
 
-        $pattern = new MessagePattern();
+        $pattern = new \Matecat\ICU\MessagePattern();
         $longSelector = str_repeat('a', Part::MAX_LENGTH + 1);
         $pattern->parsePluralStyle("$longSelector{test} other{items}");
     }
@@ -692,18 +692,18 @@ MSG;
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('No message fragment after select selector');
 
-        $pattern = new MessagePattern();
+        $pattern = new \Matecat\ICU\MessagePattern();
         $pattern->parseSelectStyle('male other{They}');
     }
 
     public function testAppendReducedApostrophes(): void
     {
         $out = '';
-        MessagePattern::appendReducedApostrophes("test''test", 0, 10, $out);
+        \Matecat\ICU\MessagePattern::appendReducedApostrophes("test''test", 0, 10, $out);
         self::assertSame("test'test", $out);
 
         $out = '';
-        MessagePattern::appendReducedApostrophes("no apostrophe", 0, 13, $out);
+        \Matecat\ICU\MessagePattern::appendReducedApostrophes("no apostrophe", 0, 13, $out);
         self::assertSame("no apostrophe", $out);
 
         $out = '';
@@ -713,7 +713,7 @@ MSG;
 
     public function testIterator(): void
     {
-        $pattern = new MessagePattern();
+        $pattern = new \Matecat\ICU\MessagePattern();
         $pattern->parse('Hi {0}');
 
         $count = 0;
@@ -728,7 +728,7 @@ MSG;
 
     public function testAutoQuoteApostropheDeepNoChanges(): void
     {
-        $pattern = new MessagePattern();
+        $pattern = new \Matecat\ICU\MessagePattern();
         $pattern->parse('Hi {name} test');
 
         self::assertSame('Hi {name} test', $pattern->autoQuoteApostropheDeep());
@@ -736,7 +736,7 @@ MSG;
 
     public function testParseDoubleRequiredModeWithQuoting(): void
     {
-        $pattern = new MessagePattern(null, MessagePattern::APOSTROPHE_DOUBLE_REQUIRED);
+        $pattern = new \Matecat\ICU\MessagePattern(null, \Matecat\ICU\MessagePattern::APOSTROPHE_DOUBLE_REQUIRED);
         $pattern->parse("It's 'quoted'");
 
         self::assertGreaterThan(2, $pattern->countParts());
@@ -744,7 +744,7 @@ MSG;
 
     public function testParseSimpleArgWithType(): void
     {
-        $pattern = new MessagePattern();
+        $pattern = new \Matecat\ICU\MessagePattern();
         $pattern->parse('{name, number, #.00}');
 
         $hasArgType = false;
@@ -765,7 +765,7 @@ MSG;
 
     public function testParseNestedBracesInSimpleStyle(): void
     {
-        $pattern = new MessagePattern();
+        $pattern = new \Matecat\ICU\MessagePattern();
         $pattern->parse('{name, number, {nested}}');
 
         $styleFound = false;
@@ -815,7 +815,7 @@ MSG;
 
     public function testParseNegativeInfinity(): void
     {
-        $pattern = new MessagePattern();
+        $pattern = new \Matecat\ICU\MessagePattern();
         $pattern->parseChoiceStyle('-∞#negative infinity|0#zero');
 
         $hasNegInf = false;
@@ -838,14 +838,14 @@ MSG;
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Bad syntax for numeric value');
 
-        $pattern = new MessagePattern();
+        $pattern = new \Matecat\ICU\MessagePattern();
         $pattern->parseChoiceStyle('∞5#bad');
     }
 
     public function testValidateArgumentNameLeadingZero(): void
     {
-        self::assertSame(MessagePattern::ARG_NAME_NOT_VALID, MessagePattern::validateArgumentName('01'));
-        self::assertSame(MessagePattern::ARG_NAME_NOT_VALID, MessagePattern::validateArgumentName('0123'));
+        self::assertSame(MessagePattern::ARG_NAME_NOT_VALID, \Matecat\ICU\MessagePattern::validateArgumentName('01'));
+        self::assertSame(\Matecat\ICU\MessagePattern::ARG_NAME_NOT_VALID, \Matecat\ICU\MessagePattern::validateArgumentName('0123'));
     }
 
     public function testValidateArgumentNameEmpty(): void
@@ -855,13 +855,13 @@ MSG;
 
     public function testValidateArgumentNameMixed(): void
     {
-        self::assertSame(MessagePattern::ARG_NAME_NOT_NUMBER, MessagePattern::validateArgumentName('test123'));
-        self::assertSame(MessagePattern::ARG_NAME_NOT_NUMBER, MessagePattern::validateArgumentName('a1'));
+        self::assertSame(\Matecat\ICU\MessagePattern::ARG_NAME_NOT_NUMBER, MessagePattern::validateArgumentName('test123'));
+        self::assertSame(MessagePattern::ARG_NAME_NOT_NUMBER, \Matecat\ICU\MessagePattern::validateArgumentName('a1'));
     }
 
     public function testParsePluralWithPositiveExplicitNumber(): void
     {
-        $pattern = new MessagePattern();
+        $pattern = new \Matecat\ICU\MessagePattern();
         $pattern->parsePluralStyle('=5{exactly five} other{not five}');
 
         $found = false;
@@ -881,7 +881,7 @@ MSG;
         $this->expectException(OutOfBoundsException::class);
         $this->expectExceptionMessage('Nesting level exceeds maximum value');
 
-        $pattern = new MessagePattern();
+        $pattern = new \Matecat\ICU\MessagePattern();
         $nested = str_repeat('{a,select,other{', 300) . 'text' . str_repeat('}}', 300);
         $pattern->parse($nested);
     }
@@ -891,7 +891,7 @@ MSG;
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("Unmatched '{' braces in message ");
 
-        $pattern = new MessagePattern();
+        $pattern = new \Matecat\ICU\MessagePattern();
         $nested = str_repeat('{a,select,other{', 10) . 'text' . str_repeat('}}', 9);
         $pattern->parse($nested);
     }
@@ -901,7 +901,7 @@ MSG;
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("Unmatched '{' braces in message ");
 
-        $pattern = new MessagePattern();
+        $pattern = new \Matecat\ICU\MessagePattern();
         $nested = 'The house is red {';
         $pattern->parse($nested);
     }
@@ -911,7 +911,7 @@ MSG;
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("Unmatched '{' braces in message ");
 
-        $pattern = new MessagePattern();
+        $pattern = new \Matecat\ICU\MessagePattern();
         $nested = 'The house is red {name, select ';
         $pattern->parse($nested);
     }
@@ -928,13 +928,13 @@ MSG;
 
     public function testChoiceInMessageFormat(): void
     {
-        $pattern = new MessagePattern();
+        $pattern = new \Matecat\ICU\MessagePattern();
         $pattern->parse('{num, choice, 0#none|1#one|2#many}');
 
         $hasChoice = false;
         for ($i = 0; $i < $pattern->countParts(); $i++) {
             $part = $pattern->getPart($i);
-            if ($part->getType() === TokenType::ARG_START && $part->getArgType() === ArgType::CHOICE) {
+            if ($part->getType() === TokenType::ARG_START && $part->getArgType() === \Matecat\ICU\ArgType::CHOICE) {
                 $hasChoice = true;
                 break;
             }
@@ -945,7 +945,7 @@ MSG;
 
     public function testParsePluralExplicitDecimal(): void
     {
-        $pattern = new MessagePattern();
+        $pattern = new \Matecat\ICU\MessagePattern();
         $pattern->parsePluralStyle('=1.5{one and half} other{not one and half}');
 
         $found = false;
@@ -974,13 +974,13 @@ MSG;
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Bad argument syntax');
 
-        $pattern = new MessagePattern();
+        $pattern = new \Matecat\ICU\MessagePattern();
         $pattern->parse('{01}');
     }
 
     public function testParsePluralStyleWithDecimalOffset(): void
     {
-        $pattern = new MessagePattern();
+        $pattern = new \Matecat\ICU\MessagePattern();
         $pattern->parsePluralStyle('offset:2.5 one{# item} other{# items}');
 
         self::assertSame(2.5, $pattern->getPluralOffset(0));
@@ -1000,9 +1000,9 @@ MSG;
         $this->expectException(OutOfBoundsException::class);
         $this->expectExceptionMessage('Too many numeric values');
 
-        $pattern = new MessagePattern();
+        $pattern = new \Matecat\ICU\MessagePattern();
         $choices = "";
-        for ($i = 0; $i <= (Part::MAX_VALUE + 1); $i++) {
+        for ($i = 0; $i <= (\Matecat\ICU\Part::MAX_VALUE + 1); $i++) {
             $choices .= "$i.5#value$i|";
         }
         $choices = rtrim($choices, '|');
@@ -1011,7 +1011,7 @@ MSG;
 
     public function testInvalidNumericValues(): void
     {
-        $pattern = new MessagePattern("This {9abc} has {items} items");
+        $pattern = new \Matecat\ICU\MessagePattern("This {9abc} has {items} items");
         foreach ($pattern as $position => $part) {
             self::assertFalse($part->getType()->hasNumericValue());
             if ($part->getType() == TokenType::ARG_NAME) {
@@ -1026,7 +1026,9 @@ MSG;
         }
     }
 
-
+    /**
+     * @return array<string[]>
+     */
     public static function gimmeBadICUPatterns(): array
     {
         // A pattern with an unterminated quote inside a complex argument
@@ -1072,14 +1074,14 @@ MSG;
         $this->expectException(OutOfBoundsException::class);
         $this->expectExceptionMessage('Argument selector too long:');
 
-        new MessagePattern(
+        new \Matecat\ICU\MessagePattern(
             '{rank, plural, =' . str_repeat('9', Part::MAX_LENGTH + 1) . ' {# points} one {# point} other {# points}}'
         );
     }
 
     public function testParseArgTypeUnsupportedLength(): void
     {
-        $pattern = new MessagePattern();
+        $pattern = new \Matecat\ICU\MessagePattern();
         $pattern->parse('{name, date, short}');
 
         $hasSimple = false;
@@ -1096,7 +1098,7 @@ MSG;
 
     public function testUnterminatedQuoteAtEndWithDoubleOptional(): void
     {
-        $pattern = new MessagePattern();
+        $pattern = new \Matecat\ICU\MessagePattern();
         $pattern->parse("test 'quoted");
 
         $hasInsertChar = false;
@@ -1139,7 +1141,7 @@ MSG;
 
     public function testChoiceWithScientificNotation(): void
     {
-        $pattern = new MessagePattern();
+        $pattern = new \Matecat\ICU\MessagePattern();
         $pattern->parseChoiceStyle('1e10#large|0#small');
 
         $hasLargeNumber = false;
@@ -1159,7 +1161,7 @@ MSG;
 
     public function testParseComplexNestedChoice(): void
     {
-        $pattern = new MessagePattern();
+        $pattern = new \Matecat\ICU\MessagePattern();
         $pattern->parse('{a,choice,0#zero|1#{b,choice,0#sub-zero|1#sub-one}}');
 
         $choiceCount = 0;
@@ -1254,6 +1256,9 @@ MSG;
         self::assertSame($expectedAutoQuoted, $pattern->autoQuoteApostropheDeep());
     }
 
+    /**
+     * @return array<string[]>
+     */
     public static function gimmeICUPatterns(): array
     {
         // A pattern with an unterminated quote inside a complex argument
@@ -1276,11 +1281,11 @@ MSG;
     #[DataProvider('gimmeICUPatterns')]
     public function testUnterminatedQuoteAutoInsertionInPlural(string $patternString, string $expected): void
     {
-        $pattern = new MessagePattern();
+        $pattern = new \Matecat\ICU\MessagePattern();
 
         try {
             $pattern->parse($patternString);
-        } catch (Exception){
+        } catch (Exception) {
             //to ignore the exception, the first two provided patterns are invalid ICU patterns
         }
 
@@ -1315,7 +1320,7 @@ MSG;
 
     public function testPartToString(): void
     {
-        $pattern = new MessagePattern();
+        $pattern = new \Matecat\ICU\MessagePattern();
         $pattern->parse('{99, plural, one{# item} other{# items}}');
 
         // Part 0: MSG_START(0)@0
@@ -1334,7 +1339,7 @@ MSG;
 
     public function testPartGetLimit(): void
     {
-        $pattern = new MessagePattern();
+        $pattern = new \Matecat\ICU\MessagePattern();
         $pattern->parse('{name}');
 
         // Part 1: ARG_START is '{' at index 0, length 1
