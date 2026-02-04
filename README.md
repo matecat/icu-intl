@@ -1,7 +1,10 @@
 # ICU MessagePattern (PHP)
 
-[![Build Status](https://scrutinizer-ci.com/g/matecat/icu-message-pattern/badges/build.png?b=main)](https://scrutinizer-ci.com/g/matecat/icu-message-pattern/build-status/main)
-[![Code Coverage](https://scrutinizer-ci.com/g/matecat/icu-message-pattern/badges/coverage.png?b=main)](https://scrutinizer-ci.com/g/matecat/icu-message-pattern/?branch=main)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=matecat_icu-message-pattern&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=matecat_icu-message-pattern)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=matecat_icu-message-pattern&metric=coverage)](https://sonarcloud.io/summary/new_code?id=matecat_icu-message-pattern)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=matecat_icu-message-pattern&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=matecat_icu-message-pattern)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=matecat_icu-message-pattern&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=matecat_icu-message-pattern)
+
 ----
 
 A PHP port of the core MessagePattern parsing logic from ICU4J/ICU4C (see: [MessagePattern.java](https://github.com/unicode-org/icu/blob/f1b3db8ecd39d5b3a6eff4d5641b176c7f914dfb/icu4j/main/core/src/main/java/com/ibm/icu/text/MessagePattern.java)).  

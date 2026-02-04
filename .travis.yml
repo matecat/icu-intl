@@ -1,0 +1,22 @@
+os: linux
+dist: noble
+language: php
+php:
+  - 8.3
+
+env:
+  global:
+    - XDEBUG_MODE=coverage
+
+addons:
+  sonarcloud:
+    organization: "matecat"
+    token: $SONAR_TOKEN
+
+before_script:
+  - composer install
+
+script: ./vendor/bin/phpunit -d memory_limit=-1 -dxdebug.mode=coverage --coverage-clover=coverage.xml
+
+after_success:
+  - sonar-scanner -X -Dsonar.token=$SONAR_TOKEN -Dsonar.projectKey=matecat_icu-message-pattern -Dsonar.sources=src -Dsonar.tests=tests/ -Dsonar.php.coverage.reportPaths=coverage.xml
