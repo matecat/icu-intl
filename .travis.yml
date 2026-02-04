@@ -16,7 +16,9 @@ addons:
 before_script:
   - composer install
 
-script: ./vendor/bin/phpunit -d memory_limit=-1 -dxdebug.mode=coverage --coverage-clover=coverage.xml
+script:
+  - ./vendor/bin/phpunit -d memory_limit=-1 -dxdebug.mode=coverage --coverage-clover=coverage.xml
+  - vendor/bin/phpstan analyse src --error-format=json > phpstan.json
 
 after_success:
-  - sonar-scanner -X -Dsonar.token=$SONAR_TOKEN -Dsonar.projectKey=matecat_icu-message-pattern -Dsonar.sources=src -Dsonar.tests=tests/ -Dsonar.php.coverage.reportPaths=coverage.xml
+  - sonar-scanner -X -Dsonar.token=$SONAR_TOKEN -Dsonar.projectKey=matecat_icu-message-pattern -Dsonar.sources=src -Dsonar.tests=tests/ -Dsonar.php.coverage.reportPaths=coverage.xml -Dsonar.php.phpstan.reportPaths=phpstan.json
