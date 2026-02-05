@@ -8,9 +8,7 @@
  *
  */
 
-namespace Matecat\ICU;
-
-use Matecat\ICU\Parts\TokenType;
+namespace Matecat\ICU\Tokens;
 
 /**
  * A message pattern "part", representing a pattern parsing event.

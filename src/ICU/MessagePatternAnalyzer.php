@@ -9,8 +9,10 @@
 
 namespace Matecat\ICU;
 
-use Matecat\ICU\Parts\TokenType;
-use Matecat\ICU\PluralRules\PluralRules;
+use Matecat\ICU\Tokens\ArgType;
+use Matecat\ICU\Tokens\TokenType;
+use Matecat\ICU\Plurals\PluralComplianceException;
+use Matecat\ICU\Plurals\PluralRules;
 
 class MessagePatternAnalyzer
 {

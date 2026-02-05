@@ -8,7 +8,7 @@
  *
  */
 
-namespace Matecat\ICU;
+namespace Matecat\ICU\Tokens;
 
 /**
  * Argument type constants.

@@ -8,7 +8,7 @@
  *
  */
 
-namespace Matecat\ICU\Parts;
+namespace Matecat\ICU\Tokens;
 
 /**
  * Defines the part categories emitted by the ICU MessagePattern parser.

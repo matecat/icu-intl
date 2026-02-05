@@ -4,7 +4,9 @@ namespace Matecat\ICU;
 
 use InvalidArgumentException;
 use Iterator;
-use Matecat\ICU\Parts\TokenType;
+use Matecat\ICU\Tokens\ArgType;
+use Matecat\ICU\Tokens\Part;
+use Matecat\ICU\Tokens\TokenType;
 use OutOfBoundsException;
 
 /**

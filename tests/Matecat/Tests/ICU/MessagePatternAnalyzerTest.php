@@ -11,8 +11,8 @@ namespace Matecat\ICU\Tests;
 
 use Matecat\ICU\MessagePattern;
 use Matecat\ICU\MessagePatternAnalyzer;
-use Matecat\ICU\PluralComplianceException;
-use Matecat\ICU\PluralRules\PluralRules;
+use Matecat\ICU\Plurals\PluralComplianceException;
+use Matecat\ICU\Plurals\PluralRules;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
@@ -158,7 +158,7 @@ class MessagePatternAnalyzerTest extends TestCase
     }
 
     /**
-     * @throws PluralComplianceException
+     * @throws \Matecat\ICU\Plurals\PluralComplianceException
      */
     #[Test]
     public function testValidatePluralComplianceWithOffset(): void

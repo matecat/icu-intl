@@ -2,9 +2,9 @@
 
 namespace Matecat\Tests\ICU;
 
-use Matecat\ICU\ArgType;
 use Matecat\ICU\MessagePattern;
-use Matecat\ICU\Parts\TokenType;
+use Matecat\ICU\Tokens\ArgType;
+use Matecat\ICU\Tokens\TokenType;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 

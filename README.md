@@ -60,7 +60,7 @@ composer require matecat/icu-intl
 
 ```php
 use Matecat\ICU\MessagePattern;
-use Matecat\ICU\Parts\TokenType;
+use Matecat\ICU\Tokens\TokenType;
 
 $patternText = "You have {num, plural, offset:1 =0{no messages} =1{one message} other{# messages}} in {folder}.";
 $pattern = new MessagePattern($patternText);
@@ -181,8 +181,9 @@ $pluralCount = Languages::getPluralsCount('ru-RU'); // 3
 ```
 
 #### Plural Rules
+
 ```php
-use Matecat\ICU\PluralRules\PluralRules;
+use Matecat\ICU\Plurals\PluralRules;
 
 // Get the plural form index for a number in a specific language
 $form = PluralRules::calculate('en', 1);    // 0 (singular)

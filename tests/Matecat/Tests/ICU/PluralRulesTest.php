@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Matecat\Tests\ICU;
 
-use Matecat\ICU\PluralRules\PluralRules;
+use Matecat\ICU\Plurals\PluralRules;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 

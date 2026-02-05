@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Matecat\ICU\PluralRules;
+namespace Matecat\ICU\Plurals;
 
 use RuntimeException;
 
@@ -88,7 +88,7 @@ class PluralRules
      *
      * @var array<int, array<int, string>>
      */
-    protected static array $_categoryMap = [
+    protected static array $categoryMap = [
         // Rule 0: nplurals=1; (Asian, no plural forms)
         // Only "other" form exists
         0 => [self::CATEGORY_OTHER],
@@ -175,7 +175,7 @@ class PluralRules
      * @see https://www.unicode.org/cldr/charts/48/supplemental/language_plural_rules.html
      * @var array<int, array<int, string>>
      */
-    protected static array $_ordinalCategoryMap = [
+    protected static array $ordinalCategoryMap = [
         // Rule 0: No ordinal distinction (Asian languages, etc.)
         // Only "other" form exists
         0 => [self::CATEGORY_OTHER],
@@ -260,7 +260,7 @@ class PluralRules
      *
      * @var array<string, int>
      */
-    protected static array $_rulesMap = [
+    protected static array $rulesMap = [
         'ace' => 0,  // Acehnese - no plural
         'acf' => 2,  // Saint Lucian Creole French - French-based creole
         'af' => 1,   // Afrikaans
@@ -699,7 +699,7 @@ class PluralRules
         $pluralIndex = self::calculate($locale, $n);
         $ruleGroup = self::getRuleGroup($locale);
 
-        return self::$_categoryMap[$ruleGroup][$pluralIndex] ?? self::CATEGORY_OTHER;
+        return self::$categoryMap[$ruleGroup][$pluralIndex] ?? self::CATEGORY_OTHER;
     }
 
     /**
@@ -730,7 +730,7 @@ class PluralRules
     {
         $ruleGroup = self::getRuleGroup($locale);
 
-        return self::$_categoryMap[$ruleGroup] ?? [self::CATEGORY_OTHER];
+        return self::$categoryMap[$ruleGroup] ?? [self::CATEGORY_OTHER];
     }
 
     /**
@@ -762,7 +762,7 @@ class PluralRules
     {
         $ruleGroup = self::getRuleGroup($locale);
 
-        return self::$_ordinalCategoryMap[$ruleGroup] ?? [self::CATEGORY_OTHER];
+        return self::$ordinalCategoryMap[$ruleGroup] ?? [self::CATEGORY_OTHER];
     }
 
     /**
@@ -775,14 +775,14 @@ class PluralRules
     {
         $locale = strtolower($locale);
 
-        if (!isset(static::$_rulesMap[$locale])) {
+        if (!isset(static::$rulesMap[$locale])) {
             $locale = explode('_', $locale)[0];
         }
 
-        if (!isset(static::$_rulesMap[$locale])) {
+        if (!isset(static::$rulesMap[$locale])) {
             $locale = explode('-', $locale)[0];
         }
 
-        return static::$_rulesMap[$locale] ?? 0;
+        return static::$rulesMap[$locale] ?? 0;
     }
 }

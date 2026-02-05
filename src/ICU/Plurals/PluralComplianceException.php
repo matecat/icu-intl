@@ -7,7 +7,7 @@
  *
  */
 
-namespace Matecat\ICU;
+namespace Matecat\ICU\Plurals;
 
 use Exception;
 use Throwable;
