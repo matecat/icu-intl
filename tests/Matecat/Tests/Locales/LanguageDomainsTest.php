@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Matecat\Tests\Locales;
 
 use Matecat\Locales\LanguageDomains;
+use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -33,7 +34,7 @@ final class LanguageDomainsTest extends TestCase
     // =========================================================================
     // Enabled Domains Tests
     // =========================================================================
-
+    #[Depends('testGetInstanceReturnsSameInstance')]
     public function testGetEnabledDomainsReturnsNonEmptyArray(): void
     {
         $domains = LanguageDomains::getEnabledDomains();
@@ -41,6 +42,7 @@ final class LanguageDomainsTest extends TestCase
         self::assertNotEmpty($domains);
     }
 
+    #[Depends('testGetInstanceReturnsSameInstance')]
     public function testGetEnabledDomainsHasCorrectStructure(): void
     {
         $domains = LanguageDomains::getEnabledDomains();
@@ -52,6 +54,7 @@ final class LanguageDomainsTest extends TestCase
         }
     }
 
+    #[Depends('testGetInstanceReturnsSameInstance')]
     public function testGetEnabledDomainsContainsExpectedDomains(): void
     {
         $domains = LanguageDomains::getEnabledDomains();
@@ -68,7 +71,7 @@ final class LanguageDomainsTest extends TestCase
     // =========================================================================
     // Hash Map Tests
     // =========================================================================
-
+    #[Depends('testGetInstanceReturnsSameInstance')]
     public function testGetEnabledHashMapReturnsArray(): void
     {
         $hashMap = LanguageDomains::getEnabledHashMap();
@@ -76,6 +79,7 @@ final class LanguageDomainsTest extends TestCase
         self::assertNotEmpty($hashMap);
     }
 
+    #[Depends('testGetInstanceReturnsSameInstance')]
     public function testGetEnabledHashMapHasStringKeysAndValues(): void
     {
         $hashMap = LanguageDomains::getEnabledHashMap();
@@ -86,6 +90,7 @@ final class LanguageDomainsTest extends TestCase
         }
     }
 
+    #[Depends('testGetInstanceReturnsSameInstance')]
     public function testGetEnabledHashMapMatchesEnabledDomains(): void
     {
         $domains = LanguageDomains::getEnabledDomains();
@@ -104,7 +109,7 @@ final class LanguageDomainsTest extends TestCase
     // =========================================================================
     // Data Consistency Tests
     // =========================================================================
-
+    #[Depends('testGetInstanceReturnsSameInstance')]
     public function testDomainsKeysAreUnique(): void
     {
         $domains = LanguageDomains::getEnabledDomains();
@@ -114,6 +119,7 @@ final class LanguageDomainsTest extends TestCase
         self::assertCount(count($keys), $uniqueKeys, 'Domain keys should be unique');
     }
 
+    #[Depends('testGetInstanceReturnsSameInstance')]
     public function testDomainsKeysAreNotEmpty(): void
     {
         $domains = LanguageDomains::getEnabledDomains();
@@ -123,6 +129,7 @@ final class LanguageDomainsTest extends TestCase
         }
     }
 
+    #[Depends('testGetInstanceReturnsSameInstance')]
     public function testDomainsDisplayNamesAreNotEmpty(): void
     {
         $domains = LanguageDomains::getEnabledDomains();
@@ -136,6 +143,7 @@ final class LanguageDomainsTest extends TestCase
     // Instance Initialization Tests
     // =========================================================================
 
+    #[Depends('testGetInstanceReturnsSameInstance')]
     public function testInstanceInitializesCorrectlyFromJson(): void
     {
         // Getting instance should not throw any exceptions
@@ -153,6 +161,7 @@ final class LanguageDomainsTest extends TestCase
     // Static Method Access Tests
     // =========================================================================
 
+    #[Depends('testGetInstanceReturnsSameInstance')]
     public function testStaticMethodsWorkWithoutExplicitGetInstance(): void
     {
         // These static methods should work without calling getInstance() first
@@ -167,7 +176,7 @@ final class LanguageDomainsTest extends TestCase
     // =========================================================================
     // Multiple Access Tests
     // =========================================================================
-
+    #[Depends('testGetInstanceReturnsSameInstance')]
     public function testMultipleAccessReturnsConsistentData(): void
     {
         // First access

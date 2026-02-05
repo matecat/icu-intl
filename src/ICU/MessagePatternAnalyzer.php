@@ -49,18 +49,21 @@ class MessagePatternAnalyzer
      * - CLDR category names: 'zero', 'one', 'two', 'few', 'many', 'other'
      * - Explicit numeric selectors: '=0', '=1', '=2', etc.
      *
+     * Note: The 'other' category is always valid as ICU requires it as a fallback.
+     * Cardinal (plural) and ordinal (selectordinal) rules are validated separately
+     * according to CLDR specifications.
+     *
      * @throws PluralComplianceException If any selector is invalid or required categories are missing.
      *
      * @return void
      */
     public function validatePluralCompliance(): void
     {
-        $expectedCategories = PluralRules::getCategories($this->language);
         $foundSelectors = [];
         $invalidSelectors = [];
-        $hasComplexPluralForm = false;
+        $expectedCategories = [];
 
-        foreach ($this->pattern as $part) {
+        foreach ($this->pattern as $index => $part) {
             $argType = $part->getArgType();
 
             // Only check plural and selectordinal arguments
@@ -68,70 +71,120 @@ class MessagePatternAnalyzer
                 continue;
             }
 
-            $hasComplexPluralForm = true;
+            // Get the appropriate categories based on argument type (cardinal vs ordinal)
+            $categories = $this->getCategoriesForArgType($argType);
 
-            // Find all selectors within this argument
-            $selectors = $this->extractSelectorsForArgument($part);
+            // Merge expected categories (they may differ between plural and selectordinal)
+            $expectedCategories = array_unique(array_merge($expectedCategories, $categories));
+
+            // Find all selectors within this argument - pass the index to avoid re-iterating
+            $selectors = $this->extractSelectorsForArgument($index);
 
             foreach ($selectors as $selector) {
                 $foundSelectors[] = $selector;
 
                 // Explicit numeric selectors (=0, =1, =2, etc.) are always valid
-                if (preg_match('/^=\d+$/', $selector)) {
+                if (preg_match(self::NUMERIC_SELECTOR_PATTERN, $selector)) {
                     continue;
                 }
 
-                // Check if the selector is a valid CLDR category for this locale
-                if (!in_array($selector, $expectedCategories, true)) {
+                // 'other' is always valid - ICU requires it as fallback
+                if ($selector === PluralRules::CATEGORY_OTHER) {
+                    continue;
+                }
+
+                // Check if the selector is a valid CLDR category for this locale and argument type
+                if (!in_array($selector, $categories, true)) {
                     $invalidSelectors[] = $selector;
                 }
             }
         }
 
-        // Find missing categories (categories expected but not found)
-        $foundCategorySelectors = array_filter($foundSelectors, fn($s) => !preg_match('/^=\d+$/', $s));
-        $missingCategories = array_values(array_diff($expectedCategories, $foundCategorySelectors));
+        // Only throw exception if we found plural forms with invalid selectors or missing categories
+        if (!empty($foundSelectors) && (!empty($invalidSelectors) || $this->hasMissingCategories($foundSelectors, $expectedCategories))) {
+            // Find missing categories (categories expected but not found)
+            $missingCategories = array_values($this->getMissingCategories($foundSelectors, $expectedCategories));
 
-        // Only throw exception if there are actual plural/selectordinal forms AND issues
-        if ($hasComplexPluralForm && (!empty($invalidSelectors) || !empty($missingCategories))) {
             throw new PluralComplianceException(
                 expectedCategories: $expectedCategories,
                 foundSelectors: array_unique($foundSelectors),
                 invalidSelectors: array_unique($invalidSelectors),
-                missingCategories: $missingCategories,
-                hasComplexPluralForm: $hasComplexPluralForm
+                missingCategories: $missingCategories
             );
         }
     }
 
     /**
+     * Returns the appropriate CLDR categories for the given argument type.
+     *
+     * @param ArgType $argType The argument type (PLURAL or SELECTORDINAL).
+     * @return array<string> The CLDR categories for this argument type and locale.
+     */
+    private function getCategoriesForArgType(ArgType $argType): array
+    {
+        if ($argType === ArgType::SELECTORDINAL) {
+            return PluralRules::getOrdinalCategories($this->language);
+        }
+
+        return PluralRules::getCategories($this->language);
+    }
+
+    /**
+     * Pattern for matching explicit numeric selectors (e.g., =0, =1, =2).
+     */
+    private const string NUMERIC_SELECTOR_PATTERN = '/^=\d+$/';
+
+    /**
+     * Extracts category selectors (non-numeric) from a list of selectors.
+     *
+     * @param array<string> $selectors All selectors found in the message.
+     * @return array<string> Only the category selectors, excluding numeric ones.
+     */
+    private function extractCategorySelectors(array $selectors): array
+    {
+        return array_filter($selectors, fn($s) => !preg_match(self::NUMERIC_SELECTOR_PATTERN, $s));
+    }
+
+    /**
+     * Calculates missing categories from expected categories against found selectors.
+     *
+     * @param array<string> $foundSelectors All selectors found in the message.
+     * @param array<string> $expectedCategories Expected categories for the locale.
+     * @return array<string> Missing categories (not found in selectors).
+     */
+    private function getMissingCategories(array $foundSelectors, array $expectedCategories): array
+    {
+        $foundCategorySelectors = $this->extractCategorySelectors($foundSelectors);
+        return array_diff($expectedCategories, $foundCategorySelectors);
+    }
+
+    /**
+     * Checks if there are any missing-expected categories in the found selectors.
+     *
+     * @param array<string> $foundSelectors All selectors found in the message.
+     * @param array<string> $expectedCategories Expected categories for the locale.
+     * @return bool True if any expected categories are missing.
+     */
+    private function hasMissingCategories(array $foundSelectors, array $expectedCategories): bool
+    {
+        return !empty($this->getMissingCategories($foundSelectors, $expectedCategories));
+    }
+
+    /**
      * Extracts all ARG_SELECTOR values for a given plural/selectordinal argument.
      *
-     * @param Part $argStartPart The ARG_START part of the argument.
+     * @param int $startIndex The index of the ARG_START part in the pattern.
      * @return array<string> List of selector strings found.
      */
-    private function extractSelectorsForArgument(Part $argStartPart): array
+    private function extractSelectorsForArgument(int $startIndex): array
     {
         $selectors = [];
-        $startIndex = null;
-        $limitIndex = null;
+        $limitIndex = $this->pattern->getLimitPartIndex($startIndex);
 
-        // Find the index of this ARG_START part and its corresponding ARG_LIMIT
-        foreach ($this->pattern as $index => $part) {
-            if ($part === $argStartPart) {
-                $startIndex = $index;
-                $limitIndex = $this->pattern->getLimitPartIndex($index);
-                break;
-            }
-        }
-
-        if ($startIndex === null || $limitIndex === null) {
-            return $selectors;
-        }
-
-        // Iterate through parts between ARG_START and ARG_LIMIT
-        foreach ($this->pattern as $index => $part) {
-            if ($index > $startIndex && $index < $limitIndex && $part->getType() === TokenType::ARG_SELECTOR) {
+        // Iterate only between ARG_START and ARG_LIMIT, skipping full pattern iteration
+        for ($i = $startIndex + 1; $i < $limitIndex; $i++) {
+            $part = $this->pattern->getPart($i);
+            if ($part->getType() === TokenType::ARG_SELECTOR) {
                 $selectors[] = $this->pattern->getSubstring($part);
             }
         }

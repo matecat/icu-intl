@@ -9,35 +9,39 @@
 
 namespace Matecat\ICU;
 
+use Exception;
+use Throwable;
+
 /**
- * Exception thrown when a message pattern's plural selectors do not comply with
- * the expected CLDR plural categories for a given locale.
+ * Exception thrown when a message pattern's plural selectors do not comply
+ * with the expected CLDR plural categories for a given locale.
  *
  * This exception is raised by MessagePatternAnalyzer::validatePluralCompliance()
- * when the message contains invalid plural selectors or missing required categories.
+ * when the message contains:
+ * - Invalid plural selectors that don't match expected CLDR categories
+ * - Missing required plural categories for the locale
+ *
+ * Note: The 'other' category is always valid as ICU requires it as a fallback.
  */
-class PluralComplianceException extends \Exception
+class PluralComplianceException extends Exception
 {
     /**
      * @param array<string> $expectedCategories The valid CLDR categories for this locale.
      * @param array<string> $foundSelectors All selectors found in the message.
      * @param array<string> $invalidSelectors Selectors that don't match expected categories.
      * @param array<string> $missingCategories Expected categories not found in the message.
-     * @param bool $hasComplexPluralForm Whether the message contains plural/selectordinal forms.
-     * @param int $code
-     * @param ?\Throwable $previous
+     * @param int $code Exception code.
+     * @param Throwable|null $previous Previous exception for chaining.
      */
     public function __construct(
         public readonly array $expectedCategories,
         public readonly array $foundSelectors,
         public readonly array $invalidSelectors,
         public readonly array $missingCategories,
-        public readonly bool $hasComplexPluralForm,
         int $code = 0,
-        ?\Throwable $previous = null
+        ?Throwable $previous = null
     ) {
-        $message = $this->generateMessage();
-        parent::__construct($message, $code, $previous);
+        parent::__construct($this->generateMessage(), $code, $previous);
     }
 
     /**
@@ -45,10 +49,6 @@ class PluralComplianceException extends \Exception
      */
     private function generateMessage(): string
     {
-        if (!$this->hasComplexPluralForm) {
-            return 'No plural forms found in the message.';
-        }
-
         $messages = [];
 
         if (!empty($this->invalidSelectors)) {
@@ -67,14 +67,5 @@ class PluralComplianceException extends \Exception
         }
 
         return implode(' ', $messages) ?: 'Plural compliance validation failed.';
-    }
-
-    /**
-     * Returns true if the 'other' category is missing.
-     * The 'other' category is recommended for all plural forms as a fallback.
-     */
-    public function isMissingOther(): bool
-    {
-        return in_array('other', $this->missingCategories, true);
     }
 }

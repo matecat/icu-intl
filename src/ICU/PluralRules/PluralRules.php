@@ -166,6 +166,76 @@ class PluralRules
     ];
 
     /**
+     * Mapping of ordinal rule group => array of CLDR ordinal category names.
+     *
+     * CLDR ordinal rules are separate from cardinal rules. Many languages
+     * that have simple cardinal rules (like English with one/other) have
+     * more complex ordinal rules (English ordinal: one/two/few/other for 1st/2nd/3rd/4th).
+     *
+     * @see https://www.unicode.org/cldr/charts/48/supplemental/language_plural_rules.html
+     * @var array<int, array<int, string>>
+     */
+    protected static array $_ordinalCategoryMap = [
+        // Rule 0: No ordinal distinction (Asian languages, etc.)
+        // Only "other" form exists
+        0 => [self::CATEGORY_OTHER],
+
+        // Rule 1: English-like ordinals (one/two/few/other for 1st/2nd/3rd/4th)
+        // one: 1, 21, 31, 41... (ends in 1 but not 11)
+        // two: 2, 22, 32, 42... (ends in 2 but not 12)
+        // few: 3, 23, 33, 43... (ends in 3 but not 13)
+        // other: 0, 4-20, 24-30, etc.
+        1 => [self::CATEGORY_ONE, self::CATEGORY_TWO, self::CATEGORY_FEW, self::CATEGORY_OTHER],
+
+        // Rule 2: French-like ordinals (only one/other)
+        // one: 1
+        // other: everything else
+        2 => [self::CATEGORY_ONE, self::CATEGORY_OTHER],
+
+        // Rule 3: Slavic ordinals (most use only "other")
+        3 => [self::CATEGORY_OTHER],
+
+        // Rule 4: Czech/Slovak ordinals (only "other")
+        4 => [self::CATEGORY_OTHER],
+
+        // Rule 5: Irish ordinals (one/other)
+        5 => [self::CATEGORY_ONE, self::CATEGORY_OTHER],
+
+        // Rule 6: Lithuanian ordinals (only "other")
+        6 => [self::CATEGORY_OTHER],
+
+        // Rule 7: Slovenian ordinals (only "other")
+        7 => [self::CATEGORY_OTHER],
+
+        // Rule 8: Macedonian ordinals (one/two/many/other)
+        8 => [self::CATEGORY_ONE, self::CATEGORY_TWO, self::CATEGORY_MANY, self::CATEGORY_OTHER],
+
+        // Rule 9: Maltese ordinals (only "other")
+        9 => [self::CATEGORY_OTHER],
+
+        // Rule 10: Latvian ordinals (only "other")
+        10 => [self::CATEGORY_OTHER],
+
+        // Rule 11: Polish ordinals (only "other")
+        11 => [self::CATEGORY_OTHER],
+
+        // Rule 12: Romanian ordinals (one/other)
+        12 => [self::CATEGORY_ONE, self::CATEGORY_OTHER],
+
+        // Rule 13: Arabic ordinals (only "other")
+        13 => [self::CATEGORY_OTHER],
+
+        // Rule 14: Welsh ordinals (zero/one/two/few/many/other)
+        14 => [self::CATEGORY_ZERO, self::CATEGORY_ONE, self::CATEGORY_TWO, self::CATEGORY_FEW, self::CATEGORY_MANY, self::CATEGORY_OTHER],
+
+        // Rule 15: Icelandic ordinals (only "other")
+        15 => [self::CATEGORY_OTHER],
+
+        // Rule 16: Scottish Gaelic ordinals (one/two/few/other)
+        16 => [self::CATEGORY_ONE, self::CATEGORY_TWO, self::CATEGORY_FEW, self::CATEGORY_OTHER],
+    ];
+
+    /**
      * A map of locale => plurals group used to determine
      * which plural rules apply to the language
      *
@@ -661,6 +731,38 @@ class PluralRules
         $ruleGroup = self::getRuleGroup($locale);
 
         return self::$_categoryMap[$ruleGroup] ?? [self::CATEGORY_OTHER];
+    }
+
+    /**
+     * Returns all available CLDR ordinal categories for a given locale.
+     *
+     * Ordinal categories are used for selectordinal patterns (1st, 2nd, 3rd, etc.).
+     * These are different from cardinal categories used in plural patterns.
+     *
+     * ## Usage Example
+     *
+     * ```php
+     * use Matecat\ICU\PluralRules\PluralRules;
+     *
+     * PluralRules::getOrdinalCategories('en');
+     * // Returns ['one', 'two', 'few', 'other'] for 1st, 2nd, 3rd, 4th
+     *
+     * PluralRules::getOrdinalCategories('ru');
+     * // Returns ['other'] - Russian uses same form for all ordinals
+     *
+     * PluralRules::getOrdinalCategories('cy');
+     * // Returns ['zero', 'one', 'two', 'few', 'many', 'other'] - Welsh has complex ordinals
+     * ```
+     *
+     * @param string $locale The locale to get ordinal categories for.
+     * @return array<string> Array of ordinal category names available for this locale.
+     * @see https://www.unicode.org/cldr/charts/48/supplemental/language_plural_rules.html
+     */
+    public static function getOrdinalCategories(string $locale): array
+    {
+        $ruleGroup = self::getRuleGroup($locale);
+
+        return self::$_ordinalCategoryMap[$ruleGroup] ?? [self::CATEGORY_OTHER];
     }
 
     /**
