@@ -38,6 +38,9 @@ class MessagePatternAnalyzerTest extends TestCase
     // validatePluralCompliance() Tests
     // =========================================================================
 
+    /**
+     * @throws PluralComplianceException
+     */
     #[Test]
     public function testValidatePluralComplianceWithNoPluralForms(): void
     {
@@ -49,6 +52,9 @@ class MessagePatternAnalyzerTest extends TestCase
         $analyzer->validatePluralCompliance();
     }
 
+    /**
+     * @throws PluralComplianceException
+     */
     #[Test]
     public function testValidatePluralComplianceValidEnglish(): void
     {
@@ -60,6 +66,9 @@ class MessagePatternAnalyzerTest extends TestCase
         $analyzer->validatePluralCompliance();
     }
 
+    /**
+     * @throws PluralComplianceException
+     */
     #[Test]
     public function testValidatePluralComplianceValidArabic(): void
     {
@@ -100,6 +109,9 @@ class MessagePatternAnalyzerTest extends TestCase
         $analyzer->validatePluralCompliance();
     }
 
+    /**
+     * @throws PluralComplianceException
+     */
     #[Test]
     public function testValidatePluralComplianceWithExplicitNumericSelectors(): void
     {
@@ -127,6 +139,9 @@ class MessagePatternAnalyzerTest extends TestCase
         $analyzer->validatePluralCompliance();
     }
 
+    /**
+     * @throws PluralComplianceException
+     */
     #[Test]
     public function testValidatePluralComplianceWithOffset(): void
     {
@@ -138,6 +153,9 @@ class MessagePatternAnalyzerTest extends TestCase
         $analyzer->validatePluralCompliance();
     }
 
+    /**
+     * @throws PluralComplianceException
+     */
     #[Test]
     public function testValidatePluralComplianceWithNestedPlurals(): void
     {
@@ -149,6 +167,9 @@ class MessagePatternAnalyzerTest extends TestCase
         $analyzer->validatePluralCompliance();
     }
 
+    /**
+     * @throws PluralComplianceException
+     */
     #[Test]
     public function testValidatePluralComplianceWithLocaleVariants(): void
     {
@@ -164,6 +185,9 @@ class MessagePatternAnalyzerTest extends TestCase
         $analyzer2->validatePluralCompliance();
     }
 
+    /**
+     * @throws PluralComplianceException
+     */
     #[Test]
     public function testValidatePluralComplianceUnknownLocale(): void
     {
@@ -175,6 +199,10 @@ class MessagePatternAnalyzerTest extends TestCase
         $analyzer->validatePluralCompliance();
     }
 
+    /**
+     * @param array<string> $expectedInvalidSelectors
+     * @throws PluralComplianceException
+     */
     #[DataProvider('pluralComplianceProvider')]
     #[Test]
     public function testValidatePluralComplianceVariousLocales(
