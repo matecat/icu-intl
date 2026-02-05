@@ -218,6 +218,42 @@ if (PluralRules::getCategoryName('en', $count) === PluralRules::CATEGORY_ONE) {
 }
 ```
 
+#### Plural Compliance Validation
+```php
+use Matecat\ICU\MessagePattern;
+use Matecat\ICU\MessagePatternAnalyzer;
+
+// Parse an ICU message
+$pattern = new MessagePattern();
+$pattern->parse('{count, plural, one{# item} other{# items}}');
+
+// Validate plural compliance for English
+$analyzer = new MessagePatternAnalyzer($pattern, 'en');
+$result = $analyzer->validatePluralCompliance();
+
+$result->isValid;              // true - 'one' and 'other' are valid for English
+$result->expectedCategories;   // ['one', 'other']
+$result->foundSelectors;       // ['one', 'other']
+$result->invalidSelectors;     // []
+$result->missingCategories;    // []
+$result->getSummary();         // "All plural selectors are valid and complete."
+
+// Check with Russian locale - Russian uses one/few/many, not 'other'
+$analyzer = new MessagePatternAnalyzer($pattern, 'ru');
+$result = $analyzer->validatePluralCompliance();
+
+$result->isValid;              // false - 'other' is not valid for Russian
+$result->expectedCategories;   // ['one', 'few', 'many']
+$result->invalidSelectors;     // ['other']
+$result->missingCategories;    // ['few', 'many']
+
+// Explicit numeric selectors (=0, =1, =2) are always valid
+$pattern->parse('{count, plural, =0{none} =1{one} other{# items}}');
+$analyzer = new MessagePatternAnalyzer($pattern, 'en');
+$result = $analyzer->validatePluralCompliance();
+$result->isValid;              // true
+```
+
 #### Language Domains
 ```php
 use Matecat\Locales\LanguageDomains;
@@ -274,6 +310,22 @@ Token types used by the parser: `MSG_START`, `MSG_LIMIT`, `ARG_START`, `ARG_NAME
 
 ### Matecat\ICU\ArgType (enum)
 Argument classifications: `NONE`, `SIMPLE`, `CHOICE`, `PLURAL`, `SELECT`, `SELECTORDINAL`.
+
+### Matecat\ICU\MessagePatternAnalyzer
+- `__construct(MessagePattern $pattern, string $language = 'en-US')`
+- `containsComplexSyntax(): bool` - Returns true if the pattern contains plural, select, choice, or selectordinal
+- `validatePluralCompliance(): PluralComplianceResult` - Validates if plural forms comply with the locale's expected categories
+
+### Matecat\ICU\PluralComplianceResult (readonly)
+- `isValid: bool` - Whether all selectors are valid for the locale
+- `hasComplexPluralForm: bool` - Whether the message contains plural/selectordinal forms
+- `expectedCategories: array<string>` - Valid CLDR categories for this locale
+- `foundSelectors: array<string>` - All selectors found in the message
+- `invalidSelectors: array<string>` - Selectors that don't match expected categories
+- `missingCategories: array<string>` - Expected categories not found in the message
+- `hasNoPluralForms(): bool`
+- `isMissingOther(): bool`
+- `getSummary(): string` - Human-readable validation summary
 
 ### Matecat\Locales\Languages
 - `getInstance(): Languages` (singleton)
