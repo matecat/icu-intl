@@ -195,6 +195,9 @@ final class LanguagesTest extends TestCase
         self::assertSame($name1, $name2);
     }
 
+    /**
+     * @throws InvalidLanguageException
+     */
     public function testGetLocalizedNameRFCReturnsNonEmptyString(): void
     {
         $langs = Languages::getInstance();
@@ -217,7 +220,7 @@ final class LanguagesTest extends TestCase
         $langs = Languages::getInstance();
 
         $this->expectException(InvalidLanguageException::class);
-        $langs->getLocalizedNameRFC(null);
+        $langs->getLocalizedNameRFC();
     }
 
     // =========================================================================
@@ -308,6 +311,9 @@ final class LanguagesTest extends TestCase
         self::assertFalse(Languages::isValidLanguage('invalid'));
     }
 
+    /**
+     * @throws InvalidLanguageException
+     */
     public function testValidateLanguageReturnsNormalizedCode(): void
     {
         $langs = Languages::getInstance();
@@ -329,9 +335,12 @@ final class LanguagesTest extends TestCase
         $langs = Languages::getInstance();
 
         $this->expectException(InvalidLanguageException::class);
-        $langs->validateLanguage(null);
+        $langs->validateLanguage();
     }
 
+    /**
+     * @throws InvalidLanguageException
+     */
     public function testValidateLanguageListReturnsValidatedList(): void
     {
         $langs = Languages::getInstance();
@@ -352,6 +361,9 @@ final class LanguagesTest extends TestCase
         $langs->validateLanguageList([]);
     }
 
+    /**
+     * @throws InvalidLanguageException
+     */
     public function testValidateLanguageListAsStringReturnsCommaSeparatedString(): void
     {
         $langs = Languages::getInstance();
@@ -363,6 +375,9 @@ final class LanguagesTest extends TestCase
         self::assertStringContainsString('de-DE', $result);
     }
 
+    /**
+     * @throws InvalidLanguageException
+     */
     public function testValidateLanguageListAsStringWithCustomSeparator(): void
     {
         $langs = Languages::getInstance();
@@ -422,14 +437,10 @@ final class LanguagesTest extends TestCase
             'English (US)' => ['en-US', 2],
             'English (UK)' => ['en-GB', 2],
             'German' => ['de-DE', 2],
-            'Spanish' => ['es-ES', 2],
-            'Italian' => ['it-IT', 2],
             'Dutch' => ['nl-NL', 2],
             'Swedish' => ['sv-SE', 2],
             'Danish' => ['da-DK', 2],
             'Norwegian' => ['nb-NO', 2],
-            'French' => ['fr-FR', 2],
-            'Portuguese' => ['pt-PT', 2],
 
             // Languages with 3 plural forms
             'Russian' => ['ru-RU', 3],
@@ -442,6 +453,10 @@ final class LanguagesTest extends TestCase
             'Romanian' => ['ro-RO', 3],
             'Lithuanian' => ['lt-LT', 3],
             'Latvian' => ['lv-LV', 3],
+            'Italian' => ['it-IT', 3],
+            'Spanish' => ['es-ES', 3],
+            'French' => ['fr-FR', 3],
+            'Portuguese' => ['pt-PT', 3],
 
             // Languages with 4 plural forms
             'Slovenian' => ['sl-SI', 4],
@@ -470,9 +485,10 @@ final class LanguagesTest extends TestCase
 
     public function testGetNumberOfPluralsWorksWithISOCodes(): void
     {
-        // Should normalize ISO codes to RFC and return correct count
+        // Should normalize ISO codes to RFC and return the correct count
         self::assertSame(2, Languages::getNumberOfPlurals('en'));
-        self::assertSame(2, Languages::getNumberOfPlurals('fr'));
+        self::assertSame(3, Languages::getNumberOfPlurals('fr'));
+        self::assertSame(3, Languages::getNumberOfPlurals('it'));
         self::assertSame(3, Languages::getNumberOfPlurals('ru'));
         self::assertSame(6, Languages::getNumberOfPlurals('ar'));
     }

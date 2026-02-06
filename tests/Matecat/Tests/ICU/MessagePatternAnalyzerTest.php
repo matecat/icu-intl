@@ -127,46 +127,46 @@ class MessagePatternAnalyzerTest extends TestCase
     }
 
     /**
-     * Test that explicit selectors CANNOT substitute for French 'one' category.
+     * Test that explicit selectors CANNOT substitute for French categories.
      *
-     * For French, the 'one' category covers n=0 and n=1. However, numeric selectors
-     * like =0 and =1 are NOT allowed to substitute for the required CLDR category keyword.
-     * The message must explicitly use the 'one' keyword to satisfy category requirements.
+     * For French (CLDR 49), the categories are 'one', 'many', and 'other'.
+     * Numeric selectors like =0 and =1 are NOT allowed to substitute for the required
+     * CLDR category keywords. The message must explicitly use category keywords.
      *
      * @throws PluralComplianceException
      */
     #[Test]
     public function testValidatePluralComplianceWithExplicitSelectorsForFrench(): void
     {
-        // French expects 'one' and 'other'
+        // French expects 'one', 'many', and 'other' (CLDR 49)
         // Even though =0 and =1 might semantically cover the 'one' range in French (n=0 or n=1),
-        // the required 'one' category keyword must be explicitly present.
+        // the required category keywords must be explicitly present.
         $pattern = new MessagePattern();
-        $pattern->parse('{count, plural, =0{# item} =1{# item} other{# items}}');
+        $pattern->parse('{count, plural, =0{# item} =1{# item} many{# item} other{# items}}');
         $analyzer = new MessagePatternAnalyzer($pattern, 'fr');
 
         self::expectException(PluralComplianceException::class);
         self::expectExceptionMessageMatches('/Missing categories/');
 
-        // Should throw an Exception - =0 and =1 cannot substitute 'one' category
+        // Should throw an Exception - missing 'one' and 'many' categories
         $analyzer->validatePluralCompliance();
     }
 
     /**
-     * Test that French with only =1 fails because it's missing =0.
-     * In French, both 0 and 1 belong to the 'one' category, so both must be covered by explicit selectors.
+     * Test that French with only =1 fails because it's missing required categories.
+     * In French (CLDR 49), the expected categories are 'one', 'many', and 'other'.
      *
      * @throws PluralComplianceException
      */
     #[Test]
     public function testValidatePluralComplianceWithOnlyEquals1ForFrenchFails(): void
     {
-        // French with only =1 is incomplete - missing =0
+        // French with only =1 is incomplete - missing 'one' and 'many' categories
         $pattern = new MessagePattern();
-        $pattern->parse('{count, plural, =1{# item} other{# items}}');
+        $pattern->parse('{count, plural, =1{# item}  other{# items}}');
         $analyzer = new MessagePatternAnalyzer($pattern, 'fr');
 
-        // Should throw because 'one' category in French needs both =0 and =1
+        // Should throw because French (CLDR 49) needs 'one', 'many', and 'other'
         self::expectException(PluralComplianceException::class);
         self::expectExceptionMessageMatches('/Missing categories/');
 
@@ -322,6 +322,7 @@ class MessagePatternAnalyzerTest extends TestCase
 
     /**
      * @param array<string> $expectedInvalidSelectors
+     * @param array<string> $expectedMissingCategories
      * @throws PluralComplianceException
      */
     #[DataProvider('pluralComplianceProvider')]
@@ -330,7 +331,8 @@ class MessagePatternAnalyzerTest extends TestCase
         string $locale,
         string $message,
         bool $shouldThrow,
-        array $expectedInvalidSelectors
+        array $expectedInvalidSelectors,
+        array $expectedMissingCategories = []
     ): void {
         $pattern = new MessagePattern();
         $pattern->parse($message);
@@ -345,6 +347,10 @@ class MessagePatternAnalyzerTest extends TestCase
                 foreach ($expectedInvalidSelectors as $selector) {
                     self::assertContains($selector, $e->invalidSelectors);
                 }
+                // Verify the expected missing categories are in the exception
+                foreach ($expectedMissingCategories as $category) {
+                    self::assertContains($category, $e->missingCategories);
+                }
             }
         } else {
             $analyzer->validatePluralCompliance();
@@ -352,27 +358,29 @@ class MessagePatternAnalyzerTest extends TestCase
     }
 
     /**
-     * @return array<array{string, string, bool, array<string>}>
+     * @return array<array{string, string, bool, array<string>, array<string>}>
      */
     public static function pluralComplianceProvider(): array
     {
         return [
             // Polish with invalid 'two' selector - Polish expects one/few/many, not two
             // Note: 'other' is always valid as ICU requires it as fallback
-            ['pl', '{n, plural, one{# file} two{# files} other{# files}}', true, ['two']],
+            ['pl', '{n, plural, one{# file} two{# files} other{# files}}', true, ['two'], []],
 
             // Czech: one, few, other - complete
-            ['cs', '{n, plural, one{# file} few{# files} other{# files}}', false, []],
+            ['cs', '{n, plural, one{# file} few{# files} other{# files}}', false, [], []],
             // Czech with invalid `many` selector
-            ['cs', '{n, plural, one{# file} many{# files} other{# files}}', true, ['many']],
+            ['cs', '{n, plural, one{# file} many{# files} other{# files}}', true, ['many'], []],
 
             // Japanese: only other (no plural forms)
-            ['ja', '{n, plural, other{# items}}', false, []],
+            ['ja', '{n, plural, other{# items}}', false, [], []],
 
-            // French: one, other
-            ['fr', '{n, plural, one{# element} other{# elements}}', false, []],
+            // French: one, many, other (CLDR 49)
+            ['fr', '{n, plural, one{# element} many{# elements} other{# elements}}', false, [], []],
             // French with invalid 'zero' selector
-            ['fr', '{n, plural, zero{none} one{# element} other{# elements}}', true, ['zero']],
+            ['fr', '{n, plural, zero{none} one{# element} many{# elements} other{# elements}}', true, ['zero'], []],
+            // French missing 'many' category
+            ['fr', '{n, plural, one{# element} other{# elements}}', true, [], ['many']],
         ];
     }
 

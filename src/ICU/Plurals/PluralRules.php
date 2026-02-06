@@ -182,10 +182,17 @@ class PluralRules
         // Rule 19: nplurals=4; (Hebrew - CLDR 48)
         // 0=one, 1=two, 2=many, 3=other
         19 => [self::CATEGORY_ONE, self::CATEGORY_TWO, self::CATEGORY_MANY, self::CATEGORY_OTHER],
+
+        // Rule 20: nplurals=3; (Italian, Spanish, French, Portuguese, Catalan - CLDR 49)
+        // one: i = 1 and v = 0
+        // many: e = 0 and i != 0 and i % 1000000 = 0 and v = 0
+        // other: everything else
+        // 0=one, 1=many, 2=other
+        20 => [self::CATEGORY_ONE, self::CATEGORY_MANY, self::CATEGORY_OTHER],
     ];
 
     /**
-     * Mapping of ordinal rule group => array of CLDR ordinal category names.
+     * Mapping of the ordinal rule group => array of CLDR ordinal category names.
      *
      * CLDR ordinal rules are separate from cardinal rules. Many languages
      * that have simple cardinal rules (like English with one/other) have
@@ -268,6 +275,11 @@ class PluralRules
 
         // Rule 19: Hebrew ordinals (only "other")
         19 => [self::CATEGORY_OTHER],
+
+        // Rule 20: Italian ordinals (many/other - CLDR 48)
+        // many: n = 11 or n = 8 or n = 80 or n = 800
+        // other: everything else
+        20 => [self::CATEGORY_MANY, self::CATEGORY_OTHER],
     ];
 
     /**
@@ -295,6 +307,7 @@ class PluralRules
      * 17 - nplurals=4; plural=(n==1) ? 0 : (n==2) ? 1 : (n==3) ? 2 : 3; (Breton - CLDR 48)
      * 18 - nplurals=4; plural=(n%10==1) ? 0 : (n%10==2) ? 1 : (n%20==0) ? 2 : 3; (Manx)
      * 19 - nplurals=4; plural=(n==1) ? 0 : (n==2) ? 1 : (n>10 && n%10==0) ? 2 : 3; (Hebrew - CLDR 48)
+     * 20 - nplurals=3; plural=(n==1) ? 0 : (n!=0 && n%1000000==0) ? 1 : 2; (Italian, Spanish, French, Portuguese, Catalan - CLDR 49)
      *
      * @var array<string, int>
      */
@@ -334,9 +347,9 @@ class PluralRules
         'brx' => 1,  // Bodo
         'bs' => 3,   // Bosnian
         'bug' => 0,  // Buginese - no plural
-        'ca' => 1,   // Catalan
+        'ca' => 20,  // Catalan - CLDR 49 (one, many, other)
         'cac' => 1,  // Chuj - Mayan
-        'cav' => 1,  // Cavineña
+        'cav' => 20, // Catalan (Valencia) - CLDR 49 (one, many, other)
         'ce' => 1,   // Chechen
         'ceb' => 1,  // Cebuano
         'ch' => 0,   // Chamorro - no plural
@@ -362,7 +375,7 @@ class PluralRules
         'el' => 1,   // Greek
         'en' => 1,   // English
         'eo' => 1,   // Esperanto
-        'es' => 1,   // Spanish
+        'es' => 20,  // Spanish - CLDR 49 (one, many, other)
         'et' => 1,   // Estonian
         'eu' => 1,   // Basque
         'fa' => 2,   // Persian
@@ -373,7 +386,7 @@ class PluralRules
         'fn' => 0,   // Fanagalo - no plural
         'fo' => 1,   // Faroese
         'fon' => 0,  // Fon - no plural
-        'fr' => 2,   // French
+        'fr' => 20,  // French - CLDR 49 (one, many, other)
         'fuc' => 1,  // Pulaar - Fulah dialect
         'fur' => 1,  // Friulian
         'fuv' => 1,  // Nigerian Fulfulde
@@ -409,7 +422,7 @@ class PluralRules
         'ig' => 0,   // Igbo - no plural
         'ilo' => 1,  // Ilocano
         'is' => 15,  // Icelandic
-        'it' => 1,   // Italian
+        'it' => 20,  // Italian - CLDR 48 (one, many, other)
         'ja' => 0,   // Japanese
         'jam' => 1,  // Jamaican Creole English
         'jv' => 0,   // Javanese
@@ -515,7 +528,7 @@ class PluralRules
         'ppk' => 0,  // Uma - no plural
         'prs' => 2,  // Dari - same as Persian
         'ps' => 1,   // Pashto
-        'pt' => 1,   // Portuguese
+        'pt' => 20,  // Portuguese - CLDR 49 (one, many, other)
         'qu' => 1,   // Quechua
         'quc' => 1,  // K'iche' - Mayan
         'quy' => 1,  // Ayacucho Quechua
@@ -703,6 +716,16 @@ class PluralRules
                 default => 3,
             },
 
+            // nplurals=3; (Italian, Spanish, Portuguese, French - CLDR 49)
+            // one: i = 1 and v = 0
+            // many: e = 0 and i != 0 and i % 1000000 = 0 and v = 0
+            // other: everything else
+            20 => match (true) {
+                $n === 1 => 0,
+                $n !== 0 && $n % 1000000 === 0 => 1,
+                default => 2,
+            },
+
             // @codeCoverageIgnoreStart
             default => throw new RuntimeException('Unable to find plural rule number.'),
             // @codeCoverageIgnoreEnd
@@ -860,12 +883,19 @@ class PluralRules
     }
 
     /**
-     * Returns the number of plural forms (nplurals) for a given locale.
+     * Returns the number of cardinal plural forms (nplurals) for a given locale.
      *
-     * The nplurals value represents the total count of distinct plural categories
-     * that a language uses to express grammatical number. This value is essential
-     * for translation systems and internationalization frameworks because it determines
-     * how many different translation strings are needed for each pluralizable message.
+     * The nplurals value represents the total count of distinct **cardinal** plural
+     * categories that a language uses to express grammatical number for quantities.
+     * This value is essential for translation systems and internationalization
+     * frameworks because it determines how many different translation strings are
+     * needed for each pluralizable message.
+     *
+     * ## Cardinal vs Ordinal
+     *
+     * This method returns the count of **cardinal** categories (used for counting:
+     * "1 item", "2 items", "5 items"), NOT ordinal categories (used for ranking:
+     * "1st", "2nd", "3rd"). For ordinal categories, use {@see getOrdinalCategories()}.
      *
      * ## What nplurals means
      *
@@ -907,9 +937,10 @@ class PluralRules
      * ```
      *
      * @param string $locale The locale code (e.g., 'en', 'ru', 'ar', 'en-US', 'fr_FR')
-     * @return int The number of plural forms (1-6 depending on the language)
+     * @return int The number of cardinal plural forms (1-6 depending on the language)
      *
-     * @see getCategories() To get the actual category names
+     * @see getCategories() To get the actual cardinal category names
+     * @see getOrdinalCategories() To get ordinal category names (1st, 2nd, 3rd)
      * @see calculate() To determine which plural form index to use for a specific number
      * @see https://www.unicode.org/cldr/charts/48/supplemental/language_plural_rules.html
      */

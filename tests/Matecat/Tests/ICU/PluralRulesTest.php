@@ -115,14 +115,6 @@ final class PluralRulesTest extends TestCase
             ['de', 1, 0],
             ['de', 2, 1],
             ['de', 11, 1],
-            // Spanish
-            ['es', 0, 1],
-            ['es', 1, 0],
-            ['es', 2, 1],
-            // Italian
-            ['it', 0, 1],
-            ['it', 1, 0],
-            ['it', 2, 1],
             // Dutch
             ['nl', 0, 1],
             ['nl', 1, 0],
@@ -179,13 +171,6 @@ final class PluralRulesTest extends TestCase
     public static function rule2Provider(): array
     {
         return [
-            // French
-            ['fr', 0, 0],  // "0 élément" (singular in French)
-            ['fr', 1, 0],  // "1 élément"
-            ['fr', 2, 1],  // "2 éléments"
-            ['fr', 5, 1],
-            ['fr', 100, 1],
-            // Brazilian Portuguese (pt uses rule 1, but pt-BR behavior)
             // Filipino
             ['fil', 0, 0],
             ['fil', 1, 0],
@@ -825,6 +810,67 @@ final class PluralRulesTest extends TestCase
     }
 
     // =========================================================================
+    // Rule 20: Italian, Spanish, French, Portuguese, Catalan (nplurals=3 - CLDR 49)
+    // Category order: one, many, other
+    // =========================================================================
+
+    #[DataProvider('rule20Provider')]
+    public function testRule20OneManyOther(string $locale, int $n, int $expected): void
+    {
+        self::assertSame($expected, PluralRules::calculate($locale, $n));
+    }
+
+    /**
+     * @return array<array<string|int>>
+     */
+    public static function rule20Provider(): array
+    {
+        return [
+            // CLDR 49 rules for Italian, Spanish, French, Portuguese, Catalan:
+            // one: i = 1 and v = 0
+            // many: e = 0 and i != 0 and i % 1000000 = 0 and v = 0
+            // other: everything else
+
+            // Italian
+            ['it', 1, 0],         // one
+            ['it', 0, 2],         // other
+            ['it', 2, 2],         // other
+            ['it', 5, 2],         // other
+            ['it', 10, 2],        // other
+            ['it', 100, 2],       // other
+            ['it', 1000, 2],      // other
+            ['it', 1000000, 1],   // many (1 million)
+            ['it', 2000000, 1],   // many (2 million)
+            ['it', 3000000, 1],   // many (3 million)
+            ['it', 1000001, 2],   // other
+
+            // Spanish
+            ['es', 1, 0],         // one
+            ['es', 0, 2],         // other
+            ['es', 2, 2],         // other
+            ['es', 1000000, 1],   // many
+
+            // French
+            ['fr', 1, 0],         // one
+            ['fr', 0, 2],         // other
+            ['fr', 2, 2],         // other
+            ['fr', 1000000, 1],   // many
+
+            // Portuguese
+            ['pt', 1, 0],         // one
+            ['pt', 0, 2],         // other
+            ['pt', 2, 2],         // other
+            ['pt', 1000000, 1],   // many
+
+            // Catalan
+            ['ca', 1, 0],         // one
+            ['ca', 0, 2],         // other
+            ['ca', 2, 2],         // other
+            ['ca', 1000000, 1],   // many
+        ];
+    }
+
+    // =========================================================================
     // Locale Fallback Tests
     // =========================================================================
 
@@ -834,10 +880,10 @@ final class PluralRulesTest extends TestCase
         self::assertSame(0, PluralRules::calculate('en-US', 1));
         self::assertSame(1, PluralRules::calculate('en-US', 2));
 
-        // Should extract 'fr' from 'fr-CA' and use French rules
-        self::assertSame(0, PluralRules::calculate('fr-CA', 0));
-        self::assertSame(0, PluralRules::calculate('fr-CA', 1));
-        self::assertSame(1, PluralRules::calculate('fr-CA', 2));
+        // Should extract 'fr' from 'fr-CA' and use French rules (CLDR 49: one/many/other)
+        self::assertSame(2, PluralRules::calculate('fr-CA', 0));  // other
+        self::assertSame(0, PluralRules::calculate('fr-CA', 1));  // one
+        self::assertSame(2, PluralRules::calculate('fr-CA', 2));  // other
 
         // Should extract 'ar' from 'ar-SA' and use Arabic rules
         self::assertSame(0, PluralRules::calculate('ar-SA', 0));
@@ -913,7 +959,7 @@ final class PluralRulesTest extends TestCase
     {
         // Different languages handle zero differently
         self::assertSame(1, PluralRules::calculate('en', 0));  // "0 items" (plural)
-        self::assertSame(0, PluralRules::calculate('fr', 0));  // "0 élément" (singular in French)
+        self::assertSame(2, PluralRules::calculate('fr', 0));  // "0 éléments" (other in French - CLDR 49)
         self::assertSame(0, PluralRules::calculate('ar', 0));  // "zero" form
         self::assertSame(0, PluralRules::calculate('ja', 0));  // no plural
     }
@@ -972,17 +1018,24 @@ final class PluralRulesTest extends TestCase
 
     public function testEnglishVsFrench(): void
     {
-        // French treats 0 as singular, English treats it as plural
-        self::assertSame(1, PluralRules::calculate('en', 0));
-        self::assertSame(0, PluralRules::calculate('fr', 0));
+        // French (CLDR 49): Rule 20 - one (n=1), many (n=millions), other (everything else)
+        // English: Rule 1 - one (n=1), other (n!=1)
 
-        // Both treat 1 as singular
+        // Zero: English=other(1), French=other(2)
+        self::assertSame(1, PluralRules::calculate('en', 0));
+        self::assertSame(2, PluralRules::calculate('fr', 0));
+
+        // Both treat 1 as 'one' (index 0)
         self::assertSame(0, PluralRules::calculate('en', 1));
         self::assertSame(0, PluralRules::calculate('fr', 1));
 
-        // Both treat 2+ as plural
+        // 2+: English=other(1), French=other(2)
         self::assertSame(1, PluralRules::calculate('en', 2));
-        self::assertSame(1, PluralRules::calculate('fr', 2));
+        self::assertSame(2, PluralRules::calculate('fr', 2));
+
+        // Millions: French has 'many' category
+        self::assertSame(1, PluralRules::calculate('en', 1000000));  // other
+        self::assertSame(1, PluralRules::calculate('fr', 1000000));  // many
     }
 
     // =========================================================================
@@ -1014,11 +1067,14 @@ final class PluralRulesTest extends TestCase
             ['de', 1, PluralRules::CATEGORY_ONE],
             ['de', 5, PluralRules::CATEGORY_OTHER],
 
-            // Rule 2: Two forms (n > 1) - "one" or "other"
-            ['fr', 0, PluralRules::CATEGORY_ONE],
+            // Rule 20: Three forms (one, many, other) - CLDR 49
+            ['fr', 0, PluralRules::CATEGORY_OTHER],
             ['fr', 1, PluralRules::CATEGORY_ONE],
             ['fr', 2, PluralRules::CATEGORY_OTHER],
+            ['fr', 1000000, PluralRules::CATEGORY_MANY],
             ['pt', 1, PluralRules::CATEGORY_ONE],
+            ['pt', 2, PluralRules::CATEGORY_OTHER],
+            ['pt', 1000000, PluralRules::CATEGORY_MANY],
 
             // Rule 3: Slavic - "one", "few", "many"
             ['ru', 1, PluralRules::CATEGORY_ONE],
@@ -1168,12 +1224,13 @@ final class PluralRulesTest extends TestCase
             // Rule 1: Two forms (n != 1)
             ['en', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_OTHER]],
             ['de', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_OTHER]],
-            ['es', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_OTHER]],
-            ['it', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_OTHER]],
 
-            // Rule 2: Two forms (n > 1)
-            ['fr', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_OTHER]],
-            ['pt', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_OTHER]],
+            // Rule 20: Three forms (one, many, other) - CLDR 49
+            ['es', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_MANY, PluralRules::CATEGORY_OTHER]],
+            ['it', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_MANY, PluralRules::CATEGORY_OTHER]],
+            ['fr', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_MANY, PluralRules::CATEGORY_OTHER]],
+            ['pt', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_MANY, PluralRules::CATEGORY_OTHER]],
+            ['ca', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_MANY, PluralRules::CATEGORY_OTHER]],
 
             // Rule 3: Slavic
             ['ru', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_MANY]],
@@ -1313,7 +1370,7 @@ final class PluralRulesTest extends TestCase
         // Test with underscore separator
         self::assertSame(PluralRules::CATEGORY_ONE, PluralRules::getCategoryName('en_US', 1));
         self::assertSame(PluralRules::CATEGORY_OTHER, PluralRules::getCategoryName('en_US', 2));
-        self::assertSame(PluralRules::CATEGORY_ONE, PluralRules::getCategoryName('fr_FR', 0));
+        self::assertSame(PluralRules::CATEGORY_OTHER, PluralRules::getCategoryName('fr_FR', 0));  // CLDR 49: 0 is 'other'
         self::assertSame(PluralRules::CATEGORY_OTHER, PluralRules::getCategoryName('fr_FR', 2));
 
         // Test with hyphen separator
@@ -1392,8 +1449,6 @@ final class PluralRulesTest extends TestCase
             // Rule 1: Two forms (nplurals=2)
             ['en', 2],
             ['de', 2],
-            ['es', 2],
-            ['it', 2],
             ['nl', 2],
             ['sv', 2],
             ['nb', 2],
@@ -1405,13 +1460,18 @@ final class PluralRulesTest extends TestCase
             ['bg', 2],
 
             // Rule 2: Two forms (nplurals=2)
-            ['fr', 2],
-            ['pt', 2],
             ['fil', 2],
             ['tr', 2],
             ['oc', 2],
             ['ti', 2],
             ['ln', 2],
+
+            // Rule 20: Three forms - one, many, other (nplurals=3) - CLDR 49
+            ['it', 3],
+            ['es', 3],
+            ['fr', 3],
+            ['pt', 3],
+            ['ca', 3],
 
             // Rule 3: Slavic (nplurals=3)
             ['ru', 3],
@@ -1480,7 +1540,7 @@ final class PluralRulesTest extends TestCase
     {
         // Test with underscore separator
         self::assertSame(2, PluralRules::getPluralCount('en_US'));
-        self::assertSame(2, PluralRules::getPluralCount('fr_FR'));
+        self::assertSame(3, PluralRules::getPluralCount('fr_FR'));  // CLDR 49: one/many/other
         self::assertSame(3, PluralRules::getPluralCount('ru_RU'));
 
         // Test with hyphen separator
