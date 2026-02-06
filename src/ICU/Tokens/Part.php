@@ -29,6 +29,18 @@ final class Part
     public const int MAX_LENGTH = 0xffff;
     public const int MAX_VALUE = 32767;
 
+    /**
+     * Constructor for the Part class.
+     *
+     * @param TokenType $type   The type of this part, representing a specific token type.
+     * @param int       $index  The pattern string index associated with this part.
+     * @param int       $length The length of the pattern substring associated with this part.
+     * @param int       $value  A value associated with this part. The meaning depends on the token type:
+     *                          - For ARG_START and ARG_LIMIT: an ordinal index into the ArgType enum cases array,
+     *                            used by getArgType() to resolve the argument type (e.g., plural, select, number).
+     *                          - For other token types: type-specific numeric data such as a character code,
+     *                            nesting level, or other contextual information relevant to that token.
+     */
     public function __construct(
         private readonly TokenType $type,
         private readonly int $index,

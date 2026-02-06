@@ -9,10 +9,10 @@
 
 namespace Matecat\ICU;
 
-use Matecat\ICU\Tokens\ArgType;
-use Matecat\ICU\Tokens\TokenType;
 use Matecat\ICU\Plurals\PluralComplianceException;
 use Matecat\ICU\Plurals\PluralRules;
+use Matecat\ICU\Tokens\ArgType;
+use Matecat\ICU\Tokens\TokenType;
 
 class MessagePatternAnalyzer
 {
@@ -55,9 +55,9 @@ class MessagePatternAnalyzer
      * Cardinal (plural) and ordinal (selectordinal) rules are validated separately
      * according to CLDR specifications.
      *
+     * @return void
      * @throws PluralComplianceException If any selector is invalid or required categories are missing.
      *
-     * @return void
      */
     public function validatePluralCompliance(): void
     {
@@ -103,7 +103,10 @@ class MessagePatternAnalyzer
         }
 
         // Only throw exception if we found plural forms with invalid selectors or missing categories
-        if (!empty($foundSelectors) && (!empty($invalidSelectors) || $this->hasMissingCategories($foundSelectors, $expectedCategories))) {
+        if (!empty($foundSelectors) && (!empty($invalidSelectors) || $this->hasMissingCategories(
+                    $foundSelectors,
+                    $expectedCategories
+                ))) {
             // Find missing categories (categories expected but not found)
             $missingCategories = array_values($this->getMissingCategories($foundSelectors, $expectedCategories));
 
@@ -134,7 +137,7 @@ class MessagePatternAnalyzer
     /**
      * Pattern for matching explicit numeric selectors (e.g., =0, =1, =2).
      */
-    private const string NUMERIC_SELECTOR_PATTERN = '/^=\d+$/';
+    private const string NUMERIC_SELECTOR_PATTERN = '/^=(\\d+)$/';
 
     /**
      * Extracts category selectors (non-numeric) from a list of selectors.
@@ -150,13 +153,31 @@ class MessagePatternAnalyzer
     /**
      * Calculates missing categories from expected categories against found selectors.
      *
+     * This method enforces strict validation of plural categories. Explicit numeric selectors
+     * (e.g., =0, =1, =2) are NOT allowed to substitute for CLDR plural category keywords
+     * (e.g., 'zero', 'one', 'two', 'few', 'many', 'other').
+     *
+     * Every expected plural category for the locale MUST be explicitly provided using
+     * the corresponding category keyword. While numeric selectors are syntactically valid,
+     * they cannot fulfill the requirement for category-based selectors.
+     *
+     * Example:
+     * - INVALID: {count, plural, =0 {no items} =1 {one item} other {many items}}
+     *   (missing required 'one' category in en-US)
+     * - VALID: {count, plural, one {one item} other {many items}}
+     *   (uses proper CLDR category keywords)
+     *
      * @param array<string> $foundSelectors All selectors found in the message.
-     * @param array<string> $expectedCategories Expected categories for the locale.
+     * @param array<string> $expectedCategories Expected CLDR categories for the locale.
      * @return array<string> Missing categories (not found in selectors).
      */
     private function getMissingCategories(array $foundSelectors, array $expectedCategories): array
     {
+        // Extract only CLDR category selectors (exclude numeric selectors like =0, =1)
         $foundCategorySelectors = $this->extractCategorySelectors($foundSelectors);
+
+        // Calculate missing categories by comparing expected categories against found category selectors
+        // Numeric selectors (=0, =1, etc.) do NOT count toward fulfilling category requirements
         return array_diff($expectedCategories, $foundCategorySelectors);
     }
 

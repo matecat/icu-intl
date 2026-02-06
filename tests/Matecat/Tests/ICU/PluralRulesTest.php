@@ -24,15 +24,18 @@ use PHPUnit\Framework\TestCase;
  * - Rule 5: Irish with 5 forms
  * - Rule 6: Lithuanian with 3 forms
  * - Rule 7: Slovenian with 4 forms
- * - Rule 8: Macedonian with 3 forms
+ * - Rule 8: Macedonian with 2 forms (CLDR 48)
  * - Rule 9: Maltese with 4 forms
- * - Rule 10: Latvian with 3 forms
+ * - Rule 10: Latvian with 3 forms (CLDR 48: zero/one/other)
  * - Rule 11: Polish with 3 forms
  * - Rule 12: Romanian with 3 forms
  * - Rule 13: Arabic with 6 forms
- * - Rule 14: Welsh with 4 forms
+ * - Rule 14: Welsh with 6 forms (CLDR 48)
  * - Rule 15: Icelandic with 2 forms
  * - Rule 16: Scottish Gaelic with 4 forms
+ * - Rule 17: Breton with 5 forms (CLDR 48)
+ * - Rule 18: Manx with 4 forms (CLDR 48)
+ * - Rule 19: Hebrew with 4 forms (CLDR 48)
  * - Locale fallback mechanism (handling locale variants like en-US, fr_FR)
  * - Unknown locale handling
  */
@@ -152,10 +155,6 @@ final class PluralRulesTest extends TestCase
             ['et', 0, 1],
             ['et', 1, 0],
             ['et', 2, 1],
-            // Hebrew
-            ['he', 0, 1],
-            ['he', 1, 0],
-            ['he', 2, 1],
             // Bulgarian
             ['bg', 0, 1],
             ['bg', 1, 0],
@@ -410,7 +409,7 @@ final class PluralRulesTest extends TestCase
     }
 
     // =========================================================================
-    // Rule 8: Macedonian (nplurals=3)
+    // Rule 8: Macedonian (nplurals=2 - CLDR 48)
     // =========================================================================
 
     #[DataProvider('rule8Provider')]
@@ -425,19 +424,20 @@ final class PluralRulesTest extends TestCase
     public static function rule8Provider(): array
     {
         return [
-            ['mk', 0, 2],   // other
+            // CLDR 48: one = n % 10 = 1 and n % 100 != 11; other = everything else
+            ['mk', 0, 1],   // other
             ['mk', 1, 0],   // one (n%10 == 1, n%100 != 11)
-            ['mk', 2, 1],   // two (n%10 == 2, n%100 != 12)
-            ['mk', 3, 2],   // other
-            ['mk', 10, 2],  // other
-            ['mk', 11, 2],  // other (special case)
-            ['mk', 12, 2],  // other (special case)
+            ['mk', 2, 1],   // other
+            ['mk', 3, 1],   // other
+            ['mk', 10, 1],  // other
+            ['mk', 11, 1],  // other (special case: n%100 == 11)
+            ['mk', 12, 1],  // other
             ['mk', 21, 0],  // one
-            ['mk', 22, 1],  // two
+            ['mk', 22, 1],  // other
             ['mk', 31, 0],  // one
-            ['mk', 32, 1],  // two
-            ['mk', 111, 2], // other (special case)
-            ['mk', 112, 2], // other (special case)
+            ['mk', 32, 1],  // other
+            ['mk', 111, 1], // other (special case: n%100 == 11)
+            ['mk', 112, 1], // other
         ];
     }
 
@@ -475,7 +475,8 @@ final class PluralRulesTest extends TestCase
     }
 
     // =========================================================================
-    // Rule 10: Latvian (nplurals=3)
+    // Rule 10: Latvian (nplurals=3 - CLDR 48)
+    // Category order: zero, one, other
     // =========================================================================
 
     #[DataProvider('rule10Provider')]
@@ -490,16 +491,17 @@ final class PluralRulesTest extends TestCase
     public static function rule10Provider(): array
     {
         return [
-            ['lv', 0, 2],   // zero
-            ['lv', 1, 0],   // one (n%10 == 1, n%100 != 11)
-            ['lv', 2, 1],   // other
-            ['lv', 10, 1],  // other
-            ['lv', 11, 1],  // other (special case)
-            ['lv', 21, 0],  // one
-            ['lv', 31, 0],  // one
-            ['lv', 100, 1], // other
-            ['lv', 101, 0], // one
-            ['lv', 111, 1], // other (special case)
+            // CLDR 48: zero = n = 0; one = n % 10 = 1 and n % 100 != 11; other = everything else
+            ['lv', 0, 0],   // zero (n == 0)
+            ['lv', 1, 1],   // one (n%10 == 1, n%100 != 11)
+            ['lv', 2, 2],   // other
+            ['lv', 10, 2],  // other
+            ['lv', 11, 2],  // other (special case: n%100 == 11)
+            ['lv', 21, 1],  // one
+            ['lv', 31, 1],  // one
+            ['lv', 100, 2], // other
+            ['lv', 101, 1], // one
+            ['lv', 111, 2], // other (special case: n%100 == 11)
         ];
     }
 
@@ -612,7 +614,8 @@ final class PluralRulesTest extends TestCase
     }
 
     // =========================================================================
-    // Rule 14: Welsh (nplurals=4)
+    // Rule 14: Welsh (nplurals=6 - CLDR 48)
+    // Category order: zero, one, two, few, many, other
     // =========================================================================
 
     #[DataProvider('rule14Provider')]
@@ -627,20 +630,21 @@ final class PluralRulesTest extends TestCase
     public static function rule14Provider(): array
     {
         return [
-            ['cy', 0, 2],   // other
-            ['cy', 1, 0],   // one
-            ['cy', 2, 1],   // two
-            ['cy', 3, 2],   // other
-            ['cy', 4, 2],   // other
-            ['cy', 5, 2],   // other
-            ['cy', 6, 2],   // other
-            ['cy', 7, 2],   // other
-            ['cy', 8, 3],   // few (n == 8 or n == 11)
-            ['cy', 9, 2],   // other
-            ['cy', 10, 2],  // other
-            ['cy', 11, 3],  // few
-            ['cy', 12, 2],  // other
-            ['cy', 100, 2], // other
+            // CLDR 48: zero=0, one=1, two=2, few=3, many=6, other=everything else
+            ['cy', 0, 0],   // zero
+            ['cy', 1, 1],   // one
+            ['cy', 2, 2],   // two
+            ['cy', 3, 3],   // few
+            ['cy', 4, 5],   // other
+            ['cy', 5, 5],   // other
+            ['cy', 6, 4],   // many
+            ['cy', 7, 5],   // other
+            ['cy', 8, 5],   // other
+            ['cy', 9, 5],   // other
+            ['cy', 10, 5],  // other
+            ['cy', 11, 5],  // other
+            ['cy', 12, 5],  // other
+            ['cy', 100, 5], // other
         ];
     }
 
@@ -700,6 +704,123 @@ final class PluralRulesTest extends TestCase
             ['gd', 20, 3],  // other
             ['gd', 21, 3],  // other
             ['gd', 100, 3], // other
+        ];
+    }
+
+    // =========================================================================
+    // Rule 17: Breton (nplurals=5 - CLDR 48)
+    // Category order: one, two, few, many, other
+    // =========================================================================
+
+    #[DataProvider('rule17Provider')]
+    public function testRule17Breton(string $locale, int $n, int $expected): void
+    {
+        self::assertSame($expected, PluralRules::calculate($locale, $n));
+    }
+
+    /**
+     * @return array<array<string|int>>
+     */
+    public static function rule17Provider(): array
+    {
+        return [
+            // CLDR 48 Breton rules:
+            // one: n % 10 = 1 and n % 100 not in 11,71,91
+            // two: n % 10 = 2 and n % 100 not in 12,72,92
+            // few: n % 10 in 3..4,9 and n % 100 not in 10..19,70..79,90..99
+            // many: n != 0 and n % 1000000 = 0
+            // other: everything else
+            ['br', 1, 0],   // one
+            ['br', 21, 0],  // one
+            ['br', 31, 0],  // one
+            ['br', 11, 4],  // other (n%100 = 11)
+            ['br', 71, 4],  // other (n%100 = 71)
+            ['br', 91, 4],  // other (n%100 = 91)
+            ['br', 2, 1],   // two
+            ['br', 22, 1],  // two
+            ['br', 12, 4],  // other (n%100 = 12)
+            ['br', 72, 4],  // other (n%100 = 72)
+            ['br', 3, 2],   // few
+            ['br', 4, 2],   // few
+            ['br', 9, 2],   // few
+            ['br', 13, 4],  // other (n%100 in 10..19)
+            ['br', 0, 4],   // other
+            ['br', 5, 4],   // other
+            ['br', 1000000, 3], // many
+        ];
+    }
+
+    // =========================================================================
+    // Rule 18: Manx (nplurals=4 - CLDR 48)
+    // Category order: one, two, few, other
+    // =========================================================================
+
+    #[DataProvider('rule18Provider')]
+    public function testRule18Manx(string $locale, int $n, int $expected): void
+    {
+        self::assertSame($expected, PluralRules::calculate($locale, $n));
+    }
+
+    /**
+     * @return array<array<string|int>>
+     */
+    public static function rule18Provider(): array
+    {
+        return [
+            // CLDR 48 Manx rules:
+            // one: v = 0 and i % 10 = 1
+            // two: v = 0 and i % 10 = 2
+            // few: v = 0 and i % 20 = 0
+            // other: everything else
+            ['gv', 1, 0],   // one (n%10 = 1)
+            ['gv', 11, 0],  // one
+            ['gv', 21, 0],  // one
+            ['gv', 2, 1],   // two (n%10 = 2)
+            ['gv', 12, 1],  // two
+            ['gv', 22, 1],  // two
+            ['gv', 0, 2],   // few (n%20 = 0)
+            ['gv', 20, 2],  // few
+            ['gv', 40, 2],  // few
+            ['gv', 3, 3],   // other
+            ['gv', 5, 3],   // other
+            ['gv', 10, 3],  // other
+            ['gv', 15, 3],  // other
+        ];
+    }
+
+    // =========================================================================
+    // Rule 19: Hebrew (nplurals=4 - CLDR 48)
+    // Category order: one, two, many, other
+    // =========================================================================
+
+    #[DataProvider('rule19Provider')]
+    public function testRule19Hebrew(string $locale, int $n, int $expected): void
+    {
+        self::assertSame($expected, PluralRules::calculate($locale, $n));
+    }
+
+    /**
+     * @return array<array<string|int>>
+     */
+    public static function rule19Provider(): array
+    {
+        return [
+            // CLDR 48 Hebrew rules:
+            // one: i = 1 and v = 0
+            // two: i = 2 and v = 0
+            // many: v = 0 and n != 0..10 and n % 10 = 0
+            // other: everything else
+            ['he', 1, 0],   // one
+            ['he', 2, 1],   // two
+            ['he', 20, 2],  // many (n > 10 and n%10 = 0)
+            ['he', 30, 2],  // many
+            ['he', 100, 2], // many
+            ['he', 0, 3],   // other
+            ['he', 3, 3],   // other
+            ['he', 10, 3],  // other (n = 10 doesn't match n > 10)
+            ['he', 11, 3],  // other
+            ['he', 15, 3],  // other
+            ['he', 21, 3],  // other
         ];
     }
 
@@ -942,11 +1063,11 @@ final class PluralRulesTest extends TestCase
             ['sl', 4, PluralRules::CATEGORY_FEW],
             ['sl', 5, PluralRules::CATEGORY_OTHER],
 
-            // Rule 8: Macedonian - "one", "two", "other"
+            // Rule 8: Macedonian - "one", "other" (CLDR 48)
             ['mk', 1, PluralRules::CATEGORY_ONE],
             ['mk', 21, PluralRules::CATEGORY_ONE],
-            ['mk', 2, PluralRules::CATEGORY_TWO],
-            ['mk', 22, PluralRules::CATEGORY_TWO],
+            ['mk', 2, PluralRules::CATEGORY_OTHER],
+            ['mk', 22, PluralRules::CATEGORY_OTHER],
             ['mk', 3, PluralRules::CATEGORY_OTHER],
             ['mk', 11, PluralRules::CATEGORY_OTHER],
 
@@ -959,12 +1080,12 @@ final class PluralRulesTest extends TestCase
             ['mt', 19, PluralRules::CATEGORY_MANY],
             ['mt', 20, PluralRules::CATEGORY_OTHER],
 
-            // Rule 10: Latvian - "one", "other", "zero"
+            // Rule 10: Latvian - "zero", "one", "other" (CLDR 48)
+            ['lv', 0, PluralRules::CATEGORY_ZERO],
             ['lv', 1, PluralRules::CATEGORY_ONE],
             ['lv', 21, PluralRules::CATEGORY_ONE],
             ['lv', 2, PluralRules::CATEGORY_OTHER],
             ['lv', 11, PluralRules::CATEGORY_OTHER],
-            ['lv', 0, PluralRules::CATEGORY_ZERO],
 
             // Rule 11: Polish - "one", "few", "many"
             ['pl', 1, PluralRules::CATEGORY_ONE],
@@ -989,10 +1110,12 @@ final class PluralRulesTest extends TestCase
             ['ar', 99, PluralRules::CATEGORY_MANY],
             ['ar', 100, PluralRules::CATEGORY_OTHER],
 
-            // Rule 14: Welsh - "one", "two", "few", "other"
+            // Rule 14: Welsh - "zero", "one", "two", "few", "many", "other" (CLDR 48)
+            ['cy', 0, PluralRules::CATEGORY_ZERO],
             ['cy', 1, PluralRules::CATEGORY_ONE],
             ['cy', 2, PluralRules::CATEGORY_TWO],
             ['cy', 3, PluralRules::CATEGORY_FEW],
+            ['cy', 6, PluralRules::CATEGORY_MANY],
             ['cy', 8, PluralRules::CATEGORY_OTHER],
             ['cy', 11, PluralRules::CATEGORY_OTHER],
 
@@ -1070,14 +1193,14 @@ final class PluralRulesTest extends TestCase
             // Rule 7: Slovenian
             ['sl', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_TWO, PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_OTHER]],
 
-            // Rule 8: Macedonian
-            ['mk', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_TWO, PluralRules::CATEGORY_OTHER]],
+            // Rule 8: Macedonian (CLDR 48)
+            ['mk', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_OTHER]],
 
             // Rule 9: Maltese
             ['mt', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_MANY, PluralRules::CATEGORY_OTHER]],
 
-            // Rule 10: Latvian
-            ['lv', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_OTHER, PluralRules::CATEGORY_ZERO]],
+            // Rule 10: Latvian (CLDR 48)
+            ['lv', [PluralRules::CATEGORY_ZERO, PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_OTHER]],
 
             // Rule 11: Polish
             ['pl', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_MANY]],
@@ -1088,14 +1211,23 @@ final class PluralRulesTest extends TestCase
             // Rule 13: Arabic
             ['ar', [PluralRules::CATEGORY_ZERO, PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_TWO, PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_MANY, PluralRules::CATEGORY_OTHER]],
 
-            // Rule 14: Welsh
-            ['cy', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_TWO, PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_OTHER]],
+            // Rule 14: Welsh (CLDR 48)
+            ['cy', [PluralRules::CATEGORY_ZERO, PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_TWO, PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_MANY, PluralRules::CATEGORY_OTHER]],
 
             // Rule 15: Icelandic
             ['is', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_OTHER]],
 
             // Rule 16: Scottish Gaelic
             ['gd', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_TWO, PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_OTHER]],
+
+            // Rule 17: Breton (CLDR 48)
+            ['br', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_TWO, PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_MANY, PluralRules::CATEGORY_OTHER]],
+
+            // Rule 18: Manx (CLDR 48)
+            ['gv', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_TWO, PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_OTHER]],
+
+            // Rule 19: Hebrew (CLDR 48)
+            ['he', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_TWO, PluralRules::CATEGORY_MANY, PluralRules::CATEGORY_OTHER]],
 
             // Unknown locale - defaults to rule 0
             ['xyz', [PluralRules::CATEGORY_OTHER]],

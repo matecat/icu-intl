@@ -121,17 +121,17 @@ class PluralRules
         // 0=one, 1=two, 2=few, 3=other
         7 => [self::CATEGORY_ONE, self::CATEGORY_TWO, self::CATEGORY_FEW, self::CATEGORY_OTHER],
 
-        // Rule 8: nplurals=3; (Macedonian)
-        // 0=one, 1=two, 2=other
-        8 => [self::CATEGORY_ONE, self::CATEGORY_TWO, self::CATEGORY_OTHER],
+        // Rule 8: nplurals=2; (Macedonian - CLDR 48)
+        // 0=one, 1=other
+        8 => [self::CATEGORY_ONE, self::CATEGORY_OTHER],
 
         // Rule 9: nplurals=4; (Maltese)
         // 0=one, 1=few, 2=many, 3=other
         9 => [self::CATEGORY_ONE, self::CATEGORY_FEW, self::CATEGORY_MANY, self::CATEGORY_OTHER],
 
-        // Rule 10: nplurals=3; (Latvian)
-        // 0=one, 1=other, 2=zero
-        10 => [self::CATEGORY_ONE, self::CATEGORY_OTHER, self::CATEGORY_ZERO],
+        // Rule 10: nplurals=3; (Latvian - CLDR 48)
+        // 0=zero, 1=one, 2=other
+        10 => [self::CATEGORY_ZERO, self::CATEGORY_ONE, self::CATEGORY_OTHER],
 
         // Rule 11: nplurals=3; (Polish)
         // 0=one, 1=few, 2=many
@@ -152,9 +152,9 @@ class PluralRules
             self::CATEGORY_OTHER
         ],
 
-        // Rule 14: nplurals=4; (Welsh)
-        // 0=one, 1=two, 2=few, 3=other
-        14 => [self::CATEGORY_ONE, self::CATEGORY_TWO, self::CATEGORY_FEW, self::CATEGORY_OTHER],
+        // Rule 14: nplurals=6; (Welsh)
+        // 0=zero, 1=one, 2=two, 3=few, 4=many, 5=other
+        14 => [self::CATEGORY_ZERO, self::CATEGORY_ONE, self::CATEGORY_TWO, self::CATEGORY_FEW, self::CATEGORY_MANY, self::CATEGORY_OTHER],
 
         // Rule 15: nplurals=2; (Icelandic)
         // 0=one, 1=other
@@ -163,6 +163,18 @@ class PluralRules
         // Rule 16: nplurals=4; (Scottish Gaelic)
         // 0=one, 1=two, 2=few, 3=other
         16 => [self::CATEGORY_ONE, self::CATEGORY_TWO, self::CATEGORY_FEW, self::CATEGORY_OTHER],
+
+        // Rule 17: nplurals=5; (Breton - CLDR 48)
+        // 0=one, 1=two, 2=few, 3=many, 4=other
+        17 => [self::CATEGORY_ONE, self::CATEGORY_TWO, self::CATEGORY_FEW, self::CATEGORY_MANY, self::CATEGORY_OTHER],
+
+        // Rule 18: nplurals=4; (Manx - CLDR 48)
+        // 0=one, 1=two, 2=few, 3=other
+        18 => [self::CATEGORY_ONE, self::CATEGORY_TWO, self::CATEGORY_FEW, self::CATEGORY_OTHER],
+
+        // Rule 19: nplurals=4; (Hebrew - CLDR 48)
+        // 0=one, 1=two, 2=many, 3=other
+        19 => [self::CATEGORY_ONE, self::CATEGORY_TWO, self::CATEGORY_MANY, self::CATEGORY_OTHER],
     ];
 
     /**
@@ -233,6 +245,15 @@ class PluralRules
 
         // Rule 16: Scottish Gaelic ordinals (one/two/few/other)
         16 => [self::CATEGORY_ONE, self::CATEGORY_TWO, self::CATEGORY_FEW, self::CATEGORY_OTHER],
+
+        // Rule 17: Breton ordinals (only "other")
+        17 => [self::CATEGORY_OTHER],
+
+        // Rule 18: Manx ordinals (only "other")
+        18 => [self::CATEGORY_OTHER],
+
+        // Rule 19: Hebrew ordinals (only "other")
+        19 => [self::CATEGORY_OTHER],
     ];
 
     /**
@@ -248,15 +269,18 @@ class PluralRules
      * 5  - nplurals=5; plural=n==1 ? 0 : n==2 ? 1 : (n>2 && n<7) ? 2 :(n>6 && n<11) ? 3 : 4; (Irish)
      * 6  - nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2); (Lithuanian)
      * 7  - nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3); (Slovenian)
-     * 8  - nplurals=3; plural=(n%10==1 ? 0 : n%10==2 ? 1 : 2); (Macedonian - simplified)
+     * 8  - nplurals=2; plural=(n%10==1 && n%100!=11) ? 0 : 1; (Macedonian - CLDR 48)
      * 9  - nplurals=4; plural=(n==1 ? 0 : n==0 || (n%100>0 && n%100<=10) ? 1 : (n%100>10 && n%100<20) ? 2 : 3); (Maltese)
      * 10 - nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2); (Latvian)
      * 11 - nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2); (Polish)
      * 12 - nplurals=3; plural=(n==1 ? 0 : n==0 || n%100>0 && n%100<20 ? 1 : 2); (Romanian)
      * 13 - nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5); (Arabic)
-     * 14 - nplurals=4; plural=(n==1) ? 0 : (n==2) ? 1 : (n != 8 && n != 11) ? 2 : 3; (Welsh)
+     * 14 - nplurals=6; plural=(n==0) ? 0 : (n==1) ? 1 : (n==2) ? 2 : (n==3) ? 3 : (n==6) ? 4 : 5; (Welsh - CLDR 48)
      * 15 - nplurals=2; plural=(n%10!=1 || n%100==11); (Icelandic)
      * 16 - nplurals=4; plural=(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : (n>2 && n<20) ? 2 : 3; (Scottish Gaelic)
+     * 17 - nplurals=4; plural=(n==1) ? 0 : (n==2) ? 1 : (n==3) ? 2 : 3; (Breton - CLDR 48)
+     * 18 - nplurals=4; plural=(n%10==1) ? 0 : (n%10==2) ? 1 : (n%20==0) ? 2 : 3; (Manx)
+     * 19 - nplurals=4; plural=(n==1) ? 0 : (n==2) ? 1 : (n>10 && n%10==0) ? 2 : 3; (Hebrew - CLDR 48)
      *
      * @var array<string, int>
      */
@@ -292,7 +316,7 @@ class PluralRules
         'bm' => 0,   // Bambara - no plural
         'bn' => 1,   // Bengali
         'bo' => 0,   // Tibetan
-        'br' => 2,   // Breton
+        'br' => 17,  // Breton - CLDR 48
         'brx' => 1,  // Bodo
         'bs' => 3,   // Bosnian
         'bug' => 0,  // Buginese - no plural
@@ -352,11 +376,11 @@ class PluralRules
         'grt' => 1,  // Garo
         'gu' => 1,   // Gujarati
         'guz' => 1,  // Gusii
-        'gv' => 1,   // Manx
+        'gv' => 18,  // Manx - CLDR 48
         'gyn' => 1,  // Guyanese Creole English
         'ha' => 1,   // Hausa
         'haw' => 1,  // Hawaiian
-        'he' => 1,   // Hebrew
+        'he' => 19,  // Hebrew - CLDR 48
         'hi' => 2,   // Hindi
         'hig' => 1,  // Kamwe
         'hil' => 1,  // Hiligaynon
@@ -616,16 +640,24 @@ class PluralRules
                 return $n % 100 === 1 ? 0 :
                     ($n % 100 === 2 ? 1 : ($n % 100 === 3 || $n % 100 === 4 ? 2 : 3));
             case 8:
-                // nplurals=3; (Macedonian)
-                return $n % 10 === 1 && $n % 100 !== 11 ? 0 : ($n % 10 === 2 && $n % 100 !== 12 ? 1 : 2);
+                // nplurals=2; (Macedonian - CLDR 48)
+                // one: n % 10 = 1 and n % 100 != 11, or v != 0 and f % 10 = 1 and f % 100 != 11
+                // other: everything else
+                return ($n % 10 === 1 && $n % 100 !== 11) ? 0 : 1;
             case 9:
                 // nplurals=4; (Maltese)
                 return $n === 1 ? 0 :
                     ($n === 0 || ($n % 100 > 0 && $n % 100 <= 10) ? 1 :
                         ($n % 100 > 10 && $n % 100 < 20 ? 2 : 3));
             case 10:
-                // nplurals=3; (Latvian)
-                return $n % 10 === 1 && $n % 100 !== 11 ? 0 : ($n !== 0 ? 1 : 2);
+                // nplurals=3; (Latvian - CLDR 48)
+                // zero: n = 0
+                // one: n % 10 = 1 and n % 100 != 11, or v = 2 and f % 10 = 1 and f % 100 != 11, or v != 2 and f % 10 = 1
+                // other: everything else
+                if ($n === 0) {
+                    return 0; // zero
+                }
+                return ($n % 10 === 1 && $n % 100 !== 11) ? 1 : 2; // one : other
             case 11:
                 // nplurals=3; (Polish)
                 return $n === 1 ? 0 :
@@ -642,10 +674,29 @@ class PluralRules
                             ($n % 100 >= 3 && $n % 100 <= 10 ? 3 :
                                 ($n % 100 >= 11 ? 4 : 5))));
             case 14:
-                // nplurals=4; (Welsh)
-                return $n === 1 ? 0 :
-                    ($n === 2 ? 1 :
-                        ($n !== 8 && $n !== 11 ? 2 : 3));
+                // nplurals=6; (Welsh - CLDR 48)
+                // zero: n = 0
+                // one: n = 1
+                // two: n = 2
+                // few: n = 3
+                // many: n = 6
+                // other: everything else
+                if ($n === 0) {
+                    return 0;
+                }
+                if ($n === 1) {
+                    return 1;
+                }
+                if ($n === 2) {
+                    return 2;
+                }
+                if ($n === 3) {
+                    return 3;
+                }
+                if ($n === 6) {
+                    return 4;
+                }
+                return 5;
             case 15:
                 // nplurals=2; (Icelandic)
                 return $n % 10 !== 1 || $n % 100 === 11 ? 1 : 0;
@@ -654,6 +705,60 @@ class PluralRules
                 return ($n === 1 || $n === 11) ? 0 :
                     (($n === 2 || $n === 12) ? 1 :
                         (($n > 2 && $n < 20) ? 2 : 3));
+            case 17:
+                // nplurals=5; (Breton - CLDR 48)
+                // one: n % 10 = 1 and n % 100 not in 11,71,91
+                // two: n % 10 = 2 and n % 100 not in 12,72,92
+                // few: n % 10 in 3..4,9 and n % 100 not in 10..19,70..79,90..99
+                // many: n != 0 and n % 1000000 = 0
+                // other: everything else
+                $n100 = $n % 100;
+                $n10 = $n % 10;
+                if ($n10 === 1 && !in_array($n100, [11, 71, 91], true)) {
+                    return 0; // one
+                }
+                if ($n10 === 2 && !in_array($n100, [12, 72, 92], true)) {
+                    return 1; // two
+                }
+                if (in_array($n10, [3, 4, 9], true) && !($n100 >= 10 && $n100 <= 19) && !($n100 >= 70 && $n100 <= 79) && !($n100 >= 90 && $n100 <= 99)) {
+                    return 2; // few
+                }
+                if ($n !== 0 && $n % 1000000 === 0) {
+                    return 3; // many
+                }
+                return 4; // other
+            case 18:
+                // nplurals=4; (Manx - CLDR 48)
+                // one: v = 0 and i % 10 = 1
+                // two: v = 0 and i % 10 = 2
+                // few: v = 0 and i % 20 = 0
+                // other: everything else
+                if ($n % 10 === 1) {
+                    return 0; // one
+                }
+                if ($n % 10 === 2) {
+                    return 1; // two
+                }
+                if ($n % 20 === 0) {
+                    return 2; // few
+                }
+                return 3; // other
+            case 19:
+                // nplurals=4; (Hebrew - CLDR 48)
+                // one: i = 1 and v = 0, or i = 0 and v != 0
+                // two: i = 2 and v = 0
+                // many: v = 0 and n != 0..10 and n % 10 = 0
+                // other: everything else
+                if ($n === 1) {
+                    return 0; // one
+                }
+                if ($n === 2) {
+                    return 1; // two
+                }
+                if ($n !== 0 && $n > 10 && $n % 10 === 0) {
+                    return 2; // many
+                }
+                return 3; // other
         }
 
         // @codeCoverageIgnoreStart

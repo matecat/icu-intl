@@ -447,15 +447,18 @@ final class LanguagesTest extends TestCase
             'Slovenian' => ['sl-SI', 4],
             'Maltese' => ['mt-MT', 4],
             'Scottish Gaelic' => ['gd-GB', 4],
-            'Welsh' => ['cy-GB', 4],
+            'Hebrew' => ['he-IL', 4],
+            'Manx' => ['gv-IM', 4],
 
             // Languages with 5 plural forms
             'Irish' => ['ga-IE', 5],
+            'Breton' => ['br-FR', 5],
 
             // Languages with 6 plural forms
             'Arabic' => ['ar-SA', 6],
             'Arabic (UAE)' => ['ar-AE', 6],
             'Arabic (Egypt)' => ['ar-EG', 6],
+            'Welsh' => ['cy-GB', 6],
         ];
     }
 

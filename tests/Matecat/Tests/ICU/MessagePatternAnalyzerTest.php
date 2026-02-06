@@ -94,6 +94,109 @@ class MessagePatternAnalyzerTest extends TestCase
         $analyzer->validatePluralCompliance();
     }
 
+    /**
+     * In ICU MessageFormat, plural selectors can be:
+     * Keyword selectors: zero, one, two, few, many, other
+     * Explicit value selectors: =0, =1, =2, etc. (matches exactly that number)
+     *
+     * STRICT VALIDATION: Numeric selectors (=0, =1, =2) are NOT allowed to substitute for
+     * CLDR plural category keywords (zero, one, two, few, many, other).
+     *
+     * Every expected plural category for the locale MUST be explicitly provided using
+     * the corresponding category keyword. While numeric selectors are syntactically valid,
+     * they cannot fulfill the requirement for category-based selectors.
+     *
+     * @return void
+     * @throws PluralComplianceException
+     */
+    #[Test]
+    public function testValidatePluralComplianceWithExplicitSelectorsReplacesCategoryKeywords(): void
+    {
+        // Numeric selectors (=0, =1, =2, etc.) CANNOT substitute for category keywords.
+        // This pattern is INVALID because the required 'one' category is missing,
+        // even though =1 is present.
+        $pattern = new MessagePattern();
+        $pattern->parse('{count, plural, =0{# items} =1{# item} other{# items}}');
+        $analyzer = new MessagePatternAnalyzer($pattern, 'en');
+
+        self::expectException(PluralComplianceException::class);
+        self::expectExceptionMessageMatches('/Missing categories/');
+
+        // Should throw an Exception - =0 and =1 cannot substitute 'one' category
+        $analyzer->validatePluralCompliance();
+    }
+
+    /**
+     * Test that explicit selectors CANNOT substitute for French 'one' category.
+     *
+     * For French, the 'one' category covers n=0 and n=1. However, numeric selectors
+     * like =0 and =1 are NOT allowed to substitute for the required CLDR category keyword.
+     * The message must explicitly use the 'one' keyword to satisfy category requirements.
+     *
+     * @throws PluralComplianceException
+     */
+    #[Test]
+    public function testValidatePluralComplianceWithExplicitSelectorsForFrench(): void
+    {
+        // French expects 'one' and 'other'
+        // Even though =0 and =1 might semantically cover the 'one' range in French (n=0 or n=1),
+        // the required 'one' category keyword must be explicitly present.
+        $pattern = new MessagePattern();
+        $pattern->parse('{count, plural, =0{# item} =1{# item} other{# items}}');
+        $analyzer = new MessagePatternAnalyzer($pattern, 'fr');
+
+        self::expectException(PluralComplianceException::class);
+        self::expectExceptionMessageMatches('/Missing categories/');
+
+        // Should throw an Exception - =0 and =1 cannot substitute 'one' category
+        $analyzer->validatePluralCompliance();
+    }
+
+    /**
+     * Test that French with only =1 fails because it's missing =0.
+     * In French, both 0 and 1 belong to the 'one' category, so both must be covered by explicit selectors.
+     *
+     * @throws PluralComplianceException
+     */
+    #[Test]
+    public function testValidatePluralComplianceWithOnlyEquals1ForFrenchFails(): void
+    {
+        // French with only =1 is incomplete - missing =0
+        $pattern = new MessagePattern();
+        $pattern->parse('{count, plural, =1{# item} other{# items}}');
+        $analyzer = new MessagePatternAnalyzer($pattern, 'fr');
+
+        // Should throw because 'one' category in French needs both =0 and =1
+        self::expectException(PluralComplianceException::class);
+        self::expectExceptionMessageMatches('/Missing categories/');
+
+        $analyzer->validatePluralCompliance();
+    }
+
+    /**
+     * Test that English with only =1 fails because numeric selectors cannot substitute for 'one'.
+     *
+     * Even though =1 semantically matches the English 'one' category (n==1), it is not
+     * allowed to substitute for the required 'one' CLDR category keyword.
+     *
+     * @throws PluralComplianceException
+     */
+    #[Test]
+    public function testValidatePluralComplianceWithOnlyEquals1ForEnglishFails(): void
+    {
+        // English expects 'one' and 'other' categories
+        // Using only =1 is NOT sufficient - the required 'one' keyword must be present
+        $pattern = new MessagePattern();
+        $pattern->parse('{count, plural, =1{# item} other{# items}}');
+        $analyzer = new MessagePatternAnalyzer($pattern, 'en');
+
+        self::expectException(PluralComplianceException::class);
+        self::expectExceptionMessageMatches('/Missing categories/');
+
+        // Should throw - =1 cannot substitute for the required 'one' category
+        $analyzer->validatePluralCompliance();
+    }
+
     #[Test]
     public function testValidatePluralComplianceMissingCategories(): void
     {
@@ -158,7 +261,7 @@ class MessagePatternAnalyzerTest extends TestCase
     }
 
     /**
-     * @throws \Matecat\ICU\Plurals\PluralComplianceException
+     * @throws PluralComplianceException
      */
     #[Test]
     public function testValidatePluralComplianceWithOffset(): void
