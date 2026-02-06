@@ -2184,4 +2184,673 @@ final class PluralRulesTest extends TestCase
         ];
     }
 
+    // =========================================================================
+    // getOrdinalFormIndex Tests
+    // =========================================================================
+
+    /**
+     * Test getOrdinalFormIndex for Rule 0 (no ordinal distinction)
+     */
+    public function testGetOrdinalFormIndexRuleZero(): void
+    {
+        // Japanese, Chinese, Russian - always return 0 (other)
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('ja', 0));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('ja', 1));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('ja', 100));
+
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('zh', 1));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('ru', 1));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('de', 1));
+    }
+
+    /**
+     * Test getOrdinalFormIndex for Rule 1 (English-like ordinals)
+     * Pattern: 1st, 2nd, 3rd, 4th... 11th, 12th, 13th... 21st, 22nd, 23rd...
+     */
+    public function testGetOrdinalFormIndexRuleOneEnglish(): void
+    {
+        // one: n % 10 = 1 and n % 100 != 11
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('en', 1));   // 1st
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('en', 21));  // 21st
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('en', 31));  // 31st
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('en', 101)); // 101st
+
+        // two: n % 10 = 2 and n % 100 != 12
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('en', 2));   // 2nd
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('en', 22));  // 22nd
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('en', 32));  // 32nd
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('en', 102)); // 102nd
+
+        // few: n % 10 = 3 and n % 100 != 13
+        self::assertSame(2, PluralRules::getOrdinalFormIndex('en', 3));   // 3rd
+        self::assertSame(2, PluralRules::getOrdinalFormIndex('en', 23));  // 23rd
+        self::assertSame(2, PluralRules::getOrdinalFormIndex('en', 33));  // 33rd
+        self::assertSame(2, PluralRules::getOrdinalFormIndex('en', 103)); // 103rd
+
+        // other: everything else (including 11, 12, 13)
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('en', 0));   // 0th
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('en', 4));   // 4th
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('en', 5));   // 5th
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('en', 10));  // 10th
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('en', 11));  // 11th (not 11st!)
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('en', 12));  // 12th (not 12nd!)
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('en', 13));  // 13th (not 13rd!)
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('en', 111)); // 111th
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('en', 112)); // 112th
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('en', 113)); // 113th
+    }
+
+    /**
+     * Test getOrdinalFormIndex for Rule 2 (French-like ordinals)
+     * Pattern: 1er, 2e, 3e...
+     */
+    public function testGetOrdinalFormIndexRuleTwoFrench(): void
+    {
+        // one: n = 1
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('fr', 1));  // 1er
+
+        // other: everything else
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('fr', 0));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('fr', 2));  // 2e
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('fr', 3));  // 3e
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('fr', 10));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('fr', 21)); // 21e (unlike English)
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('fr', 100));
+    }
+
+    /**
+     * Test getOrdinalFormIndex for Rule 8 (Macedonian ordinals)
+     * Pattern: one/two/many/other
+     */
+    public function testGetOrdinalFormIndexRuleEightMacedonian(): void
+    {
+        // one: n % 10 = 1 and n % 100 != 11
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('mk', 1));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('mk', 21));
+
+        // two: n % 10 = 2 and n % 100 != 12
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('mk', 2));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('mk', 22));
+
+        // many: n % 10 = 7,8 and n % 100 != 17,18
+        self::assertSame(2, PluralRules::getOrdinalFormIndex('mk', 7));
+        self::assertSame(2, PluralRules::getOrdinalFormIndex('mk', 8));
+        self::assertSame(2, PluralRules::getOrdinalFormIndex('mk', 27));
+        self::assertSame(2, PluralRules::getOrdinalFormIndex('mk', 28));
+
+        // other: everything else (including 11, 12, 17, 18)
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('mk', 0));
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('mk', 3));
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('mk', 11));
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('mk', 12));
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('mk', 17));
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('mk', 18));
+    }
+
+    /**
+     * Test getOrdinalFormIndex for Rule 14 (Welsh ordinals)
+     * Pattern: zero/one/two/few/many/other
+     */
+    public function testGetOrdinalFormIndexRuleFourteenWelsh(): void
+    {
+        // zero: n = 0,7,8,9
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('cy', 0));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('cy', 7));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('cy', 8));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('cy', 9));
+
+        // one: n = 1
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('cy', 1));
+
+        // two: n = 2
+        self::assertSame(2, PluralRules::getOrdinalFormIndex('cy', 2));
+
+        // few: n = 3,4
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('cy', 3));
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('cy', 4));
+
+        // many: n = 5,6
+        self::assertSame(4, PluralRules::getOrdinalFormIndex('cy', 5));
+        self::assertSame(4, PluralRules::getOrdinalFormIndex('cy', 6));
+
+        // other: everything else
+        self::assertSame(5, PluralRules::getOrdinalFormIndex('cy', 10));
+        self::assertSame(5, PluralRules::getOrdinalFormIndex('cy', 15));
+        self::assertSame(5, PluralRules::getOrdinalFormIndex('cy', 100));
+    }
+
+    /**
+     * Test getOrdinalFormIndex for Rule 16 (Scottish Gaelic ordinals)
+     */
+    public function testGetOrdinalFormIndexRuleSixteenScottishGaelic(): void
+    {
+        // one: n = 1,11
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('gd', 1));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('gd', 11));
+
+        // two: n = 2,12
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('gd', 2));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('gd', 12));
+
+        // few: n = 3,13
+        self::assertSame(2, PluralRules::getOrdinalFormIndex('gd', 3));
+        self::assertSame(2, PluralRules::getOrdinalFormIndex('gd', 13));
+
+        // other: everything else
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('gd', 0));
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('gd', 4));
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('gd', 14));
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('gd', 100));
+    }
+
+    /**
+     * Test getOrdinalFormIndex for Rule 20 (Italian ordinals)
+     * Pattern: many for 8,11,80,800; other for everything else
+     */
+    public function testGetOrdinalFormIndexRuleTwentyItalian(): void
+    {
+        // many: n = 8,11,80,800
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('it', 8));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('it', 11));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('it', 80));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('it', 800));
+
+        // other: everything else
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('it', 0));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('it', 1));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('it', 2));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('it', 7));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('it', 9));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('it', 10));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('it', 12));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('it', 100));
+    }
+
+    /**
+     * Test getOrdinalFormIndex for Rule 21 (Kazakh/Azerbaijani ordinals)
+     * Pattern: many for n%10=6,9 or n%10=0 && n!=0; other for everything else
+     */
+    public function testGetOrdinalFormIndexRuleTwentyOneKazakh(): void
+    {
+        // many: n % 10 = 6,9 or n % 10 = 0 and n != 0
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('kk', 6));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('kk', 9));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('kk', 10));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('kk', 16));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('kk', 19));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('kk', 20));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('kk', 26));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('kk', 100));
+
+        // other: everything else (including 0)
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('kk', 0));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('kk', 1));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('kk', 2));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('kk', 5));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('kk', 7));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('kk', 8));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('kk', 11));
+    }
+
+    /**
+     * Test getOrdinalFormIndex for Rule 22 (Hungarian ordinals)
+     * Pattern: few for n=1,5; other for everything else
+     */
+    public function testGetOrdinalFormIndexRuleTwentyTwoHungarian(): void
+    {
+        // few: n = 1,5
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('hu', 1));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('hu', 5));
+
+        // other: everything else
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('hu', 0));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('hu', 2));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('hu', 3));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('hu', 4));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('hu', 6));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('hu', 10));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('hu', 100));
+    }
+
+    /**
+     * Test getOrdinalFormIndex for Rule 23 (Bengali/Hindi ordinals)
+     * Pattern: one for n=1,5,7,8,9,10; other for everything else
+     */
+    public function testGetOrdinalFormIndexRuleTwentyThreeBengali(): void
+    {
+        // one: n = 1,5,7,8,9,10
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('bn', 1));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('bn', 5));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('bn', 7));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('bn', 8));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('bn', 9));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('bn', 10));
+
+        // other: everything else
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('bn', 0));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('bn', 2));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('bn', 3));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('bn', 4));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('bn', 6));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('bn', 11));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('bn', 100));
+    }
+
+    /**
+     * Test getOrdinalFormIndex for Rule 24 (Gujarati ordinals)
+     * Pattern: one/two/few/many/other
+     */
+    public function testGetOrdinalFormIndexRuleTwentyFourGujarati(): void
+    {
+        // one: n = 1
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('gu', 1));
+
+        // two: n = 2,3
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('gu', 2));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('gu', 3));
+
+        // few: n = 4
+        self::assertSame(2, PluralRules::getOrdinalFormIndex('gu', 4));
+
+        // many: n = 6
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('gu', 6));
+
+        // other: everything else
+        self::assertSame(4, PluralRules::getOrdinalFormIndex('gu', 0));
+        self::assertSame(4, PluralRules::getOrdinalFormIndex('gu', 5));
+        self::assertSame(4, PluralRules::getOrdinalFormIndex('gu', 7));
+        self::assertSame(4, PluralRules::getOrdinalFormIndex('gu', 10));
+        self::assertSame(4, PluralRules::getOrdinalFormIndex('gu', 100));
+    }
+
+    /**
+     * Test getOrdinalFormIndex for Rule 25 (Kannada ordinals)
+     */
+    public function testGetOrdinalFormIndexRuleTwentyFiveKannada(): void
+    {
+        // one: n = 1
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('kn', 1));
+
+        // two: n = 2,3
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('kn', 2));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('kn', 3));
+
+        // few: n = 4
+        self::assertSame(2, PluralRules::getOrdinalFormIndex('kn', 4));
+
+        // other: everything else
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('kn', 0));
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('kn', 5));
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('kn', 6));
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('kn', 100));
+    }
+
+    /**
+     * Test getOrdinalFormIndex for Rule 26 (Marathi ordinals)
+     */
+    public function testGetOrdinalFormIndexRuleTwentySixMarathi(): void
+    {
+        // one: n = 1
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('mr', 1));
+
+        // other: everything else
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('mr', 0));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('mr', 2));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('mr', 10));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('mr', 100));
+    }
+
+    /**
+     * Test getOrdinalFormIndex for Rule 27 (Odia ordinals)
+     */
+    public function testGetOrdinalFormIndexRuleTwentySevenOdia(): void
+    {
+        // one: n = 1,5,7..9
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('or', 1));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('or', 5));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('or', 7));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('or', 8));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('or', 9));
+
+        // two: n = 2,3
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('or', 2));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('or', 3));
+
+        // few: n = 4
+        self::assertSame(2, PluralRules::getOrdinalFormIndex('or', 4));
+
+        // many: n = 6
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('or', 6));
+
+        // other: everything else
+        self::assertSame(4, PluralRules::getOrdinalFormIndex('or', 0));
+        self::assertSame(4, PluralRules::getOrdinalFormIndex('or', 10));
+        self::assertSame(4, PluralRules::getOrdinalFormIndex('or', 100));
+    }
+
+    /**
+     * Test getOrdinalFormIndex for Rule 28 (Telugu ordinals)
+     */
+    public function testGetOrdinalFormIndexRuleTwentyEightTelugu(): void
+    {
+        // one: n = 1
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('te', 1));
+
+        // two: n = 2,3
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('te', 2));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('te', 3));
+
+        // many: n = 4
+        self::assertSame(2, PluralRules::getOrdinalFormIndex('te', 4));
+
+        // other: everything else
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('te', 0));
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('te', 5));
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('te', 6));
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('te', 100));
+    }
+
+    /**
+     * Test getOrdinalFormIndex for Rule 29 (Nepali ordinals)
+     */
+    public function testGetOrdinalFormIndexRuleTwentyNineNepali(): void
+    {
+        // one: n = 1..4
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('ne', 1));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('ne', 2));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('ne', 3));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('ne', 4));
+
+        // few: n = 5,6
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('ne', 5));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('ne', 6));
+
+        // other: everything else
+        self::assertSame(2, PluralRules::getOrdinalFormIndex('ne', 0));
+        self::assertSame(2, PluralRules::getOrdinalFormIndex('ne', 7));
+        self::assertSame(2, PluralRules::getOrdinalFormIndex('ne', 10));
+        self::assertSame(2, PluralRules::getOrdinalFormIndex('ne', 100));
+    }
+
+    /**
+     * Test getOrdinalFormIndex for Rule 30 (Albanian ordinals)
+     */
+    public function testGetOrdinalFormIndexRuleThirtyAlbanian(): void
+    {
+        // one: n = 1
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('sq', 1));
+
+        // two: n = 4
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('sq', 4));
+
+        // few: n = 2..9 except 4
+        self::assertSame(2, PluralRules::getOrdinalFormIndex('sq', 2));
+        self::assertSame(2, PluralRules::getOrdinalFormIndex('sq', 3));
+        self::assertSame(2, PluralRules::getOrdinalFormIndex('sq', 5));
+        self::assertSame(2, PluralRules::getOrdinalFormIndex('sq', 6));
+        self::assertSame(2, PluralRules::getOrdinalFormIndex('sq', 7));
+        self::assertSame(2, PluralRules::getOrdinalFormIndex('sq', 8));
+        self::assertSame(2, PluralRules::getOrdinalFormIndex('sq', 9));
+
+        // other: everything else
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('sq', 0));
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('sq', 10));
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('sq', 11));
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('sq', 100));
+    }
+
+    /**
+     * Test getOrdinalFormIndex with locale variants
+     */
+    public function testGetOrdinalFormIndexWithLocaleVariants(): void
+    {
+        // English variants
+        self::assertSame(PluralRules::getOrdinalFormIndex('en', 1), PluralRules::getOrdinalFormIndex('en-US', 1));
+        self::assertSame(PluralRules::getOrdinalFormIndex('en', 2), PluralRules::getOrdinalFormIndex('en-GB', 2));
+        self::assertSame(PluralRules::getOrdinalFormIndex('en', 3), PluralRules::getOrdinalFormIndex('en_AU', 3));
+
+        // French variants
+        self::assertSame(PluralRules::getOrdinalFormIndex('fr', 1), PluralRules::getOrdinalFormIndex('fr-FR', 1));
+        self::assertSame(PluralRules::getOrdinalFormIndex('fr', 2), PluralRules::getOrdinalFormIndex('fr-CA', 2));
+    }
+
+    // =========================================================================
+    // getOrdinalCategoryName Tests
+    // =========================================================================
+
+    /**
+     * Test getOrdinalCategoryName for English ordinals
+     */
+    public function testGetOrdinalCategoryNameEnglish(): void
+    {
+        // one: 1st, 21st, 31st...
+        self::assertSame(PluralRules::CATEGORY_ONE, PluralRules::getOrdinalCategoryName('en', 1));
+        self::assertSame(PluralRules::CATEGORY_ONE, PluralRules::getOrdinalCategoryName('en', 21));
+        self::assertSame(PluralRules::CATEGORY_ONE, PluralRules::getOrdinalCategoryName('en', 31));
+
+        // two: 2nd, 22nd, 32nd...
+        self::assertSame(PluralRules::CATEGORY_TWO, PluralRules::getOrdinalCategoryName('en', 2));
+        self::assertSame(PluralRules::CATEGORY_TWO, PluralRules::getOrdinalCategoryName('en', 22));
+        self::assertSame(PluralRules::CATEGORY_TWO, PluralRules::getOrdinalCategoryName('en', 32));
+
+        // few: 3rd, 23rd, 33rd...
+        self::assertSame(PluralRules::CATEGORY_FEW, PluralRules::getOrdinalCategoryName('en', 3));
+        self::assertSame(PluralRules::CATEGORY_FEW, PluralRules::getOrdinalCategoryName('en', 23));
+        self::assertSame(PluralRules::CATEGORY_FEW, PluralRules::getOrdinalCategoryName('en', 33));
+
+        // other: 4th, 5th, 11th, 12th, 13th...
+        self::assertSame(PluralRules::CATEGORY_OTHER, PluralRules::getOrdinalCategoryName('en', 0));
+        self::assertSame(PluralRules::CATEGORY_OTHER, PluralRules::getOrdinalCategoryName('en', 4));
+        self::assertSame(PluralRules::CATEGORY_OTHER, PluralRules::getOrdinalCategoryName('en', 11));
+        self::assertSame(PluralRules::CATEGORY_OTHER, PluralRules::getOrdinalCategoryName('en', 12));
+        self::assertSame(PluralRules::CATEGORY_OTHER, PluralRules::getOrdinalCategoryName('en', 13));
+    }
+
+    /**
+     * Test getOrdinalCategoryName for French ordinals
+     */
+    public function testGetOrdinalCategoryNameFrench(): void
+    {
+        // one: 1er
+        self::assertSame(PluralRules::CATEGORY_ONE, PluralRules::getOrdinalCategoryName('fr', 1));
+
+        // other: 2e, 3e, 4e...
+        self::assertSame(PluralRules::CATEGORY_OTHER, PluralRules::getOrdinalCategoryName('fr', 0));
+        self::assertSame(PluralRules::CATEGORY_OTHER, PluralRules::getOrdinalCategoryName('fr', 2));
+        self::assertSame(PluralRules::CATEGORY_OTHER, PluralRules::getOrdinalCategoryName('fr', 21));
+        self::assertSame(PluralRules::CATEGORY_OTHER, PluralRules::getOrdinalCategoryName('fr', 100));
+    }
+
+    /**
+     * Test getOrdinalCategoryName for Italian ordinals
+     */
+    public function testGetOrdinalCategoryNameItalian(): void
+    {
+        // many: l'8°, l'11°, l'80°, l'800°
+        self::assertSame(PluralRules::CATEGORY_MANY, PluralRules::getOrdinalCategoryName('it', 8));
+        self::assertSame(PluralRules::CATEGORY_MANY, PluralRules::getOrdinalCategoryName('it', 11));
+        self::assertSame(PluralRules::CATEGORY_MANY, PluralRules::getOrdinalCategoryName('it', 80));
+        self::assertSame(PluralRules::CATEGORY_MANY, PluralRules::getOrdinalCategoryName('it', 800));
+
+        // other: il 1°, il 2°, il 3°...
+        self::assertSame(PluralRules::CATEGORY_OTHER, PluralRules::getOrdinalCategoryName('it', 1));
+        self::assertSame(PluralRules::CATEGORY_OTHER, PluralRules::getOrdinalCategoryName('it', 2));
+        self::assertSame(PluralRules::CATEGORY_OTHER, PluralRules::getOrdinalCategoryName('it', 7));
+        self::assertSame(PluralRules::CATEGORY_OTHER, PluralRules::getOrdinalCategoryName('it', 100));
+    }
+
+    /**
+     * Test getOrdinalCategoryName for Welsh ordinals (all 6 categories)
+     */
+    public function testGetOrdinalCategoryNameWelsh(): void
+    {
+        // zero: 0, 7, 8, 9
+        self::assertSame(PluralRules::CATEGORY_ZERO, PluralRules::getOrdinalCategoryName('cy', 0));
+        self::assertSame(PluralRules::CATEGORY_ZERO, PluralRules::getOrdinalCategoryName('cy', 7));
+        self::assertSame(PluralRules::CATEGORY_ZERO, PluralRules::getOrdinalCategoryName('cy', 8));
+        self::assertSame(PluralRules::CATEGORY_ZERO, PluralRules::getOrdinalCategoryName('cy', 9));
+
+        // one: 1
+        self::assertSame(PluralRules::CATEGORY_ONE, PluralRules::getOrdinalCategoryName('cy', 1));
+
+        // two: 2
+        self::assertSame(PluralRules::CATEGORY_TWO, PluralRules::getOrdinalCategoryName('cy', 2));
+
+        // few: 3, 4
+        self::assertSame(PluralRules::CATEGORY_FEW, PluralRules::getOrdinalCategoryName('cy', 3));
+        self::assertSame(PluralRules::CATEGORY_FEW, PluralRules::getOrdinalCategoryName('cy', 4));
+
+        // many: 5, 6
+        self::assertSame(PluralRules::CATEGORY_MANY, PluralRules::getOrdinalCategoryName('cy', 5));
+        self::assertSame(PluralRules::CATEGORY_MANY, PluralRules::getOrdinalCategoryName('cy', 6));
+
+        // other: everything else
+        self::assertSame(PluralRules::CATEGORY_OTHER, PluralRules::getOrdinalCategoryName('cy', 10));
+        self::assertSame(PluralRules::CATEGORY_OTHER, PluralRules::getOrdinalCategoryName('cy', 100));
+    }
+
+    /**
+     * Test getOrdinalCategoryName for Kazakh ordinals
+     */
+    public function testGetOrdinalCategoryNameKazakh(): void
+    {
+        // many: n % 10 = 6,9 or n % 10 = 0 and n != 0
+        self::assertSame(PluralRules::CATEGORY_MANY, PluralRules::getOrdinalCategoryName('kk', 6));
+        self::assertSame(PluralRules::CATEGORY_MANY, PluralRules::getOrdinalCategoryName('kk', 9));
+        self::assertSame(PluralRules::CATEGORY_MANY, PluralRules::getOrdinalCategoryName('kk', 10));
+        self::assertSame(PluralRules::CATEGORY_MANY, PluralRules::getOrdinalCategoryName('kk', 20));
+        self::assertSame(PluralRules::CATEGORY_MANY, PluralRules::getOrdinalCategoryName('kk', 100));
+
+        // other: everything else (including 0)
+        self::assertSame(PluralRules::CATEGORY_OTHER, PluralRules::getOrdinalCategoryName('kk', 0));
+        self::assertSame(PluralRules::CATEGORY_OTHER, PluralRules::getOrdinalCategoryName('kk', 1));
+        self::assertSame(PluralRules::CATEGORY_OTHER, PluralRules::getOrdinalCategoryName('kk', 5));
+        self::assertSame(PluralRules::CATEGORY_OTHER, PluralRules::getOrdinalCategoryName('kk', 7));
+    }
+
+    /**
+     * Test getOrdinalCategoryName for Hungarian ordinals
+     */
+    public function testGetOrdinalCategoryNameHungarian(): void
+    {
+        // few: n = 1,5
+        self::assertSame(PluralRules::CATEGORY_FEW, PluralRules::getOrdinalCategoryName('hu', 1));
+        self::assertSame(PluralRules::CATEGORY_FEW, PluralRules::getOrdinalCategoryName('hu', 5));
+
+        // other: everything else
+        self::assertSame(PluralRules::CATEGORY_OTHER, PluralRules::getOrdinalCategoryName('hu', 0));
+        self::assertSame(PluralRules::CATEGORY_OTHER, PluralRules::getOrdinalCategoryName('hu', 2));
+        self::assertSame(PluralRules::CATEGORY_OTHER, PluralRules::getOrdinalCategoryName('hu', 10));
+    }
+
+    /**
+     * Test getOrdinalCategoryName for languages with only "other"
+     */
+    public function testGetOrdinalCategoryNameOnlyOther(): void
+    {
+        // Japanese, Chinese, Russian, German, Polish - always return "other"
+        self::assertSame(PluralRules::CATEGORY_OTHER, PluralRules::getOrdinalCategoryName('ja', 1));
+        self::assertSame(PluralRules::CATEGORY_OTHER, PluralRules::getOrdinalCategoryName('ja', 100));
+
+        self::assertSame(PluralRules::CATEGORY_OTHER, PluralRules::getOrdinalCategoryName('zh', 1));
+        self::assertSame(PluralRules::CATEGORY_OTHER, PluralRules::getOrdinalCategoryName('ru', 1));
+        self::assertSame(PluralRules::CATEGORY_OTHER, PluralRules::getOrdinalCategoryName('de', 1));
+        self::assertSame(PluralRules::CATEGORY_OTHER, PluralRules::getOrdinalCategoryName('pl', 1));
+    }
+
+    /**
+     * Test getOrdinalCategoryName with locale variants
+     */
+    public function testGetOrdinalCategoryNameWithLocaleVariants(): void
+    {
+        // English variants should behave the same
+        self::assertSame(
+            PluralRules::getOrdinalCategoryName('en', 1),
+            PluralRules::getOrdinalCategoryName('en-US', 1)
+        );
+        self::assertSame(
+            PluralRules::getOrdinalCategoryName('en', 2),
+            PluralRules::getOrdinalCategoryName('en-GB', 2)
+        );
+        self::assertSame(
+            PluralRules::getOrdinalCategoryName('en', 3),
+            PluralRules::getOrdinalCategoryName('en_AU', 3)
+        );
+    }
+
+    /**
+     * Test getOrdinalCategoryName for unknown locale falls back to "other"
+     */
+    public function testGetOrdinalCategoryNameUnknownLocale(): void
+    {
+        self::assertSame(PluralRules::CATEGORY_OTHER, PluralRules::getOrdinalCategoryName('unknown', 1));
+        self::assertSame(PluralRules::CATEGORY_OTHER, PluralRules::getOrdinalCategoryName('xyz', 100));
+    }
+
+    /**
+     * @param array<int, int> $expectedResults Array of [number => expectedIndex]
+     */
+    #[DataProvider('ordinalFormIndexProvider')]
+    public function testGetOrdinalFormIndexDataProvider(string $locale, array $expectedResults): void
+    {
+        foreach ($expectedResults as $number => $expectedIndex) {
+            self::assertSame(
+                $expectedIndex,
+                PluralRules::getOrdinalFormIndex($locale, $number),
+                "Failed for locale '$locale' with number $number"
+            );
+        }
+    }
+
+    /**
+     * @return array<string, array{string, array<int, int>}>
+     */
+    public static function ordinalFormIndexProvider(): array
+    {
+        return [
+            'English' => ['en', [1 => 0, 2 => 1, 3 => 2, 4 => 3, 11 => 3, 12 => 3, 13 => 3, 21 => 0, 22 => 1, 23 => 2]],
+            'French' => ['fr', [1 => 0, 2 => 1, 3 => 1, 21 => 1]],
+            'Italian' => ['it', [1 => 1, 8 => 0, 11 => 0, 80 => 0, 800 => 0]],
+            'Kazakh' => ['kk', [1 => 1, 6 => 0, 9 => 0, 10 => 0, 20 => 0]],
+            'Hungarian' => ['hu', [1 => 0, 5 => 0, 2 => 1, 10 => 1]],
+            'Japanese' => ['ja', [1 => 0, 2 => 0, 100 => 0]],
+        ];
+    }
+
+    #[DataProvider('ordinalCategoryNameProvider')]
+    public function testGetOrdinalCategoryNameDataProvider(string $locale, int $number, string $expectedCategory): void
+    {
+        self::assertSame($expectedCategory, PluralRules::getOrdinalCategoryName($locale, $number));
+    }
+
+    /**
+     * @return array<string, array{string, int, string}>
+     */
+    public static function ordinalCategoryNameProvider(): array
+    {
+        return [
+            'English 1st' => ['en', 1, PluralRules::CATEGORY_ONE],
+            'English 2nd' => ['en', 2, PluralRules::CATEGORY_TWO],
+            'English 3rd' => ['en', 3, PluralRules::CATEGORY_FEW],
+            'English 4th' => ['en', 4, PluralRules::CATEGORY_OTHER],
+            'English 11th' => ['en', 11, PluralRules::CATEGORY_OTHER],
+            'English 21st' => ['en', 21, PluralRules::CATEGORY_ONE],
+            'French 1er' => ['fr', 1, PluralRules::CATEGORY_ONE],
+            'French 2e' => ['fr', 2, PluralRules::CATEGORY_OTHER],
+            'Italian 8°' => ['it', 8, PluralRules::CATEGORY_MANY],
+            'Italian 1°' => ['it', 1, PluralRules::CATEGORY_OTHER],
+            'Welsh 0' => ['cy', 0, PluralRules::CATEGORY_ZERO],
+            'Welsh 1' => ['cy', 1, PluralRules::CATEGORY_ONE],
+            'Welsh 2' => ['cy', 2, PluralRules::CATEGORY_TWO],
+            'Welsh 3' => ['cy', 3, PluralRules::CATEGORY_FEW],
+            'Welsh 5' => ['cy', 5, PluralRules::CATEGORY_MANY],
+            'Welsh 10' => ['cy', 10, PluralRules::CATEGORY_OTHER],
+            'Kazakh 6' => ['kk', 6, PluralRules::CATEGORY_MANY],
+            'Kazakh 1' => ['kk', 1, PluralRules::CATEGORY_OTHER],
+            'Hungarian 1' => ['hu', 1, PluralRules::CATEGORY_FEW],
+            'Hungarian 2' => ['hu', 2, PluralRules::CATEGORY_OTHER],
+            'Japanese 1' => ['ja', 1, PluralRules::CATEGORY_OTHER],
+        ];
+    }
+
 }

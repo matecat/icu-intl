@@ -974,6 +974,243 @@ class PluralRules
     }
 
     /**
+     * Returns the ordinal plural form index for the given locale and number.
+     *
+     * This method calculates which ordinal plural form should be used for a given
+     * number in a specific locale. Ordinal numbers are used for ranking or ordering
+     * (1st, 2nd, 3rd, etc.) and have different rules than cardinal numbers.
+     *
+     * The returned index corresponds to the position in the ordinal category array
+     * returned by {@see getOrdinalCategories()}. Use {@see getOrdinalCategoryName()}
+     * to get the CLDR category name directly.
+     *
+     * ## How Ordinal Rules Work
+     *
+     * Different languages have different patterns for ordinal suffixes:
+     * - **English**: 1st, 2nd, 3rd, 4th... (one/two/few/other)
+     * - **French**: 1er, 2e, 3e... (one/other - only 1 is special)
+     * - **Welsh**: Complex system with 6 categories
+     * - **Japanese**: No distinction (only "other")
+     *
+     * ## Usage Example
+     *
+     * ```php
+     * use Matecat\ICU\Plurals\PluralRules;
+     *
+     * // English ordinals: 1st, 2nd, 3rd, 4th
+     * PluralRules::getOrdinalFormIndex('en', 1);  // Returns 0 (one - for "1st")
+     * PluralRules::getOrdinalFormIndex('en', 2);  // Returns 1 (two - for "2nd")
+     * PluralRules::getOrdinalFormIndex('en', 3);  // Returns 2 (few - for "3rd")
+     * PluralRules::getOrdinalFormIndex('en', 4);  // Returns 3 (other - for "4th")
+     * PluralRules::getOrdinalFormIndex('en', 21); // Returns 0 (one - for "21st")
+     * PluralRules::getOrdinalFormIndex('en', 22); // Returns 1 (two - for "22nd")
+     *
+     * // French ordinals: 1er, 2e, 3e...
+     * PluralRules::getOrdinalFormIndex('fr', 1);  // Returns 0 (one - for "1er")
+     * PluralRules::getOrdinalFormIndex('fr', 2);  // Returns 1 (other - for "2e")
+     *
+     * // Japanese: no ordinal distinction
+     * PluralRules::getOrdinalFormIndex('ja', 1);  // Returns 0 (other)
+     * PluralRules::getOrdinalFormIndex('ja', 100);// Returns 0 (other)
+     * ```
+     *
+     * ## Relationship with Other Methods
+     *
+     * - Use {@see getOrdinalCategories()} to get all available ordinal categories for a locale
+     * - Use {@see getOrdinalCategoryName()} to get the CLDR category name for a number
+     * - For cardinal (counting) numbers, use {@see getCardinalFormIndex()} instead
+     *
+     * @param string $locale The locale code (e.g., 'en', 'fr', 'de', 'en-US', 'fr_FR')
+     * @param int $n The ordinal number to get the form index for (must be non-negative)
+     * @return int The ordinal form index (0-based), corresponding to the position in the
+     *             ordinal categories array for this locale
+     *
+     * @see getOrdinalCategoryName() To get the CLDR category name directly
+     * @see getOrdinalCategories() To get all available ordinal categories
+     * @see getCardinalFormIndex() For cardinal (counting) numbers
+     * @see https://www.unicode.org/cldr/charts/49/supplemental/language_plural_rules.html
+     */
+    public static function getOrdinalFormIndex(string $locale, int $n): int
+    {
+        $ruleGroup = self::getRuleGroup($locale, 'ordinal');
+
+        return match ($ruleGroup) {
+            // Rules with a simple "one: n=1, other: everything else" pattern
+            2, 5, 12, 26 => $n === 1 ? 0 : 1,
+            // Rule 1: English-like ordinals (one/two/few/other)
+            // one: n % 10 = 1 and n % 100 != 11 (1st, 21st, 31st...)
+            // two: n % 10 = 2 and n % 100 != 12 (2nd, 22nd, 32nd...)
+            // few: n % 10 = 3 and n % 100 != 13 (3rd, 23rd, 33rd...)
+            // other: everything else (4th, 5th, 11th, 12th, 13th...)
+            1 => match (true) {
+                $n % 10 === 1 && $n % 100 !== 11 => 0,
+                $n % 10 === 2 && $n % 100 !== 12 => 1,
+                $n % 10 === 3 && $n % 100 !== 13 => 2,
+                default => 3,
+            },
+            // Rule 8: Macedonian ordinals (one/two/many/other)
+            8 => match (true) {
+                $n % 10 === 1 && $n % 100 !== 11 => 0,
+                $n % 10 === 2 && $n % 100 !== 12 => 1,
+                in_array($n % 10, [7, 8], true) && !in_array($n % 100, [17, 18], true) => 2,
+                default => 3,
+            },
+            // Rule 14: Welsh ordinals (zero/one/two/few/many/other) - 6 categories
+            14 => match ($n) {
+                0, 7, 8, 9 => 0,  // zero
+                1 => 1,           // one
+                2 => 2,           // two
+                3, 4 => 3,        // few
+                5, 6 => 4,        // many
+                default => 5,     // other
+            },
+            // Rule 16: Scottish Gaelic ordinals (one/two/few/other)
+            16 => match ($n) {
+                1, 11 => 0,       // one
+                2, 12 => 1,       // two
+                3, 13 => 2,       // few
+                default => 3,     // other
+            },
+            // Rule 20: Italian ordinals (many/other) - special for 8, 11, 80, 800
+            20 => in_array($n, [8, 11, 80, 800], true) ? 0 : 1,
+            // Rule 21: Kazakh, Azerbaijani, Georgian ordinals (many/other)
+            // many: n % 10 = 6,9 or n % 10 = 0 and n != 0
+            21 => in_array($n % 10, [0, 6, 9], true) && $n !== 0 ? 0 : 1,
+            // Rule 22: Hungarian, Ukrainian, Turkmen ordinals (few/other)
+            22 => in_array($n, [1, 5], true) ? 0 : 1,
+            // Rule 23: Bengali, Assamese, Hindi ordinals (one/other)
+            23 => in_array($n, [1, 5, 7, 8, 9, 10], true) ? 0 : 1,
+            // Rule 24: Gujarati ordinals (one/two/few/many/other)
+            24 => match ($n) {
+                1 => 0,           // one
+                2, 3 => 1,        // two
+                4 => 2,           // few
+                6 => 3,           // many
+                default => 4,     // other
+            },
+            // Rule 25: Kannada ordinals (one/two/few/other)
+            // Rule 28: Telugu ordinals (one/two/many/other) - same pattern
+            25, 28 => match ($n) {
+                1 => 0,           // one
+                2, 3 => 1,        // two
+                4 => 2,           // few (Kannada) / many (Telugu)
+                default => 3,     // other
+            },
+            // Rule 27: Odia ordinals (one/two/few/many/other)
+            27 => match (true) {
+                $n === 1 || $n === 5 || ($n >= 7 && $n <= 9) => 0,
+                in_array($n, [2, 3], true) => 1,
+                $n === 4 => 2,
+                $n === 6 => 3,
+                default => 4,
+            },
+            // Rule 29: Nepali ordinals (one/few/other)
+            29 => match (true) {
+                $n >= 1 && $n <= 4 => 0,
+                in_array($n, [5, 6], true) => 1,
+                default => 2,
+            },
+            // Rule 30: Albanian ordinals (one/two/few/other)
+            30 => match (true) {
+                $n === 1 => 0,
+                $n === 4 => 1,
+                $n >= 2 && $n <= 9 => 2,
+                default => 3,
+            },
+            //IMPORTANT
+            // Rules with no ordinal distinction - only "other" (returns 0)
+            // merge all these into a single default case
+            // 0, 3, 4, 6, 7, 9, 10, 11, 13, 15, 17, 18, 19 => 0,
+            default => 0,
+        };
+    }
+
+    /**
+     * Returns the CLDR ordinal category name for the given locale and number.
+     *
+     * This method determines which ordinal plural category applies to a given number
+     * in a specific locale. Ordinal categories are used for ranking or ordering
+     * (1st, 2nd, 3rd, etc.) and follow different rules than cardinal categories.
+     *
+     * The method combines {@see getOrdinalFormIndex()} with the ordinal category mapping
+     * to return the actual CLDR category name ('zero', 'one', 'two', 'few', 'many', 'other').
+     *
+     * ## Ordinal vs Cardinal
+     *
+     * - **Cardinal**: Used for counting quantities ("1 item", "2 items")
+     *   → Use {@see getCardinalCategoryName()}
+     * - **Ordinal**: Used for ranking/ordering ("1st place", "2nd floor")
+     *   → Use this method
+     *
+     * ## Usage Example
+     *
+     * ```php
+     * use Matecat\ICU\Plurals\PluralRules;
+     *
+     * // English ordinals: 1st, 2nd, 3rd, 4th...
+     * PluralRules::getOrdinalCategoryName('en', 1);  // Returns "one"   → "1st"
+     * PluralRules::getOrdinalCategoryName('en', 2);  // Returns "two"   → "2nd"
+     * PluralRules::getOrdinalCategoryName('en', 3);  // Returns "few"   → "3rd"
+     * PluralRules::getOrdinalCategoryName('en', 4);  // Returns "other" → "4th"
+     * PluralRules::getOrdinalCategoryName('en', 11); // Returns "other" → "11th"
+     * PluralRules::getOrdinalCategoryName('en', 21); // Returns "one"   → "21st"
+     * PluralRules::getOrdinalCategoryName('en', 22); // Returns "two"   → "22nd"
+     * PluralRules::getOrdinalCategoryName('en', 23); // Returns "few"   → "23rd"
+     *
+     * // French ordinals: 1er, 2e, 3e...
+     * PluralRules::getOrdinalCategoryName('fr', 1);  // Returns "one"   → "1er"
+     * PluralRules::getOrdinalCategoryName('fr', 2);  // Returns "other" → "2e"
+     * PluralRules::getOrdinalCategoryName('fr', 3);  // Returns "other" → "3e"
+     *
+     * // Italian ordinals: special for 8, 11, 80, 800
+     * PluralRules::getOrdinalCategoryName('it', 8);  // Returns "many"  → "l'8°"
+     * PluralRules::getOrdinalCategoryName('it', 11); // Returns "many"  → "l'11°"
+     * PluralRules::getOrdinalCategoryName('it', 5);  // Returns "other" → "il 5°"
+     *
+     * // Welsh ordinals: complex system with 6 categories
+     * PluralRules::getOrdinalCategoryName('cy', 0);  // Returns "zero"
+     * PluralRules::getOrdinalCategoryName('cy', 1);  // Returns "one"
+     * PluralRules::getOrdinalCategoryName('cy', 2);  // Returns "two"
+     * PluralRules::getOrdinalCategoryName('cy', 3);  // Returns "few"
+     * PluralRules::getOrdinalCategoryName('cy', 5);  // Returns "many"
+     * PluralRules::getOrdinalCategoryName('cy', 10); // Returns "other"
+     *
+     * // Japanese: no ordinal distinction
+     * PluralRules::getOrdinalCategoryName('ja', 1);  // Returns "other"
+     * PluralRules::getOrdinalCategoryName('ja', 100);// Returns "other"
+     * ```
+     *
+     * ## ICU MessageFormat Integration
+     *
+     * This method is useful when working with ICU selectordinal patterns:
+     *
+     * ```
+     * {count, selectordinal,
+     *     one {#st}
+     *     two {#nd}
+     *     few {#rd}
+     *     other {#th}
+     * }
+     * ```
+     *
+     * @param string $locale The locale code (e.g., 'en', 'fr', 'it', 'en-US', 'fr_FR')
+     * @param int $n The ordinal number to categorize (must be non-negative)
+     * @return string The CLDR ordinal category name: 'zero', 'one', 'two', 'few', 'many', or 'other'
+     *
+     * @see getOrdinalFormIndex() To get the numeric index instead of the category name
+     * @see getOrdinalCategories() To get all available ordinal categories for a locale
+     * @see getCardinalCategoryName() For cardinal (counting) numbers
+     * @see https://www.unicode.org/cldr/charts/49/supplemental/language_plural_rules.html
+     */
+    public static function getOrdinalCategoryName(string $locale, int $n): string
+    {
+        $ordinalIndex = self::getOrdinalFormIndex($locale, $n);
+        $ruleGroup = self::getRuleGroup($locale, 'ordinal');
+
+        return self::$ordinalCategoryMap[$ruleGroup][$ordinalIndex] ?? self::CATEGORY_OTHER;
+    }
+
+    /**
      * Returns the plural rule group number for a given locale.
      *
      * @param string $locale The locale to get the rule group for.
