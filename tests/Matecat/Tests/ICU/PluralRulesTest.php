@@ -1578,5 +1578,488 @@ final class PluralRulesTest extends TestCase
         self::assertSame(6, PluralRules::getPluralCount('cy'));
     }
 
+    // =========================================================================
+    // Ordinal Categories Tests
+    // =========================================================================
+
+    /**
+     * Test getOrdinalCategories for languages with only "other" ordinal form (Rule 0)
+     */
+    public function testOrdinalCategoriesRuleZeroOnlyOther(): void
+    {
+        // Asian languages - no ordinal distinction
+        self::assertSame([PluralRules::CATEGORY_OTHER], PluralRules::getOrdinalCategories('ja'));
+        self::assertSame([PluralRules::CATEGORY_OTHER], PluralRules::getOrdinalCategories('zh'));
+        self::assertSame([PluralRules::CATEGORY_OTHER], PluralRules::getOrdinalCategories('ko'));
+        self::assertSame([PluralRules::CATEGORY_OTHER], PluralRules::getOrdinalCategories('th'));
+
+        // Slavic languages - most use only "other" for ordinals
+        self::assertSame([PluralRules::CATEGORY_OTHER], PluralRules::getOrdinalCategories('ru'));
+        self::assertSame([PluralRules::CATEGORY_OTHER], PluralRules::getOrdinalCategories('pl'));
+        self::assertSame([PluralRules::CATEGORY_OTHER], PluralRules::getOrdinalCategories('cs'));
+        self::assertSame([PluralRules::CATEGORY_OTHER], PluralRules::getOrdinalCategories('sk'));
+
+        // Other languages with no ordinal distinction
+        self::assertSame([PluralRules::CATEGORY_OTHER], PluralRules::getOrdinalCategories('de'));
+        self::assertSame([PluralRules::CATEGORY_OTHER], PluralRules::getOrdinalCategories('nl'));
+        self::assertSame([PluralRules::CATEGORY_OTHER], PluralRules::getOrdinalCategories('lt'));
+        self::assertSame([PluralRules::CATEGORY_OTHER], PluralRules::getOrdinalCategories('lv'));
+    }
+
+    /**
+     * Test getOrdinalCategories for English-like ordinals (Rule 1: one/two/few/other)
+     * Pattern: 1st, 2nd, 3rd, 4th...
+     */
+    public function testOrdinalCategoriesRuleOneEnglishLike(): void
+    {
+        $expected = [
+            PluralRules::CATEGORY_ONE,
+            PluralRules::CATEGORY_TWO,
+            PluralRules::CATEGORY_FEW,
+            PluralRules::CATEGORY_OTHER
+        ];
+
+        self::assertSame($expected, PluralRules::getOrdinalCategories('en'));
+        self::assertSame($expected, PluralRules::getOrdinalCategories('en-US'));
+        self::assertSame($expected, PluralRules::getOrdinalCategories('en-GB'));
+    }
+
+    /**
+     * Test getOrdinalCategories for French-like ordinals (Rule 2: one/other)
+     * Pattern: 1er, 2e, 3e...
+     */
+    public function testOrdinalCategoriesRuleTwoFrenchLike(): void
+    {
+        $expected = [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_OTHER];
+
+        // French
+        self::assertSame($expected, PluralRules::getOrdinalCategories('fr'));
+        self::assertSame($expected, PluralRules::getOrdinalCategories('fr-FR'));
+        self::assertSame($expected, PluralRules::getOrdinalCategories('fr-CA'));
+
+        // Catalan
+        self::assertSame($expected, PluralRules::getOrdinalCategories('ca'));
+
+        // Filipino
+        self::assertSame($expected, PluralRules::getOrdinalCategories('fil'));
+
+        // Swedish
+        self::assertSame($expected, PluralRules::getOrdinalCategories('sv'));
+
+        // Vietnamese
+        self::assertSame($expected, PluralRules::getOrdinalCategories('vi'));
+
+        // Romanian
+        self::assertSame($expected, PluralRules::getOrdinalCategories('ro'));
+
+        // Armenian
+        self::assertSame($expected, PluralRules::getOrdinalCategories('hy'));
+
+        // Irish
+        self::assertSame($expected, PluralRules::getOrdinalCategories('ga'));
+
+        // Malay
+        self::assertSame($expected, PluralRules::getOrdinalCategories('ms'));
+    }
+
+    /**
+     * Test getOrdinalCategories for Macedonian ordinals (Rule 8: one/two/many/other)
+     */
+    public function testOrdinalCategoriesRuleEightMacedonian(): void
+    {
+        $expected = [
+            PluralRules::CATEGORY_ONE,
+            PluralRules::CATEGORY_TWO,
+            PluralRules::CATEGORY_MANY,
+            PluralRules::CATEGORY_OTHER
+        ];
+
+        self::assertSame($expected, PluralRules::getOrdinalCategories('mk'));
+    }
+
+    /**
+     * Test getOrdinalCategories for Welsh ordinals (Rule 14: zero/one/two/few/many/other)
+     */
+    public function testOrdinalCategoriesRuleFourteenWelsh(): void
+    {
+        $expected = [
+            PluralRules::CATEGORY_ZERO,
+            PluralRules::CATEGORY_ONE,
+            PluralRules::CATEGORY_TWO,
+            PluralRules::CATEGORY_FEW,
+            PluralRules::CATEGORY_MANY,
+            PluralRules::CATEGORY_OTHER
+        ];
+
+        self::assertSame($expected, PluralRules::getOrdinalCategories('cy'));
+    }
+
+    /**
+     * Test getOrdinalCategories for Scottish Gaelic ordinals (Rule 16: one/two/few/other)
+     */
+    public function testOrdinalCategoriesRuleSixteenScottishGaelic(): void
+    {
+        $expected = [
+            PluralRules::CATEGORY_ONE,
+            PluralRules::CATEGORY_TWO,
+            PluralRules::CATEGORY_FEW,
+            PluralRules::CATEGORY_OTHER
+        ];
+
+        self::assertSame($expected, PluralRules::getOrdinalCategories('gd'));
+    }
+
+    /**
+     * Test getOrdinalCategories for Italian ordinals (Rule 20: many/other)
+     * Pattern: many for 8, 11, 80, 800; other for everything else
+     */
+    public function testOrdinalCategoriesRuleTwentyItalian(): void
+    {
+        $expected = [PluralRules::CATEGORY_MANY, PluralRules::CATEGORY_OTHER];
+
+        self::assertSame($expected, PluralRules::getOrdinalCategories('it'));
+        self::assertSame($expected, PluralRules::getOrdinalCategories('sc')); // Sardinian
+    }
+
+    /**
+     * Test getOrdinalCategories for Kazakh/Azerbaijani ordinals (Rule 21: many/other)
+     * Pattern: many for n%10=6,9 or n%10=0 && n!=0
+     */
+    public function testOrdinalCategoriesRuleTwentyOneKazakhAzerbaijani(): void
+    {
+        $expected = [PluralRules::CATEGORY_MANY, PluralRules::CATEGORY_OTHER];
+
+        // Kazakh
+        self::assertSame($expected, PluralRules::getOrdinalCategories('kk'));
+
+        // Azerbaijani variants
+        self::assertSame($expected, PluralRules::getOrdinalCategories('az'));
+        self::assertSame($expected, PluralRules::getOrdinalCategories('azb'));
+        self::assertSame($expected, PluralRules::getOrdinalCategories('azj'));
+
+        // Georgian
+        self::assertSame($expected, PluralRules::getOrdinalCategories('ka'));
+    }
+
+    /**
+     * Test getOrdinalCategories for Hungarian/Ukrainian ordinals (Rule 22: few/other)
+     * Pattern: few for n=1,5
+     */
+    public function testOrdinalCategoriesRuleTwentyTwoHungarianUkrainian(): void
+    {
+        $expected = [PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_OTHER];
+
+        // Hungarian
+        self::assertSame($expected, PluralRules::getOrdinalCategories('hu'));
+
+        // Ukrainian
+        self::assertSame($expected, PluralRules::getOrdinalCategories('uk'));
+
+        // Turkmen
+        self::assertSame($expected, PluralRules::getOrdinalCategories('tk'));
+    }
+
+    /**
+     * Test getOrdinalCategories for Bengali/Assamese/Hindi ordinals (Rule 23: one/other)
+     * Pattern: one for n=1,5,7,8,9,10
+     */
+    public function testOrdinalCategoriesRuleTwentyThreeIndicLanguages(): void
+    {
+        $expected = [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_OTHER];
+
+        // Bengali
+        self::assertSame($expected, PluralRules::getOrdinalCategories('bn'));
+
+        // Assamese
+        self::assertSame($expected, PluralRules::getOrdinalCategories('as'));
+
+        // Hindi
+        self::assertSame($expected, PluralRules::getOrdinalCategories('hi'));
+    }
+
+    /**
+     * Test getOrdinalCategories for Gujarati ordinals (Rule 24: one/two/few/many/other)
+     */
+    public function testOrdinalCategoriesRuleTwentyFourGujarati(): void
+    {
+        $expected = [
+            PluralRules::CATEGORY_ONE,
+            PluralRules::CATEGORY_TWO,
+            PluralRules::CATEGORY_FEW,
+            PluralRules::CATEGORY_MANY,
+            PluralRules::CATEGORY_OTHER
+        ];
+
+        self::assertSame($expected, PluralRules::getOrdinalCategories('gu'));
+    }
+
+    /**
+     * Test getOrdinalCategories for Kannada ordinals (Rule 25: one/two/few/other)
+     */
+    public function testOrdinalCategoriesRuleTwentyFiveKannada(): void
+    {
+        $expected = [
+            PluralRules::CATEGORY_ONE,
+            PluralRules::CATEGORY_TWO,
+            PluralRules::CATEGORY_FEW,
+            PluralRules::CATEGORY_OTHER
+        ];
+
+        self::assertSame($expected, PluralRules::getOrdinalCategories('kn'));
+    }
+
+    /**
+     * Test getOrdinalCategories for Marathi ordinals (Rule 26: one/other)
+     */
+    public function testOrdinalCategoriesRuleTwentySixMarathi(): void
+    {
+        $expected = [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_OTHER];
+
+        self::assertSame($expected, PluralRules::getOrdinalCategories('mr'));
+    }
+
+    /**
+     * Test getOrdinalCategories for Odia ordinals (Rule 27: one/two/few/many/other)
+     */
+    public function testOrdinalCategoriesRuleTwentySevenOdia(): void
+    {
+        $expected = [
+            PluralRules::CATEGORY_ONE,
+            PluralRules::CATEGORY_TWO,
+            PluralRules::CATEGORY_FEW,
+            PluralRules::CATEGORY_MANY,
+            PluralRules::CATEGORY_OTHER
+        ];
+
+        self::assertSame($expected, PluralRules::getOrdinalCategories('or'));
+        self::assertSame($expected, PluralRules::getOrdinalCategories('ory'));
+    }
+
+    /**
+     * Test getOrdinalCategories for Telugu ordinals (Rule 28: one/two/many/other)
+     */
+    public function testOrdinalCategoriesRuleTwentyEightTelugu(): void
+    {
+        $expected = [
+            PluralRules::CATEGORY_ONE,
+            PluralRules::CATEGORY_TWO,
+            PluralRules::CATEGORY_MANY,
+            PluralRules::CATEGORY_OTHER
+        ];
+
+        self::assertSame($expected, PluralRules::getOrdinalCategories('te'));
+    }
+
+    /**
+     * Test getOrdinalCategories for Nepali ordinals (Rule 29: one/few/other)
+     */
+    public function testOrdinalCategoriesRuleTwentyNineNepali(): void
+    {
+        $expected = [
+            PluralRules::CATEGORY_ONE,
+            PluralRules::CATEGORY_FEW,
+            PluralRules::CATEGORY_OTHER
+        ];
+
+        self::assertSame($expected, PluralRules::getOrdinalCategories('ne'));
+    }
+
+    /**
+     * Test getOrdinalCategories for Albanian ordinals (Rule 30: one/two/few/other)
+     */
+    public function testOrdinalCategoriesRuleThirtyAlbanian(): void
+    {
+        $expected = [
+            PluralRules::CATEGORY_ONE,
+            PluralRules::CATEGORY_TWO,
+            PluralRules::CATEGORY_FEW,
+            PluralRules::CATEGORY_OTHER
+        ];
+
+        self::assertSame($expected, PluralRules::getOrdinalCategories('sq'));
+    }
+
+    /**
+     * Test that cardinal and ordinal categories can differ for the same language
+     */
+    public function testCardinalAndOrdinalCategoriesDiffer(): void
+    {
+        // Kazakh: cardinal has one/other, ordinal has many/other
+        $cardinalKk = PluralRules::getCardinalCategories('kk');
+        $ordinalKk = PluralRules::getOrdinalCategories('kk');
+        self::assertNotSame($cardinalKk, $ordinalKk);
+        self::assertSame([PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_OTHER], $cardinalKk);
+        self::assertSame([PluralRules::CATEGORY_MANY, PluralRules::CATEGORY_OTHER], $ordinalKk);
+
+        // English: cardinal has one/other, ordinal has one/two/few/other
+        $cardinalEn = PluralRules::getCardinalCategories('en');
+        $ordinalEn = PluralRules::getOrdinalCategories('en');
+        self::assertNotSame($cardinalEn, $ordinalEn);
+        self::assertCount(2, $cardinalEn);
+        self::assertCount(4, $ordinalEn);
+
+        // Hungarian: cardinal has one/other, ordinal has few/other
+        $cardinalHu = PluralRules::getCardinalCategories('hu');
+        $ordinalHu = PluralRules::getOrdinalCategories('hu');
+        self::assertNotSame($cardinalHu, $ordinalHu);
+        self::assertContains(PluralRules::CATEGORY_ONE, $cardinalHu);
+        self::assertContains(PluralRules::CATEGORY_FEW, $ordinalHu);
+        self::assertNotContains(PluralRules::CATEGORY_ONE, $ordinalHu);
+
+        // Italian: cardinal has one/many/other, ordinal has many/other
+        $cardinalIt = PluralRules::getCardinalCategories('it');
+        $ordinalIt = PluralRules::getOrdinalCategories('it');
+        self::assertNotSame($cardinalIt, $ordinalIt);
+        self::assertCount(3, $cardinalIt);
+        self::assertCount(2, $ordinalIt);
+    }
+
+    /**
+     * Test ordinal categories with locale variants
+     */
+    public function testOrdinalCategoriesWithLocaleVariants(): void
+    {
+        // English variants should all have the same ordinal categories
+        $enCategories = PluralRules::getOrdinalCategories('en');
+        self::assertSame($enCategories, PluralRules::getOrdinalCategories('en-US'));
+        self::assertSame($enCategories, PluralRules::getOrdinalCategories('en-GB'));
+        self::assertSame($enCategories, PluralRules::getOrdinalCategories('en_AU'));
+
+        // French variants
+        $frCategories = PluralRules::getOrdinalCategories('fr');
+        self::assertSame($frCategories, PluralRules::getOrdinalCategories('fr-FR'));
+        self::assertSame($frCategories, PluralRules::getOrdinalCategories('fr-CA'));
+        self::assertSame($frCategories, PluralRules::getOrdinalCategories('fr_BE'));
+
+        // Azerbaijani variants
+        $azCategories = PluralRules::getOrdinalCategories('az');
+        self::assertSame($azCategories, PluralRules::getOrdinalCategories('azb'));
+        self::assertSame($azCategories, PluralRules::getOrdinalCategories('azj'));
+    }
+
+    /**
+     * Test ordinal categories count boundaries
+     */
+    public function testOrdinalCategoriesCountBoundaries(): void
+    {
+        // Minimum: 1 category (only "other")
+        self::assertCount(1, PluralRules::getOrdinalCategories('ja'));
+        self::assertCount(1, PluralRules::getOrdinalCategories('ru'));
+        self::assertCount(1, PluralRules::getOrdinalCategories('de'));
+
+        // 2 categories (one/other or many/other or few/other)
+        self::assertCount(2, PluralRules::getOrdinalCategories('fr'));
+        self::assertCount(2, PluralRules::getOrdinalCategories('it'));
+        self::assertCount(2, PluralRules::getOrdinalCategories('kk'));
+        self::assertCount(2, PluralRules::getOrdinalCategories('hu'));
+
+        // 3 categories (one/few/other)
+        self::assertCount(3, PluralRules::getOrdinalCategories('ne'));
+
+        // 4 categories (one/two/few/other or one/two/many/other)
+        self::assertCount(4, PluralRules::getOrdinalCategories('en'));
+        self::assertCount(4, PluralRules::getOrdinalCategories('mk'));
+        self::assertCount(4, PluralRules::getOrdinalCategories('gd'));
+        self::assertCount(4, PluralRules::getOrdinalCategories('sq'));
+        self::assertCount(4, PluralRules::getOrdinalCategories('te'));
+
+        // 5 categories (one/two/few/many/other)
+        self::assertCount(5, PluralRules::getOrdinalCategories('gu'));
+        self::assertCount(5, PluralRules::getOrdinalCategories('or'));
+
+        // Maximum: 6 categories (zero/one/two/few/many/other)
+        self::assertCount(6, PluralRules::getOrdinalCategories('cy'));
+    }
+
+    /**
+     * Test that unknown locales fall back to "other" only for ordinals
+     */
+    public function testOrdinalCategoriesUnknownLocaleFallback(): void
+    {
+        self::assertSame([PluralRules::CATEGORY_OTHER], PluralRules::getOrdinalCategories('unknown'));
+        self::assertSame([PluralRules::CATEGORY_OTHER], PluralRules::getOrdinalCategories('xyz'));
+        self::assertSame([PluralRules::CATEGORY_OTHER], PluralRules::getOrdinalCategories(''));
+    }
+
+    /**
+     * @param array<string> $expected
+     */
+    #[DataProvider('ordinalCategoriesProvider')]
+    public function testOrdinalCategoriesDataProvider(string $locale, array $expected): void
+    {
+        self::assertSame($expected, PluralRules::getOrdinalCategories($locale));
+    }
+
+    /**
+     * @return array<string, array{string, array<string>}>
+     */
+    public static function ordinalCategoriesProvider(): array
+    {
+        return [
+            // Rule 0: Only other
+            'Japanese' => ['ja', [PluralRules::CATEGORY_OTHER]],
+            'Chinese' => ['zh', [PluralRules::CATEGORY_OTHER]],
+            'Russian' => ['ru', [PluralRules::CATEGORY_OTHER]],
+            'German' => ['de', [PluralRules::CATEGORY_OTHER]],
+            'Polish' => ['pl', [PluralRules::CATEGORY_OTHER]],
+            'Arabic' => ['ar', [PluralRules::CATEGORY_OTHER]],
+
+            // Rule 1: English-like (one/two/few/other)
+            'English' => ['en', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_TWO, PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_OTHER]],
+
+            // Rule 2: one/other
+            'French' => ['fr', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_OTHER]],
+            'Swedish' => ['sv', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_OTHER]],
+            'Catalan' => ['ca', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_OTHER]],
+
+            // Rule 8: Macedonian (one/two/many/other)
+            'Macedonian' => ['mk', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_TWO, PluralRules::CATEGORY_MANY, PluralRules::CATEGORY_OTHER]],
+
+            // Rule 14: Welsh (all 6 categories)
+            'Welsh' => ['cy', [PluralRules::CATEGORY_ZERO, PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_TWO, PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_MANY, PluralRules::CATEGORY_OTHER]],
+
+            // Rule 16: Scottish Gaelic (one/two/few/other)
+            'Scottish Gaelic' => ['gd', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_TWO, PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_OTHER]],
+
+            // Rule 20: Italian (many/other)
+            'Italian' => ['it', [PluralRules::CATEGORY_MANY, PluralRules::CATEGORY_OTHER]],
+
+            // Rule 21: Kazakh/Azerbaijani (many/other)
+            'Kazakh' => ['kk', [PluralRules::CATEGORY_MANY, PluralRules::CATEGORY_OTHER]],
+            'Azerbaijani' => ['az', [PluralRules::CATEGORY_MANY, PluralRules::CATEGORY_OTHER]],
+            'Georgian' => ['ka', [PluralRules::CATEGORY_MANY, PluralRules::CATEGORY_OTHER]],
+
+            // Rule 22: Hungarian/Ukrainian (few/other)
+            'Hungarian' => ['hu', [PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_OTHER]],
+            'Ukrainian' => ['uk', [PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_OTHER]],
+            'Turkmen' => ['tk', [PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_OTHER]],
+
+            // Rule 23: Bengali/Assamese/Hindi (one/other)
+            'Bengali' => ['bn', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_OTHER]],
+            'Assamese' => ['as', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_OTHER]],
+            'Hindi' => ['hi', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_OTHER]],
+
+            // Rule 24: Gujarati (one/two/few/many/other)
+            'Gujarati' => ['gu', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_TWO, PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_MANY, PluralRules::CATEGORY_OTHER]],
+
+            // Rule 25: Kannada (one/two/few/other)
+            'Kannada' => ['kn', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_TWO, PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_OTHER]],
+
+            // Rule 26: Marathi (one/other)
+            'Marathi' => ['mr', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_OTHER]],
+
+            // Rule 27: Odia (one/two/few/many/other)
+            'Odia' => ['or', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_TWO, PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_MANY, PluralRules::CATEGORY_OTHER]],
+
+            // Rule 28: Telugu (one/two/many/other)
+            'Telugu' => ['te', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_TWO, PluralRules::CATEGORY_MANY, PluralRules::CATEGORY_OTHER]],
+
+            // Rule 29: Nepali (one/few/other)
+            'Nepali' => ['ne', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_OTHER]],
+
+            // Rule 30: Albanian (one/two/few/other)
+            'Albanian' => ['sq', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_TWO, PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_OTHER]],
+        ];
+    }
 
 }

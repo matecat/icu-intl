@@ -717,7 +717,7 @@ class PluralRules
      */
     public static function calculate(string $locale, int $n): int
     {
-        $ruleGroup = self::getRuleGroup($locale, 'cardinal');
+        $ruleGroup = self::getRuleGroup($locale);
 
         return match ($ruleGroup) {
             // nplurals=1; plural=0; (Asian, no plural forms)
@@ -852,21 +852,21 @@ class PluralRules
      * use Matecat\ICU\PluralRules\PluralRules;
      *
      * // English
-     * PluralRules::getCategoryName('en', 1);  // Returns "one"
-     * PluralRules::getCategoryName('en', 2);  // Returns "other"
+     * PluralRules::getCategoryName('en', 1); // Returns "one"
+     * PluralRules::getCategoryName('en', 2); // Returns "other"
      *
      * // Arabic
-     * PluralRules::getCategoryName('ar', 0);  // Returns "zero"
-     * PluralRules::getCategoryName('ar', 1);  // Returns "one"
-     * PluralRules::getCategoryName('ar', 2);  // Returns "two"
-     * PluralRules::getCategoryName('ar', 5);  // Returns "few"
+     * PluralRules::getCategoryName('ar', 0); // Returns "zero"
+     * PluralRules::getCategoryName('ar', 1); // Returns "one"
+     * PluralRules::getCategoryName('ar', 2); // Returns "two"
+     * PluralRules::getCategoryName('ar', 5); // Returns "few"
      * PluralRules::getCategoryName('ar', 11); // Returns "many"
      * PluralRules::getCategoryName('ar', 100);// Returns "other"
      *
      * // Russian
-     * PluralRules::getCategoryName('ru', 1);  // Returns "one"
-     * PluralRules::getCategoryName('ru', 2);  // Returns "few"
-     * PluralRules::getCategoryName('ru', 5);  // Returns "many"
+     * PluralRules::getCategoryName('ru', 1); // Returns "one"
+     * PluralRules::getCategoryName('ru', 2); // Returns "few"
+     * PluralRules::getCategoryName('ru', 5); // Returns "many"
      * ```
      *
      * @param string $locale The locale to get the category for.
@@ -876,7 +876,7 @@ class PluralRules
     public static function getCardinalCategoryName(string $locale, int $n): string
     {
         $pluralIndex = self::calculate($locale, $n);
-        $ruleGroup = self::getRuleGroup($locale, 'cardinal');
+        $ruleGroup = self::getRuleGroup($locale);
 
         return self::$cardinalCategoryMap[$ruleGroup][$pluralIndex] ?? self::CATEGORY_OTHER;
     }
@@ -907,7 +907,7 @@ class PluralRules
      */
     public static function getCardinalCategories(string $locale): array
     {
-        $ruleGroup = self::getRuleGroup($locale, 'cardinal');
+        $ruleGroup = self::getRuleGroup($locale);
 
         return self::$cardinalCategoryMap[$ruleGroup] ?? [self::CATEGORY_OTHER];
     }
@@ -927,7 +927,7 @@ class PluralRules
      * // Returns ['one', 'two', 'few', 'other'] for 1st, 2nd, 3rd, 4th
      *
      * PluralRules::getOrdinalCategories('ru');
-     * // Returns ['other'] - Russian uses same form for all ordinals
+     * // Returns ['other'] - Russian uses the same form for all ordinals
      *
      * PluralRules::getOrdinalCategories('cy');
      * // Returns ['zero', 'one', 'two', 'few', 'many', 'other'] - Welsh has complex ordinals
