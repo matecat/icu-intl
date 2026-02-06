@@ -1185,19 +1185,41 @@ final class PluralRulesTest extends TestCase
             ['sk', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_OTHER]],
 
             // Rule 5: Irish
-            ['ga', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_TWO, PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_MANY, PluralRules::CATEGORY_OTHER]],
+            ['ga',
+                [
+                    PluralRules::CATEGORY_ONE,
+                    PluralRules::CATEGORY_TWO,
+                    PluralRules::CATEGORY_FEW,
+                    PluralRules::CATEGORY_MANY,
+                    PluralRules::CATEGORY_OTHER
+                ]
+            ],
 
             // Rule 6: Lithuanian
             ['lt', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_OTHER]],
 
             // Rule 7: Slovenian
-            ['sl', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_TWO, PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_OTHER]],
+            ['sl',
+                [
+                    PluralRules::CATEGORY_ONE,
+                    PluralRules::CATEGORY_TWO,
+                    PluralRules::CATEGORY_FEW,
+                    PluralRules::CATEGORY_OTHER
+                ]
+            ],
 
             // Rule 8: Macedonian (CLDR 48)
             ['mk', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_OTHER]],
 
             // Rule 9: Maltese
-            ['mt', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_MANY, PluralRules::CATEGORY_OTHER]],
+            ['mt',
+                [
+                    PluralRules::CATEGORY_ONE,
+                    PluralRules::CATEGORY_FEW,
+                    PluralRules::CATEGORY_MANY,
+                    PluralRules::CATEGORY_OTHER
+                ]
+            ],
 
             // Rule 10: Latvian (CLDR 48)
             ['lv', [PluralRules::CATEGORY_ZERO, PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_OTHER]],
@@ -1209,25 +1231,72 @@ final class PluralRulesTest extends TestCase
             ['ro', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_OTHER]],
 
             // Rule 13: Arabic
-            ['ar', [PluralRules::CATEGORY_ZERO, PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_TWO, PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_MANY, PluralRules::CATEGORY_OTHER]],
+            ['ar',
+                [
+                    PluralRules::CATEGORY_ZERO,
+                    PluralRules::CATEGORY_ONE,
+                    PluralRules::CATEGORY_TWO,
+                    PluralRules::CATEGORY_FEW,
+                    PluralRules::CATEGORY_MANY,
+                    PluralRules::CATEGORY_OTHER
+                ]
+            ],
 
             // Rule 14: Welsh (CLDR 48)
-            ['cy', [PluralRules::CATEGORY_ZERO, PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_TWO, PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_MANY, PluralRules::CATEGORY_OTHER]],
+            ['cy',
+                [
+                    PluralRules::CATEGORY_ZERO,
+                    PluralRules::CATEGORY_ONE,
+                    PluralRules::CATEGORY_TWO,
+                    PluralRules::CATEGORY_FEW,
+                    PluralRules::CATEGORY_MANY,
+                    PluralRules::CATEGORY_OTHER
+                ]
+            ],
 
             // Rule 15: Icelandic
             ['is', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_OTHER]],
 
             // Rule 16: Scottish Gaelic
-            ['gd', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_TWO, PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_OTHER]],
+            ['gd',
+                [
+                    PluralRules::CATEGORY_ONE,
+                    PluralRules::CATEGORY_TWO,
+                    PluralRules::CATEGORY_FEW,
+                    PluralRules::CATEGORY_OTHER
+                ]
+            ],
 
             // Rule 17: Breton (CLDR 48)
-            ['br', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_TWO, PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_MANY, PluralRules::CATEGORY_OTHER]],
+            ['br',
+                [
+                    PluralRules::CATEGORY_ONE,
+                    PluralRules::CATEGORY_TWO,
+                    PluralRules::CATEGORY_FEW,
+                    PluralRules::CATEGORY_MANY,
+                    PluralRules::CATEGORY_OTHER
+                ]
+            ],
 
             // Rule 18: Manx (CLDR 48)
-            ['gv', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_TWO, PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_OTHER]],
+            ['gv',
+                [
+                    PluralRules::CATEGORY_ONE,
+                    PluralRules::CATEGORY_TWO,
+                    PluralRules::CATEGORY_FEW,
+                    PluralRules::CATEGORY_OTHER
+                ]
+            ],
 
             // Rule 19: Hebrew (CLDR 48)
-            ['he', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_TWO, PluralRules::CATEGORY_MANY, PluralRules::CATEGORY_OTHER]],
+            ['he',
+                [
+                    PluralRules::CATEGORY_ONE,
+                    PluralRules::CATEGORY_TWO,
+                    PluralRules::CATEGORY_MANY,
+                    PluralRules::CATEGORY_OTHER
+                ]
+            ],
 
             // Unknown locale - defaults to rule 0
             ['xyz', [PluralRules::CATEGORY_OTHER]],
@@ -1295,4 +1364,159 @@ final class PluralRulesTest extends TestCase
         self::assertSame('many', PluralRules::CATEGORY_MANY);
         self::assertSame('other', PluralRules::CATEGORY_OTHER);
     }
+
+// =========================================================================
+// getPluralCount() Tests
+// =========================================================================
+
+    #[DataProvider('getPluralCountProvider')]
+    public function testGetPluralCount(string $locale, int $expected): void
+    {
+        self::assertSame($expected, PluralRules::getPluralCount($locale));
+    }
+
+    /**
+     * @return array<array{string, int}>
+     */
+    public static function getPluralCountProvider(): array
+    {
+        return [
+            // Rule 0: No plural forms (nplurals=1)
+            ['ja', 1],
+            ['zh', 1],
+            ['ko', 1],
+            ['vi', 1],
+            ['th', 1],
+            ['id', 1],
+
+            // Rule 1: Two forms (nplurals=2)
+            ['en', 2],
+            ['de', 2],
+            ['es', 2],
+            ['it', 2],
+            ['nl', 2],
+            ['sv', 2],
+            ['nb', 2],
+            ['da', 2],
+            ['el', 2],
+            ['hu', 2],
+            ['fi', 2],
+            ['et', 2],
+            ['bg', 2],
+
+            // Rule 2: Two forms (nplurals=2)
+            ['fr', 2],
+            ['pt', 2],
+            ['fil', 2],
+            ['tr', 2],
+            ['oc', 2],
+            ['ti', 2],
+            ['ln', 2],
+
+            // Rule 3: Slavic (nplurals=3)
+            ['ru', 3],
+            ['uk', 3],
+            ['sr', 3],
+            ['hr', 3],
+            ['be', 3],
+            ['bs', 3],
+
+            // Rule 4: Czech/Slovak (nplurals=3)
+            ['cs', 3],
+            ['sk', 3],
+
+            // Rule 5: Irish (nplurals=5)
+            ['ga', 5],
+
+            // Rule 6: Lithuanian (nplurals=3)
+            ['lt', 3],
+
+            // Rule 7: Slovenian (nplurals=4)
+            ['sl', 4],
+
+            // Rule 8: Macedonian (nplurals=2)
+            ['mk', 2],
+
+            // Rule 9: Maltese (nplurals=4)
+            ['mt', 4],
+
+            // Rule 10: Latvian (nplurals=3)
+            ['lv', 3],
+
+            // Rule 11: Polish (nplurals=3)
+            ['pl', 3],
+
+            // Rule 12: Romanian (nplurals=3)
+            ['ro', 3],
+
+            // Rule 13: Arabic (nplurals=6)
+            ['ar', 6],
+
+            // Rule 14: Welsh (nplurals=6)
+            ['cy', 6],
+
+            // Rule 15: Icelandic (nplurals=2)
+            ['is', 2],
+
+            // Rule 16: Scottish Gaelic (nplurals=4)
+            ['gd', 4],
+
+            // Rule 17: Breton (nplurals=5)
+            ['br', 5],
+
+            // Rule 18: Manx (nplurals=4)
+            ['gv', 4],
+
+            // Rule 19: Hebrew (nplurals=4)
+            ['he', 4],
+
+            // Unknown locale - defaults to rule 0 (nplurals=1)
+            ['xyz', 1],
+            ['unknown', 1],
+        ];
+    }
+
+    public function testGetPluralCountWithLocaleVariants(): void
+    {
+        // Test with underscore separator
+        self::assertSame(2, PluralRules::getPluralCount('en_US'));
+        self::assertSame(2, PluralRules::getPluralCount('fr_FR'));
+        self::assertSame(3, PluralRules::getPluralCount('ru_RU'));
+
+        // Test with hyphen separator
+        self::assertSame(2, PluralRules::getPluralCount('en-GB'));
+        self::assertSame(2, PluralRules::getPluralCount('de-AT'));
+        self::assertSame(6, PluralRules::getPluralCount('ar-SA'));
+
+        // Test case insensitivity
+        self::assertSame(2, PluralRules::getPluralCount('EN'));
+        self::assertSame(2, PluralRules::getPluralCount('En'));
+        self::assertSame(2, PluralRules::getPluralCount('EN-US'));
+    }
+
+    public function testGetPluralCountConsistencyWithGetCategories(): void
+    {
+        $locales = ['en', 'fr', 'ru', 'pl', 'ar', 'ja', 'ga', 'cy', 'br', 'he'];
+
+        foreach ($locales as $locale) {
+            self::assertSame(
+                count(PluralRules::getCategories($locale)),
+                PluralRules::getPluralCount($locale),
+                "getPluralCount should equal count of getCategories for locale: $locale"
+            );
+        }
+    }
+
+    public function testGetPluralCountBoundaries(): void
+    {
+        // Minimum: 1 (Asian languages)
+        self::assertSame(1, PluralRules::getPluralCount('ja'));
+        self::assertSame(1, PluralRules::getPluralCount('zh'));
+
+        // Maximum: 6 (Arabic, Welsh)
+        self::assertSame(6, PluralRules::getPluralCount('ar'));
+        self::assertSame(6, PluralRules::getPluralCount('cy'));
+    }
+
+
 }

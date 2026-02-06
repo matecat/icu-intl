@@ -154,7 +154,14 @@ class PluralRules
 
         // Rule 14: nplurals=6; (Welsh)
         // 0=zero, 1=one, 2=two, 3=few, 4=many, 5=other
-        14 => [self::CATEGORY_ZERO, self::CATEGORY_ONE, self::CATEGORY_TWO, self::CATEGORY_FEW, self::CATEGORY_MANY, self::CATEGORY_OTHER],
+        14 => [
+            self::CATEGORY_ZERO,
+            self::CATEGORY_ONE,
+            self::CATEGORY_TWO,
+            self::CATEGORY_FEW,
+            self::CATEGORY_MANY,
+            self::CATEGORY_OTHER
+        ],
 
         // Rule 15: nplurals=2; (Icelandic)
         // 0=one, 1=other
@@ -238,7 +245,14 @@ class PluralRules
         13 => [self::CATEGORY_OTHER],
 
         // Rule 14: Welsh ordinals (zero/one/two/few/many/other)
-        14 => [self::CATEGORY_ZERO, self::CATEGORY_ONE, self::CATEGORY_TWO, self::CATEGORY_FEW, self::CATEGORY_MANY, self::CATEGORY_OTHER],
+        14 => [
+            self::CATEGORY_ZERO,
+            self::CATEGORY_ONE,
+            self::CATEGORY_TWO,
+            self::CATEGORY_FEW,
+            self::CATEGORY_MANY,
+            self::CATEGORY_OTHER
+        ],
 
         // Rule 15: Icelandic ordinals (only "other")
         15 => [self::CATEGORY_OTHER],
@@ -609,161 +623,115 @@ class PluralRules
     {
         $ruleGroup = self::getRuleGroup($locale);
 
-        switch ($ruleGroup) {
-            case 0:
-                // nplurals=1; plural=0; (Asian, no plural forms)
-                return 0;
-            case 1:
-                // nplurals=2; plural=(n != 1); (Germanic, most European)
-                return $n === 1 ? 0 : 1;
-            case 2:
-                // nplurals=2; plural=(n > 1); (French, Brazilian Portuguese)
-                return $n > 1 ? 1 : 0;
-            case 3:
-                // nplurals=3; Slavic (Russian, Ukrainian, Belarusian, Serbian, Croatian)
-                return $n % 10 === 1 && $n % 100 !== 11 ? 0 :
-                    (($n % 10 >= 2 && $n % 10 <= 4) && ($n % 100 < 10 || $n % 100 >= 20) ? 1 : 2);
-            case 4:
-                // nplurals=3; (Czech, Slovak)
-                return $n === 1 ? 0 :
-                    ($n >= 2 && $n <= 4 ? 1 : 2);
-            case 5:
-                // nplurals=5; (Irish)
-                return $n === 1 ? 0 :
-                    ($n === 2 ? 1 : ($n < 7 ? 2 : ($n < 11 ? 3 : 4)));
-            case 6:
-                // nplurals=3; (Lithuanian)
-                return $n % 10 === 1 && $n % 100 !== 11 ? 0 :
-                    ($n % 10 >= 2 && ($n % 100 < 10 || $n % 100 >= 20) ? 1 : 2);
-            case 7:
-                // nplurals=4; (Slovenian)
-                return $n % 100 === 1 ? 0 :
-                    ($n % 100 === 2 ? 1 : ($n % 100 === 3 || $n % 100 === 4 ? 2 : 3));
-            case 8:
-                // nplurals=2; (Macedonian - CLDR 48)
-                // one: n % 10 = 1 and n % 100 != 11, or v != 0 and f % 10 = 1 and f % 100 != 11
-                // other: everything else
-                return ($n % 10 === 1 && $n % 100 !== 11) ? 0 : 1;
-            case 9:
-                // nplurals=4; (Maltese)
-                return $n === 1 ? 0 :
-                    ($n === 0 || ($n % 100 > 0 && $n % 100 <= 10) ? 1 :
-                        ($n % 100 > 10 && $n % 100 < 20 ? 2 : 3));
-            case 10:
-                // nplurals=3; (Latvian - CLDR 48)
-                // zero: n = 0
-                // one: n % 10 = 1 and n % 100 != 11, or v = 2 and f % 10 = 1 and f % 100 != 11, or v != 2 and f % 10 = 1
-                // other: everything else
-                if ($n === 0) {
-                    return 0; // zero
-                }
-                return ($n % 10 === 1 && $n % 100 !== 11) ? 1 : 2; // one : other
-            case 11:
-                // nplurals=3; (Polish)
-                return $n === 1 ? 0 :
-                    ($n % 10 >= 2 && $n % 10 <= 4 && ($n % 100 < 10 || $n % 100 >= 20) ? 1 : 2);
-            case 12:
-                // nplurals=3; (Romanian)
-                return $n === 1 ? 0 :
-                    ($n === 0 || ($n % 100 > 0 && $n % 100 < 20) ? 1 : 2);
-            case 13:
-                // nplurals=6; (Arabic)
-                return $n === 0 ? 0 :
-                    ($n === 1 ? 1 :
-                        ($n === 2 ? 2 :
-                            ($n % 100 >= 3 && $n % 100 <= 10 ? 3 :
-                                ($n % 100 >= 11 ? 4 : 5))));
-            case 14:
-                // nplurals=6; (Welsh - CLDR 48)
-                // zero: n = 0
-                // one: n = 1
-                // two: n = 2
-                // few: n = 3
-                // many: n = 6
-                // other: everything else
-                if ($n === 0) {
-                    return 0;
-                }
-                if ($n === 1) {
-                    return 1;
-                }
-                if ($n === 2) {
-                    return 2;
-                }
-                if ($n === 3) {
-                    return 3;
-                }
-                if ($n === 6) {
-                    return 4;
-                }
-                return 5;
-            case 15:
-                // nplurals=2; (Icelandic)
-                return $n % 10 !== 1 || $n % 100 === 11 ? 1 : 0;
-            case 16:
-                // nplurals=4; (Scottish Gaelic)
-                return ($n === 1 || $n === 11) ? 0 :
-                    (($n === 2 || $n === 12) ? 1 :
-                        (($n > 2 && $n < 20) ? 2 : 3));
-            case 17:
-                // nplurals=5; (Breton - CLDR 48)
-                // one: n % 10 = 1 and n % 100 not in 11,71,91
-                // two: n % 10 = 2 and n % 100 not in 12,72,92
-                // few: n % 10 in 3..4,9 and n % 100 not in 10..19,70..79,90..99
-                // many: n != 0 and n % 1000000 = 0
-                // other: everything else
-                $n100 = $n % 100;
-                $n10 = $n % 10;
-                if ($n10 === 1 && !in_array($n100, [11, 71, 91], true)) {
-                    return 0; // one
-                }
-                if ($n10 === 2 && !in_array($n100, [12, 72, 92], true)) {
-                    return 1; // two
-                }
-                if (in_array($n10, [3, 4, 9], true) && !($n100 >= 10 && $n100 <= 19) && !($n100 >= 70 && $n100 <= 79) && !($n100 >= 90 && $n100 <= 99)) {
-                    return 2; // few
-                }
-                if ($n !== 0 && $n % 1000000 === 0) {
-                    return 3; // many
-                }
-                return 4; // other
-            case 18:
-                // nplurals=4; (Manx - CLDR 48)
-                // one: v = 0 and i % 10 = 1
-                // two: v = 0 and i % 10 = 2
-                // few: v = 0 and i % 20 = 0
-                // other: everything else
-                if ($n % 10 === 1) {
-                    return 0; // one
-                }
-                if ($n % 10 === 2) {
-                    return 1; // two
-                }
-                if ($n % 20 === 0) {
-                    return 2; // few
-                }
-                return 3; // other
-            case 19:
-                // nplurals=4; (Hebrew - CLDR 48)
-                // one: i = 1 and v = 0, or i = 0 and v != 0
-                // two: i = 2 and v = 0
-                // many: v = 0 and n != 0..10 and n % 10 = 0
-                // other: everything else
-                if ($n === 1) {
-                    return 0; // one
-                }
-                if ($n === 2) {
-                    return 1; // two
-                }
-                if ($n !== 0 && $n > 10 && $n % 10 === 0) {
-                    return 2; // many
-                }
-                return 3; // other
-        }
+        return match ($ruleGroup) {
+            // nplurals=1; plural=0; (Asian, no plural forms)
+            0 => 0,
 
-        // @codeCoverageIgnoreStart
-        throw new RuntimeException('Unable to find plural rule number.');
-        // @codeCoverageIgnoreEnd
+            // nplurals=2; plural=(n != 1); (Germanic, most European)
+            1 => $n === 1 ? 0 : 1,
+
+            // nplurals=2; plural=(n > 1); (French, Brazilian Portuguese)
+            2 => $n > 1 ? 1 : 0,
+
+            // nplurals=3; Slavic (Russian, Ukrainian, Belarusian, Serbian, Croatian)
+            3 => $n % 10 === 1 && $n % 100 !== 11 ? 0
+                : (($n % 10 >= 2 && $n % 10 <= 4) && ($n % 100 < 10 || $n % 100 >= 20) ? 1 : 2),
+
+            // nplurals=3; (Czech, Slovak)
+            4 => $n === 1 ? 0 : ($n >= 2 && $n <= 4 ? 1 : 2),
+
+            // nplurals=5; (Irish)
+            5 => $n === 1 ? 0 : ($n === 2 ? 1 : ($n < 7 ? 2 : ($n < 11 ? 3 : 4))),
+
+            // nplurals=3; (Lithuanian)
+            6 => $n % 10 === 1 && $n % 100 !== 11 ? 0
+                : ($n % 10 >= 2 && ($n % 100 < 10 || $n % 100 >= 20) ? 1 : 2),
+
+            // nplurals=4; (Slovenian)
+            7 => $n % 100 === 1 ? 0 : ($n % 100 === 2 ? 1 : ($n % 100 === 3 || $n % 100 === 4 ? 2 : 3)),
+
+            // nplurals=2; (Macedonian - CLDR 48)
+            8 => ($n % 10 === 1 && $n % 100 !== 11) ? 0 : 1,
+
+            // nplurals=4; (Maltese)
+            9 => $n === 1 ? 0 : ($n === 0 || ($n % 100 > 0 && $n % 100 <= 10) ? 1 : ($n % 100 > 10 && $n % 100 < 20 ? 2 : 3)),
+
+            // nplurals=3; (Latvian - CLDR 48)
+            10 => $n === 0 ? 0 : (($n % 10 === 1 && $n % 100 !== 11) ? 1 : 2),
+
+            // nplurals=3; (Polish)
+            11 => $n === 1 ? 0 : ($n % 10 >= 2 && $n % 10 <= 4 && ($n % 100 < 10 || $n % 100 >= 20) ? 1 : 2),
+
+            // nplurals=3; (Romanian)
+            12 => $n === 1 ? 0 : ($n === 0 || ($n % 100 > 0 && $n % 100 < 20) ? 1 : 2),
+
+            // nplurals=6; (Arabic)
+            13 => $n === 0 ? 0 : ($n === 1 ? 1 : ($n === 2 ? 2 : ($n % 100 >= 3 && $n % 100 <= 10 ? 3 : ($n % 100 >= 11 ? 4 : 5)))),
+
+            // nplurals=6; (Welsh - CLDR 48)
+            14 => match ($n) {
+                0 => 0,
+                1 => 1,
+                2 => 2,
+                3 => 3,
+                6 => 4,
+                default => 5,
+            },
+
+            // nplurals=2; (Icelandic)
+            15 => $n % 10 !== 1 || $n % 100 === 11 ? 1 : 0,
+
+            // nplurals=4; (Scottish Gaelic)
+            16 => ($n === 1 || $n === 11) ? 0 : (($n === 2 || $n === 12) ? 1 : (($n > 2 && $n < 20) ? 2 : 3)),
+
+            // nplurals=5; (Breton - CLDR 48)
+            17 => self::calculateBreton($n),
+
+            // nplurals=4; (Manx - CLDR 48)
+            18 => match (true) {
+                $n % 10 === 1 => 0,
+                $n % 10 === 2 => 1,
+                $n % 20 === 0 => 2,
+                default => 3,
+            },
+
+            // nplurals=4; (Hebrew - CLDR 48)
+            19 => match (true) {
+                $n === 1 => 0,
+                $n === 2 => 1,
+                $n > 10 && $n % 10 === 0 => 2,
+                default => 3,
+            },
+
+            // @codeCoverageIgnoreStart
+            default => throw new RuntimeException('Unable to find plural rule number.'),
+            // @codeCoverageIgnoreEnd
+        };
+    }
+
+    /**
+     * Calculate the plural form for the Breton language (Rule 17 - CLDR 48)
+     * one: n%10=1 and n%100 not in 11,71,91
+     * two: n%10=2 and n%100 not in 12,72,92
+     * few: n%10 in 3,4,9 and n%100 not in 10..19,70..79,90..99
+     * many: n!=0 and n%1000000=0
+     * other: everything else
+     */
+    private static function calculateBreton(int $n): int
+    {
+        $n10 = $n % 10;
+        $n100 = $n % 100;
+        $inTeens = $n100 >= 10 && $n100 < 20;
+        $inSeventies = $n100 >= 70 && $n100 < 80;
+        $inNineties = $n100 >= 90;
+
+        return match (true) {
+            $n10 === 1 && !in_array($n100, [11, 71, 91], true) => 0,
+            $n10 === 2 && !in_array($n100, [12, 72, 92], true) => 1,
+            in_array($n10, [3, 4, 9], true) && !$inTeens && !$inSeventies && !$inNineties => 2,
+            $n !== 0 && $n % 1000000 === 0 => 3,
+            default => 4,
+        };
     }
 
     /**
@@ -890,4 +858,64 @@ class PluralRules
 
         return static::$rulesMap[$locale] ?? 0;
     }
+
+    /**
+     * Returns the number of plural forms (nplurals) for a given locale.
+     *
+     * The nplurals value represents the total count of distinct plural categories
+     * that a language uses to express grammatical number. This value is essential
+     * for translation systems and internationalization frameworks because it determines
+     * how many different translation strings are needed for each pluralizable message.
+     *
+     * ## What nplurals means
+     *
+     * Different languages categorize quantities differently:
+     * - Japanese (nplurals=1): Uses only one form for all quantities ("1本", "5本", "100本")
+     * - English (nplurals=2): Uses two forms - singular and plural ("1 item", "2 items")
+     * - Russian (nplurals=3): Uses three forms - one, few, many ("1 яблоко", "2 яблока", "5 яблок")
+     * - Welsh (nplurals=6): Uses six forms - zero, one, two, few, many, other
+     * - Arabic (nplurals=6): Uses six forms - zero, one, two, few, many, other
+     *
+     * ## Relationship with other methods
+     *
+     * - The nplurals value equals the count of categories returned by {@see getCategories()}
+     * - The {@see calculate()} method returns indices from 0 to (nplurals - 1)
+     * - The {@see getCategoryName()} method maps these indices to CLDR category names
+     *
+     * ## Common use cases
+     *
+     * This value is commonly used in:
+     * - GNU gettext PO/MO file headers (e.g., "Plural-Forms: nplurals=2; plural=(n != 1);")
+     * - ICU MessageFormat plural rules validation
+     * - Translation management systems to ensure all plural forms are provided
+     * - XLIFF and other translation file formats
+     *
+     * ## Usage Example
+     *
+     * ```php
+     * use Matecat\ICU\Plurals\PluralRules;
+     *
+     * // Check how many translations are needed for each language
+     * PluralRules::getPluralCount('en'); // Returns 2 (one, other)
+     * PluralRules::getPluralCount('ru'); // Returns 3 (one, few, many)
+     * PluralRules::getPluralCount('ar'); // Returns 6 (zero, one, two, few, many, other)
+     * PluralRules::getPluralCount('ja'); // Returns 1 (other - no plural distinction)
+     *
+     * // Works with locale variants
+     * PluralRules::getPluralCount('en-US'); // Returns 2
+     * PluralRules::getPluralCount('fr_FR'); // Returns 2
+     * ```
+     *
+     * @param string $locale The locale code (e.g., 'en', 'ru', 'ar', 'en-US', 'fr_FR')
+     * @return int The number of plural forms (1-6 depending on the language)
+     *
+     * @see getCategories() To get the actual category names
+     * @see calculate() To determine which plural form index to use for a specific number
+     * @see https://www.unicode.org/cldr/charts/48/supplemental/language_plural_rules.html
+     */
+    public static function getPluralCount(string $locale): int
+    {
+        return count(self::getCategories($locale));
+    }
+
 }
