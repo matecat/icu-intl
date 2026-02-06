@@ -186,12 +186,12 @@ $pluralCount = Languages::getPluralsCount('ru-RU'); // 3
 use Matecat\ICU\Plurals\PluralRules;
 
 // Get the plural form index for a number in a specific language
-$form = PluralRules::calculate('en', 1);    // 0 (singular)
-$form = PluralRules::calculate('en', 5);    // 1 (plural)
+$form = PluralRules::getCardinalFormIndex('en', 1);    // 0 (singular)
+$form = PluralRules::getCardinalFormIndex('en', 5);    // 1 (plural)
 
-$form = PluralRules::calculate('ru', 1);    // 0 (one)
-$form = PluralRules::calculate('ru', 2);    // 1 (few)
-$form = PluralRules::calculate('ru', 5);    // 2 (many)
+$form = PluralRules::getCardinalFormIndex('ru', 1);    // 0 (one)
+$form = PluralRules::getCardinalFormIndex('ru', 2);    // 1 (few)
+$form = PluralRules::getCardinalFormIndex('ru', 5);    // 2 (many)
 
 // Get the CLDR plural category name for a number
 $category = PluralRules::getCardinalCategoryName('en', 1);    // "one"

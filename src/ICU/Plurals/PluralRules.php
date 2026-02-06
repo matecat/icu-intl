@@ -706,7 +706,7 @@ class PluralRules
     ];
 
     /**
-     * Returns the plural form number for the passed locale corresponding
+     * Returns the cardinal plural form index for the given locale corresponding
      * to the countable provided in $n.
      *
      * @param string $locale The locale to get the rule calculated for.
@@ -715,74 +715,106 @@ class PluralRules
      * @link https://docs.translatehouse.org/projects/localization-guide/en/latest/l10n/pluralforms.html
      * @link https://developer.mozilla.org/en-US/docs/Mozilla/Localization/Localization_and_Plurals#List_of_Plural_Rules
      */
-    public static function calculate(string $locale, int $n): int
+    public static function getCardinalFormIndex(string $locale, int $n): int
     {
         $ruleGroup = self::getRuleGroup($locale);
 
         return match ($ruleGroup) {
             // nplurals=1; plural=0; (Asian, no plural forms)
             0 => 0,
-
             // nplurals=2; plural=(n != 1); (Germanic, most European)
             1 => $n === 1 ? 0 : 1,
-
-            // nplurals=2; plural=(n > 1); (French, Brazilian Portuguese)
+            // nplurals=2; plural=(n > 1); (Filipino, Turkish, etc.)
             2 => $n > 1 ? 1 : 0,
-
             // nplurals=3; Slavic (Russian, Ukrainian, Belarusian, Serbian, Croatian)
-            3 => $n % 10 === 1 && $n % 100 !== 11 ? 0
-                : (($n % 10 >= 2 && $n % 10 <= 4) && ($n % 100 < 10 || $n % 100 >= 20) ? 1 : 2),
-
+            3 => match (true) {
+                $n % 10 === 1 && $n % 100 !== 11 => 0,
+                $n % 10 >= 2 && $n % 10 <= 4 && ($n % 100 < 10 || $n % 100 >= 20) => 1,
+                default => 2,
+            },
             // nplurals=3; (Czech, Slovak)
-            4 => $n === 1 ? 0 : ($n >= 2 && $n <= 4 ? 1 : 2),
-
+            4 => match (true) {
+                $n === 1 => 0,
+                $n >= 2 && $n <= 4 => 1,
+                default => 2,
+            },
             // nplurals=5; (Irish)
-            5 => $n === 1 ? 0 : ($n === 2 ? 1 : ($n < 7 ? 2 : ($n < 11 ? 3 : 4))),
-
+            5 => match (true) {
+                $n === 1 => 0,
+                $n === 2 => 1,
+                $n < 7 => 2,
+                $n < 11 => 3,
+                default => 4,
+            },
             // nplurals=3; (Lithuanian)
-            6 => $n % 10 === 1 && $n % 100 !== 11 ? 0
-                : ($n % 10 >= 2 && ($n % 100 < 10 || $n % 100 >= 20) ? 1 : 2),
-
+            6 => match (true) {
+                $n % 10 === 1 && $n % 100 !== 11 => 0,
+                $n % 10 >= 2 && ($n % 100 < 10 || $n % 100 >= 20) => 1,
+                default => 2,
+            },
             // nplurals=4; (Slovenian)
-            7 => $n % 100 === 1 ? 0 : ($n % 100 === 2 ? 1 : ($n % 100 === 3 || $n % 100 === 4 ? 2 : 3)),
-
+            7 => match (true) {
+                $n % 100 === 1 => 0,
+                $n % 100 === 2 => 1,
+                in_array($n % 100, [3, 4], true) => 2,
+                default => 3,
+            },
             // nplurals=2; (Macedonian - CLDR 48)
-            8 => ($n % 10 === 1 && $n % 100 !== 11) ? 0 : 1,
-
+            8 => $n % 10 === 1 && $n % 100 !== 11 ? 0 : 1,
             // nplurals=4; (Maltese)
-            9 => $n === 1 ? 0 : ($n === 0 || ($n % 100 > 0 && $n % 100 <= 10) ? 1 : ($n % 100 > 10 && $n % 100 < 20 ? 2 : 3)),
-
+            9 => match (true) {
+                $n === 1 => 0,
+                $n === 0 || ($n % 100 > 0 && $n % 100 <= 10) => 1,
+                $n % 100 > 10 && $n % 100 < 20 => 2,
+                default => 3,
+            },
             // nplurals=3; (Latvian - CLDR 48)
-            10 => $n === 0 ? 0 : (($n % 10 === 1 && $n % 100 !== 11) ? 1 : 2),
-
+            10 => match (true) {
+                $n === 0 => 0,
+                $n % 10 === 1 && $n % 100 !== 11 => 1,
+                default => 2,
+            },
             // nplurals=3; (Polish)
-            11 => $n === 1 ? 0 : ($n % 10 >= 2 && $n % 10 <= 4 && ($n % 100 < 10 || $n % 100 >= 20) ? 1 : 2),
-
+            11 => match (true) {
+                $n === 1 => 0,
+                $n % 10 >= 2 && $n % 10 <= 4 && ($n % 100 < 10 || $n % 100 >= 20) => 1,
+                default => 2,
+            },
             // nplurals=3; (Romanian)
-            12 => $n === 1 ? 0 : ($n === 0 || ($n % 100 > 0 && $n % 100 < 20) ? 1 : 2),
-
+            12 => match (true) {
+                $n === 1 => 0,
+                $n === 0 || ($n % 100 > 0 && $n % 100 < 20) => 1,
+                default => 2,
+            },
             // nplurals=6; (Arabic)
-            13 => $n === 0 ? 0 : ($n === 1 ? 1 : ($n === 2 ? 2 : ($n % 100 >= 3 && $n % 100 <= 10 ? 3 : ($n % 100 >= 11 ? 4 : 5)))),
-
+            13 => match (true) {
+                $n === 0 => 0,
+                $n === 1 => 1,
+                $n === 2 => 2,
+                $n % 100 >= 3 && $n % 100 <= 10 => 3,
+                $n % 100 >= 11 => 4,
+                default => 5,
+            },
             // nplurals=6; (Welsh - CLDR 48)
-            14 => match ($n) {
+            14 => match ($n) { // @codeCoverageIgnore strange behavior of curly brackets in code coverage,
                 0 => 0,
                 1 => 1,
                 2 => 2,
                 3 => 3,
                 6 => 4,
                 default => 5,
-            },
-
+            }, // @codeCoverageIgnore
             // nplurals=2; (Icelandic)
             15 => $n % 10 !== 1 || $n % 100 === 11 ? 1 : 0,
-
             // nplurals=4; (Scottish Gaelic)
-            16 => ($n === 1 || $n === 11) ? 0 : (($n === 2 || $n === 12) ? 1 : (($n > 2 && $n < 20) ? 2 : 3)),
-
+            16 => match (true) {
+                in_array($n, [1, 11], true) => 0,
+                in_array($n, [2, 12], true) => 1,
+                $n > 2 && $n < 20 => 2,
+                default => 3,
+            },
             // nplurals=5; (Breton - CLDR 48)
             17 => self::calculateBreton($n),
-
             // nplurals=4; (Manx - CLDR 48)
             18 => match (true) {
                 $n % 10 === 1 => 0,
@@ -790,7 +822,6 @@ class PluralRules
                 $n % 20 === 0 => 2,
                 default => 3,
             },
-
             // nplurals=4; (Hebrew - CLDR 48)
             19 => match (true) {
                 $n === 1 => 0,
@@ -798,7 +829,6 @@ class PluralRules
                 $n > 10 && $n % 10 === 0 => 2,
                 default => 3,
             },
-
             // nplurals=3; (Italian, Spanish, Portuguese, French - CLDR 49)
             // one: i = 1 and v = 0
             // many: e = 0 and i != 0 and i % 1000000 = 0 and v = 0
@@ -808,7 +838,6 @@ class PluralRules
                 $n !== 0 && $n % 1000000 === 0 => 1,
                 default => 2,
             },
-
             // @codeCoverageIgnoreStart
             default => throw new RuntimeException('Unable to find plural rule number.'),
             // @codeCoverageIgnoreEnd
@@ -875,7 +904,7 @@ class PluralRules
      */
     public static function getCardinalCategoryName(string $locale, int $n): string
     {
-        $pluralIndex = self::calculate($locale, $n);
+        $pluralIndex = self::getCardinalFormIndex($locale, $n);
         $ruleGroup = self::getRuleGroup($locale);
 
         return self::$cardinalCategoryMap[$ruleGroup][$pluralIndex] ?? self::CATEGORY_OTHER;
@@ -995,7 +1024,7 @@ class PluralRules
      * ## Relationship with other methods
      *
      * - The nplurals value equals the count of categories returned by {@see getCardinalCategories()}
-     * - The {@see calculate()} method returns indices from 0 to (nplurals - 1)
+     * - The {@see getCardinalFormIndex()} method returns indices from 0 to (nplurals - 1)
      * - The {@see getCardinalCategoryName()} method maps these indices to CLDR category names
      *
      * ## Common use cases
@@ -1027,7 +1056,7 @@ class PluralRules
      *
      * @see getCardinalCategories() To get the actual cardinal category names
      * @see getOrdinalCategories() To get ordinal category names (1st, 2nd, 3rd)
-     * @see calculate() To determine which plural form index to use for a specific number
+     * @see getCardinalFormIndex() To determine which plural form index to use for a specific number
      * @see https://www.unicode.org/cldr/charts/48/supplemental/language_plural_rules.html
      */
     public static function getPluralCount(string $locale): int

@@ -49,7 +49,7 @@ final class PluralRulesTest extends TestCase
     #[DataProvider('rule0Provider')]
     public function testRule0NoPluralForms(string $locale, int $n, int $expected): void
     {
-        self::assertSame($expected, PluralRules::calculate($locale, $n));
+        self::assertSame($expected, PluralRules::getCardinalFormIndex($locale, $n));
     }
 
     /**
@@ -94,7 +94,7 @@ final class PluralRulesTest extends TestCase
     #[DataProvider('rule1Provider')]
     public function testRule1TwoFormsSingularOne(string $locale, int $n, int $expected): void
     {
-        self::assertSame($expected, PluralRules::calculate($locale, $n));
+        self::assertSame($expected, PluralRules::getCardinalFormIndex($locale, $n));
     }
 
     /**
@@ -162,7 +162,7 @@ final class PluralRulesTest extends TestCase
     #[DataProvider('rule2Provider')]
     public function testRule2TwoFormsSingularZeroOne(string $locale, int $n, int $expected): void
     {
-        self::assertSame($expected, PluralRules::calculate($locale, $n));
+        self::assertSame($expected, PluralRules::getCardinalFormIndex($locale, $n));
     }
 
     /**
@@ -202,7 +202,7 @@ final class PluralRulesTest extends TestCase
     #[DataProvider('rule3Provider')]
     public function testRule3Slavic(string $locale, int $n, int $expected): void
     {
-        self::assertSame($expected, PluralRules::calculate($locale, $n));
+        self::assertSame($expected, PluralRules::getCardinalFormIndex($locale, $n));
     }
 
     /**
@@ -264,7 +264,7 @@ final class PluralRulesTest extends TestCase
     #[DataProvider('rule4Provider')]
     public function testRule4CzechSlovak(string $locale, int $n, int $expected): void
     {
-        self::assertSame($expected, PluralRules::calculate($locale, $n));
+        self::assertSame($expected, PluralRules::getCardinalFormIndex($locale, $n));
     }
 
     /**
@@ -301,7 +301,7 @@ final class PluralRulesTest extends TestCase
     #[DataProvider('rule5Provider')]
     public function testRule5Irish(string $locale, int $n, int $expected): void
     {
-        self::assertSame($expected, PluralRules::calculate($locale, $n));
+        self::assertSame($expected, PluralRules::getCardinalFormIndex($locale, $n));
     }
 
     /**
@@ -327,6 +327,7 @@ final class PluralRulesTest extends TestCase
         ];
     }
 
+
     // =========================================================================
     // Rule 6: Lithuanian (nplurals=3)
     // =========================================================================
@@ -334,7 +335,7 @@ final class PluralRulesTest extends TestCase
     #[DataProvider('rule6Provider')]
     public function testRule6Lithuanian(string $locale, int $n, int $expected): void
     {
-        self::assertSame($expected, PluralRules::calculate($locale, $n));
+        self::assertSame($expected, PluralRules::getCardinalFormIndex($locale, $n));
     }
 
     /**
@@ -367,7 +368,7 @@ final class PluralRulesTest extends TestCase
     #[DataProvider('rule7Provider')]
     public function testRule7Slovenian(string $locale, int $n, int $expected): void
     {
-        self::assertSame($expected, PluralRules::calculate($locale, $n));
+        self::assertSame($expected, PluralRules::getCardinalFormIndex($locale, $n));
     }
 
     /**
@@ -400,7 +401,7 @@ final class PluralRulesTest extends TestCase
     #[DataProvider('rule8Provider')]
     public function testRule8Macedonian(string $locale, int $n, int $expected): void
     {
-        self::assertSame($expected, PluralRules::calculate($locale, $n));
+        self::assertSame($expected, PluralRules::getCardinalFormIndex($locale, $n));
     }
 
     /**
@@ -433,7 +434,7 @@ final class PluralRulesTest extends TestCase
     #[DataProvider('rule9Provider')]
     public function testRule9Maltese(string $locale, int $n, int $expected): void
     {
-        self::assertSame($expected, PluralRules::calculate($locale, $n));
+        self::assertSame($expected, PluralRules::getCardinalFormIndex($locale, $n));
     }
 
     /**
@@ -467,7 +468,7 @@ final class PluralRulesTest extends TestCase
     #[DataProvider('rule10Provider')]
     public function testRule10Latvian(string $locale, int $n, int $expected): void
     {
-        self::assertSame($expected, PluralRules::calculate($locale, $n));
+        self::assertSame($expected, PluralRules::getCardinalFormIndex($locale, $n));
     }
 
     /**
@@ -497,7 +498,7 @@ final class PluralRulesTest extends TestCase
     #[DataProvider('rule11Provider')]
     public function testRule11Polish(string $locale, int $n, int $expected): void
     {
-        self::assertSame($expected, PluralRules::calculate($locale, $n));
+        self::assertSame($expected, PluralRules::getCardinalFormIndex($locale, $n));
     }
 
     /**
@@ -537,7 +538,7 @@ final class PluralRulesTest extends TestCase
     #[DataProvider('rule12Provider')]
     public function testRule12Romanian(string $locale, int $n, int $expected): void
     {
-        self::assertSame($expected, PluralRules::calculate($locale, $n));
+        self::assertSame($expected, PluralRules::getCardinalFormIndex($locale, $n));
     }
 
     /**
@@ -567,7 +568,7 @@ final class PluralRulesTest extends TestCase
     #[DataProvider('rule13Provider')]
     public function testRule13Arabic(string $locale, int $n, int $expected): void
     {
-        self::assertSame($expected, PluralRules::calculate($locale, $n));
+        self::assertSame($expected, PluralRules::getCardinalFormIndex($locale, $n));
     }
 
     /**
@@ -598,6 +599,7 @@ final class PluralRulesTest extends TestCase
         ];
     }
 
+
     // =========================================================================
     // Rule 14: Welsh (nplurals=6 - CLDR 48)
     // Category order: zero, one, two, few, many, other
@@ -606,7 +608,7 @@ final class PluralRulesTest extends TestCase
     #[DataProvider('rule14Provider')]
     public function testRule14Welsh(string $locale, int $n, int $expected): void
     {
-        self::assertSame($expected, PluralRules::calculate($locale, $n));
+        self::assertSame($expected, PluralRules::getCardinalFormIndex($locale, $n));
     }
 
     /**
@@ -633,6 +635,38 @@ final class PluralRulesTest extends TestCase
         ];
     }
 
+    /**
+     * Test Welsh (cy) plural rules explicitly to ensure all match branches are covered.
+     * Welsh has 6 plural forms: zero, one, two, few, many, other
+     *
+     * // CLDR 48: zero=0, one=1, two=2, few=3, many=6, other=everything else
+     */
+    public function testWelshAllBranches(): void
+    {
+        // zero: n = 0
+        self::assertSame(0, PluralRules::getCardinalFormIndex('cy', 0));
+
+        // one: n = 1
+        self::assertSame(1, PluralRules::getCardinalFormIndex('cy', 1));
+
+        // two: n = 2
+        self::assertSame(2, PluralRules::getCardinalFormIndex('cy', 2));
+
+        // few: n = 3
+        self::assertSame(3, PluralRules::getCardinalFormIndex('cy', 3));
+
+        // many: n = 6
+        self::assertSame(4, PluralRules::getCardinalFormIndex('cy', 6));
+
+        // other: everything else (default branch)
+        self::assertSame(5, PluralRules::getCardinalFormIndex('cy', 4));
+        self::assertSame(5, PluralRules::getCardinalFormIndex('cy', 5));
+        self::assertSame(5, PluralRules::getCardinalFormIndex('cy', 7));
+        self::assertSame(5, PluralRules::getCardinalFormIndex('cy', 10));
+        self::assertSame(5, PluralRules::getCardinalFormIndex('cy', 100));
+    }
+
+
     // =========================================================================
     // Rule 15: Icelandic (nplurals=2)
     // =========================================================================
@@ -640,7 +674,7 @@ final class PluralRulesTest extends TestCase
     #[DataProvider('rule15Provider')]
     public function testRule15Icelandic(string $locale, int $n, int $expected): void
     {
-        self::assertSame($expected, PluralRules::calculate($locale, $n));
+        self::assertSame($expected, PluralRules::getCardinalFormIndex($locale, $n));
     }
 
     /**
@@ -669,7 +703,7 @@ final class PluralRulesTest extends TestCase
     #[DataProvider('rule16Provider')]
     public function testRule16ScottishGaelic(string $locale, int $n, int $expected): void
     {
-        self::assertSame($expected, PluralRules::calculate($locale, $n));
+        self::assertSame($expected, PluralRules::getCardinalFormIndex($locale, $n));
     }
 
     /**
@@ -700,7 +734,7 @@ final class PluralRulesTest extends TestCase
     #[DataProvider('rule17Provider')]
     public function testRule17Breton(string $locale, int $n, int $expected): void
     {
-        self::assertSame($expected, PluralRules::calculate($locale, $n));
+        self::assertSame($expected, PluralRules::getCardinalFormIndex($locale, $n));
     }
 
     /**
@@ -743,7 +777,7 @@ final class PluralRulesTest extends TestCase
     #[DataProvider('rule18Provider')]
     public function testRule18Manx(string $locale, int $n, int $expected): void
     {
-        self::assertSame($expected, PluralRules::calculate($locale, $n));
+        self::assertSame($expected, PluralRules::getCardinalFormIndex($locale, $n));
     }
 
     /**
@@ -781,7 +815,7 @@ final class PluralRulesTest extends TestCase
     #[DataProvider('rule19Provider')]
     public function testRule19Hebrew(string $locale, int $n, int $expected): void
     {
-        self::assertSame($expected, PluralRules::calculate($locale, $n));
+        self::assertSame($expected, PluralRules::getCardinalFormIndex($locale, $n));
     }
 
     /**
@@ -817,7 +851,7 @@ final class PluralRulesTest extends TestCase
     #[DataProvider('rule20Provider')]
     public function testRule20OneManyOther(string $locale, int $n, int $expected): void
     {
-        self::assertSame($expected, PluralRules::calculate($locale, $n));
+        self::assertSame($expected, PluralRules::getCardinalFormIndex($locale, $n));
     }
 
     /**
@@ -877,49 +911,49 @@ final class PluralRulesTest extends TestCase
     public function testLocaleFallbackWithHyphen(): void
     {
         // Should extract 'en' from 'en-US' and use English rules
-        self::assertSame(0, PluralRules::calculate('en-US', 1));
-        self::assertSame(1, PluralRules::calculate('en-US', 2));
+        self::assertSame(0, PluralRules::getCardinalFormIndex('en-US', 1));
+        self::assertSame(1, PluralRules::getCardinalFormIndex('en-US', 2));
 
         // Should extract 'fr' from 'fr-CA' and use French rules (CLDR 49: one/many/other)
-        self::assertSame(2, PluralRules::calculate('fr-CA', 0));  // other
-        self::assertSame(0, PluralRules::calculate('fr-CA', 1));  // one
-        self::assertSame(2, PluralRules::calculate('fr-CA', 2));  // other
+        self::assertSame(2, PluralRules::getCardinalFormIndex('fr-CA', 0));  // other
+        self::assertSame(0, PluralRules::getCardinalFormIndex('fr-CA', 1));  // one
+        self::assertSame(2, PluralRules::getCardinalFormIndex('fr-CA', 2));  // other
 
         // Should extract 'ar' from 'ar-SA' and use Arabic rules
-        self::assertSame(0, PluralRules::calculate('ar-SA', 0));
-        self::assertSame(1, PluralRules::calculate('ar-SA', 1));
-        self::assertSame(2, PluralRules::calculate('ar-SA', 2));
+        self::assertSame(0, PluralRules::getCardinalFormIndex('ar-SA', 0));
+        self::assertSame(1, PluralRules::getCardinalFormIndex('ar-SA', 1));
+        self::assertSame(2, PluralRules::getCardinalFormIndex('ar-SA', 2));
     }
 
     public function testLocaleFallbackWithUnderscore(): void
     {
         // Should extract 'en' from 'en_GB' and use English rules
-        self::assertSame(0, PluralRules::calculate('en_GB', 1));
-        self::assertSame(1, PluralRules::calculate('en_GB', 2));
+        self::assertSame(0, PluralRules::getCardinalFormIndex('en_GB', 1));
+        self::assertSame(1, PluralRules::getCardinalFormIndex('en_GB', 2));
 
         // Should extract 'de' from 'de_AT' and use German rules
-        self::assertSame(0, PluralRules::calculate('de_AT', 1));
-        self::assertSame(1, PluralRules::calculate('de_AT', 2));
+        self::assertSame(0, PluralRules::getCardinalFormIndex('de_AT', 1));
+        self::assertSame(1, PluralRules::getCardinalFormIndex('de_AT', 2));
 
         // Should extract 'ru' from 'ru_RU' and use Russian rules
-        self::assertSame(0, PluralRules::calculate('ru_RU', 1));
-        self::assertSame(1, PluralRules::calculate('ru_RU', 2));
-        self::assertSame(2, PluralRules::calculate('ru_RU', 5));
+        self::assertSame(0, PluralRules::getCardinalFormIndex('ru_RU', 1));
+        self::assertSame(1, PluralRules::getCardinalFormIndex('ru_RU', 2));
+        self::assertSame(2, PluralRules::getCardinalFormIndex('ru_RU', 5));
     }
 
     public function testLocaleIsCaseInsensitive(): void
     {
         // Uppercase should work
-        self::assertSame(0, PluralRules::calculate('EN', 1));
-        self::assertSame(1, PluralRules::calculate('EN', 2));
+        self::assertSame(0, PluralRules::getCardinalFormIndex('EN', 1));
+        self::assertSame(1, PluralRules::getCardinalFormIndex('EN', 2));
 
         // Mixed case should work
-        self::assertSame(0, PluralRules::calculate('En', 1));
-        self::assertSame(0, PluralRules::calculate('eN', 1));
+        self::assertSame(0, PluralRules::getCardinalFormIndex('En', 1));
+        self::assertSame(0, PluralRules::getCardinalFormIndex('eN', 1));
 
         // Uppercase with region
-        self::assertSame(0, PluralRules::calculate('EN-US', 1));
-        self::assertSame(0, PluralRules::calculate('FR-FR', 1));
+        self::assertSame(0, PluralRules::getCardinalFormIndex('EN-US', 1));
+        self::assertSame(0, PluralRules::getCardinalFormIndex('FR-FR', 1));
     }
 
     // =========================================================================
@@ -929,13 +963,13 @@ final class PluralRulesTest extends TestCase
     public function testUnknownLocaleReturnsZero(): void
     {
         // Unknown locale should return 0 (no plural forms behavior)
-        self::assertSame(0, PluralRules::calculate('xyz', 1));
-        self::assertSame(0, PluralRules::calculate('xyz', 2));
-        self::assertSame(0, PluralRules::calculate('xyz', 100));
+        self::assertSame(0, PluralRules::getCardinalFormIndex('xyz', 1));
+        self::assertSame(0, PluralRules::getCardinalFormIndex('xyz', 2));
+        self::assertSame(0, PluralRules::getCardinalFormIndex('xyz', 100));
 
         // Unknown locale with region
-        self::assertSame(0, PluralRules::calculate('xyz-ZZ', 1));
-        self::assertSame(0, PluralRules::calculate('xyz_ZZ', 1));
+        self::assertSame(0, PluralRules::getCardinalFormIndex('xyz-ZZ', 1));
+        self::assertSame(0, PluralRules::getCardinalFormIndex('xyz_ZZ', 1));
     }
 
     // =========================================================================
@@ -945,52 +979,23 @@ final class PluralRulesTest extends TestCase
     public function testLargeNumbers(): void
     {
         // English - large numbers
-        self::assertSame(1, PluralRules::calculate('en', 1000000));
-        self::assertSame(1, PluralRules::calculate('en', PHP_INT_MAX));
+        self::assertSame(1, PluralRules::getCardinalFormIndex('en', 1000000));
+        self::assertSame(1, PluralRules::getCardinalFormIndex('en', PHP_INT_MAX));
 
         // Russian - large numbers should still follow rules
-        self::assertSame(0, PluralRules::calculate('ru', 1000001)); // ends in 1, not 11
-        self::assertSame(1, PluralRules::calculate('ru', 1000002)); // ends in 2
-        self::assertSame(2, PluralRules::calculate('ru', 1000005)); // ends in 5
-        self::assertSame(2, PluralRules::calculate('ru', 1000011)); // ends in 11
+        self::assertSame(0, PluralRules::getCardinalFormIndex('ru', 1000001)); // ends in 1, not 11
+        self::assertSame(1, PluralRules::getCardinalFormIndex('ru', 1000002)); // ends in 2
+        self::assertSame(2, PluralRules::getCardinalFormIndex('ru', 1000005)); // ends in 5
+        self::assertSame(2, PluralRules::getCardinalFormIndex('ru', 1000011)); // ends in 11
     }
 
     public function testZero(): void
     {
         // Different languages handle zero differently
-        self::assertSame(1, PluralRules::calculate('en', 0));  // "0 items" (plural)
-        self::assertSame(2, PluralRules::calculate('fr', 0));  // "0 éléments" (other in French - CLDR 49)
-        self::assertSame(0, PluralRules::calculate('ar', 0));  // "zero" form
-        self::assertSame(0, PluralRules::calculate('ja', 0));  // no plural
-    }
-
-    /**
-     * Test Welsh (cy) plural rules explicitly to ensure all match branches are covered.
-     * Welsh has 6 plural forms: zero, one, two, few, many, other
-     */
-    public function testWelshAllBranches(): void
-    {
-        // zero: n = 0
-        self::assertSame(0, PluralRules::calculate('cy', 0));
-
-        // one: n = 1
-        self::assertSame(1, PluralRules::calculate('cy', 1));
-
-        // two: n = 2
-        self::assertSame(2, PluralRules::calculate('cy', 2));
-
-        // few: n = 3
-        self::assertSame(3, PluralRules::calculate('cy', 3));
-
-        // many: n = 6
-        self::assertSame(4, PluralRules::calculate('cy', 6));
-
-        // other: everything else (default branch)
-        self::assertSame(5, PluralRules::calculate('cy', 4));
-        self::assertSame(5, PluralRules::calculate('cy', 5));
-        self::assertSame(5, PluralRules::calculate('cy', 7));
-        self::assertSame(5, PluralRules::calculate('cy', 10));
-        self::assertSame(5, PluralRules::calculate('cy', 100));
+        self::assertSame(1, PluralRules::getCardinalFormIndex('en', 0));  // "0 items" (plural)
+        self::assertSame(2, PluralRules::getCardinalFormIndex('fr', 0));  // "0 éléments" (other in French - CLDR 49)
+        self::assertSame(0, PluralRules::getCardinalFormIndex('ar', 0));  // "zero" form
+        self::assertSame(0, PluralRules::getCardinalFormIndex('ja', 0));  // no plural
     }
 
     // =========================================================================
@@ -1000,17 +1005,17 @@ final class PluralRulesTest extends TestCase
     public function testThreeLetterLanguageCodes(): void
     {
         // Acehnese (ace) - rule 0
-        self::assertSame(0, PluralRules::calculate('ace', 1));
-        self::assertSame(0, PluralRules::calculate('ace', 2));
+        self::assertSame(0, PluralRules::getCardinalFormIndex('ace', 1));
+        self::assertSame(0, PluralRules::getCardinalFormIndex('ace', 2));
 
         // Asturian (ast) - rule 1
-        self::assertSame(0, PluralRules::calculate('ast', 1));
-        self::assertSame(1, PluralRules::calculate('ast', 2));
+        self::assertSame(0, PluralRules::getCardinalFormIndex('ast', 1));
+        self::assertSame(1, PluralRules::getCardinalFormIndex('ast', 2));
 
         // Filipino (fil) - rule 2
-        self::assertSame(0, PluralRules::calculate('fil', 0));
-        self::assertSame(0, PluralRules::calculate('fil', 1));
-        self::assertSame(1, PluralRules::calculate('fil', 2));
+        self::assertSame(0, PluralRules::getCardinalFormIndex('fil', 0));
+        self::assertSame(0, PluralRules::getCardinalFormIndex('fil', 1));
+        self::assertSame(1, PluralRules::getCardinalFormIndex('fil', 2));
     }
 
     // =========================================================================
@@ -1021,28 +1026,28 @@ final class PluralRulesTest extends TestCase
     {
         // Russian and Polish have similar but different rules
         // For n=21: Russian returns 0 (one), Polish returns 2 (many)
-        self::assertSame(0, PluralRules::calculate('ru', 21));
-        self::assertSame(2, PluralRules::calculate('pl', 21));
+        self::assertSame(0, PluralRules::getCardinalFormIndex('ru', 21));
+        self::assertSame(2, PluralRules::getCardinalFormIndex('pl', 21));
 
         // For n=101: Russian returns 0 (one), Polish returns 2 (many)
-        self::assertSame(0, PluralRules::calculate('ru', 101));
-        self::assertSame(2, PluralRules::calculate('pl', 101));
+        self::assertSame(0, PluralRules::getCardinalFormIndex('ru', 101));
+        self::assertSame(2, PluralRules::getCardinalFormIndex('pl', 101));
 
         // Both agree on n=2, n=3, n=4
-        self::assertSame(1, PluralRules::calculate('ru', 2));
-        self::assertSame(1, PluralRules::calculate('pl', 2));
+        self::assertSame(1, PluralRules::getCardinalFormIndex('ru', 2));
+        self::assertSame(1, PluralRules::getCardinalFormIndex('pl', 2));
     }
 
     public function testCzechVsRussian(): void
     {
         // Czech and Russian differ significantly
         // For n=21: Russian returns 0 (one), Czech returns 2 (other)
-        self::assertSame(0, PluralRules::calculate('ru', 21));
-        self::assertSame(2, PluralRules::calculate('cs', 21));
+        self::assertSame(0, PluralRules::getCardinalFormIndex('ru', 21));
+        self::assertSame(2, PluralRules::getCardinalFormIndex('cs', 21));
 
         // Both use "few" for 2-4
-        self::assertSame(1, PluralRules::calculate('ru', 2));
-        self::assertSame(1, PluralRules::calculate('cs', 2));
+        self::assertSame(1, PluralRules::getCardinalFormIndex('ru', 2));
+        self::assertSame(1, PluralRules::getCardinalFormIndex('cs', 2));
     }
 
     public function testEnglishVsFrench(): void
@@ -1051,20 +1056,20 @@ final class PluralRulesTest extends TestCase
         // English: Rule 1 - one (n=1), other (n!=1)
 
         // Zero: English=other(1), French=other(2)
-        self::assertSame(1, PluralRules::calculate('en', 0));
-        self::assertSame(2, PluralRules::calculate('fr', 0));
+        self::assertSame(1, PluralRules::getCardinalFormIndex('en', 0));
+        self::assertSame(2, PluralRules::getCardinalFormIndex('fr', 0));
 
         // Both treat 1 as 'one' (index 0)
-        self::assertSame(0, PluralRules::calculate('en', 1));
-        self::assertSame(0, PluralRules::calculate('fr', 1));
+        self::assertSame(0, PluralRules::getCardinalFormIndex('en', 1));
+        self::assertSame(0, PluralRules::getCardinalFormIndex('fr', 1));
 
         // 2+: English=other(1), French=other(2)
-        self::assertSame(1, PluralRules::calculate('en', 2));
-        self::assertSame(2, PluralRules::calculate('fr', 2));
+        self::assertSame(1, PluralRules::getCardinalFormIndex('en', 2));
+        self::assertSame(2, PluralRules::getCardinalFormIndex('fr', 2));
 
         // Millions: French has 'many' category
-        self::assertSame(1, PluralRules::calculate('en', 1000000));  // other
-        self::assertSame(1, PluralRules::calculate('fr', 1000000));  // many
+        self::assertSame(1, PluralRules::getCardinalFormIndex('en', 1000000));  // other
+        self::assertSame(1, PluralRules::getCardinalFormIndex('fr', 1000000));  // many
     }
 
     // =========================================================================
@@ -1271,7 +1276,8 @@ final class PluralRulesTest extends TestCase
             ['sk', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_OTHER]],
 
             // Rule 5: Irish
-            ['ga',
+            [
+                'ga',
                 [
                     PluralRules::CATEGORY_ONE,
                     PluralRules::CATEGORY_TWO,
@@ -1285,7 +1291,8 @@ final class PluralRulesTest extends TestCase
             ['lt', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_OTHER]],
 
             // Rule 7: Slovenian
-            ['sl',
+            [
+                'sl',
                 [
                     PluralRules::CATEGORY_ONE,
                     PluralRules::CATEGORY_TWO,
@@ -1298,7 +1305,8 @@ final class PluralRulesTest extends TestCase
             ['mk', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_OTHER]],
 
             // Rule 9: Maltese
-            ['mt',
+            [
+                'mt',
                 [
                     PluralRules::CATEGORY_ONE,
                     PluralRules::CATEGORY_FEW,
@@ -1317,7 +1325,8 @@ final class PluralRulesTest extends TestCase
             ['ro', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_OTHER]],
 
             // Rule 13: Arabic
-            ['ar',
+            [
+                'ar',
                 [
                     PluralRules::CATEGORY_ZERO,
                     PluralRules::CATEGORY_ONE,
@@ -1329,7 +1338,8 @@ final class PluralRulesTest extends TestCase
             ],
 
             // Rule 14: Welsh (CLDR 48)
-            ['cy',
+            [
+                'cy',
                 [
                     PluralRules::CATEGORY_ZERO,
                     PluralRules::CATEGORY_ONE,
@@ -1344,7 +1354,8 @@ final class PluralRulesTest extends TestCase
             ['is', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_OTHER]],
 
             // Rule 16: Scottish Gaelic
-            ['gd',
+            [
+                'gd',
                 [
                     PluralRules::CATEGORY_ONE,
                     PluralRules::CATEGORY_TWO,
@@ -1354,7 +1365,8 @@ final class PluralRulesTest extends TestCase
             ],
 
             // Rule 17: Breton (CLDR 48)
-            ['br',
+            [
+                'br',
                 [
                     PluralRules::CATEGORY_ONE,
                     PluralRules::CATEGORY_TWO,
@@ -1365,7 +1377,8 @@ final class PluralRulesTest extends TestCase
             ],
 
             // Rule 18: Manx (CLDR 48)
-            ['gv',
+            [
+                'gv',
                 [
                     PluralRules::CATEGORY_ONE,
                     PluralRules::CATEGORY_TWO,
@@ -1375,7 +1388,8 @@ final class PluralRulesTest extends TestCase
             ],
 
             // Rule 19: Hebrew (CLDR 48)
-            ['he',
+            [
+                'he',
                 [
                     PluralRules::CATEGORY_ONE,
                     PluralRules::CATEGORY_TWO,
@@ -1399,7 +1413,10 @@ final class PluralRulesTest extends TestCase
         // Test with underscore separator
         self::assertSame(PluralRules::CATEGORY_ONE, PluralRules::getCardinalCategoryName('en_US', 1));
         self::assertSame(PluralRules::CATEGORY_OTHER, PluralRules::getCardinalCategoryName('en_US', 2));
-        self::assertSame(PluralRules::CATEGORY_OTHER, PluralRules::getCardinalCategoryName('fr_FR', 0));  // CLDR 49: 0 is 'other'
+        self::assertSame(
+            PluralRules::CATEGORY_OTHER,
+            PluralRules::getCardinalCategoryName('fr_FR', 0)
+        );  // CLDR 49: 0 is 'other'
         self::assertSame(PluralRules::CATEGORY_OTHER, PluralRules::getCardinalCategoryName('fr_FR', 2));
 
         // Test with hyphen separator
@@ -2034,7 +2051,15 @@ final class PluralRulesTest extends TestCase
             'Arabic' => ['ar', [PluralRules::CATEGORY_OTHER]],
 
             // Rule 1: English-like (one/two/few/other)
-            'English' => ['en', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_TWO, PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_OTHER]],
+            'English' => [
+                'en',
+                [
+                    PluralRules::CATEGORY_ONE,
+                    PluralRules::CATEGORY_TWO,
+                    PluralRules::CATEGORY_FEW,
+                    PluralRules::CATEGORY_OTHER
+                ]
+            ],
 
             // Rule 2: one/other
             'French' => ['fr', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_OTHER]],
@@ -2042,13 +2067,39 @@ final class PluralRulesTest extends TestCase
             'Catalan' => ['ca', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_OTHER]],
 
             // Rule 8: Macedonian (one/two/many/other)
-            'Macedonian' => ['mk', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_TWO, PluralRules::CATEGORY_MANY, PluralRules::CATEGORY_OTHER]],
+            'Macedonian' => [
+                'mk',
+                [
+                    PluralRules::CATEGORY_ONE,
+                    PluralRules::CATEGORY_TWO,
+                    PluralRules::CATEGORY_MANY,
+                    PluralRules::CATEGORY_OTHER
+                ]
+            ],
 
             // Rule 14: Welsh (all 6 categories)
-            'Welsh' => ['cy', [PluralRules::CATEGORY_ZERO, PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_TWO, PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_MANY, PluralRules::CATEGORY_OTHER]],
+            'Welsh' => [
+                'cy',
+                [
+                    PluralRules::CATEGORY_ZERO,
+                    PluralRules::CATEGORY_ONE,
+                    PluralRules::CATEGORY_TWO,
+                    PluralRules::CATEGORY_FEW,
+                    PluralRules::CATEGORY_MANY,
+                    PluralRules::CATEGORY_OTHER
+                ]
+            ],
 
             // Rule 16: Scottish Gaelic (one/two/few/other)
-            'Scottish Gaelic' => ['gd', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_TWO, PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_OTHER]],
+            'Scottish Gaelic' => [
+                'gd',
+                [
+                    PluralRules::CATEGORY_ONE,
+                    PluralRules::CATEGORY_TWO,
+                    PluralRules::CATEGORY_FEW,
+                    PluralRules::CATEGORY_OTHER
+                ]
+            ],
 
             // Rule 20: Italian (many/other)
             'Italian' => ['it', [PluralRules::CATEGORY_MANY, PluralRules::CATEGORY_OTHER]],
@@ -2069,25 +2120,67 @@ final class PluralRulesTest extends TestCase
             'Hindi' => ['hi', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_OTHER]],
 
             // Rule 24: Gujarati (one/two/few/many/other)
-            'Gujarati' => ['gu', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_TWO, PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_MANY, PluralRules::CATEGORY_OTHER]],
+            'Gujarati' => [
+                'gu',
+                [
+                    PluralRules::CATEGORY_ONE,
+                    PluralRules::CATEGORY_TWO,
+                    PluralRules::CATEGORY_FEW,
+                    PluralRules::CATEGORY_MANY,
+                    PluralRules::CATEGORY_OTHER
+                ]
+            ],
 
             // Rule 25: Kannada (one/two/few/other)
-            'Kannada' => ['kn', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_TWO, PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_OTHER]],
+            'Kannada' => [
+                'kn',
+                [
+                    PluralRules::CATEGORY_ONE,
+                    PluralRules::CATEGORY_TWO,
+                    PluralRules::CATEGORY_FEW,
+                    PluralRules::CATEGORY_OTHER
+                ]
+            ],
 
             // Rule 26: Marathi (one/other)
             'Marathi' => ['mr', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_OTHER]],
 
             // Rule 27: Odia (one/two/few/many/other)
-            'Odia' => ['or', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_TWO, PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_MANY, PluralRules::CATEGORY_OTHER]],
+            'Odia' => [
+                'or',
+                [
+                    PluralRules::CATEGORY_ONE,
+                    PluralRules::CATEGORY_TWO,
+                    PluralRules::CATEGORY_FEW,
+                    PluralRules::CATEGORY_MANY,
+                    PluralRules::CATEGORY_OTHER
+                ]
+            ],
 
             // Rule 28: Telugu (one/two/many/other)
-            'Telugu' => ['te', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_TWO, PluralRules::CATEGORY_MANY, PluralRules::CATEGORY_OTHER]],
+            'Telugu' => [
+                'te',
+                [
+                    PluralRules::CATEGORY_ONE,
+                    PluralRules::CATEGORY_TWO,
+                    PluralRules::CATEGORY_MANY,
+                    PluralRules::CATEGORY_OTHER
+                ]
+            ],
 
             // Rule 29: Nepali (one/few/other)
             'Nepali' => ['ne', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_OTHER]],
 
             // Rule 30: Albanian (one/two/few/other)
-            'Albanian' => ['sq', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_TWO, PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_OTHER]],
+            'Albanian' => [
+                'sq',
+                [
+                    PluralRules::CATEGORY_ONE,
+                    PluralRules::CATEGORY_TWO,
+                    PluralRules::CATEGORY_FEW,
+                    PluralRules::CATEGORY_OTHER
+                ]
+            ],
         ];
     }
 
