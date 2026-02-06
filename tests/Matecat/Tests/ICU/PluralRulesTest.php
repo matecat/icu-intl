@@ -1267,9 +1267,9 @@ final class PluralRulesTest extends TestCase
             ['ca', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_MANY, PluralRules::CATEGORY_OTHER]],
 
             // Rule 3: Slavic
-            ['ru', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_MANY]],
-            ['uk', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_MANY]],
-            ['sr', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_MANY]],
+            ['ru', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_MANY, PluralRules::CATEGORY_OTHER]],
+            ['uk', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_MANY, PluralRules::CATEGORY_OTHER]],
+            ['sr', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_MANY, PluralRules::CATEGORY_OTHER]],
 
             // Rule 4: Czech/Slovak
             ['cs', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_OTHER]],
@@ -1319,7 +1319,7 @@ final class PluralRulesTest extends TestCase
             ['lv', [PluralRules::CATEGORY_ZERO, PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_OTHER]],
 
             // Rule 11: Polish
-            ['pl', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_MANY]],
+            ['pl', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_MANY, PluralRules::CATEGORY_OTHER]],
 
             // Rule 12: Romanian
             ['ro', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_OTHER]],
@@ -1437,7 +1437,7 @@ final class PluralRulesTest extends TestCase
             PluralRules::getCardinalCategories('en_US')
         );
         self::assertSame(
-            [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_MANY],
+            [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_MANY, PluralRules::CATEGORY_OTHER],
             PluralRules::getCardinalCategories('ru_RU')
         );
 
@@ -1519,13 +1519,13 @@ final class PluralRulesTest extends TestCase
             ['pt', 3],
             ['ca', 3],
 
-            // Rule 3: Slavic (nplurals=3)
-            ['ru', 3],
-            ['uk', 3],
-            ['sr', 3],
-            ['hr', 3],
-            ['be', 3],
-            ['bs', 3],
+            // Rule 3: Slavic (nplurals=4)
+            ['ru', 4],
+            ['uk', 4],
+            ['sr', 4],
+            ['hr', 4],
+            ['be', 4],
+            ['bs', 4],
 
             // Rule 4: Czech/Slovak (nplurals=3)
             ['cs', 3],
@@ -1549,8 +1549,8 @@ final class PluralRulesTest extends TestCase
             // Rule 10: Latvian (nplurals=3)
             ['lv', 3],
 
-            // Rule 11: Polish (nplurals=3)
-            ['pl', 3],
+            // Rule 11: Polish (nplurals=4)
+            ['pl', 4],
 
             // Rule 12: Romanian (nplurals=3)
             ['ro', 3],
@@ -1587,7 +1587,7 @@ final class PluralRulesTest extends TestCase
         // Test with underscore separator
         self::assertSame(2, PluralRules::getPluralCount('en_US'));
         self::assertSame(3, PluralRules::getPluralCount('fr_FR'));  // CLDR 49: one/many/other
-        self::assertSame(3, PluralRules::getPluralCount('ru_RU'));
+        self::assertSame(4, PluralRules::getPluralCount('ru_RU'));
 
         // Test with hyphen separator
         self::assertSame(2, PluralRules::getPluralCount('en-GB'));
@@ -2888,16 +2888,18 @@ final class PluralRulesTest extends TestCase
             'Macedonian' => ['mk', 2],
 
             // Languages with 3 plural forms
-            'Russian' => ['ru', 3],
-            'Ukrainian' => ['uk', 3],
-            'Polish' => ['pl', 3],
             'Czech' => ['cs', 3],
             'Slovak' => ['sk', 3],
-            'Croatian' => ['hr', 3],
-            'Serbian' => ['sr', 3],
             'Romanian' => ['ro', 3],
             'Lithuanian' => ['lt', 3],
             'Latvian' => ['lv', 3],
+
+            // Languages with 4 plural forms
+            'Russian' => ['ru', 4],
+            'Ukrainian' => ['uk', 4],
+            'Polish' => ['pl', 4],
+            'Croatian' => ['hr', 4],
+            'Serbian' => ['sr', 4],
             'Italian' => ['it', 3],
             'Spanish' => ['es', 3],
             'French' => ['fr', 3],
@@ -2936,7 +2938,7 @@ final class PluralRulesTest extends TestCase
         self::assertSame(3, PluralRules::getPluralCount('fr-FR'));
         self::assertSame(3, PluralRules::getPluralCount('fr_CA'));
         self::assertSame(3, PluralRules::getPluralCount('it-IT'));
-        self::assertSame(3, PluralRules::getPluralCount('ru-RU'));
+        self::assertSame(4, PluralRules::getPluralCount('ru-RU'));
         self::assertSame(6, PluralRules::getPluralCount('ar-SA'));
     }
 

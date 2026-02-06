@@ -220,9 +220,13 @@ if (PluralRules::getCardinalCategoryName('en', $count) === PluralRules::CATEGORY
 ```
 
 #### Plural Compliance Validation
+
+The `MessagePatternAnalyzer` validates that plural/selectordinal selectors comply with CLDR plural categories for a given locale. It provides per-argument warnings for detailed feedback.
+
 ```php
 use Matecat\ICU\MessagePattern;
 use Matecat\ICU\MessagePatternAnalyzer;
+use Matecat\ICU\Plurals\PluralComplianceException;
 
 // Parse an ICU message
 $pattern = new MessagePattern();
@@ -230,30 +234,81 @@ $pattern->parse('{count, plural, one{# item} other{# items}}');
 
 // Validate plural compliance for English
 $analyzer = new MessagePatternAnalyzer($pattern, 'en');
-$result = $analyzer->validatePluralCompliance();
+$warning = $analyzer->validatePluralCompliance();
 
-$result->isValid;              // true - 'one' and 'other' are valid for English
-$result->expectedCategories;   // ['one', 'other']
-$result->foundSelectors;       // ['one', 'other']
-$result->invalidSelectors;     // []
-$result->missingCategories;    // []
-$result->getSummary();         // "All plural selectors are valid and complete."
+// Returns null when all categories are valid and complete
+var_dump($warning); // null - 'one' and 'other' are valid for English
 
-// Check with Russian locale - Russian uses one/few/many, not 'other'
+// Check with Russian locale - Russian requires one/few/many/other
 $analyzer = new MessagePatternAnalyzer($pattern, 'ru');
-$result = $analyzer->validatePluralCompliance();
+$warning = $analyzer->validatePluralCompliance();
 
-$result->isValid;              // false - 'other' is not valid for Russian
-$result->expectedCategories;   // ['one', 'few', 'many']
-$result->invalidSelectors;     // ['other']
-$result->missingCategories;    // ['few', 'many']
+// Returns a PluralComplianceWarning with per-argument details
+$warning->getMessage();                    // Human-readable warning message
+$warning->getArgumentWarnings();           // Array of PluralArgumentWarning objects
+$warning->getAllMissingCategories();       // ['few', 'many']
+$warning->getAllWrongLocaleSelectors();    // []
 
-// Explicit numeric selectors (=0, =1, =2) are always valid
-$pattern->parse('{count, plural, =0{none} =1{one} other{# items}}');
+// Access per-argument warnings
+foreach ($warning->getArgumentWarnings() as $argWarning) {
+    echo $argWarning->argumentName;        // 'count'
+    echo $argWarning->getArgumentTypeLabel(); // 'plural' or 'selectordinal'
+    print_r($argWarning->expectedCategories); // ['one', 'few', 'many', 'other']
+    print_r($argWarning->missingCategories);  // ['few', 'many']
+    print_r($argWarning->foundSelectors);     // ['one', 'other']
+    echo $argWarning->getMessage();         // Detailed message for this argument
+}
+
+// Invalid CLDR categories throw an exception
+$pattern->parse('{count, plural, some{# items} other{# items}}'); // 'some' is not a valid CLDR category
 $analyzer = new MessagePatternAnalyzer($pattern, 'en');
-$result = $analyzer->validatePluralCompliance();
-$result->isValid;              // true
+
+try {
+    $analyzer->validatePluralCompliance();
+} catch (PluralComplianceException $e) {
+    echo $e->getMessage();
+    // "Invalid selectors found: [some]. Valid CLDR categories are: [zero, one, two, few, many, other]."
+    print_r($e->invalidSelectors);    // ['some']
+    print_r($e->expectedCategories);  // ['zero', 'one', 'two', 'few', 'many', 'other']
+}
+
+// Valid CLDR categories wrong for locale return warnings (not exceptions)
+$pattern->parse('{count, plural, one{# item} few{# items} other{# items}}');
+$analyzer = new MessagePatternAnalyzer($pattern, 'en'); // English doesn't use 'few'
+$warning = $analyzer->validatePluralCompliance();
+
+$argWarning = $warning->getArgumentWarnings()[0];
+print_r($argWarning->wrongLocaleSelectors); // ['few'] - valid CLDR but not for English
+
+// Explicit numeric selectors (=0, =1, =2) are always valid but don't substitute category keywords
+$pattern->parse('{count, plural, =0{none} =1{one item} other{# items}}');
+$analyzer = new MessagePatternAnalyzer($pattern, 'en');
+$warning = $analyzer->validatePluralCompliance();
+
+$argWarning = $warning->getArgumentWarnings()[0];
+print_r($argWarning->numericSelectors);    // ['=0', '=1']
+print_r($argWarning->missingCategories);   // ['one'] - =1 doesn't substitute for 'one' keyword
+
+// Nested messages with multiple plural arguments get per-argument validation
+$pattern->parse("{gender, select, female{{n, plural, one{her item} other{her items}}} male{{n, plural, one{his item} other{his items}}}}");
+$analyzer = new MessagePatternAnalyzer($pattern, 'en');
+$warning = $analyzer->validatePluralCompliance(); // null - all valid
+
+// SelectOrdinal validation uses ordinal rules (different from cardinal)
+$pattern->parse('{rank, selectordinal, one{#st} two{#nd} few{#rd} other{#th}}');
+$analyzer = new MessagePatternAnalyzer($pattern, 'en');
+$warning = $analyzer->validatePluralCompliance(); // null - English ordinal uses one/two/few/other
 ```
+
+##### Validation Behavior Summary
+
+| Selector Type | Behavior |
+|---------------|----------|
+| Non-existent CLDR category (e.g., 'some') | Throws `PluralComplianceException` |
+| Valid CLDR category wrong for locale (e.g., 'few' in English) | Returns warning in `wrongLocaleSelectors` |
+| Missing required category for locale | Returns warning in `missingCategories` |
+| Explicit numeric selector (=0, =1, etc.) | Always valid, tracked in `numericSelectors` |
+| 'other' category | Always valid (ICU requires it as fallback) |
 
 #### Language Domains
 ```php
@@ -315,18 +370,37 @@ Argument classifications: `NONE`, `SIMPLE`, `CHOICE`, `PLURAL`, `SELECT`, `SELEC
 ### Matecat\ICU\MessagePatternAnalyzer
 - `__construct(MessagePattern $pattern, string $language = 'en-US')`
 - `containsComplexSyntax(): bool` - Returns true if the pattern contains plural, select, choice, or selectordinal
-- `validatePluralCompliance(): PluralComplianceResult` - Validates if plural forms comply with the locale's expected categories
+- `validatePluralCompliance(): ?PluralComplianceWarning` - Validates if plural forms comply with the locale's expected categories. Returns null if valid, a warning object if there are issues, or throws `PluralComplianceException` for invalid CLDR categories.
 
-### Matecat\ICU\PluralComplianceResult (readonly)
-- `isValid: bool` - Whether all selectors are valid for the locale
-- `hasComplexPluralForm: bool` - Whether the message contains plural/selectordinal forms
-- `expectedCategories: array<string>` - Valid CLDR categories for this locale
+### Matecat\ICU\Plurals\PluralComplianceWarning (readonly)
+Returned when plural selectors have compliance issues that don't warrant an exception.
+- `__construct(array $argumentWarnings)`
+- `getArgumentWarnings(): array<PluralArgumentWarning>` - Get all argument-level warnings
+- `getAllMissingCategories(): array<string>` - Get all missing categories across all arguments
+- `getAllWrongLocaleSelectors(): array<string>` - Get all wrong locale selectors across all arguments
+- `getMessages(): array<string>` - Get all warning messages as an array
+- `getMessage(): string` - Human-readable warning message (joins all messages with newlines)
+- Implements `Stringable` interface
+
+### Matecat\ICU\Plurals\PluralArgumentWarning (readonly)
+Detailed warning information for a single plural/selectordinal argument.
+- `argumentName: string` - The argument name (e.g., 'count', 'num_guests')
+- `argumentType: ArgType` - The argument type (PLURAL or SELECTORDINAL)
+- `expectedCategories: array<string>` - Valid CLDR categories for this argument type and locale
+- `foundSelectors: array<string>` - All selectors found in this argument
+- `missingCategories: array<string>` - Expected categories not found
+- `numericSelectors: array<string>` - Explicit numeric selectors found (e.g., =0, =1)
+- `wrongLocaleSelectors: array<string>` - Valid CLDR categories that don't apply to this locale
+- `getArgumentTypeLabel(): string` - Returns 'plural' or 'selectordinal'
+- `getMessage(): string` - Human-readable message for this argument
+- Implements `Stringable` interface
+
+### Matecat\ICU\Plurals\PluralComplianceException
+Thrown when a selector is not a valid CLDR category name (e.g., 'some', 'foo').
+- `expectedCategories: array<string>` - Valid CLDR categories
 - `foundSelectors: array<string>` - All selectors found in the message
-- `invalidSelectors: array<string>` - Selectors that don't match expected categories
-- `missingCategories: array<string>` - Expected categories not found in the message
-- `hasNoPluralForms(): bool`
-- `isMissingOther(): bool`
-- `getSummary(): string` - Human-readable validation summary
+- `invalidSelectors: array<string>` - Non-existent CLDR category names
+- `missingCategories: array<string>` - (Always empty, for interface compatibility)
 
 ### Matecat\Locales\Languages
 - `getInstance(): Languages` (singleton)
@@ -335,18 +409,22 @@ Argument classifications: `NONE`, `SIMPLE`, `CHOICE`, `PLURAL`, `SELECT`, `SELEC
 - `isRTL(string $rfc3066code): bool`
 - `getPluralsCount(string $rfc3066code): int` (static)
 
-### Matecat\ICU\PluralRules\PluralRules
-- `calculate(string $locale, int $n): int` (static) - Returns the plural form index for a number
-- `getCategoryName(string $locale, int $n): string` (static) - Returns the CLDR category name ('zero', 'one', 'two', 'few', 'many', 'other')
-- `getCategories(string $locale): array` (static) - Returns all available category names for a locale
+### Matecat\ICU\Plurals\PluralRules
+- `getCardinalFormIndex(string $locale, int $n): int` (static) - Returns the plural form index for a number
+- `getCardinalCategoryName(string $locale, int $n): string` (static) - Returns the CLDR category name ('zero', 'one', 'two', 'few', 'many', 'other')
+- `getCardinalCategories(string $locale): array` (static) - Returns all available cardinal category names for a locale
+- `getOrdinalCategories(string $locale): array` (static) - Returns all available ordinal category names for a locale
+- `getOrdinalFormIndex(string $locale, int $n): int` (static) - Returns the ordinal form index for a number
+- `isValidCategory(string $selector): bool` (static) - Checks if a selector is a valid CLDR category name
 
-#### Category Constants
+#### Constants
 - `CATEGORY_ZERO` = 'zero'
 - `CATEGORY_ONE` = 'one'
 - `CATEGORY_TWO` = 'two'
 - `CATEGORY_FEW` = 'few'
 - `CATEGORY_MANY` = 'many'
 - `CATEGORY_OTHER` = 'other'
+- `VALID_CATEGORIES` = ['zero', 'one', 'two', 'few', 'many', 'other']
 
 ### Matecat\Locales\LanguageDomains
 - `getInstance(): LanguageDomains` (singleton)
@@ -357,6 +435,7 @@ Argument classifications: `NONE`, `SIMPLE`, `CHOICE`, `PLURAL`, `SELECT`, `SELEC
 - `InvalidArgumentException` for syntax errors
 - `OutOfBoundsException` for excessive sizes/nesting and indexing errors
 - `Matecat\Locales\InvalidLanguageException` for invalid language codes
+- `Matecat\ICU\Plurals\PluralComplianceException` for invalid CLDR plural category names
 
 ## Development
 
@@ -377,11 +456,15 @@ vendor/bin/phpstan analyze
 ## Project Structure
 
 - ICU Parser core: `src/ICU/MessagePattern.php`
-- Part/token model: `src/ICU/Part.php`
-- Token types: `src/ICU/Parts/TokenType.php`
-- Argument types: `src/ICU/ArgType.php`
+- Pattern Analyzer: `src/ICU/MessagePatternAnalyzer.php`
+- Part/token model: `src/ICU/Tokens/Part.php`
+- Token types: `src/ICU/Tokens/TokenType.php`
+- Argument types: `src/ICU/Tokens/ArgType.php`
+- Plural Rules: `src/ICU/Plurals/PluralRules.php`
+- Plural Compliance Warning: `src/ICU/Plurals/PluralComplianceWarning.php`
+- Plural Argument Warning: `src/ICU/Plurals/PluralArgumentWarning.php`
+- Plural Compliance Exception: `src/ICU/Plurals/PluralComplianceException.php`
 - Languages: `src/Locales/Languages.php`
-- Plural Rules: `src/Locales/PluralRules/PluralRules.php`
 - Language Domains: `src/Locales/LanguageDomains.php`
 - Tests: `tests/`
 

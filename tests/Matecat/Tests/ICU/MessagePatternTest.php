@@ -581,7 +581,7 @@ MSG;
         $this->expectExceptionMessage('Argument name too long');
 
         $pattern = new MessagePattern();
-        $longName = str_repeat('a', \Matecat\ICU\Tokens\Part::MAX_LENGTH + 1);
+        $longName = str_repeat('a', Part::MAX_LENGTH + 1);
         $pattern->parse("{{$longName}}");
     }
 
@@ -623,7 +623,7 @@ MSG;
         $this->expectExceptionMessage('Argument style text too long');
 
         $pattern = new MessagePattern();
-        $longStyle = str_repeat('a', \Matecat\ICU\Tokens\Part::MAX_LENGTH + 1);
+        $longStyle = str_repeat('a', Part::MAX_LENGTH + 1);
         $pattern->parse("{name, number, $longStyle}");
     }
 
@@ -715,7 +715,7 @@ MSG;
         $this->expectExceptionMessage('Plural offset value too long');
 
         $pattern = new MessagePattern();
-        $longNumber = str_repeat('9', \Matecat\ICU\Tokens\Part::MAX_LENGTH + 1);
+        $longNumber = str_repeat('9', Part::MAX_LENGTH + 1);
         $pattern->parsePluralStyle("offset:$longNumber other{# items}");
     }
 
@@ -1063,7 +1063,7 @@ MSG;
 
         $pattern = new MessagePattern();
         $choices = "";
-        for ($i = 0; $i <= (\Matecat\ICU\Tokens\Part::MAX_VALUE + 1); $i++) {
+        for ($i = 0; $i <= (Part::MAX_VALUE + 1); $i++) {
             $choices .= "$i.5#value$i|";
         }
         $choices = rtrim($choices, '|');
@@ -1140,7 +1140,7 @@ MSG;
         $this->expectExceptionMessage('Argument selector too long:');
 
         new MessagePattern(
-            '{rank, plural, =' . str_repeat('9', \Matecat\ICU\Tokens\Part::MAX_LENGTH + 1) . ' {# points} one {# point} other {# points}}'
+            '{rank, plural, =' . str_repeat('9', Part::MAX_LENGTH + 1) . ' {# points} one {# point} other {# points}}'
         );
     }
 
@@ -1398,7 +1398,7 @@ MSG;
         $this->expectExceptionMessage('Argument selector too long');
 
         $pattern = new MessagePattern();
-        $longNumber = str_repeat('9', \Matecat\ICU\Tokens\Part::MAX_LENGTH + 1);
+        $longNumber = str_repeat('9', Part::MAX_LENGTH + 1);
         $pattern->parse("{n, plural, =$longNumber{text} other{items}}");
     }
 
@@ -1426,7 +1426,7 @@ MSG;
         $this->expectExceptionMessage('Plural offset value too long');
 
         $pattern = new MessagePattern();
-        $longOffset = str_repeat('9', \Matecat\ICU\Tokens\Part::MAX_LENGTH + 1);
+        $longOffset = str_repeat('9', Part::MAX_LENGTH + 1);
         $pattern->parse("{n, plural, offset:$longOffset one{# item} other{# items}}");
     }
 
@@ -1440,7 +1440,7 @@ MSG;
         $this->expectExceptionMessage('Argument selector too long');
 
         $pattern = new MessagePattern();
-        $longSelector = str_repeat('a', \Matecat\ICU\Tokens\Part::MAX_LENGTH + 1);
+        $longSelector = str_repeat('a', Part::MAX_LENGTH + 1);
         $pattern->parse("{n, select, $longSelector{text} other{items}}");
     }
 
@@ -1468,7 +1468,7 @@ MSG;
         $this->expectExceptionMessage('Argument selector too long');
 
         $pattern = new MessagePattern();
-        $longSelector = str_repeat('x', \Matecat\ICU\Tokens\Part::MAX_LENGTH + 1);
+        $longSelector = str_repeat('x', Part::MAX_LENGTH + 1);
         $pattern->parseSelectStyle("$longSelector{text} other{default}");
     }
 
@@ -1482,7 +1482,7 @@ MSG;
         $this->expectExceptionMessage('Choice number too long');
 
         $pattern = new MessagePattern();
-        $longNumber = str_repeat('9', \Matecat\ICU\Tokens\Part::MAX_LENGTH + 1);
+        $longNumber = str_repeat('9', Part::MAX_LENGTH + 1);
         $pattern->parseChoiceStyle("$longNumber#text");
     }
 
@@ -1559,7 +1559,7 @@ MSG;
         $count = 0;
         foreach ($pattern as $key => $part) {
             self::assertIsInt($key);
-            self::assertInstanceOf(\Matecat\ICU\Tokens\Part::class, $part);
+            self::assertInstanceOf(Part::class, $part);
             $count++;
         }
 

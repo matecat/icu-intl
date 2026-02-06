@@ -9,6 +9,7 @@
 
 namespace Matecat\ICU;
 
+use Matecat\ICU\Plurals\PluralArgumentWarning;
 use Matecat\ICU\Plurals\PluralComplianceException;
 use Matecat\ICU\Plurals\PluralComplianceWarning;
 use Matecat\ICU\Plurals\PluralRules;
@@ -70,13 +71,18 @@ class MessagePatternAnalyzer
      */
     public function validatePluralCompliance(): ?PluralComplianceWarning
     {
-        $foundSelectors = [];
-        $invalidSelectors = [];      // Non-existent categories (like 'some')
-        $wrongLocaleSelectors = [];  // Valid CLDR categories but wrong for this locale
-        $expectedCategories = [];
-        $numericSelectors = [];
+        $allInvalidSelectors = [];      // Non-existent categories (like 'some') - throws exception
+        $allFoundSelectors = [];
+        /** @var array<PluralArgumentWarning> $argumentWarnings */
+        $argumentWarnings = [];
 
         foreach ($this->pattern as $index => $part) {
+            // Only process ARG_START parts (skip ARG_LIMIT and all other part types)
+            $partType = $part->getType();
+            if ($partType !== TokenType::ARG_START) {
+                continue;
+            }
+
             $argType = $part->getArgType();
 
             // Only check plural and selectordinal arguments
@@ -84,69 +90,83 @@ class MessagePatternAnalyzer
                 continue;
             }
 
-            // Get the appropriate categories based on argument type (cardinal vs ordinal)
+            // Get the argument name
+            $argumentName = $this->getArgumentName($index + 1);
+
+            // Get the appropriate categories for THIS specific argument type (cardinal vs ordinal)
             $categories = $this->getCategoriesForArgType($argType);
 
-            // Merge expected categories (they may differ between plural and selectordinal)
-            $expectedCategories = array_unique(array_merge($expectedCategories, $categories));
-
-            // Find all selectors within this argument - pass the index to avoid re-iterating
+            // Find all selectors within this argument
             $selectors = $this->extractSelectorsForArgument($index);
 
+            // Separate numeric selectors from category selectors
+            $argumentNumericSelectors = [];
+            $argumentCategorySelectors = [];
+            $argumentWrongLocaleSelectors = [];
+
             foreach ($selectors as $selector) {
-                $foundSelectors[] = $selector;
+                $allFoundSelectors[] = $selector;
 
                 // Explicit numeric selectors (=0, =1, =2, etc.) are always valid
                 if (preg_match(self::NUMERIC_SELECTOR_PATTERN, $selector)) {
-                    $numericSelectors[] = $selector;
+                    $argumentNumericSelectors[] = $selector;
                     continue;
                 }
 
-                // 'other' is always valid - ICU requires it as fallback
+                // It's a category selector
+                $argumentCategorySelectors[] = $selector;
+
+                // 'other' is always valid - ICU requires it as a fallback
                 if ($selector === PluralRules::CATEGORY_OTHER) {
                     continue;
                 }
 
                 // Check if it's a valid CLDR category at all
-                if (!$this->isValidCldrCategory($selector)) {
+                if (!PluralRules::isValidCategory($selector)) {
                     // Non-existent category - this is an error
-                    $invalidSelectors[] = $selector;
+                    $allInvalidSelectors[] = $selector;
                     continue;
                 }
 
-                // Check if the selector is valid for this locale and argument type
+                // Check if the selector is valid for THIS argument type and locale
                 if (!in_array($selector, $categories, true)) {
-                    // Valid CLDR category but wrong for this locale - this is a warning
-                    $wrongLocaleSelectors[] = $selector;
+                    // Valid CLDR category but wrong for this locale/argument type - this is a warning
+                    $argumentWrongLocaleSelectors[] = $selector;
                 }
+            }
+
+            // Check for missing categories for THIS specific argument
+            $argumentMissingCategories = array_values(array_diff($categories, $argumentCategorySelectors));
+
+            // Create a warning for this argument if there are issues
+            if (!empty($argumentWrongLocaleSelectors) || !empty($argumentMissingCategories)) {
+                $argumentWarnings[] = new PluralArgumentWarning(
+                    argumentName: $argumentName,
+                    argumentType: $argType,
+                    expectedCategories: $categories,
+                    foundSelectors: $selectors,
+                    missingCategories: $argumentMissingCategories,
+                    numericSelectors: $argumentNumericSelectors,
+                    wrongLocaleSelectors: $argumentWrongLocaleSelectors
+                );
             }
         }
 
-        // Only validate if we found plural forms
-        if (!empty($foundSelectors)) {
-            // If there are non-existent categories, throw an exception
-            if (!empty($invalidSelectors)) {
+        // Validate only if plural forms are found in the message pattern
+        if (!empty($allFoundSelectors)) {
+            // Check for non-existent categories and throw an exception if any are found
+            if (!empty($allInvalidSelectors)) {
                 throw new PluralComplianceException(
-                    expectedCategories: $expectedCategories,
-                    foundSelectors: array_unique($foundSelectors),
-                    invalidSelectors: array_unique($invalidSelectors),
+                    expectedCategories: PluralRules::VALID_CATEGORIES,
+                    foundSelectors: array_unique($allFoundSelectors),
+                    invalidSelectors: array_unique($allInvalidSelectors),
                     missingCategories: []
                 );
             }
 
-            $missingCategories = $this->getMissingCategories($foundSelectors, $expectedCategories);
-
-            // Return a warning if there are any issues:
-            // - wrong locale categories (valid CLDR but not for this locale)
-            // - missing categories (with or without numeric selectors)
-            if (!empty($wrongLocaleSelectors) || !empty($missingCategories)) {
-                return new PluralComplianceWarning(
-                    expectedCategories: $expectedCategories,
-                    foundSelectors: array_unique($foundSelectors),
-                    missingCategories: $missingCategories,
-                    numericSelectors: array_unique($numericSelectors),
-                    wrongLocaleSelectors: array_unique($wrongLocaleSelectors)
-                );
+            // Return warning for argument-level issues (wrong locale selectors or missing categories per argument)
+            if (!empty($argumentWarnings)) {
+                return new PluralComplianceWarning($argumentWarnings);
             }
         }
 
@@ -154,26 +174,21 @@ class MessagePatternAnalyzer
     }
 
     /**
-     * All valid CLDR plural category names.
-     */
-    private const array VALID_CLDR_CATEGORIES = [
-        PluralRules::CATEGORY_ZERO,
-        PluralRules::CATEGORY_ONE,
-        PluralRules::CATEGORY_TWO,
-        PluralRules::CATEGORY_FEW,
-        PluralRules::CATEGORY_MANY,
-        PluralRules::CATEGORY_OTHER,
-    ];
-
-    /**
-     * Checks if a selector is a valid CLDR category name.
+     * Gets the argument name for a plural/selectordinal argument.
      *
-     * @param string $selector The selector to check.
-     * @return bool True if it's a valid CLDR category, false otherwise.
+     * @param int $argNameIndex The index of the ARG_NAME or ARG_NUMBER part (ARG_START index + 1).
+     * @return string The argument name.
      */
-    private function isValidCldrCategory(string $selector): bool
+    private function getArgumentName(int $argNameIndex): string
     {
-        return in_array($selector, self::VALID_CLDR_CATEGORIES, true);
+        // According to ICU pattern structure: ARG_START is followed immediately by ARG_NAME or ARG_NUMBER
+        $part = $this->pattern->getPart($argNameIndex);
+        $type = $part->getType();
+        if ($type === TokenType::ARG_NAME || $type === TokenType::ARG_NUMBER) {
+            $name = $this->pattern->getSubstring($part);
+        }
+
+        return $name ?? 'unknown';
     }
 
     /**
@@ -195,48 +210,6 @@ class MessagePatternAnalyzer
      * Pattern for matching explicit numeric selectors (e.g., =0, =1, =2).
      */
     private const string NUMERIC_SELECTOR_PATTERN = '/^=(\\d+)$/';
-
-    /**
-     * Extracts category selectors (non-numeric) from a list of selectors.
-     *
-     * @param array<string> $selectors All selectors found in the message.
-     * @return array<string> Only the category selectors, excluding numeric ones.
-     */
-    private function extractCategorySelectors(array $selectors): array
-    {
-        return array_values(array_filter($selectors, fn($s) => !preg_match(self::NUMERIC_SELECTOR_PATTERN, $s)));
-    }
-
-    /**
-     * Calculates missing categories from expected categories against found selectors.
-     *
-     * This method enforces strict validation of plural categories. Explicit numeric selectors
-     * (e.g., =0, =1, =2) are NOT allowed to substitute for CLDR plural category keywords
-     * (e.g., 'zero', 'one', 'two', 'few', 'many', 'other').
-     *
-     * Every expected plural category for the locale MUST be explicitly provided using
-     * the corresponding category keyword. While numeric selectors are syntactically valid,
-     * they cannot fulfill the requirement for category-based selectors.
-     *
-     * Example:
-     * - INVALID: {count, plural, =0 {no items} =1 {one item} other {many items}}
-     *   (missing required 'one' category in en-US)
-     * - VALID: {count, plural, one {one item} other {many items}}
-     *   (uses proper CLDR category keywords)
-     *
-     * @param array<string> $foundSelectors All selectors found in the message.
-     * @param array<string> $expectedCategories Expected CLDR categories for the locale.
-     * @return array<string> Missing categories (not found in selectors).
-     */
-    private function getMissingCategories(array $foundSelectors, array $expectedCategories): array
-    {
-        // Extract only CLDR category selectors (exclude numeric selectors like =0, =1)
-        $foundCategorySelectors = $this->extractCategorySelectors($foundSelectors);
-
-        // Calculate missing categories by comparing expected categories against found category selectors
-        // Numeric selectors (=0, =1, etc.) do NOT count toward fulfilling category requirements
-        return array_values(array_diff($expectedCategories, $foundCategorySelectors));
-    }
 
     /**
      * Extracts all ARG_SELECTOR values for a given plural/selectordinal argument.

@@ -49,23 +49,10 @@ class PluralComplianceException extends Exception
      */
     private function generateMessage(): string
     {
-        $messages = [];
-
-        if (!empty($this->invalidSelectors)) {
-            $messages[] = sprintf(
-                'Invalid selectors found: [%s]. Expected categories: [%s].',
-                implode(', ', $this->invalidSelectors),
-                implode(', ', $this->expectedCategories)
-            );
-        }
-
-        if (!empty($this->missingCategories)) {
-            $messages[] = sprintf(
-                'Missing categories: [%s].',
-                implode(', ', $this->missingCategories)
-            );
-        }
-
-        return implode(' ', $messages) ?: 'Plural compliance validation failed.';
+        return sprintf(
+            'Invalid selectors found: [%s]. Valid CLDR categories are: [%s].',
+            implode(', ', $this->invalidSelectors),
+            implode(', ', $this->expectedCategories)
+        );
     }
 }

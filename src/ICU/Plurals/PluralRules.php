@@ -81,13 +81,35 @@ class PluralRules
     public const string CATEGORY_OTHER = 'other';
 
     /**
+     * All valid CLDR plural category names.
+     */
+    public const array VALID_CATEGORIES = [
+        self::CATEGORY_ZERO,
+        self::CATEGORY_ONE,
+        self::CATEGORY_TWO,
+        self::CATEGORY_FEW,
+        self::CATEGORY_MANY,
+        self::CATEGORY_OTHER,
+    ];
+
+    /**
+     * Checks if a selector is a valid CLDR category name.
+     *
+     * @param string $selector The selector to check.
+     * @return bool True if it's a valid CLDR category, false otherwise.
+     */
+    public static function isValidCategory(string $selector): bool
+    {
+        return in_array($selector, self::VALID_CATEGORIES, true);
+    }
+
+    /**
      * Common category arrays shared by multiple rules.
      * Using constants to avoid duplication in the categoryMap.
      */
     private const array CATEGORIES_OTHER = [self::CATEGORY_OTHER];
     private const array CATEGORIES_ONE_OTHER = [self::CATEGORY_ONE, self::CATEGORY_OTHER];
     private const array CATEGORIES_ONE_FEW_OTHER = [self::CATEGORY_ONE, self::CATEGORY_FEW, self::CATEGORY_OTHER];
-    private const array CATEGORIES_ONE_FEW_MANY = [self::CATEGORY_ONE, self::CATEGORY_FEW, self::CATEGORY_MANY];
     private const array CATEGORIES_ONE_MANY_OTHER = [self::CATEGORY_ONE, self::CATEGORY_MANY, self::CATEGORY_OTHER];
     private const array CATEGORIES_ONE_TWO_FEW_OTHER = [
         self::CATEGORY_ONE,
@@ -145,8 +167,8 @@ class PluralRules
         // Rule 2: nplurals=2; plural=(n > 1); (Filipino, Turkish, etc.)
         2 => self::CATEGORIES_ONE_OTHER,
 
-        // Rule 3: nplurals=3; (Slavic - Russian, Ukrainian, etc.)
-        3 => self::CATEGORIES_ONE_FEW_MANY,
+        // Rule 3: nplurals=4; (Slavic - Russian, Ukrainian, etc.)
+        3 => self::CATEGORIES_ONE_FEW_MANY_OTHER,
 
         // Rule 4: nplurals=3; (Czech, Slovak)
         4 => self::CATEGORIES_ONE_FEW_OTHER,
@@ -169,8 +191,8 @@ class PluralRules
         // Rule 10: nplurals=3; (Latvian - CLDR 48)
         10 => self::CATEGORIES_ZERO_ONE_OTHER,
 
-        // Rule 11: nplurals=3; (Polish)
-        11 => self::CATEGORIES_ONE_FEW_MANY,
+        // Rule 11: nplurals=4; (Polish)
+        11 => self::CATEGORIES_ONE_FEW_MANY_OTHER,
 
         // Rule 12: nplurals=3; (Romanian)
         12 => self::CATEGORIES_ONE_FEW_OTHER,
@@ -796,7 +818,8 @@ class PluralRules
                 default => 5,
             },
             // nplurals=6; (Welsh - CLDR 48)
-            14 => match ($n) { // @codeCoverageIgnore strange behavior of curly brackets in code coverage,
+            14
+            => match ($n) { // @codeCoverageIgnore strange behavior of curly brackets and match in code coverage,
                 0 => 0,
                 1 => 1,
                 2 => 2,
@@ -1056,7 +1079,8 @@ class PluralRules
                 default => 3,
             },
             // Rule 14: Welsh ordinals (zero/one/two/few/many/other) - 6 categories
-            14 => match ($n) {
+            14
+            => match ($n) { // @codeCoverageIgnore strange behavior of curly brackets and match in code coverage,
                 0, 7, 8, 9 => 0,  // zero
                 1 => 1,           // one
                 2 => 2,           // two
@@ -1065,7 +1089,8 @@ class PluralRules
                 default => 5,     // other
             },
             // Rule 16: Scottish Gaelic ordinals (one/two/few/other)
-            16 => match ($n) {
+            16
+            => match ($n) { // @codeCoverageIgnore strange behavior of curly brackets and match in code coverage,
                 1, 11 => 0,       // one
                 2, 12 => 1,       // two
                 3, 13 => 2,       // few
@@ -1081,7 +1106,8 @@ class PluralRules
             // Rule 23: Bengali, Assamese, Hindi ordinals (one/other)
             23 => in_array($n, [1, 5, 7, 8, 9, 10], true) ? 0 : 1,
             // Rule 24: Gujarati ordinals (one/two/few/many/other)
-            24 => match ($n) {
+            24
+            => match ($n) { // @codeCoverageIgnore strange behavior of curly brackets and match in code coverage,
                 1 => 0,           // one
                 2, 3 => 1,        // two
                 4 => 2,           // few
@@ -1090,14 +1116,16 @@ class PluralRules
             },
             // Rule 25: Kannada ordinals (one/two/few/other)
             // Rule 28: Telugu ordinals (one/two/many/other) - same pattern
-            25, 28 => match ($n) {
+            25, 28
+            => match ($n) { // @codeCoverageIgnore strange behavior of curly brackets and match in code coverage,
                 1 => 0,           // one
                 2, 3 => 1,        // two
                 4 => 2,           // few (Kannada) / many (Telugu)
                 default => 3,     // other
             },
             // Rule 27: Odia ordinals (one/two/few/many/other)
-            27 => match (true) {
+            27
+            => match (true) {
                 $n === 1 || $n === 5 || ($n >= 7 && $n <= 9) => 0,
                 in_array($n, [2, 3], true) => 1,
                 $n === 4 => 2,
