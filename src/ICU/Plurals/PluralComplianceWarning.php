@@ -92,13 +92,13 @@ readonly class PluralComplianceWarning implements Stringable
     /**
      * Generates a human-readable warning message.
      */
-    public function getMessage(): string
+    public function getMessagesAsString(): string
     {
-        return implode("\n", $this->getMessages()) ?: 'Plural compliance warning.';
+        return (string)$this;
     }
 
     public function __toString(): string
     {
-        return $this->getMessage();
+        return implode("\n", $this->getMessages()) ?: 'Plural compliance warning.';
     }
 }

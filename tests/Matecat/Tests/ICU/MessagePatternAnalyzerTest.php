@@ -613,8 +613,8 @@ class MessagePatternAnalyzerTest extends TestCase
 
         self::assertNotNull($warning);
 
-        // Test getMessage() method
-        $message = $warning->getMessage();
+        // Test Stringable interface
+        $message = (string)$warning;
         self::assertNotEmpty($message);
         self::assertStringContainsString('count', $message);
         self::assertStringContainsString('few', $message);
@@ -655,9 +655,9 @@ class MessagePatternAnalyzerTest extends TestCase
         self::assertNotNull($warning);
         self::assertCount(1, $warning->argumentWarnings);
 
-        // Test getMessage() on PluralArgumentWarning
+        // Test Stringable interface on PluralArgumentWarning
         $argWarning = $warning->argumentWarnings[0];
-        $message = $argWarning->getMessage();
+        $message = (string)$argWarning;
         self::assertNotEmpty($message);
         self::assertStringContainsString('count', $message);
         self::assertStringContainsString('few', $message);
@@ -718,8 +718,8 @@ class MessagePatternAnalyzerTest extends TestCase
         self::assertNotNull($warning);
         $argWarning = $warning->argumentWarnings[0];
 
-        // Test getMessage() includes missing categories info
-        $message = $argWarning->getMessage();
+        // Test Stringable interface includes missing categories info
+        $message = (string)$argWarning;
         self::assertStringContainsString('Missing', $message);
         self::assertStringContainsString('few', $message);
         self::assertStringContainsString('many', $message);
@@ -974,7 +974,8 @@ class MessagePatternAnalyzerTest extends TestCase
             . 'Expected categories: [one, other].';
 
         self::assertSame($expectedOutput, (string)$warning);
-        self::assertSame($expectedOutput, $warning->getMessage());
+        // test getMessagesAsString() returns the same output as __toString()
+        self::assertSame($expectedOutput, $warning->getMessagesAsString());
     }
 
     /**

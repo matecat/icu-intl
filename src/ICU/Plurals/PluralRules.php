@@ -818,8 +818,7 @@ class PluralRules
                 default => 5,
             },
             // nplurals=6; (Welsh - CLDR 48)
-            14
-            => match ($n) { // @codeCoverageIgnore strange behavior of curly brackets and match in code coverage,
+            14 => match ($n) { // @codeCoverageIgnore strange behavior of curly brackets and match in code coverage,
                 0 => 0,
                 1 => 1,
                 2 => 2,
@@ -1058,6 +1057,7 @@ class PluralRules
         $ruleGroup = self::getRuleGroup($locale, 'ordinal');
 
         return match ($ruleGroup) {
+
             // Rules with a simple "one: n=1, other: everything else" pattern
             2, 5, 12, 26 => $n === 1 ? 0 : 1,
             // Rule 1: English-like ordinals (one/two/few/other)
@@ -1079,8 +1079,7 @@ class PluralRules
                 default => 3,
             },
             // Rule 14: Welsh ordinals (zero/one/two/few/many/other) - 6 categories
-            14
-            => match ($n) { // @codeCoverageIgnore strange behavior of curly brackets and match in code coverage,
+            14 => match ($n) { // @codeCoverageIgnore strange behavior of curly brackets and match in code coverage,
                 0, 7, 8, 9 => 0,  // zero
                 1 => 1,           // one
                 2 => 2,           // two
@@ -1089,8 +1088,7 @@ class PluralRules
                 default => 5,     // other
             },
             // Rule 16: Scottish Gaelic ordinals (one/two/few/other)
-            16
-            => match ($n) { // @codeCoverageIgnore strange behavior of curly brackets and match in code coverage,
+            16 => match ($n) { // @codeCoverageIgnore strange behavior of curly brackets and match in code coverage,
                 1, 11 => 0,       // one
                 2, 12 => 1,       // two
                 3, 13 => 2,       // few
@@ -1106,26 +1104,24 @@ class PluralRules
             // Rule 23: Bengali, Assamese, Hindi ordinals (one/other)
             23 => in_array($n, [1, 5, 7, 8, 9, 10], true) ? 0 : 1,
             // Rule 24: Gujarati ordinals (one/two/few/many/other)
-            24
-            => match ($n) { // @codeCoverageIgnore strange behavior of curly brackets and match in code coverage,
+            24 => match ($n) { // @codeCoverageIgnore strange behavior of curly brackets and match in code coverage,
                 1 => 0,           // one
                 2, 3 => 1,        // two
                 4 => 2,           // few
                 6 => 3,           // many
                 default => 4,     // other
             },
+
             // Rule 25: Kannada ordinals (one/two/few/other)
             // Rule 28: Telugu ordinals (one/two/many/other) - same pattern
-            25, 28
-            => match ($n) { // @codeCoverageIgnore strange behavior of curly brackets and match in code coverage,
+            25, 28 => match ($n) { // @codeCoverageIgnore strange behavior of curly brackets and match in code coverage,
                 1 => 0,           // one
                 2, 3 => 1,        // two
                 4 => 2,           // few (Kannada) / many (Telugu)
                 default => 3,     // other
             },
             // Rule 27: Odia ordinals (one/two/few/many/other)
-            27
-            => match (true) {
+            27 => match (true) {
                 $n === 1 || $n === 5 || ($n >= 7 && $n <= 9) => 0,
                 in_array($n, [2, 3], true) => 1,
                 $n === 4 => 2,
@@ -1150,6 +1146,7 @@ class PluralRules
             // merge all these into a single default case
             // 0, 3, 4, 6, 7, 9, 10, 11, 13, 15, 17, 18, 19 => 0,
             default => 0,
+
         };
     }
 

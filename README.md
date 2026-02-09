@@ -379,7 +379,7 @@ Returned when plural selectors have compliance issues that don't warrant an exce
 - `getAllMissingCategories(): array<string>` - Get all missing categories across all arguments
 - `getAllWrongLocaleSelectors(): array<string>` - Get all wrong locale selectors across all arguments
 - `getMessages(): array<string>` - Get all warning messages as an array
-- `getMessage(): string` - Human-readable warning message (joins all messages with newlines)
+- `getMessagesAsString(): string` - Human-readable warning message (joins all messages with newlines)
 - Implements `Stringable` interface
 
 ### Matecat\ICU\Plurals\PluralArgumentWarning (readonly)
