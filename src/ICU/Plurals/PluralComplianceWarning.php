@@ -81,7 +81,7 @@ readonly class PluralComplianceWarning implements Stringable
     {
         $messages = [];
         foreach ($this->argumentWarnings as $warning) {
-            $message = $warning->getMessage();
+            $message = $warning->getMessageAsString();
             if (!empty($message)) {
                 $messages[] = $message;
             }

@@ -256,7 +256,7 @@ foreach ($warning->getArgumentWarnings() as $argWarning) {
     print_r($argWarning->expectedCategories); // ['one', 'few', 'many', 'other']
     print_r($argWarning->missingCategories);  // ['few', 'many']
     print_r($argWarning->foundSelectors);     // ['one', 'other']
-    echo $argWarning->getMessage();         // Detailed message for this argument
+    echo $argWarning->getMessageAsString();         // Detailed message for this argument
 }
 
 // Invalid CLDR categories throw an exception

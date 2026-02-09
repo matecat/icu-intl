@@ -36,7 +36,8 @@ readonly class PluralArgumentWarning implements Stringable
         public array $foundSelectors,
         public array $missingCategories,
         public array $numericSelectors,
-        public array $wrongLocaleSelectors
+        public array $wrongLocaleSelectors,
+        public string $locale
     ) {
     }
 
@@ -51,38 +52,48 @@ readonly class PluralArgumentWarning implements Stringable
     /**
      * Generates a human-readable warning message for this argument.
      */
-    public function getMessage(): string
+    public function getMessageAsString(): string
+    {
+        return (string)$this;
+    }
+
+    /**
+     * @return array<string>
+     */
+    public function getMessages(): array
     {
         $messages = [];
         $typeLabel = $this->getArgumentTypeLabel();
 
         if (!empty($this->wrongLocaleSelectors)) {
             $messages[] = sprintf(
-                '%s argument "%s": Categories [%s] are valid CLDR categories but do not apply to this locale. '
+                '%s argument "%s": Categories [%s] are valid CLDR categories but do not apply to the locale \'%s\'. '
                 . 'Expected categories: [%s].',
                 ucfirst($typeLabel),
                 $this->argumentName,
                 implode(', ', $this->wrongLocaleSelectors),
-                implode(', ', $this->expectedCategories)
+                $this->locale,
+                implode(', ', $this->expectedCategories),
             );
         }
 
         if (!empty($this->missingCategories)) {
             $messages[] = sprintf(
-                '%s argument "%s": Missing required categories [%s]. '
+                '%s argument "%s": Missing required categories [%s] in plural block for the locale \'%s\'. '
                 . 'Expected categories: [%s].',
                 ucfirst($typeLabel),
                 $this->argumentName,
                 implode(', ', $this->missingCategories),
-                implode(', ', $this->expectedCategories)
+                $this->locale,
+                implode(', ', $this->expectedCategories),
             );
         }
 
-        return implode(' ', $messages);
+        return $messages;
     }
 
     public function __toString(): string
     {
-        return $this->getMessage();
+        return implode(' ', $this->getMessages());
     }
 }

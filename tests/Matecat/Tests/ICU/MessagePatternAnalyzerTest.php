@@ -888,10 +888,10 @@ class MessagePatternAnalyzerTest extends TestCase
         $argWarning = $warning->argumentWarnings[0];
 
         $expectedOutput = 'Plural argument "count": Categories [few] are valid CLDR categories '
-            . 'but do not apply to this locale. Expected categories: [one, other].';
+            . 'but do not apply to the locale \'en\'. Expected categories: [one, other].';
 
         self::assertSame($expectedOutput, (string)$argWarning);
-        self::assertSame($expectedOutput, $argWarning->getMessage());
+        self::assertSame($expectedOutput, $argWarning->getMessageAsString());
     }
 
     /**
@@ -912,11 +912,11 @@ class MessagePatternAnalyzerTest extends TestCase
         self::assertNotNull($warning);
         $argWarning = $warning->argumentWarnings[0];
 
-        $expectedOutput = 'Plural argument "count": Missing required categories [one, few, many]. '
-            . 'Expected categories: [one, few, many, other].';
+        $expectedOutput = 'Plural argument "count": Missing required categories [one, few, many] '
+            . 'in plural block for the locale \'ru\'. Expected categories: [one, few, many, other].';
 
         self::assertSame($expectedOutput, (string)$argWarning);
-        self::assertSame($expectedOutput, $argWarning->getMessage());
+        self::assertSame($expectedOutput, $argWarning->getMessageAsString());
     }
 
     /**
@@ -938,12 +938,12 @@ class MessagePatternAnalyzerTest extends TestCase
         $argWarning = $warning->argumentWarnings[0];
 
         $expectedOutput = 'Plural argument "count": Categories [few] are valid CLDR categories '
-            . 'but do not apply to this locale. Expected categories: [one, other]. '
-            . 'Plural argument "count": Missing required categories [one]. '
-            . 'Expected categories: [one, other].';
+            . 'but do not apply to the locale \'en\'. Expected categories: [one, other]. '
+            . 'Plural argument "count": Missing required categories [one] '
+            . 'in plural block for the locale \'en\'. Expected categories: [one, other].';
 
         self::assertSame($expectedOutput, (string)$argWarning);
-        self::assertSame($expectedOutput, $argWarning->getMessage());
+        self::assertSame($expectedOutput, $argWarning->getMessageAsString());
     }
 
     /**
@@ -965,13 +965,13 @@ class MessagePatternAnalyzerTest extends TestCase
         self::assertNotNull($warning);
 
         $expectedOutput = 'Plural argument "items": Categories [few] are valid CLDR categories '
-            . 'but do not apply to this locale. Expected categories: [one, other]. '
-            . 'Plural argument "items": Missing required categories [one]. '
-            . 'Expected categories: [one, other].' . "\n"
+            . 'but do not apply to the locale \'en\'. Expected categories: [one, other]. '
+            . 'Plural argument "items": Missing required categories [one] '
+            . 'in plural block for the locale \'en\'. Expected categories: [one, other].' . "\n"
             . 'Plural argument "people": Categories [many] are valid CLDR categories '
-            . 'but do not apply to this locale. Expected categories: [one, other]. '
-            . 'Plural argument "people": Missing required categories [one]. '
-            . 'Expected categories: [one, other].';
+            . 'but do not apply to the locale \'en\'. Expected categories: [one, other]. '
+            . 'Plural argument "people": Missing required categories [one] '
+            . 'in plural block for the locale \'en\'. Expected categories: [one, other].';
 
         self::assertSame($expectedOutput, (string)$warning);
         // test getMessagesAsString() returns the same output as __toString()
@@ -997,12 +997,12 @@ class MessagePatternAnalyzerTest extends TestCase
         $argWarning = $warning->argumentWarnings[0];
 
         $expectedOutput = 'Selectordinal argument "rank": Categories [zero, many] are valid CLDR categories '
-            . 'but do not apply to this locale. Expected categories: [one, two, few, other]. '
-            . 'Selectordinal argument "rank": Missing required categories [one, two, few]. '
-            . 'Expected categories: [one, two, few, other].';
+            . 'but do not apply to the locale \'en\'. Expected categories: [one, two, few, other]. '
+            . 'Selectordinal argument "rank": Missing required categories [one, two, few] '
+            . 'in plural block for the locale \'en\'. Expected categories: [one, two, few, other].';
 
         self::assertSame($expectedOutput, (string)$argWarning);
-        self::assertSame($expectedOutput, $argWarning->getMessage());
+        self::assertSame($expectedOutput, $argWarning->getMessageAsString());
     }
 
 }

@@ -147,7 +147,8 @@ class MessagePatternAnalyzer
                     foundSelectors: $selectors,
                     missingCategories: $argumentMissingCategories,
                     numericSelectors: $argumentNumericSelectors,
-                    wrongLocaleSelectors: $argumentWrongLocaleSelectors
+                    wrongLocaleSelectors: $argumentWrongLocaleSelectors,
+                    locale: $this->language
                 );
             }
         }
