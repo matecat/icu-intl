@@ -255,6 +255,14 @@ $validator->containsComplexSyntax(); // true
 
 $validator = new MessagePatternValidator('en', 'Hello {name}.');
 $validator->containsComplexSyntax(); // false
+
+// Check if pattern has valid ICU syntax
+$validator = new MessagePatternValidator('en', '{count, plural, one{# item} other{# items}}');
+$validator->isValidSyntax(); // true
+
+$validator = new MessagePatternValidator('en', '{invalid');
+$validator->isValidSyntax(); // false
+$validator->getSyntaxException(); // "Unmatched '{' braces in message..."
 ```
 
 ##### Factory Method (with pre-parsed MessagePattern)
@@ -425,7 +433,9 @@ Argument classifications: `NONE`, `SIMPLE`, `CHOICE`, `PLURAL`, `SELECT`, `SELEC
 - `__construct(string $language = 'en-US', ?string $patternString = null)` - Creates a validator with the specified locale and optional pattern string
 - `static fromPattern(string $language, MessagePattern $pattern): MessagePatternValidator` - Factory method to create a validator from a pre-parsed MessagePattern (useful for validating the same pattern against multiple locales)
 - `setPatternString(string $patternString): static` - Sets the pattern string for lazy parsing, resets any stored parsing exception, and clears the internal pattern (fluent interface)
-- `containsComplexSyntax(bool $raiseException = false): bool` - Returns true if the pattern contains plural, select, choice, or selectordinal. If `$raiseException` is true and there was a parsing error, throws the stored exception.
+- `containsComplexSyntax(): bool` - Returns true if the pattern contains plural, select, choice, or selectordinal
+- `isValidSyntax(): bool` - Returns true if the pattern string has valid ICU MessageFormat syntax, false if there were parsing errors
+- `getSyntaxException(): ?string` - Returns the parsing exception message if the pattern has invalid syntax, null otherwise
 - `validatePluralCompliance(): ?PluralComplianceWarning` - Validates if plural forms comply with the locale's expected categories. Returns null if valid, a warning object if there are issues. Throws `PluralComplianceException` for invalid CLDR categories, or `InvalidArgumentException`/`OutOfBoundsException` for parsing errors.
 
 ### Matecat\ICU\Plurals\PluralComplianceWarning (readonly)

@@ -62,21 +62,12 @@ final class MessagePatternValidator
     }
 
     /**
-     * @param bool $raiseException
      * @return bool Returns true if the message pattern contains complex syntax (plural, select, choice, selectordinal),
      * false otherwise.
-     * @throws InvalidArgumentException
-     * @throws OutOfBoundsException
      */
-    public function containsComplexSyntax(bool $raiseException = false): bool
+    public function containsComplexSyntax(): bool
     {
         $this->checkForPatternInitialized();
-
-        if ($raiseException && $this->parsingException) {
-            throw $this->parsingException;
-        } elseif (!$raiseException && $this->parsingException) {
-            return false;
-        }
 
         foreach ($this->pattern as $part) {
             $argType = $part->getArgType();
@@ -89,6 +80,22 @@ final class MessagePatternValidator
             }
         }
         return false;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isValidSyntax(): bool
+    {
+        $this->checkForPatternInitialized();
+        return $this->parsingException === null;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getSyntaxException(): ?string{
+        return $this->parsingException?->getMessage();
     }
 
     /**

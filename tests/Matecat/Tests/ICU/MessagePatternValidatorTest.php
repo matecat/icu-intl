@@ -1138,17 +1138,20 @@ class MessagePatternValidatorTest extends TestCase
      * Test that containsComplexSyntax returns false when there's a parsing exception.
      */
     #[Test]
-    public function testContainsComplexSyntaxReturnsFalseOnParsingException(): void
+    public function testContainsComplexSyntaxWithPartiallyParsedPattern(): void
     {
-        // Invalid pattern - missing closing brace
+        // Invalid pattern - missing closing brace, but plural is detected before the error
         $validator = new MessagePatternValidator('en', '{count, plural, one{# item}');
 
-        // containsComplexSyntax should not throw by default - it catches and stores the exception
-        // and returns false when there's a parsing error
+        // containsComplexSyntax iterates over the parts that were parsed before the error
+        // The plural type is detected even though parsing ultimately fails
         $result = $validator->containsComplexSyntax();
 
-        // Returns false because parsing failed
-        self::assertFalse($result);
+        // Returns true because plural was detected in the partial parse
+        self::assertTrue($result);
+
+        // But isValidSyntax should return false
+        self::assertFalse($validator->isValidSyntax());
     }
 
     /**
@@ -1276,53 +1279,115 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * Test containsComplexSyntax with raiseException=true throws the stored parsing exception.
-     *
-     * @throws InvalidArgumentException
-     * @throws OutOfBoundsException
+     * Test isValidSyntax returns true for valid patterns.
      */
     #[Test]
-    public function testContainsComplexSyntaxWithRaiseExceptionTrue(): void
+    public function testIsValidSyntaxReturnsTrueForValidPattern(): void
     {
-        $validator = new MessagePatternValidator('en', '{invalid');
+        $validator = new MessagePatternValidator('en', '{count, plural, one{# item} other{# items}}');
 
-        $this->expectException(InvalidArgumentException::class);
-
-        $validator->containsComplexSyntax(raiseException: true);
+        self::assertTrue($validator->isValidSyntax());
     }
 
     /**
-     * Test containsComplexSyntax with raiseException=false does not throw.
-     *
-     * @throws InvalidArgumentException
-     * @throws OutOfBoundsException
+     * Test isValidSyntax returns false for invalid patterns.
      */
     #[Test]
-    public function testContainsComplexSyntaxWithRaiseExceptionFalse(): void
+    public function testIsValidSyntaxReturnsFalseForInvalidPattern(): void
     {
         $validator = new MessagePatternValidator('en', '{invalid');
 
-        // Should not throw, just return false
-        $result = $validator->containsComplexSyntax(raiseException: false);
-
-        self::assertFalse($result);
+        self::assertFalse($validator->isValidSyntax());
     }
 
     /**
-     * Test containsComplexSyntax default behavior (raiseException=false).
-     *
-     * @throws InvalidArgumentException
-     * @throws OutOfBoundsException
+     * Test isValidSyntax returns true for simple valid patterns.
      */
     #[Test]
-    public function testContainsComplexSyntaxDefaultBehavior(): void
+    public function testIsValidSyntaxReturnsTrueForSimplePattern(): void
+    {
+        $validator = new MessagePatternValidator('en', 'Hello {name}!');
+
+        self::assertTrue($validator->isValidSyntax());
+    }
+
+    /**
+     * Test getSyntaxException returns null for valid patterns.
+     */
+    #[Test]
+    public function testGetSyntaxExceptionReturnsNullForValidPattern(): void
+    {
+        $validator = new MessagePatternValidator('en', '{count, plural, one{# item} other{# items}}');
+
+        // Trigger parsing
+        $validator->isValidSyntax();
+
+        self::assertNull($validator->getSyntaxException());
+    }
+
+    /**
+     * Test getSyntaxException returns error message for invalid patterns.
+     */
+    #[Test]
+    public function testGetSyntaxExceptionReturnsMessageForInvalidPattern(): void
+    {
+        $validator = new MessagePatternValidator('en', '{unmatched');
+
+        // Trigger parsing
+        $validator->isValidSyntax();
+
+        $exception = $validator->getSyntaxException();
+        self::assertNotNull($exception);
+        self::assertStringContainsString('brace', strtolower($exception));
+    }
+
+    /**
+     * Test getSyntaxException can be called before isValidSyntax.
+     */
+    #[Test]
+    public function testGetSyntaxExceptionBeforeParsingReturnsNull(): void
+    {
+        $validator = new MessagePatternValidator('en', '{invalid');
+
+        // Don't trigger parsing, just call getSyntaxException
+        // Since parsing hasn't happened yet, it should return null
+        self::assertNull($validator->getSyntaxException());
+    }
+
+    /**
+     * Test isValidSyntax and getSyntaxException work together.
+     */
+    #[Test]
+    public function testIsValidSyntaxAndGetSyntaxExceptionWorkTogether(): void
+    {
+        $validator = new MessagePatternValidator('en', '{broken{{{');
+
+        // First check validity
+        $isValid = $validator->isValidSyntax();
+        self::assertFalse($isValid);
+
+        // Then get the exception message
+        $message = $validator->getSyntaxException();
+        self::assertNotNull($message);
+        self::assertIsString($message);
+    }
+
+    /**
+     * Test containsComplexSyntax does not throw and works with isValidSyntax.
+     */
+    #[Test]
+    public function testContainsComplexSyntaxDoesNotThrowForInvalidPattern(): void
     {
         $validator = new MessagePatternValidator('en', '{broken');
 
-        // Default should not throw
+        // containsComplexSyntax should not throw
         $result = $validator->containsComplexSyntax();
 
+        // It should return false for broken patterns
         self::assertFalse($result);
+
+        // And isValidSyntax should return false
+        self::assertFalse($validator->isValidSyntax());
     }
 
     /**
@@ -1340,6 +1405,26 @@ class MessagePatternValidatorTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
 
         $validator->validatePluralCompliance();
+    }
+
+    /**
+     * Test setPatternString resets the syntax exception.
+     */
+    #[Test]
+    public function testSetPatternStringResetsSyntaxException(): void
+    {
+        $validator = new MessagePatternValidator('en', '{invalid');
+
+        // First, verify invalid syntax
+        self::assertFalse($validator->isValidSyntax());
+        self::assertNotNull($validator->getSyntaxException());
+
+        // Now set a valid pattern
+        $validator->setPatternString('{count, plural, one{# item} other{# items}}');
+
+        // Should now be valid
+        self::assertTrue($validator->isValidSyntax());
+        self::assertNull($validator->getSyntaxException());
     }
 
 }
