@@ -9,7 +9,8 @@
 
 namespace Matecat\ICU;
 
-use Exception;
+use Matecat\ICU\Exceptions\InvalidArgumentException;
+use Matecat\ICU\Exceptions\OutOfBoundsException;
 use Matecat\ICU\Plurals\PluralArgumentWarning;
 use Matecat\ICU\Plurals\PluralComplianceException;
 use Matecat\ICU\Plurals\PluralComplianceWarning;
@@ -17,16 +18,34 @@ use Matecat\ICU\Plurals\PluralRules;
 use Matecat\ICU\Tokens\ArgType;
 use Matecat\ICU\Tokens\TokenType;
 
-class MessagePatternValidator
+final class MessagePatternValidator
 {
 
-    private ?Exception $parsingException = null;
+    private OutOfBoundsException|InvalidArgumentException|null $parsingException = null;
+    protected ?MessagePattern $pattern = null;
 
     public function __construct(
         protected string $language = 'en-US',
         protected ?string $patternString = null,
-        protected ?MessagePattern $pattern = null,
     ) {
+    }
+
+    /**
+     * Creates a validator from a pre-parsed MessagePattern.
+     *
+     * This is useful when:
+     * - You've already parsed a MessagePattern elsewhere and want to validate it without re-parsing
+     * - You want to validate the same pattern against multiple locales (reuse the parsed pattern)
+     *
+     * @param string $language The locale to validate against (e.g., 'en', 'ru', 'ar')
+     * @param MessagePattern $pattern A pre-parsed MessagePattern instance
+     * @return static A new validator instance
+     */
+    public static function fromPattern(string $language, MessagePattern $pattern): MessagePatternValidator
+    {
+        $validator = new MessagePatternValidator($language);
+        $validator->pattern = $pattern;
+        return $validator;
     }
 
     /**
@@ -37,16 +56,25 @@ class MessagePatternValidator
     public function setPatternString(string $patternString): static
     {
         $this->patternString = $patternString;
+        $this->parsingException = null;
+        $this->pattern?->clear();
         return $this;
     }
 
     /**
+     * @param bool $raiseException
      * @return bool Returns true if the message pattern contains complex syntax (plural, select, choice, selectordinal),
      * false otherwise.
+     * @throws InvalidArgumentException
+     * @throws OutOfBoundsException
      */
-    public function containsComplexSyntax(): bool
+    public function containsComplexSyntax(bool $raiseException = false): bool
     {
         $this->checkForPatternInitialized();
+
+        if($raiseException && $this->parsingException) {
+            throw $this->parsingException;
+        }
 
         foreach ($this->pattern as $part) {
             $argType = $part->getArgType();
@@ -74,7 +102,7 @@ class MessagePatternValidator
         if ($this->pattern->countParts() === 0 && $this->patternString !== null) {
             try {
                 $this->pattern->parse($this->patternString);
-            } catch (Exception $e) {
+            } catch (OutOfBoundsException|InvalidArgumentException $e) {
                 $this->parsingException = $e;
             }
         }
@@ -103,7 +131,8 @@ class MessagePatternValidator
      *
      * @return PluralComplianceWarning|null Returns a warning object if there are compliance issues, null otherwise.
      * @throws PluralComplianceException Only if a selector is not a valid CLDR category name.
-     * @throws Exception
+     * @throws OutOfBoundsException
+     * @throws InvalidArgumentException
      *
      */
     public function validatePluralCompliance(): ?PluralComplianceWarning
@@ -225,6 +254,7 @@ class MessagePatternValidator
      *
      * @param int $argNameIndex The index of the ARG_NAME or ARG_NUMBER part (ARG_START index + 1).
      * @return string The argument name.
+     * @throws OutOfBoundsException
      */
     private function getArgumentName(int $argNameIndex): string
     {
@@ -263,6 +293,7 @@ class MessagePatternValidator
      *
      * @param int $startIndex The index of the ARG_START part in the pattern.
      * @return array<string> List of selector strings found.
+     * @throws OutOfBoundsException
      */
     private function extractSelectorsForArgument(int $startIndex): array
     {

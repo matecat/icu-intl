@@ -29,7 +29,7 @@ class MessagePatternValidatorTest extends TestCase
     /**
      * Test the simplified API: validator with only language and pattern string.
      *
-     * @throws PluralComplianceException
+     * @throws Exception
      */
     #[Test]
     public function testSimplifiedApiWithPatternString(): void
@@ -44,7 +44,7 @@ class MessagePatternValidatorTest extends TestCase
     /**
      * Test the simplified API with setPatternString() fluent method.
      *
-     * @throws PluralComplianceException
+     * @throws Exception
      */
     #[Test]
     public function testSimplifiedApiWithSetPatternString(): void
@@ -63,7 +63,7 @@ class MessagePatternValidatorTest extends TestCase
     /**
      * Test fluent chaining with the simplified API.
      *
-     * @throws PluralComplianceException
+     * @throws Exception
      */
     #[Test]
     public function testSimplifiedApiFluentChaining(): void
@@ -77,6 +77,7 @@ class MessagePatternValidatorTest extends TestCase
 
     /**
      * Test simplified API with containsComplexSyntax().
+     * @throws Exception
      */
     #[Test]
     public function testSimplifiedApiContainsComplexSyntax(): void
@@ -91,7 +92,7 @@ class MessagePatternValidatorTest extends TestCase
     /**
      * Test simplified API with warnings.
      *
-     * @throws PluralComplianceException
+     * @throws Exception
      */
     #[Test]
     public function testSimplifiedApiWithWarnings(): void
@@ -107,7 +108,7 @@ class MessagePatternValidatorTest extends TestCase
     /**
      * Test setPatternString() can override constructor's pattern string.
      *
-     * @throws PluralComplianceException
+     * @throws Exception
      */
     #[Test]
     public function testSetPatternStringOverridesConstructorPattern(): void
@@ -128,7 +129,7 @@ class MessagePatternValidatorTest extends TestCase
     /**
      * Test simplified API with nested pattern.
      *
-     * @throws PluralComplianceException
+     * @throws Exception
      */
     #[Test]
     public function testSimplifiedApiWithNestedPattern(): void
@@ -149,7 +150,7 @@ class MessagePatternValidatorTest extends TestCase
     /**
      * Test validator creates MessagePattern internally when not provided.
      *
-     * @throws PluralComplianceException
+     * @throws Exception
      */
     #[Test]
     public function testValidatorCreatesPatternInternally(): void
@@ -164,21 +165,71 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     // =========================================================================
-    // Legacy API Tests (using pre-parsed MessagePattern)
+    // Factory Method Tests (using pre-parsed MessagePattern)
     // =========================================================================
 
+    /**
+     * @throws OutOfBoundsException
+     * @throws InvalidArgumentException
+     */
     #[Test]
-    public function testContainsComplexSyntaxWithPreParsedPattern(): void
+    public function testFromPatternWithComplexSyntax(): void
     {
         $complexPattern = new MessagePattern();
         $complexPattern->parse('You have {count, plural, one{# file} other{# files}}.');
-        $complexValidator = new MessagePatternValidator('en', null, $complexPattern);
+        $complexValidator = MessagePatternValidator::fromPattern('en', $complexPattern);
         self::assertTrue($complexValidator->containsComplexSyntax());
 
         $simplePattern = new MessagePattern();
         $simplePattern->parse('Hello {name}.');
-        $simpleValidator = new MessagePatternValidator('en', null, $simplePattern);
+        $simpleValidator = MessagePatternValidator::fromPattern('en', $simplePattern);
         self::assertFalse($simpleValidator->containsComplexSyntax());
+    }
+
+    /**
+     * Test fromPattern() for validating same pattern against multiple locales.
+     *
+     * @throws OutOfBoundsException
+     * @throws InvalidArgumentException
+     */
+    #[Test]
+    public function testFromPatternMultipleLocales(): void
+    {
+        // Parse pattern once
+        $pattern = new MessagePattern();
+        $pattern->parse('{count, plural, one{# item} other{# items}}');
+
+        // Validate against English - should be valid (one, other)
+        $enValidator = MessagePatternValidator::fromPattern('en', $pattern);
+        $enWarning = $enValidator->validatePluralCompliance();
+        self::assertNull($enWarning);
+
+        // Validate against Russian - should warn (missing few, many)
+        $ruValidator = MessagePatternValidator::fromPattern('ru', $pattern);
+        $ruWarning = $ruValidator->validatePluralCompliance();
+        self::assertNotNull($ruWarning);
+        self::assertContains('few', $ruWarning->getAllMissingCategories());
+        self::assertContains('many', $ruWarning->getAllMissingCategories());
+    }
+
+    /**
+     * Test fromPattern() creates independent validator instances.
+     *
+     * @throws OutOfBoundsException
+     * @throws InvalidArgumentException
+     */
+    #[Test]
+    public function testFromPatternCreatesIndependentValidators(): void
+    {
+        $pattern = new MessagePattern();
+        $pattern->parse('{count, plural, one{# item} other{# items}}');
+
+        $validator1 = MessagePatternValidator::fromPattern('en', $pattern);
+        $validator2 = MessagePatternValidator::fromPattern('ru', $pattern);
+
+        // Both validators share the same pattern but have different languages
+        self::assertNull($validator1->validatePluralCompliance());
+        self::assertNotNull($validator2->validatePluralCompliance());
     }
 
     // =========================================================================
@@ -186,7 +237,7 @@ class MessagePatternValidatorTest extends TestCase
     // =========================================================================
 
     /**
-     * @throws PluralComplianceException
+     * @throws Exception
      */
     #[Test]
     public function testValidatePluralComplianceWithNoPluralForms(): void
@@ -199,7 +250,7 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws PluralComplianceException
+     * @throws Exception
      */
     #[Test]
     public function testValidatePluralComplianceValidEnglish(): void
@@ -212,7 +263,7 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws PluralComplianceException
+     * @throws Exception
      */
     #[Test]
     public function testValidatePluralComplianceValidArabic(): void
@@ -228,7 +279,7 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws PluralComplianceException
+     * @throws Exception
      */
     #[Test]
     public function testValidatePluralComplianceWrongLocaleSelectorsForEnglish(): void
@@ -247,6 +298,10 @@ class MessagePatternValidatorTest extends TestCase
         self::assertContains('many', $warning->argumentWarnings[0]->wrongLocaleSelectors);
     }
 
+    /**
+     * @throws OutOfBoundsException
+     * @throws InvalidArgumentException
+     */
     #[Test]
     public function testValidatePluralComplianceThrowsExceptionForNonExistentCategory(): void
     {
@@ -262,7 +317,7 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws PluralComplianceException
+     * @throws Exception
      */
     #[Test]
     public function testValidatePluralComplianceWithExplicitSelectorsReplacesCategoryKeywords(): void
@@ -281,7 +336,7 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws PluralComplianceException
+     * @throws Exception
      */
     #[Test]
     public function testValidatePluralComplianceWithExplicitSelectorsForFrench(): void
@@ -301,7 +356,7 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws PluralComplianceException
+     * @throws Exception
      */
     #[Test]
     public function testValidatePluralComplianceWithOnlyEquals1ForFrenchReturnsWarning(): void
@@ -318,7 +373,7 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws PluralComplianceException
+     * @throws Exception
      */
     #[Test]
     public function testValidatePluralComplianceWithOnlyEquals1ForEnglishReturnsWarning(): void
@@ -333,6 +388,9 @@ class MessagePatternValidatorTest extends TestCase
         self::assertContains('=1', $argWarning->numericSelectors);
     }
 
+    /**
+     * @throws Exception
+     */
     #[Test]
     public function testValidatePluralComplianceMissingCategories(): void
     {
@@ -347,7 +405,7 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws PluralComplianceException
+     * @throws Exception
      */
     #[Test]
     public function testValidatePluralComplianceWithExplicitNumericSelectors(): void
@@ -363,7 +421,7 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws PluralComplianceException
+     * @throws Exception
      */
     #[Test]
     public function testValidatePluralComplianceWithSelectOrdinal(): void
@@ -379,7 +437,7 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws PluralComplianceException
+     * @throws Exception
      */
     #[Test]
     public function testValidatePluralComplianceWithSelectOrdinalInvalid(): void
@@ -395,7 +453,7 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws PluralComplianceException
+     * @throws Exception
      */
     #[Test]
     public function testValidatePluralComplianceWithOffset(): void
@@ -411,7 +469,7 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws PluralComplianceException
+     * @throws Exception
      */
     #[Test]
     public function testValidatePluralComplianceWithNestedPlurals(): void
@@ -427,7 +485,7 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws PluralComplianceException
+     * @throws Exception
      */
     #[Test]
     public function testValidatePluralComplianceWithLocaleVariants(): void
@@ -444,7 +502,7 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws PluralComplianceException
+     * @throws Exception
      */
     #[Test]
     public function testValidatePluralComplianceUnknownLocale(): void
@@ -459,7 +517,7 @@ class MessagePatternValidatorTest extends TestCase
     /**
      * @param array<string> $expectedWrongLocaleSelectors
      * @param array<string> $expectedMissingCategories
-     * @throws PluralComplianceException
+     * @throws Exception
      */
     #[DataProvider('pluralComplianceWarningProvider')]
     #[Test]
@@ -503,7 +561,7 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws PluralComplianceException
+     * @throws Exception
      */
     #[DataProvider('pluralComplianceValidProvider')]
     #[Test]
@@ -536,7 +594,7 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws PluralComplianceException
+     * @throws Exception
      */
     #[Test]
     public function testPluralComplianceWarningProperties(): void
@@ -555,7 +613,7 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws PluralComplianceException
+     * @throws Exception
      */
     #[Test]
     public function testPluralComplianceValidWhenAllRequiredCategoriesPresent(): void
@@ -571,7 +629,7 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws PluralComplianceException
+     * @throws Exception
      */
     #[Test]
     public function testPluralComplianceWarningWithWrongLocaleCategory(): void
@@ -590,7 +648,7 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws PluralComplianceException
+     * @throws Exception
      */
     #[Test]
     public function testValidatePluralComplianceWithNestedSelectAndPluralWithOffset(): void
@@ -633,7 +691,7 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws PluralComplianceException
+     * @throws Exception
      */
     #[Test]
     public function testPluralComplianceWarningGetMessage(): void
@@ -651,7 +709,7 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws PluralComplianceException
+     * @throws Exception
      */
     #[Test]
     public function testPluralComplianceWarningGetArgumentWarnings(): void
@@ -668,7 +726,7 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws PluralComplianceException
+     * @throws Exception
      */
     #[Test]
     public function testPluralArgumentWarningGetMessage(): void
@@ -688,7 +746,7 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws PluralComplianceException
+     * @throws Exception
      */
     #[Test]
     public function testPluralArgumentWarningGetArgumentTypeLabel(): void
@@ -704,7 +762,7 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws PluralComplianceException
+     * @throws Exception
      */
     #[Test]
     public function testPluralArgumentWarningGetArgumentTypeLabelForSelectOrdinal(): void
@@ -723,7 +781,7 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws PluralComplianceException
+     * @throws Exception
      */
     #[Test]
     public function testPluralArgumentWarningMessageWithMissingCategories(): void
@@ -741,6 +799,9 @@ class MessagePatternValidatorTest extends TestCase
         self::assertStringContainsString('many', $message);
     }
 
+    /**
+     * @throws Exception
+     */
     #[Test]
     public function testPluralComplianceExceptionMessageWithMissingCategories(): void
     {
@@ -757,7 +818,7 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws PluralComplianceException
+     * @throws Exception
      */
     #[Test]
     public function testMultiplePluralArgumentsHaveSegregatedWarnings(): void
@@ -791,7 +852,7 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws PluralComplianceException
+     * @throws Exception
      */
     #[Test]
     public function testMixedPluralAndSelectOrdinalHaveSegregatedWarnings(): void
@@ -828,7 +889,7 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws PluralComplianceException
+     * @throws Exception
      */
     #[Test]
     public function testMixedValidAndInvalidArgumentsOnlyWarnForInvalid(): void
@@ -853,7 +914,7 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws PluralComplianceException
+     * @throws Exception
      */
     #[Test]
     public function testPluralArgumentWarningStringableWithWrongLocaleSelectors(): void
@@ -873,7 +934,7 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws PluralComplianceException
+     * @throws Exception
      */
     #[Test]
     public function testPluralArgumentWarningStringableWithMissingCategories(): void
@@ -893,7 +954,7 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws PluralComplianceException
+     * @throws Exception
      */
     #[Test]
     public function testPluralArgumentWarningStringableWithBothIssues(): void
@@ -915,7 +976,7 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws PluralComplianceException
+     * @throws Exception
      */
     #[Test]
     public function testPluralComplianceWarningStringableWithMultipleArguments(): void
@@ -943,7 +1004,7 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws PluralComplianceException
+     * @throws Exception
      */
     #[Test]
     public function testSelectOrdinalArgumentWarningStringable(): void
@@ -965,21 +1026,22 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     // =========================================================================
-    // Legacy API Tests (pre-parsed MessagePattern passed to constructor)
+    // fromPattern() Factory Method Tests
     // =========================================================================
 
     /**
-     * Test that pre-parsed patterns still work with the new constructor signature.
+     * Test that fromPattern() works with pre-parsed patterns.
      *
-     * @throws PluralComplianceException
+     * @throws InvalidArgumentException
+     * @throws OutOfBoundsException
      */
     #[Test]
-    public function testLegacyApiWithPreParsedPattern(): void
+    public function testFromPatternWithPreParsedPattern(): void
     {
         $pattern = new MessagePattern();
         $pattern->parse('{count, plural, one{# item} other{# items}}');
 
-        $validator = new MessagePatternValidator('en', null, $pattern);
+        $validator = MessagePatternValidator::fromPattern('en', $pattern);
 
         $warning = $validator->validatePluralCompliance();
 
@@ -987,20 +1049,21 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * Test that pre-parsed pattern takes precedence over patternString.
+     * Test that fromPattern() uses the provided pattern directly.
      *
-     * @throws PluralComplianceException
+     * @throws InvalidArgumentException
+     * @throws OutOfBoundsException
      */
     #[Test]
-    public function testPreParsedPatternTakesPrecedenceOverPatternString(): void
+    public function testFromPatternUsesProvidedPattern(): void
     {
         $pattern = new MessagePattern();
         $pattern->parse('{count, plural, one{# item} other{# items}}');
 
-        // Pass a different (invalid) pattern string - should be ignored since pattern is already parsed
-        $validator = new MessagePatternValidator('en', '{invalid, plural, wrong{test}}', $pattern);
+        // Create validator using factory method
+        $validator = MessagePatternValidator::fromPattern('en', $pattern);
 
-        // Should validate the pre-parsed pattern (which is valid), not the patternString
+        // Validator should use the pre-parsed pattern
         $warning = $validator->validatePluralCompliance();
 
         self::assertNull($warning);
@@ -1012,6 +1075,8 @@ class MessagePatternValidatorTest extends TestCase
 
     /**
      * Test that parsing exceptions are caught and re-thrown during validation.
+     * @throws PluralComplianceException
+     * @throws OutOfBoundsException
      */
     #[Test]
     public function testParsingExceptionIsRethrownDuringValidation(): void
@@ -1027,6 +1092,8 @@ class MessagePatternValidatorTest extends TestCase
     /**
      * Test that parsing exceptions are caught during containsComplexSyntax but method still works.
      * The pattern may partially parse before the error, so complex syntax might still be detected.
+     *
+     * @throws Exception
      */
     #[Test]
     public function testParsingExceptionDuringContainsComplexSyntax(): void
@@ -1044,6 +1111,7 @@ class MessagePatternValidatorTest extends TestCase
 
     /**
      * Test that validation throws the stored parsing exception.
+     * @throws Exception
      */
     #[Test]
     public function testValidationThrowsStoredParsingException(): void
@@ -1061,6 +1129,7 @@ class MessagePatternValidatorTest extends TestCase
 
     /**
      * Test that InvalidArgumentException is thrown for invalid pattern syntax.
+     * @throws Exception
      */
     #[Test]
     public function testInvalidArgumentExceptionForSyntaxError(): void
@@ -1074,6 +1143,7 @@ class MessagePatternValidatorTest extends TestCase
 
     /**
      * Test that parsing exception message is preserved.
+     * @throws Exception
      */
     #[Test]
     public function testParsingExceptionMessageIsPreserved(): void
@@ -1091,6 +1161,8 @@ class MessagePatternValidatorTest extends TestCase
 
     /**
      * Test that multiple validation calls with invalid pattern throw same exception.
+     * @throws PluralComplianceException
+     * @throws OutOfBoundsException
      */
     #[Test]
     public function testMultipleValidationCallsThrowSameException(): void
@@ -1115,7 +1187,7 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * Test that valid pattern after setPatternString replaces invalid one.
+     * Test that setPatternString resets the parsing state and allows reparsing.
      *
      * @throws Exception
      */
@@ -1132,45 +1204,89 @@ class MessagePatternValidatorTest extends TestCase
             // Expected
         }
 
-        // Now set a valid pattern - this should work since setPatternString is called
-        // However, the current implementation stores the exception, so we need to check
-        // if the behavior resets. Based on the code, setPatternString only sets the string
-        // but doesn't reset the pattern or exception.
-
-        // This test documents the current behavior
+        // Now set a valid pattern - setPatternString resets the exception and clears the pattern
         $validator->setPatternString('{count, plural, one{# item} other{# items}}');
 
-        // The pattern object already has parts from the failed parse attempt,
-        // so it won't re-parse. This is the expected behavior.
-        // To get a fresh parse, you need a new validator instance.
-        $newValidator = new MessagePatternValidator('en', '{count, plural, one{# item} other{# items}}');
-        $warning = $newValidator->validatePluralCompliance();
+        // The pattern should now be valid and validation should succeed
+        $warning = $validator->validatePluralCompliance();
         self::assertNull($warning);
     }
 
     /**
-     * Test containsComplexSyntax returns false for pattern that failed to parse.
+     * Test containsComplexSyntax returns false for a pattern that failed to parse completely.
+     *
+     * @throws Exception
      */
     #[Test]
     public function testContainsComplexSyntaxReturnsFalseForFailedParse(): void
     {
         $validator = new MessagePatternValidator('en', '{invalid{{{');
 
-        // Should return false because the pattern failed to parse
+        // Should return false because the pattern failed to parse (no complex syntax detected)
         $result = $validator->containsComplexSyntax();
 
         self::assertFalse($result);
     }
 
     /**
-     * Test that Exception base class is used in validatePluralCompliance signature.
+     * Test containsComplexSyntax with raiseException=true throws the stored parsing exception.
+     *
+     * @throws Exception
      */
     #[Test]
-    public function testValidatePluralComplianceThrowsException(): void
+    public function testContainsComplexSyntaxWithRaiseExceptionTrue(): void
+    {
+        $validator = new MessagePatternValidator('en', '{invalid');
+
+        $this->expectException(InvalidArgumentException::class);
+
+        $validator->containsComplexSyntax(raiseException: true);
+    }
+
+    /**
+     * Test containsComplexSyntax with raiseException=false does not throw.
+     *
+     * @throws Exception
+     */
+    #[Test]
+    public function testContainsComplexSyntaxWithRaiseExceptionFalse(): void
+    {
+        $validator = new MessagePatternValidator('en', '{invalid');
+
+        // Should not throw, just return false
+        $result = $validator->containsComplexSyntax(raiseException: false);
+
+        self::assertFalse($result);
+    }
+
+    /**
+     * Test containsComplexSyntax default behavior (raiseException=false).
+     *
+     * @throws Exception
+     */
+    #[Test]
+    public function testContainsComplexSyntaxDefaultBehavior(): void
+    {
+        $validator = new MessagePatternValidator('en', '{broken');
+
+        // Default should not throw
+        $result = $validator->containsComplexSyntax();
+
+        self::assertFalse($result);
+    }
+
+    /**
+     * Test that InvalidArgumentException is thrown for validatePluralCompliance.
+     *
+     * @throws Exception
+     * @throws PluralComplianceException
+     */
+    #[Test]
+    public function testValidatePluralComplianceThrowsInvalidArgumentException(): void
     {
         $validator = new MessagePatternValidator('en', '{{{{');
 
-        $this->expectException(Exception::class);
+        $this->expectException(InvalidArgumentException::class);
 
         $validator->validatePluralCompliance();
     }

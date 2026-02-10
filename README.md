@@ -257,9 +257,9 @@ $validator = new MessagePatternValidator('en', 'Hello {name}.');
 $validator->containsComplexSyntax(); // false
 ```
 
-##### Legacy API (with pre-parsed MessagePattern)
+##### Factory Method (with pre-parsed MessagePattern)
 
-You can also pass a pre-parsed `MessagePattern` object as the third parameter:
+Use the `fromPattern()` factory method when you have a pre-parsed `MessagePattern` or want to validate the same pattern against multiple locales:
 
 ```php
 use Matecat\ICU\MessagePattern;
@@ -269,9 +269,17 @@ use Matecat\ICU\MessagePatternValidator;
 $pattern = new MessagePattern();
 $pattern->parse('{count, plural, one{# item} other{# items}}');
 
-// Pass the parsed pattern to the validator (language, null, pattern)
-$validator = new MessagePatternValidator('en', null, $pattern);
+// Create validator using factory method
+$validator = MessagePatternValidator::fromPattern('en', $pattern);
 $warning = $validator->validatePluralCompliance();
+
+// Validate same pattern against multiple locales (reuses the parsed pattern)
+$enValidator = MessagePatternValidator::fromPattern('en', $pattern);
+$ruValidator = MessagePatternValidator::fromPattern('ru', $pattern);
+$arValidator = MessagePatternValidator::fromPattern('ar', $pattern);
+
+$enValidator->validatePluralCompliance(); // null - English only needs 'one', 'other'
+$ruValidator->validatePluralCompliance(); // warning - Russian needs 'one', 'few', 'many', 'other'
 ```
 
 ##### Working with Warnings
@@ -414,10 +422,11 @@ Token types used by the parser: `MSG_START`, `MSG_LIMIT`, `ARG_START`, `ARG_NAME
 Argument classifications: `NONE`, `SIMPLE`, `CHOICE`, `PLURAL`, `SELECT`, `SELECTORDINAL`.
 
 ### Matecat\ICU\MessagePatternValidator
-- `__construct(string $language = 'en-US', ?string $patternString = null, ?MessagePattern $pattern = null)`
-- `setPatternString(string $patternString): static` - Sets the pattern string for lazy parsing (fluent interface)
-- `containsComplexSyntax(): bool` - Returns true if the pattern contains plural, select, choice, or selectordinal
-- `validatePluralCompliance(): ?PluralComplianceWarning` - Validates if plural forms comply with the locale's expected categories. Returns null if valid, a warning object if there are issues, or throws `PluralComplianceException` for invalid CLDR categories.
+- `__construct(string $language = 'en-US', ?string $patternString = null)` - Creates a validator with the specified locale and optional pattern string
+- `static fromPattern(string $language, MessagePattern $pattern): static` - Factory method to create a validator from a pre-parsed MessagePattern (useful for validating the same pattern against multiple locales)
+- `setPatternString(string $patternString): static` - Sets the pattern string for lazy parsing, resets any stored parsing exception, and clears the internal pattern (fluent interface)
+- `containsComplexSyntax(bool $raiseException = false): bool` - Returns true if the pattern contains plural, select, choice, or selectordinal. If `$raiseException` is true and there was a parsing error, throws the stored exception.
+- `validatePluralCompliance(): ?PluralComplianceWarning` - Validates if plural forms comply with the locale's expected categories. Returns null if valid, a warning object if there are issues. Throws `PluralComplianceException` for invalid CLDR categories, or `InvalidArgumentException`/`OutOfBoundsException` for parsing errors.
 
 ### Matecat\ICU\Plurals\PluralComplianceWarning (readonly)
 Returned when plural selectors have compliance issues that don't warrant an exception.
