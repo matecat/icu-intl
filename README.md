@@ -223,70 +223,111 @@ if (PluralRules::getCardinalCategoryName('en', $count) === PluralRules::CATEGORY
 
 The `MessagePatternValidator` validates that plural/selectordinal selectors comply with CLDR plural categories for a given locale. It provides per-argument warnings for detailed feedback.
 
+##### Simplified API (recommended)
+
+The validator can work directly with a pattern string, without needing to create a `MessagePattern` object first:
+
 ```php
-use Matecat\ICU\MessagePattern;
 use Matecat\ICU\MessagePatternValidator;
 use Matecat\ICU\Plurals\PluralComplianceException;
 
-// Parse an ICU message
-$pattern = new MessagePattern();
-$pattern->parse('{count, plural, one{# item} other{# items}}');
-
-// Validate plural compliance for English
-$validator = new MessagePatternValidator($pattern, 'en');
+// Simplified API: just provide locale and pattern string
+$validator = new MessagePatternValidator('en', null, '{count, plural, one{# item} other{# items}}');
 $warning = $validator->validatePluralCompliance();
 
 // Returns null when all categories are valid and complete
 var_dump($warning); // null - 'one' and 'other' are valid for English
 
-// Check with Russian locale - Russian requires one/few/many/other
-$validator = new MessagePatternValidator($pattern, 'ru');
-$warning = $validator->validatePluralCompliance();
+// Fluent API with setPatternString()
+$warning = (new MessagePatternValidator('ru'))
+    ->setPatternString('{count, plural, one{# item} other{# items}}')
+    ->validatePluralCompliance();
 
-// Returns a PluralComplianceWarning with per-argument details
-$warning->getMessage();                    // Human-readable warning message
+// Returns a PluralComplianceWarning - Russian requires one/few/many/other
+$warning->getMessagesAsString();           // Human-readable warning message
 $warning->getArgumentWarnings();           // Array of PluralArgumentWarning objects
 $warning->getAllMissingCategories();       // ['few', 'many']
 $warning->getAllWrongLocaleSelectors();    // []
 
+// Check if pattern contains complex syntax (plural, select, choice, selectordinal)
+$validator = new MessagePatternValidator('en', null, '{count, plural, one{# file} other{# files}}');
+$validator->containsComplexSyntax(); // true
+
+$validator = new MessagePatternValidator('en', null, 'Hello {name}.');
+$validator->containsComplexSyntax(); // false
+```
+
+##### Legacy API (with pre-parsed MessagePattern)
+
+You can also pass a pre-parsed `MessagePattern` object:
+
+```php
+use Matecat\ICU\MessagePattern;
+use Matecat\ICU\MessagePatternValidator;
+
+// Parse an ICU message first
+$pattern = new MessagePattern();
+$pattern->parse('{count, plural, one{# item} other{# items}}');
+
+// Pass the parsed pattern to the validator
+$validator = new MessagePatternValidator('en', $pattern);
+$warning = $validator->validatePluralCompliance();
+```
+
+##### Working with Warnings
+
+```php
+use Matecat\ICU\MessagePatternValidator;
+
 // Access per-argument warnings
+$validator = new MessagePatternValidator('ru', null, '{count, plural, one{# item} other{# items}}');
+$warning = $validator->validatePluralCompliance();
+
 foreach ($warning->getArgumentWarnings() as $argWarning) {
-    echo $argWarning->argumentName;        // 'count'
+    echo $argWarning->argumentName;           // 'count'
     echo $argWarning->getArgumentTypeLabel(); // 'plural' or 'selectordinal'
     print_r($argWarning->expectedCategories); // ['one', 'few', 'many', 'other']
     print_r($argWarning->missingCategories);  // ['few', 'many']
     print_r($argWarning->foundSelectors);     // ['one', 'other']
-    echo $argWarning->getMessageAsString();         // Detailed message for this argument
+    echo $argWarning->getMessageAsString();   // Detailed message for this argument
 }
+```
+
+##### Exception Handling
+
+```php
+use Matecat\ICU\MessagePatternValidator;
+use Matecat\ICU\Plurals\PluralComplianceException;
 
 // Invalid CLDR categories throw an exception
-$pattern->parse('{count, plural, some{# items} other{# items}}'); // 'some' is not a valid CLDR category
-$validator = new MessagePatternValidator($pattern, 'en');
+$validator = new MessagePatternValidator('en', null, '{count, plural, some{# items} other{# items}}');
 
 try {
     $validator->validatePluralCompliance();
 } catch (PluralComplianceException $e) {
     echo $e->getMessage();
-    // "Invalid selectors found for locale 'en': [some]. Found selectors: [one, some, other]. Valid CLDR categories are: [zero, one, two, few, many, other]."
-    // If missingCategories is provided: "...Missing required categories: [one, few]. Valid CLDR categories are: [zero, one, two, few, many, other]."
+    // "Invalid selectors found for locale 'en': [some]. Found selectors: [some, other]. Valid CLDR categories are: [zero, one, two, few, many, other]."
     echo $e->locale;                  // 'en'
     print_r($e->invalidSelectors);    // ['some']
-    print_r($e->foundSelectors);      // ['one', 'some', 'other']
-    print_r($e->missingCategories);   // [] (typically empty for this exception, used in warnings)
+    print_r($e->foundSelectors);      // ['some', 'other']
     print_r($e->expectedCategories);  // ['zero', 'one', 'two', 'few', 'many', 'other']
 }
+```
+
+##### More Examples
+
+```php
+use Matecat\ICU\MessagePatternValidator;
 
 // Valid CLDR categories wrong for locale return warnings (not exceptions)
-$pattern->parse('{count, plural, one{# item} few{# items} other{# items}}');
-$validator = new MessagePatternValidator($pattern, 'en'); // English doesn't use 'few'
+$validator = new MessagePatternValidator('en', null, '{count, plural, one{# item} few{# items} other{# items}}');
 $warning = $validator->validatePluralCompliance();
 
 $argWarning = $warning->getArgumentWarnings()[0];
 print_r($argWarning->wrongLocaleSelectors); // ['few'] - valid CLDR but not for English
 
 // Explicit numeric selectors (=0, =1, =2) are always valid but don't substitute category keywords
-$pattern->parse('{count, plural, =0{none} =1{one item} other{# items}}');
-$validator = new MessagePatternValidator($pattern, 'en');
+$validator = new MessagePatternValidator('en', null, '{count, plural, =0{none} =1{one item} other{# items}}');
 $warning = $validator->validatePluralCompliance();
 
 $argWarning = $warning->getArgumentWarnings()[0];
@@ -294,13 +335,15 @@ print_r($argWarning->numericSelectors);    // ['=0', '=1']
 print_r($argWarning->missingCategories);   // ['one'] - =1 doesn't substitute for 'one' keyword
 
 // Nested messages with multiple plural arguments get per-argument validation
-$pattern->parse("{gender, select, female{{n, plural, one{her item} other{her items}}} male{{n, plural, one{his item} other{his items}}}}");
-$validator = new MessagePatternValidator($pattern, 'en');
+$validator = new MessagePatternValidator(
+    'en',
+    null,
+    "{gender, select, female{{n, plural, one{her item} other{her items}}} male{{n, plural, one{his item} other{his items}}}}"
+);
 $warning = $validator->validatePluralCompliance(); // null - all valid
 
 // SelectOrdinal validation uses ordinal rules (different from cardinal)
-$pattern->parse('{rank, selectordinal, one{#st} two{#nd} few{#rd} other{#th}}');
-$validator = new MessagePatternValidator($pattern, 'en');
+$validator = new MessagePatternValidator('en', null, '{rank, selectordinal, one{#st} two{#nd} few{#rd} other{#th}}');
 $warning = $validator->validatePluralCompliance(); // null - English ordinal uses one/two/few/other
 ```
 
@@ -372,7 +415,8 @@ Token types used by the parser: `MSG_START`, `MSG_LIMIT`, `ARG_START`, `ARG_NAME
 Argument classifications: `NONE`, `SIMPLE`, `CHOICE`, `PLURAL`, `SELECT`, `SELECTORDINAL`.
 
 ### Matecat\ICU\MessagePatternValidator
-- `__construct(MessagePattern $pattern, string $language = 'en-US')`
+- `__construct(string $language = 'en-US', ?MessagePattern $pattern = null, ?string $patternString = null)`
+- `setPatternString(string $patternString): static` - Sets the pattern string for lazy parsing (fluent interface)
 - `containsComplexSyntax(): bool` - Returns true if the pattern contains plural, select, choice, or selectordinal
 - `validatePluralCompliance(): ?PluralComplianceWarning` - Validates if plural forms comply with the locale's expected categories. Returns null if valid, a warning object if there are issues, or throws `PluralComplianceException` for invalid CLDR categories.
 

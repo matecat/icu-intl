@@ -19,18 +19,162 @@ use PHPUnit\Framework\TestCase;
 
 class MessagePatternValidatorTest extends TestCase
 {
+    // =========================================================================
+    // Simplified API Tests (using patternString directly)
+    // =========================================================================
+
+    /**
+     * Test the simplified API: validator with only language and pattern string.
+     *
+     * @throws PluralComplianceException
+     */
+    #[Test]
+    public function testSimplifiedApiWithPatternString(): void
+    {
+        $validator = new MessagePatternValidator('en', null, '{count, plural, one{# item} other{# items}}');
+
+        $warning = $validator->validatePluralCompliance();
+
+        self::assertNull($warning);
+    }
+
+    /**
+     * Test the simplified API with setPatternString() fluent method.
+     *
+     * @throws PluralComplianceException
+     */
+    #[Test]
+    public function testSimplifiedApiWithSetPatternString(): void
+    {
+        $validator = new MessagePatternValidator('en');
+
+        $result = $validator->setPatternString('{count, plural, one{# item} other{# items}}');
+
+        // Should return the validator instance for fluent interface
+        self::assertSame($validator, $result);
+
+        $warning = $validator->validatePluralCompliance();
+        self::assertNull($warning);
+    }
+
+    /**
+     * Test fluent chaining with the simplified API.
+     *
+     * @throws PluralComplianceException
+     */
+    #[Test]
+    public function testSimplifiedApiFluentChaining(): void
+    {
+        $warning = (new MessagePatternValidator('ru'))
+            ->setPatternString('{count, plural, one{# item} few{# items} many{# items} other{# items}}')
+            ->validatePluralCompliance();
+
+        self::assertNull($warning);
+    }
+
+    /**
+     * Test simplified API with containsComplexSyntax().
+     */
+    #[Test]
+    public function testSimplifiedApiContainsComplexSyntax(): void
+    {
+        $validator = new MessagePatternValidator('en', null, '{count, plural, one{# file} other{# files}}');
+        self::assertTrue($validator->containsComplexSyntax());
+
+        $validator2 = new MessagePatternValidator('en', null, 'Hello {name}.');
+        self::assertFalse($validator2->containsComplexSyntax());
+    }
+
+    /**
+     * Test simplified API with warnings.
+     *
+     * @throws PluralComplianceException
+     */
+    #[Test]
+    public function testSimplifiedApiWithWarnings(): void
+    {
+        $validator = new MessagePatternValidator('en', null, '{count, plural, one{# item} few{# items} other{# items}}');
+
+        $warning = $validator->validatePluralCompliance();
+
+        self::assertNotNull($warning);
+        self::assertContains('few', $warning->argumentWarnings[0]->wrongLocaleSelectors);
+    }
+
+    /**
+     * Test setPatternString() can override constructor's pattern string.
+     *
+     * @throws PluralComplianceException
+     */
+    #[Test]
+    public function testSetPatternStringOverridesConstructorPattern(): void
+    {
+        $validator = new MessagePatternValidator('en', null, '{count, plural, one{# item} other{# items}}');
+
+        // Override with a different pattern string
+        $validator->setPatternString('{items, plural, few{# items} other{# items}}');
+
+        $warning = $validator->validatePluralCompliance();
+
+        // Should validate the new pattern (with 'few' which is wrong for English)
+        self::assertNotNull($warning);
+        self::assertSame('items', $warning->argumentWarnings[0]->argumentName);
+        self::assertContains('few', $warning->argumentWarnings[0]->wrongLocaleSelectors);
+    }
+
+    /**
+     * Test simplified API with nested pattern.
+     *
+     * @throws PluralComplianceException
+     */
+    #[Test]
+    public function testSimplifiedApiWithNestedPattern(): void
+    {
+        $nestedPattern = '{gender, select, ' .
+            'male{{count, plural, one{He has # item} other{He has # items}}} ' .
+            'female{{count, plural, one{She has # item} other{She has # items}}} ' .
+            'other{{count, plural, one{They have # item} other{They have # items}}}}';
+
+        $validator = new MessagePatternValidator('en', null, $nestedPattern);
+
+        $warning = $validator->validatePluralCompliance();
+
+        // All nested plural blocks are valid for English
+        self::assertNull($warning);
+    }
+
+    /**
+     * Test validator creates MessagePattern internally when not provided.
+     *
+     * @throws PluralComplianceException
+     */
+    #[Test]
+    public function testValidatorCreatesPatternInternally(): void
+    {
+        // No pattern provided, only language and pattern string
+        $validator = new MessagePatternValidator('en', null, '{count, plural, one{# item} other{# items}}');
+
+        // Should work without throwing - MessagePattern is created internally
+        $warning = $validator->validatePluralCompliance();
+
+        self::assertNull($warning);
+    }
+
+    // =========================================================================
+    // Legacy API Tests (using pre-parsed MessagePattern)
+    // =========================================================================
 
     #[Test]
-    public function testContainsComplexSyntax(): void
+    public function testContainsComplexSyntaxWithPreParsedPattern(): void
     {
         $complexPattern = new MessagePattern();
         $complexPattern->parse('You have {count, plural, one{# file} other{# files}}.');
-        $complexValidator = new MessagePatternValidator($complexPattern);
+        $complexValidator = new MessagePatternValidator('en', $complexPattern);
         self::assertTrue($complexValidator->containsComplexSyntax());
 
         $simplePattern = new MessagePattern();
         $simplePattern->parse('Hello {name}.');
-        $simpleValidator = new MessagePatternValidator($simplePattern);
+        $simpleValidator = new MessagePatternValidator('en', $simplePattern);
         self::assertFalse($simpleValidator->containsComplexSyntax());
     }
 
@@ -44,12 +188,11 @@ class MessagePatternValidatorTest extends TestCase
     #[Test]
     public function testValidatePluralComplianceWithNoPluralForms(): void
     {
-        $pattern = new MessagePattern();
-        $pattern->parse('Hello {name}.');
-        $validator = new MessagePatternValidator($pattern, 'en');
+        $validator = new MessagePatternValidator('en', null, 'Hello {name}.');
 
         // Should not throw when there are no plural forms
-        $validator->validatePluralCompliance();
+        $warning = $validator->validatePluralCompliance();
+        self::assertNull($warning);
     }
 
     /**
@@ -58,12 +201,11 @@ class MessagePatternValidatorTest extends TestCase
     #[Test]
     public function testValidatePluralComplianceValidEnglish(): void
     {
-        $pattern = new MessagePattern();
-        $pattern->parse('You have {count, plural, one{# item} other{# items}}.');
-        $validator = new MessagePatternValidator($pattern, 'en');
+        $validator = new MessagePatternValidator('en', null, 'You have {count, plural, one{# item} other{# items}}.');
 
         // Should not throw when valid
-        $validator->validatePluralCompliance();
+        $warning = $validator->validatePluralCompliance();
+        self::assertNull($warning);
     }
 
     /**
@@ -72,14 +214,15 @@ class MessagePatternValidatorTest extends TestCase
     #[Test]
     public function testValidatePluralComplianceValidArabic(): void
     {
-        $pattern = new MessagePattern();
-        $pattern->parse(
+        $validator = new MessagePatternValidator(
+            'ar',
+            null,
             '{count, plural, zero{no items} one{one item} two{two items} few{# items} many{# items} other{# item}}'
         );
-        $validator = new MessagePatternValidator($pattern, 'ar');
 
         // Should not throw when all categories are present
-        $validator->validatePluralCompliance();
+        $warning = $validator->validatePluralCompliance();
+        self::assertNull($warning);
     }
 
     /**
@@ -88,11 +231,11 @@ class MessagePatternValidatorTest extends TestCase
     #[Test]
     public function testValidatePluralComplianceWrongLocaleSelectorsForEnglish(): void
     {
-        // English only has 'one' and 'other', so 'few' and 'many' are valid CLDR categories
-        // but wrong for this locale - should return a warning, not throw exception
-        $pattern = new MessagePattern();
-        $pattern->parse('{count, plural, one{# item} few{# items} many{# items} other{# items}}');
-        $validator = new MessagePatternValidator($pattern, 'en');
+        $validator = new MessagePatternValidator(
+            'en',
+            null,
+            '{count, plural, one{# item} few{# items} many{# items} other{# items}}'
+        );
 
         $warning = $validator->validatePluralCompliance();
 
@@ -106,10 +249,11 @@ class MessagePatternValidatorTest extends TestCase
     #[Test]
     public function testValidatePluralComplianceThrowsExceptionForNonExistentCategory(): void
     {
-        // 'some' is NOT a valid CLDR category at all - should throw an exception
-        $pattern = new MessagePattern();
-        $pattern->parse('{count, plural, one{# item} some{# items} other{# items}}');
-        $validator = new MessagePatternValidator($pattern, 'en');
+        $validator = new MessagePatternValidator(
+            'en',
+            null,
+            '{count, plural, one{# item} some{# items} other{# items}}'
+        );
 
         self::expectException(PluralComplianceException::class);
         self::expectExceptionMessageMatches('/Invalid selectors found/');
@@ -118,34 +262,13 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * In ICU MessageFormat, plural selectors can be:
-     * Keyword selectors: zero, one, two, few, many, other
-     * Explicit value selectors: =0, =1, =2, etc. (matches exactly that number)
-     *
-     * SOFT VALIDATION: Numeric selectors (=0, =1, =2) are NOT allowed to substitute for
-     * CLDR plural category keywords (zero, one, two, few, many, other).
-     *
-     * Every expected plural category for the locale SHOULD be explicitly provided using
-     * the corresponding category keyword. While numeric selectors are syntactically valid,
-     * they cannot fulfill the requirement for category-based selectors.
-     *
-     * When numeric selectors are present but required categories are missing, a warning
-     * is returned instead of throwing an exception.
-     *
-     * @return void
      * @throws PluralComplianceException
      */
     #[Test]
     public function testValidatePluralComplianceWithExplicitSelectorsReplacesCategoryKeywords(): void
     {
-        // Numeric selectors (=0, =1, =2, etc.) CANNOT substitute for category keywords.
-        // This pattern is missing the required 'one' category, even though =1 is present.
-        // Since numeric selectors are present, a warning is returned instead of exception.
-        $pattern = new MessagePattern();
-        $pattern->parse('{count, plural, =0{# items} =1{# item} other{# items}}');
-        $validator = new MessagePatternValidator($pattern, 'en');
+        $validator = new MessagePatternValidator('en', null, '{count, plural, =0{# items} =1{# item} other{# items}}');
 
-        // Should return a warning - =0 and =1 cannot substitute 'one' category
         $warning = $validator->validatePluralCompliance();
 
         self::assertNotNull($warning);
@@ -158,26 +281,17 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * Test that explicit selectors CANNOT substitute for French categories.
-     *
-     * For French (CLDR 49), the categories are 'one', 'many', and 'other'.
-     * Numeric selectors like =0 and =1 are NOT allowed to substitute for the required
-     * CLDR category keywords. When numeric selectors are present but categories are missing,
-     * a warning is returned instead of an exception.
-     *
      * @throws PluralComplianceException
      */
     #[Test]
     public function testValidatePluralComplianceWithExplicitSelectorsForFrench(): void
     {
-        // French expects 'one', 'many', and 'other' (CLDR 49)
-        // Even though =0 and =1 might semantically cover the 'one' range in French (n=0 or n=1),
-        // the required category keywords must be explicitly present.
-        $pattern = new MessagePattern();
-        $pattern->parse('{count, plural, =0{# item} =1{# item} many{# item} other{# items}}');
-        $validator = new MessagePatternValidator($pattern, 'fr');
+        $validator = new MessagePatternValidator(
+            'fr',
+            null,
+            '{count, plural, =0{# item} =1{# item} many{# item} other{# items}}'
+        );
 
-        // Should return a warning - missing 'one' category (many is present)
         $warning = $validator->validatePluralCompliance();
 
         self::assertNotNull($warning);
@@ -188,21 +302,13 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * Test that French with only =1 returns a warning because it's missing required categories.
-     * In French (CLDR 49), the expected categories are 'one', 'many', and 'other'.
-     *
      * @throws PluralComplianceException
      */
     #[Test]
     public function testValidatePluralComplianceWithOnlyEquals1ForFrenchReturnsWarning(): void
     {
-        // French with only =1 is incomplete - missing 'one' and 'many' categories
-        $pattern = new MessagePattern();
-        $pattern->parse('{count, plural, =1{# item}  other{# items}}');
-        $validator = new MessagePatternValidator($pattern, 'fr');
+        $validator = new MessagePatternValidator('fr', null, '{count, plural, =1{# item}  other{# items}}');
 
-        // Should return a warning because French (CLDR 49) needs 'one', 'many', and 'other'
-        // and numeric selector =1 is present
         $warning = $validator->validatePluralCompliance();
 
         self::assertNotNull($warning);
@@ -213,24 +319,13 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * Test that English with only =1 returns a warning because numeric selectors cannot substitute for 'one'.
-     *
-     * Even though =1 semantically matches the English 'one' category (n==1), it is not
-     * allowed to substitute for the required 'one' CLDR category keyword.
-     * A warning is returned when numeric selectors are present but categories are missing.
-     *
      * @throws PluralComplianceException
      */
     #[Test]
     public function testValidatePluralComplianceWithOnlyEquals1ForEnglishReturnsWarning(): void
     {
-        // English expects 'one' and 'other' categories
-        // Using only =1 is NOT sufficient - the required 'one' keyword should be present
-        $pattern = new MessagePattern();
-        $pattern->parse('{count, plural, =1{# item} other{# items}}');
-        $validator = new MessagePatternValidator($pattern, 'en');
+        $validator = new MessagePatternValidator('en', null, '{count, plural, =1{# item} other{# items}}');
 
-        // Should return a warning - =1 cannot substitute for the required 'one' category
         $warning = $validator->validatePluralCompliance();
 
         self::assertNotNull($warning);
@@ -242,11 +337,7 @@ class MessagePatternValidatorTest extends TestCase
     #[Test]
     public function testValidatePluralComplianceMissingCategories(): void
     {
-        // Russian expects 'one', 'few', 'many' - only providing 'one' and 'other'
-        // Missing 'few' and 'many' categories should return a warning
-        $pattern = new MessagePattern();
-        $pattern->parse('{count, plural, one{# item} other{# items}}');
-        $validator = new MessagePatternValidator($pattern, 'ru');
+        $validator = new MessagePatternValidator('ru', null, '{count, plural, one{# item} other{# items}}');
 
         $warning = $validator->validatePluralCompliance();
 
@@ -262,16 +353,16 @@ class MessagePatternValidatorTest extends TestCase
     #[Test]
     public function testValidatePluralComplianceWithExplicitNumericSelectors(): void
     {
-        // Explicit numeric selectors (=0, =1, =2) are always valid as selectors,
-        // but if we only have them and no category selectors, we're missing required categories
-        $pattern = new MessagePattern();
-        $pattern->parse('{count, plural, =0{no items} =1{one item} one{# item} other{# items}}');
-        $validator = new MessagePatternValidator($pattern, 'en');
+        $validator = new MessagePatternValidator(
+            'en',
+            null,
+            '{count, plural, =0{no items} =1{one item} one{# item} other{# items}}'
+        );
 
         // Should not throw - we have 'one' and 'other' categories
-        $validator->validatePluralCompliance();
+        $warning = $validator->validatePluralCompliance();
+        self::assertNull($warning);
     }
-
 
     /**
      * @throws PluralComplianceException
@@ -279,13 +370,15 @@ class MessagePatternValidatorTest extends TestCase
     #[Test]
     public function testValidatePluralComplianceWithSelectOrdinal(): void
     {
-        $pattern = new MessagePattern();
-        $pattern->parse('{count, selectordinal, one{#st} two{#nd} few{#rd} other{#th}}');
-        $validator = new MessagePatternValidator($pattern, 'en');
+        $validator = new MessagePatternValidator(
+            'en',
+            null,
+            '{count, selectordinal, one{#st} two{#nd} few{#rd} other{#th}}'
+        );
 
         // English selectordinal has: one, two, few, other (for 1st, 2nd, 3rd, 4th)
-        // This is valid, according to CLDR ordinal rules
-        $validator->validatePluralCompliance();
+        $warning = $validator->validatePluralCompliance();
+        self::assertNull($warning);
     }
 
     /**
@@ -294,10 +387,7 @@ class MessagePatternValidatorTest extends TestCase
     #[Test]
     public function testValidatePluralComplianceWithSelectOrdinalInvalid(): void
     {
-        $pattern = new MessagePattern();
-        // Russian ordinal only has 'other' - using 'one' is a valid CLDR category but wrong for this locale
-        $pattern->parse('{count, selectordinal, one{#st} other{#th}}');
-        $validator = new MessagePatternValidator($pattern, 'ru');
+        $validator = new MessagePatternValidator('ru', null, '{count, selectordinal, one{#st} other{#th}}');
 
         $warning = $validator->validatePluralCompliance();
 
@@ -313,12 +403,15 @@ class MessagePatternValidatorTest extends TestCase
     #[Test]
     public function testValidatePluralComplianceWithOffset(): void
     {
-        $pattern = new MessagePattern();
-        $pattern->parse('{count, plural, =0{no one} =1{just you} one{you and # other} other{you and # others}}');
-        $validator = new MessagePatternValidator($pattern, 'en');
+        $validator = new MessagePatternValidator(
+            'en',
+            null,
+            '{count, plural, =0{no one} =1{just you} one{you and # other} other{you and # others}}'
+        );
 
         // Should not throw
-        $validator->validatePluralCompliance();
+        $warning = $validator->validatePluralCompliance();
+        self::assertNull($warning);
     }
 
     /**
@@ -327,14 +420,15 @@ class MessagePatternValidatorTest extends TestCase
     #[Test]
     public function testValidatePluralComplianceWithNestedPlurals(): void
     {
-        $pattern = new MessagePattern();
-        $pattern->parse(
+        $validator = new MessagePatternValidator(
+            'en',
+            null,
             '{gender, select, male{{count, plural, one{He has # item} other{He has # items}}} female{{count, plural, one{She has # item} other{She has # items}}} other{{count, plural, one{They have # item} other{They have # items}}}}'
         );
-        $validator = new MessagePatternValidator($pattern, 'en');
 
         // Should not throw for valid nested plurals
-        $validator->validatePluralCompliance();
+        $warning = $validator->validatePluralCompliance();
+        self::assertNull($warning);
     }
 
     /**
@@ -343,16 +437,15 @@ class MessagePatternValidatorTest extends TestCase
     #[Test]
     public function testValidatePluralComplianceWithLocaleVariants(): void
     {
-        $pattern = new MessagePattern();
-        $pattern->parse('{count, plural, one{# item} other{# items}}');
-
         // Test with underscore locale
-        $validator1 = new MessagePatternValidator($pattern, 'en_US');
-        $validator1->validatePluralCompliance();
+        $validator1 = new MessagePatternValidator('en_US', null, '{count, plural, one{# item} other{# items}}');
+        $warning1 = $validator1->validatePluralCompliance();
+        self::assertNull($warning1);
 
         // Test with hyphen locale
-        $validator2 = new MessagePatternValidator($pattern, 'en-GB');
-        $validator2->validatePluralCompliance();
+        $validator2 = new MessagePatternValidator('en-GB', null, '{count, plural, one{# item} other{# items}}');
+        $warning2 = $validator2->validatePluralCompliance();
+        self::assertNull($warning2);
     }
 
     /**
@@ -361,12 +454,11 @@ class MessagePatternValidatorTest extends TestCase
     #[Test]
     public function testValidatePluralComplianceUnknownLocale(): void
     {
-        $pattern = new MessagePattern();
-        $pattern->parse('{count, plural, other{# items}}');
-        $validator = new MessagePatternValidator($pattern, 'unknown');
+        $validator = new MessagePatternValidator('unknown', null, '{count, plural, other{# items}}');
 
         // Unknown locales default to rule 0 (Asian, no plural) which only has 'other'
-        $validator->validatePluralCompliance();
+        $warning = $validator->validatePluralCompliance();
+        self::assertNull($warning);
     }
 
     /**
@@ -382,9 +474,7 @@ class MessagePatternValidatorTest extends TestCase
         array $expectedWrongLocaleSelectors,
         array $expectedMissingCategories = []
     ): void {
-        $pattern = new MessagePattern();
-        $pattern->parse($message);
-        $validator = new MessagePatternValidator($pattern, $locale);
+        $validator = new MessagePatternValidator($locale, null, $message);
 
         $warning = $validator->validatePluralCompliance();
 
@@ -426,9 +516,7 @@ class MessagePatternValidatorTest extends TestCase
         string $locale,
         string $message
     ): void {
-        $pattern = new MessagePattern();
-        $pattern->parse($message);
-        $validator = new MessagePatternValidator($pattern, $locale);
+        $validator = new MessagePatternValidator($locale, null, $message);
 
         $warning = $validator->validatePluralCompliance();
 
@@ -458,11 +546,8 @@ class MessagePatternValidatorTest extends TestCase
     #[Test]
     public function testPluralComplianceWarningProperties(): void
     {
-        $pattern = new MessagePattern();
-        $pattern->parse('{count, plural, one{# item} few{# items} other{# items}}');
-        $validator = new MessagePatternValidator($pattern, 'en');
+        $validator = new MessagePatternValidator('en', null, '{count, plural, one{# item} few{# items} other{# items}}');
 
-        // 'few' is a valid CLDR category but wrong for English - should return a warning
         $warning = $validator->validatePluralCompliance();
 
         self::assertNotNull($warning);
@@ -471,7 +556,7 @@ class MessagePatternValidatorTest extends TestCase
         self::assertSame('count', $argWarning->argumentName);
         self::assertSame([PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_OTHER], $argWarning->expectedCategories);
         self::assertContains('few', $argWarning->wrongLocaleSelectors);
-        self::assertEmpty($argWarning->missingCategories); // English only expects one/other, both present
+        self::assertEmpty($argWarning->missingCategories);
     }
 
     /**
@@ -480,13 +565,12 @@ class MessagePatternValidatorTest extends TestCase
     #[Test]
     public function testPluralComplianceValidWhenAllRequiredCategoriesPresent(): void
     {
-        $pattern = new MessagePattern();
-        // Russian expects one/few/many - providing all required categories plus 'other'
-        // 'other' is always valid as ICU requires it as fallback, so this is fully valid
-        $pattern->parse('{count, plural, one{# item} few{# items} many{# items} other{# items}}');
-        $validator = new MessagePatternValidator($pattern, 'ru');
+        $validator = new MessagePatternValidator(
+            'ru',
+            null,
+            '{count, plural, one{# item} few{# items} many{# items} other{# items}}'
+        );
 
-        // Should return null - all required categories present, 'other' is always valid
         $warning = $validator->validatePluralCompliance();
 
         self::assertNull($warning);
@@ -498,20 +582,17 @@ class MessagePatternValidatorTest extends TestCase
     #[Test]
     public function testPluralComplianceWarningWithWrongLocaleCategory(): void
     {
-        $pattern = new MessagePattern();
-        // Russian expects one/few/many - 'two' is valid CLDR but wrong for Russian cardinal
-        // All required categories are present, so this returns a warning (not exception)
-        $pattern->parse('{count, plural, one{# item} two{# items} few{# items} many{# items} other{# items}}');
-        $validator = new MessagePatternValidator($pattern, 'ru');
+        $validator = new MessagePatternValidator(
+            'ru',
+            null,
+            '{count, plural, one{# item} two{# items} few{# items} many{# items} other{# items}}'
+        );
 
-        // Should return a warning, not throw an exception
         $warning = $validator->validatePluralCompliance();
 
         self::assertNotNull($warning);
         $argWarning = $warning->argumentWarnings[0];
-        // 'two' is a valid CLDR category but wrong for Russian - should be in wrongLocaleSelectors
         self::assertContains('two', $argWarning->wrongLocaleSelectors);
-        // 'other' is always valid as ICU fallback, so it's NOT in wrongLocaleSelectors
         self::assertNotContains('other', $argWarning->wrongLocaleSelectors);
     }
 
@@ -519,41 +600,8 @@ class MessagePatternValidatorTest extends TestCase
      * @throws PluralComplianceException
      */
     #[Test]
-    public function testValidatePluralComplianceWarningMissingOther(): void
-    {
-        $pattern = new MessagePattern();
-        // Russian expects one/few/many - providing only one and other (missing few and many, but only 'other' triggers warning)
-        // Actually, we need a case where we have some valid selectors but only 'other' is missing from expected
-        // Let's use English with one and some missing categories that aren't 'other'
-        $pattern->parse('{count, plural, one{# item} other{# items}}');
-        $validator = new MessagePatternValidator($pattern, 'en');
-
-        // For English, 'other' is expected, so this should not trigger a warning
-        // The warning only triggers when ONLY 'other' is missing and all other expected categories are present
-        // Let's test it with a locale where 'other' is NOT required
-
-        // Actually, let me reconsider - the current logic triggers warning when only 'other' is missing
-        // But the parser requires 'other', so we can't have a pattern without it
-        // The warning is more theoretical - it's for locales where 'other' isn't in expected categories
-        // Let's skip this test for now as the ICU parser enforces 'other' being present
-
-        // Just verify no exception is thrown for valid plurals
-        $validator->validatePluralCompliance();
-    }
-
-    /**
-     * Test complex nested select + plural pattern with offset.
-     *
-     * This tests a gender select with nested plural forms, which is a common
-     * real-world pattern for party invitation messages that need to handle
-     * both gender and guest count variations.
-     *
-     * @throws PluralComplianceException
-     */
-    #[Test]
     public function testValidatePluralComplianceWithNestedSelectAndPluralWithOffset(): void
     {
-        $pattern = new MessagePattern();
         $message = "{gender_of_host, select, "
             . "female {"
             . "{num_guests, plural, offset:1 "
@@ -575,21 +623,13 @@ class MessagePatternValidatorTest extends TestCase
             . "=2 {{host} invites {guest} and one other person to their party.}"
             . "other {{host} invites {guest} and # other people to their party.}}}}";
 
-        $pattern->parse($message);
-        $validator = new MessagePatternValidator($pattern, 'en');
+        $validator = new MessagePatternValidator('en', null, $message);
 
-        // This pattern uses explicit numeric selectors (=0, =1, =2) and 'other'
-        // For English, categories are 'one' and 'other'
-        // Since only numeric selectors are used (no 'one' category keyword),
-        // this should return a warning instead of throwing an exception
-        // There are 3 plural arguments (one in each select branch), all missing 'one'
         $warning = $validator->validatePluralCompliance();
 
         self::assertNotNull($warning);
-        // Should have 3 argument warnings (one per plural block)
         self::assertCount(3, $warning->argumentWarnings);
 
-        // All warnings should be for 'num_guests' argument
         foreach ($warning->argumentWarnings as $argWarning) {
             self::assertSame('num_guests', $argWarning->argumentName);
             self::assertContains('one', $argWarning->missingCategories);
@@ -605,15 +645,12 @@ class MessagePatternValidatorTest extends TestCase
     #[Test]
     public function testPluralComplianceWarningGetMessage(): void
     {
-        $pattern = new MessagePattern();
-        $pattern->parse('{count, plural, one{# item} few{# items} other{# items}}');
-        $validator = new MessagePatternValidator($pattern, 'en');
+        $validator = new MessagePatternValidator('en', null, '{count, plural, one{# item} few{# items} other{# items}}');
 
         $warning = $validator->validatePluralCompliance();
 
         self::assertNotNull($warning);
 
-        // Test Stringable interface
         $message = (string)$warning;
         self::assertNotEmpty($message);
         self::assertStringContainsString('count', $message);
@@ -626,15 +663,12 @@ class MessagePatternValidatorTest extends TestCase
     #[Test]
     public function testPluralComplianceWarningGetArgumentWarnings(): void
     {
-        $pattern = new MessagePattern();
-        $pattern->parse('{count, plural, one{# item} few{# items} other{# items}}');
-        $validator = new MessagePatternValidator($pattern, 'en');
+        $validator = new MessagePatternValidator('en', null, '{count, plural, one{# item} few{# items} other{# items}}');
 
         $warning = $validator->validatePluralCompliance();
 
         self::assertNotNull($warning);
 
-        // Test getArgumentWarnings() method
         $argumentWarnings = $warning->getArgumentWarnings();
         self::assertCount(1, $argumentWarnings);
         self::assertSame('count', $argumentWarnings[0]->argumentName);
@@ -646,16 +680,13 @@ class MessagePatternValidatorTest extends TestCase
     #[Test]
     public function testPluralArgumentWarningGetMessage(): void
     {
-        $pattern = new MessagePattern();
-        $pattern->parse('{count, plural, one{# item} few{# items} other{# items}}');
-        $validator = new MessagePatternValidator($pattern, 'en');
+        $validator = new MessagePatternValidator('en', null, '{count, plural, one{# item} few{# items} other{# items}}');
 
         $warning = $validator->validatePluralCompliance();
 
         self::assertNotNull($warning);
         self::assertCount(1, $warning->argumentWarnings);
 
-        // Test Stringable interface on PluralArgumentWarning
         $argWarning = $warning->argumentWarnings[0];
         $message = (string)$argWarning;
         self::assertNotEmpty($message);
@@ -669,16 +700,13 @@ class MessagePatternValidatorTest extends TestCase
     #[Test]
     public function testPluralArgumentWarningGetArgumentTypeLabel(): void
     {
-        $pattern = new MessagePattern();
-        $pattern->parse('{count, plural, one{# item} few{# items} other{# items}}');
-        $validator = new MessagePatternValidator($pattern, 'en');
+        $validator = new MessagePatternValidator('en', null, '{count, plural, one{# item} few{# items} other{# items}}');
 
         $warning = $validator->validatePluralCompliance();
 
         self::assertNotNull($warning);
         $argWarning = $warning->argumentWarnings[0];
 
-        // Test getArgumentTypeLabel() method
         self::assertSame('plural', $argWarning->getArgumentTypeLabel());
     }
 
@@ -688,17 +716,17 @@ class MessagePatternValidatorTest extends TestCase
     #[Test]
     public function testPluralArgumentWarningGetArgumentTypeLabelForSelectOrdinal(): void
     {
-        $pattern = new MessagePattern();
-        // Using 'zero' which is wrong for English ordinal
-        $pattern->parse('{count, selectordinal, zero{#th} one{#st} two{#nd} few{#rd} other{#th}}');
-        $validator = new MessagePatternValidator($pattern, 'en');
+        $validator = new MessagePatternValidator(
+            'en',
+            null,
+            '{count, selectordinal, zero{#th} one{#st} two{#nd} few{#rd} other{#th}}'
+        );
 
         $warning = $validator->validatePluralCompliance();
 
         self::assertNotNull($warning);
         $argWarning = $warning->argumentWarnings[0];
 
-        // Test getArgumentTypeLabel() returns 'selectordinal'
         self::assertSame('selectordinal', $argWarning->getArgumentTypeLabel());
     }
 
@@ -708,17 +736,13 @@ class MessagePatternValidatorTest extends TestCase
     #[Test]
     public function testPluralArgumentWarningMessageWithMissingCategories(): void
     {
-        $pattern = new MessagePattern();
-        // Russian expects one/few/many, but we only provide one and other
-        $pattern->parse('{count, plural, one{# item} other{# items}}');
-        $validator = new MessagePatternValidator($pattern, 'ru');
+        $validator = new MessagePatternValidator('ru', null, '{count, plural, one{# item} other{# items}}');
 
         $warning = $validator->validatePluralCompliance();
 
         self::assertNotNull($warning);
         $argWarning = $warning->argumentWarnings[0];
 
-        // Test Stringable interface includes missing categories info
         $message = (string)$argWarning;
         self::assertStringContainsString('Missing', $message);
         self::assertStringContainsString('few', $message);
@@ -728,16 +752,12 @@ class MessagePatternValidatorTest extends TestCase
     #[Test]
     public function testPluralComplianceExceptionMessageWithMissingCategories(): void
     {
-        $pattern = new MessagePattern();
-        // 'invalid' is not a valid CLDR category
-        $pattern->parse('{count, plural, invalid{# items} other{# items}}');
-        $validator = new MessagePatternValidator($pattern, 'en');
+        $validator = new MessagePatternValidator('en', null, '{count, plural, invalid{# items} other{# items}}');
 
         try {
             $validator->validatePluralCompliance();
             self::fail('Expected PluralComplianceException to be thrown');
         } catch (PluralComplianceException $e) {
-            // Test the exception message contains useful information
             $message = $e->getMessage();
             self::assertStringContainsString('Invalid selectors found', $message);
             self::assertStringContainsString('invalid', $message);
@@ -745,43 +765,34 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * Test that warnings are kept segregated per argument when multiple plural/selectordinal
-     * arguments exist in the same pattern.
-     *
      * @throws PluralComplianceException
      */
     #[Test]
     public function testMultiplePluralArgumentsHaveSegregatedWarnings(): void
     {
-        $pattern = new MessagePattern();
-        // Pattern with two different plural arguments:
-        // - 'items' is missing 'one' category for English (has few which is wrong)
-        // - 'people' is missing 'one' category for English (has many which is wrong)
-        $pattern->parse(
+        $validator = new MessagePatternValidator(
+            'en',
+            null,
             'You have {items, plural, few{# items} other{# items}} and {people, plural, many{# people} other{# people}}.'
         );
-        $validator = new MessagePatternValidator($pattern, 'en');
 
         $warning = $validator->validatePluralCompliance();
 
         self::assertNotNull($warning);
         self::assertCount(2, $warning->argumentWarnings);
 
-        // First argument: 'items' with wrong 'few' selector
         $itemsWarning = $warning->argumentWarnings[0];
         self::assertSame('items', $itemsWarning->argumentName);
         self::assertContains('few', $itemsWarning->wrongLocaleSelectors);
         self::assertNotContains('many', $itemsWarning->wrongLocaleSelectors);
         self::assertContains('one', $itemsWarning->missingCategories);
 
-        // Second argument: 'people' with wrong 'many' selector
         $peopleWarning = $warning->argumentWarnings[1];
         self::assertSame('people', $peopleWarning->argumentName);
         self::assertContains('many', $peopleWarning->wrongLocaleSelectors);
         self::assertNotContains('few', $peopleWarning->wrongLocaleSelectors);
         self::assertContains('one', $peopleWarning->missingCategories);
 
-        // Verify each argument's warning is independent
         self::assertNotSame(
             $itemsWarning->wrongLocaleSelectors,
             $peopleWarning->wrongLocaleSelectors
@@ -789,45 +800,35 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * Test that plural and selectordinal arguments in the same pattern have segregated warnings
-     * with correct expected categories for each type.
-     *
      * @throws PluralComplianceException
      */
     #[Test]
     public function testMixedPluralAndSelectOrdinalHaveSegregatedWarnings(): void
     {
-        $pattern = new MessagePattern();
-        // Pattern with one plural and one selectordinal:
-        // - 'count' (plural): missing 'one' for English cardinal
-        // - 'rank' (selectordinal): using 'zero' which is wrong for English ordinal
-        $pattern->parse(
+        $validator = new MessagePatternValidator(
+            'en',
+            null,
             '{count, plural, other{# items}} and {rank, selectordinal, zero{#th} other{#th}}'
         );
-        $validator = new MessagePatternValidator($pattern, 'en');
 
         $warning = $validator->validatePluralCompliance();
 
         self::assertNotNull($warning);
         self::assertCount(2, $warning->argumentWarnings);
 
-        // First argument: 'count' (plural) - missing 'one'
         $countWarning = $warning->argumentWarnings[0];
         self::assertSame('count', $countWarning->argumentName);
         self::assertSame('plural', $countWarning->getArgumentTypeLabel());
         self::assertContains('one', $countWarning->missingCategories);
-        // English cardinal expects: one, other
         self::assertContains('one', $countWarning->expectedCategories);
         self::assertContains('other', $countWarning->expectedCategories);
         self::assertNotContains('two', $countWarning->expectedCategories);
         self::assertNotContains('few', $countWarning->expectedCategories);
 
-        // Second argument: 'rank' (selectordinal) - 'zero' is wrong for English ordinal
         $rankWarning = $warning->argumentWarnings[1];
         self::assertSame('rank', $rankWarning->argumentName);
         self::assertSame('selectordinal', $rankWarning->getArgumentTypeLabel());
         self::assertContains('zero', $rankWarning->wrongLocaleSelectors);
-        // English ordinal expects: one, two, few, other
         self::assertContains('one', $rankWarning->expectedCategories);
         self::assertContains('two', $rankWarning->expectedCategories);
         self::assertContains('few', $rankWarning->expectedCategories);
@@ -837,50 +838,38 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * Test that a valid plural and an invalid selectordinal in the same pattern
-     * only produces a warning for the invalid one.
-     *
      * @throws PluralComplianceException
      */
     #[Test]
     public function testMixedValidAndInvalidArgumentsOnlyWarnForInvalid(): void
     {
-        $pattern = new MessagePattern();
-        // Pattern with one valid plural and one invalid selectordinal:
-        // - 'count' (plural): valid for English (has one and other)
-        // - 'rank' (selectordinal): invalid for English (uses many which is not in English ordinal)
-        $pattern->parse(
+        $validator = new MessagePatternValidator(
+            'en',
+            null,
             '{count, plural, one{# item} other{# items}} and {rank, selectordinal, many{#th} other{#th}}'
         );
-        $validator = new MessagePatternValidator($pattern, 'en');
 
         $warning = $validator->validatePluralCompliance();
 
         self::assertNotNull($warning);
-        // Only one warning - for the invalid selectordinal
         self::assertCount(1, $warning->argumentWarnings);
 
         $rankWarning = $warning->argumentWarnings[0];
         self::assertSame('rank', $rankWarning->argumentName);
         self::assertSame('selectordinal', $rankWarning->getArgumentTypeLabel());
         self::assertContains('many', $rankWarning->wrongLocaleSelectors);
-        // Missing one, two, few for English ordinal
         self::assertContains('one', $rankWarning->missingCategories);
         self::assertContains('two', $rankWarning->missingCategories);
         self::assertContains('few', $rankWarning->missingCategories);
     }
 
     /**
-     * Test PluralArgumentWarning Stringable interface with hardcoded expected output.
-     *
      * @throws PluralComplianceException
      */
     #[Test]
     public function testPluralArgumentWarningStringableWithWrongLocaleSelectors(): void
     {
-        $pattern = new MessagePattern();
-        $pattern->parse('{count, plural, one{# item} few{# items} other{# items}}');
-        $validator = new MessagePatternValidator($pattern, 'en');
+        $validator = new MessagePatternValidator('en', null, '{count, plural, one{# item} few{# items} other{# items}}');
 
         $warning = $validator->validatePluralCompliance();
 
@@ -895,17 +884,12 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * Test PluralArgumentWarning Stringable interface with missing categories.
-     *
      * @throws PluralComplianceException
      */
     #[Test]
     public function testPluralArgumentWarningStringableWithMissingCategories(): void
     {
-        $pattern = new MessagePattern();
-        // Russian expects one/few/many/other, only providing other
-        $pattern->parse('{count, plural, other{# items}}');
-        $validator = new MessagePatternValidator($pattern, 'ru');
+        $validator = new MessagePatternValidator('ru', null, '{count, plural, other{# items}}');
 
         $warning = $validator->validatePluralCompliance();
 
@@ -920,17 +904,12 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * Test PluralArgumentWarning Stringable interface with both wrong selectors and missing categories.
-     *
      * @throws PluralComplianceException
      */
     #[Test]
     public function testPluralArgumentWarningStringableWithBothIssues(): void
     {
-        $pattern = new MessagePattern();
-        // English expects one/other, using 'few' (wrong) and missing 'one'
-        $pattern->parse('{count, plural, few{# items} other{# items}}');
-        $validator = new MessagePatternValidator($pattern, 'en');
+        $validator = new MessagePatternValidator('en', null, '{count, plural, few{# items} other{# items}}');
 
         $warning = $validator->validatePluralCompliance();
 
@@ -947,18 +926,16 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * Test PluralComplianceWarning Stringable interface with multiple arguments.
-     *
      * @throws PluralComplianceException
      */
     #[Test]
     public function testPluralComplianceWarningStringableWithMultipleArguments(): void
     {
-        $pattern = new MessagePattern();
-        $pattern->parse(
+        $validator = new MessagePatternValidator(
+            'en',
+            null,
             '{items, plural, few{# items} other{# items}} and {people, plural, many{# people} other{# people}}'
         );
-        $validator = new MessagePatternValidator($pattern, 'en');
 
         $warning = $validator->validatePluralCompliance();
 
@@ -974,22 +951,16 @@ class MessagePatternValidatorTest extends TestCase
             . 'in plural block for the locale \'en\'. Expected categories: [one, other].';
 
         self::assertSame($expectedOutput, (string)$warning);
-        // test getMessagesAsString() returns the same output as __toString()
         self::assertSame($expectedOutput, $warning->getMessagesAsString());
     }
 
     /**
-     * Test SelectOrdinal argument warning Stringable interface.
-     *
      * @throws PluralComplianceException
      */
     #[Test]
     public function testSelectOrdinalArgumentWarningStringable(): void
     {
-        $pattern = new MessagePattern();
-        // English ordinal expects one/two/few/other, using 'zero' (wrong) and 'many' (wrong)
-        $pattern->parse('{rank, selectordinal, zero{#th} many{#th} other{#th}}');
-        $validator = new MessagePatternValidator($pattern, 'en');
+        $validator = new MessagePatternValidator('en', null, '{rank, selectordinal, zero{#th} many{#th} other{#th}}');
 
         $warning = $validator->validatePluralCompliance();
 
@@ -1005,4 +976,47 @@ class MessagePatternValidatorTest extends TestCase
         self::assertSame($expectedOutput, $argWarning->getMessageAsString());
     }
 
+    // =========================================================================
+    // Legacy API Tests (pre-parsed MessagePattern passed to constructor)
+    // =========================================================================
+
+    /**
+     * Test that pre-parsed patterns still work with the new constructor signature.
+     *
+     * @throws PluralComplianceException
+     */
+    #[Test]
+    public function testLegacyApiWithPreParsedPattern(): void
+    {
+        $pattern = new MessagePattern();
+        $pattern->parse('{count, plural, one{# item} other{# items}}');
+
+        $validator = new MessagePatternValidator('en', $pattern);
+
+        $warning = $validator->validatePluralCompliance();
+
+        self::assertNull($warning);
+    }
+
+    /**
+     * Test that patternString is ignored when a pre-parsed pattern is provided.
+     *
+     * @throws PluralComplianceException
+     */
+    #[Test]
+    public function testPreParsedPatternTakesPrecedenceOverPatternString(): void
+    {
+        $pattern = new MessagePattern();
+        $pattern->parse('{count, plural, one{# item} other{# items}}');
+
+        // Pass a different (invalid) pattern string - should be ignored
+        $validator = new MessagePatternValidator('en', $pattern, '{invalid, plural, wrong{test}}');
+
+        // Should validate the pre-parsed pattern (which is valid), not the patternString
+        $warning = $validator->validatePluralCompliance();
+
+        self::assertNull($warning);
+    }
+
 }
+

@@ -20,9 +20,21 @@ class MessagePatternValidator
 {
 
     public function __construct(
-        protected MessagePattern $pattern,
-        protected string $language = 'en-US'
+        protected string $language = 'en-US',
+        protected ?MessagePattern $pattern = null,
+        protected ?string $patternString = null
     ) {
+    }
+
+    /**
+     * @param string $patternString
+     *
+     * @return $this
+     */
+    public function setPatternString(string $patternString): static
+    {
+        $this->patternString = $patternString;
+        return $this;
     }
 
     /**
@@ -31,6 +43,9 @@ class MessagePatternValidator
      */
     public function containsComplexSyntax(): bool
     {
+
+        $this->checkForPatternInitialyzed();
+
         foreach ($this->pattern as $part) {
             $argType = $part->getArgType();
             if (
@@ -42,6 +57,21 @@ class MessagePatternValidator
             }
         }
         return false;
+    }
+
+    /**
+     * Checks if the pattern hasn't been analyzed yet. If not, it will be parsed.
+     * @return void
+     */
+    private function checkForPatternInitialyzed(): void
+    {
+        if ($this->pattern === null) {
+            $this->pattern = new MessagePattern();
+        }
+
+        if ($this->pattern->countParts() === 0 && $this->patternString !== null) {
+            $this->pattern->parse($this->patternString);
+        }
     }
 
     /**
@@ -71,6 +101,9 @@ class MessagePatternValidator
      */
     public function validatePluralCompliance(): ?PluralComplianceWarning
     {
+
+        $this->checkForPatternInitialyzed();
+
         $allInvalidSelectors = [];      // Non-existent categories (like 'some') - throws exception
         $allFoundSelectors = [];
         /** @var array<PluralArgumentWarning> $argumentWarnings */
