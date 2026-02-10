@@ -21,8 +21,8 @@ class MessagePatternValidator
 
     public function __construct(
         protected string $language = 'en-US',
+        protected ?string $patternString = null,
         protected ?MessagePattern $pattern = null,
-        protected ?string $patternString = null
     ) {
     }
 
