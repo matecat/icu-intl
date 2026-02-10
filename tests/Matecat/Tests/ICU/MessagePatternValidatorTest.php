@@ -29,7 +29,8 @@ class MessagePatternValidatorTest extends TestCase
     /**
      * Test the simplified API: validator with only language and pattern string.
      *
-     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws OutOfBoundsException
      */
     #[Test]
     public function testSimplifiedApiWithPatternString(): void
@@ -44,7 +45,8 @@ class MessagePatternValidatorTest extends TestCase
     /**
      * Test the simplified API with setPatternString() fluent method.
      *
-     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws OutOfBoundsException
      */
     #[Test]
     public function testSimplifiedApiWithSetPatternString(): void
@@ -63,7 +65,8 @@ class MessagePatternValidatorTest extends TestCase
     /**
      * Test fluent chaining with the simplified API.
      *
-     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws OutOfBoundsException
      */
     #[Test]
     public function testSimplifiedApiFluentChaining(): void
@@ -77,7 +80,8 @@ class MessagePatternValidatorTest extends TestCase
 
     /**
      * Test simplified API with containsComplexSyntax().
-     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws OutOfBoundsException
      */
     #[Test]
     public function testSimplifiedApiContainsComplexSyntax(): void
@@ -92,7 +96,8 @@ class MessagePatternValidatorTest extends TestCase
     /**
      * Test simplified API with warnings.
      *
-     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws OutOfBoundsException
      */
     #[Test]
     public function testSimplifiedApiWithWarnings(): void
@@ -108,7 +113,8 @@ class MessagePatternValidatorTest extends TestCase
     /**
      * Test setPatternString() can override constructor's pattern string.
      *
-     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws OutOfBoundsException
      */
     #[Test]
     public function testSetPatternStringOverridesConstructorPattern(): void
@@ -129,7 +135,8 @@ class MessagePatternValidatorTest extends TestCase
     /**
      * Test simplified API with nested pattern.
      *
-     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws OutOfBoundsException
      */
     #[Test]
     public function testSimplifiedApiWithNestedPattern(): void
@@ -150,7 +157,8 @@ class MessagePatternValidatorTest extends TestCase
     /**
      * Test validator creates MessagePattern internally when not provided.
      *
-     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws OutOfBoundsException
      */
     #[Test]
     public function testValidatorCreatesPatternInternally(): void
@@ -237,7 +245,8 @@ class MessagePatternValidatorTest extends TestCase
     // =========================================================================
 
     /**
-     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws OutOfBoundsException
      */
     #[Test]
     public function testValidatePluralComplianceWithNoPluralForms(): void
@@ -250,7 +259,8 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws OutOfBoundsException
      */
     #[Test]
     public function testValidatePluralComplianceValidEnglish(): void
@@ -263,7 +273,8 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws OutOfBoundsException
      */
     #[Test]
     public function testValidatePluralComplianceValidArabic(): void
@@ -279,7 +290,8 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws OutOfBoundsException
      */
     #[Test]
     public function testValidatePluralComplianceWrongLocaleSelectorsForEnglish(): void
@@ -317,7 +329,8 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws OutOfBoundsException
      */
     #[Test]
     public function testValidatePluralComplianceWithExplicitSelectorsReplacesCategoryKeywords(): void
@@ -336,7 +349,8 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws OutOfBoundsException
      */
     #[Test]
     public function testValidatePluralComplianceWithExplicitSelectorsForFrench(): void
@@ -356,7 +370,8 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws OutOfBoundsException
      */
     #[Test]
     public function testValidatePluralComplianceWithOnlyEquals1ForFrenchReturnsWarning(): void
@@ -373,7 +388,8 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws OutOfBoundsException
      */
     #[Test]
     public function testValidatePluralComplianceWithOnlyEquals1ForEnglishReturnsWarning(): void
@@ -389,7 +405,8 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws OutOfBoundsException
      */
     #[Test]
     public function testValidatePluralComplianceMissingCategories(): void
@@ -405,7 +422,8 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws OutOfBoundsException
      */
     #[Test]
     public function testValidatePluralComplianceWithExplicitNumericSelectors(): void
@@ -421,7 +439,8 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws OutOfBoundsException
      */
     #[Test]
     public function testValidatePluralComplianceWithSelectOrdinal(): void
@@ -437,7 +456,8 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws OutOfBoundsException
      */
     #[Test]
     public function testValidatePluralComplianceWithSelectOrdinalInvalid(): void
@@ -453,7 +473,8 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws OutOfBoundsException
      */
     #[Test]
     public function testValidatePluralComplianceWithOffset(): void
@@ -469,7 +490,8 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws OutOfBoundsException
      */
     #[Test]
     public function testValidatePluralComplianceWithNestedPlurals(): void
@@ -485,7 +507,8 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws OutOfBoundsException
      */
     #[Test]
     public function testValidatePluralComplianceWithLocaleVariants(): void
@@ -502,7 +525,8 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws OutOfBoundsException
      */
     #[Test]
     public function testValidatePluralComplianceUnknownLocale(): void
@@ -517,7 +541,8 @@ class MessagePatternValidatorTest extends TestCase
     /**
      * @param array<string> $expectedWrongLocaleSelectors
      * @param array<string> $expectedMissingCategories
-     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws OutOfBoundsException
      */
     #[DataProvider('pluralComplianceWarningProvider')]
     #[Test]
@@ -561,7 +586,8 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws OutOfBoundsException
      */
     #[DataProvider('pluralComplianceValidProvider')]
     #[Test]
@@ -594,7 +620,8 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws OutOfBoundsException
      */
     #[Test]
     public function testPluralComplianceWarningProperties(): void
@@ -613,7 +640,8 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws OutOfBoundsException
      */
     #[Test]
     public function testPluralComplianceValidWhenAllRequiredCategoriesPresent(): void
@@ -629,7 +657,8 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws OutOfBoundsException
      */
     #[Test]
     public function testPluralComplianceWarningWithWrongLocaleCategory(): void
@@ -648,7 +677,8 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws OutOfBoundsException
      */
     #[Test]
     public function testValidatePluralComplianceWithNestedSelectAndPluralWithOffset(): void
@@ -691,7 +721,8 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws OutOfBoundsException
      */
     #[Test]
     public function testPluralComplianceWarningGetMessage(): void
@@ -709,7 +740,8 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws OutOfBoundsException
      */
     #[Test]
     public function testPluralComplianceWarningGetArgumentWarnings(): void
@@ -726,7 +758,8 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws OutOfBoundsException
      */
     #[Test]
     public function testPluralArgumentWarningGetMessage(): void
@@ -746,7 +779,8 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws OutOfBoundsException
      */
     #[Test]
     public function testPluralArgumentWarningGetArgumentTypeLabel(): void
@@ -762,7 +796,8 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws OutOfBoundsException
      */
     #[Test]
     public function testPluralArgumentWarningGetArgumentTypeLabelForSelectOrdinal(): void
@@ -781,7 +816,8 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws OutOfBoundsException
      */
     #[Test]
     public function testPluralArgumentWarningMessageWithMissingCategories(): void
@@ -800,7 +836,8 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws OutOfBoundsException
      */
     #[Test]
     public function testPluralComplianceExceptionMessageWithMissingCategories(): void
@@ -818,7 +855,8 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws OutOfBoundsException
      */
     #[Test]
     public function testMultiplePluralArgumentsHaveSegregatedWarnings(): void
@@ -852,7 +890,8 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws OutOfBoundsException
      */
     #[Test]
     public function testMixedPluralAndSelectOrdinalHaveSegregatedWarnings(): void
@@ -889,7 +928,8 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws OutOfBoundsException
      */
     #[Test]
     public function testMixedValidAndInvalidArgumentsOnlyWarnForInvalid(): void
@@ -914,7 +954,8 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws OutOfBoundsException
      */
     #[Test]
     public function testPluralArgumentWarningStringableWithWrongLocaleSelectors(): void
@@ -934,7 +975,8 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws OutOfBoundsException
      */
     #[Test]
     public function testPluralArgumentWarningStringableWithMissingCategories(): void
@@ -954,7 +996,8 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws OutOfBoundsException
      */
     #[Test]
     public function testPluralArgumentWarningStringableWithBothIssues(): void
@@ -976,7 +1019,8 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws OutOfBoundsException
      */
     #[Test]
     public function testPluralComplianceWarningStringableWithMultipleArguments(): void
@@ -1004,7 +1048,8 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws OutOfBoundsException
      */
     #[Test]
     public function testSelectOrdinalArgumentWarningStringable(): void
@@ -1090,28 +1135,26 @@ class MessagePatternValidatorTest extends TestCase
     }
 
     /**
-     * Test that parsing exceptions are caught during containsComplexSyntax but method still works.
-     * The pattern may partially parse before the error, so complex syntax might still be detected.
-     *
-     * @throws Exception
+     * Test that containsComplexSyntax returns false when there's a parsing exception.
      */
     #[Test]
-    public function testParsingExceptionDuringContainsComplexSyntax(): void
+    public function testContainsComplexSyntaxReturnsFalseOnParsingException(): void
     {
-        // Invalid pattern - missing closing brace, but plural is still detected before error
+        // Invalid pattern - missing closing brace
         $validator = new MessagePatternValidator('en', '{count, plural, one{# item}');
 
-        // containsComplexSyntax should not throw - it catches and stores the exception
-        // The pattern partially parses and detects the plural before failing
+        // containsComplexSyntax should not throw by default - it catches and stores the exception
+        // and returns false when there's a parsing error
         $result = $validator->containsComplexSyntax();
 
-        // The plural is detected even though parsing ultimately fails
-        self::assertTrue($result);
+        // Returns false because parsing failed
+        self::assertFalse($result);
     }
 
     /**
      * Test that validation throws the stored parsing exception.
-     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws OutOfBoundsException
      */
     #[Test]
     public function testValidationThrowsStoredParsingException(): void
@@ -1129,7 +1172,8 @@ class MessagePatternValidatorTest extends TestCase
 
     /**
      * Test that InvalidArgumentException is thrown for invalid pattern syntax.
-     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws OutOfBoundsException
      */
     #[Test]
     public function testInvalidArgumentExceptionForSyntaxError(): void
@@ -1143,7 +1187,8 @@ class MessagePatternValidatorTest extends TestCase
 
     /**
      * Test that parsing exception message is preserved.
-     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws OutOfBoundsException
      */
     #[Test]
     public function testParsingExceptionMessageIsPreserved(): void
@@ -1189,7 +1234,8 @@ class MessagePatternValidatorTest extends TestCase
     /**
      * Test that setPatternString resets the parsing state and allows reparsing.
      *
-     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws OutOfBoundsException
      */
     #[Test]
     public function testSetPatternStringResetsParsingState(): void
@@ -1215,7 +1261,8 @@ class MessagePatternValidatorTest extends TestCase
     /**
      * Test containsComplexSyntax returns false for a pattern that failed to parse completely.
      *
-     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws OutOfBoundsException
      */
     #[Test]
     public function testContainsComplexSyntaxReturnsFalseForFailedParse(): void
@@ -1231,7 +1278,8 @@ class MessagePatternValidatorTest extends TestCase
     /**
      * Test containsComplexSyntax with raiseException=true throws the stored parsing exception.
      *
-     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws OutOfBoundsException
      */
     #[Test]
     public function testContainsComplexSyntaxWithRaiseExceptionTrue(): void
@@ -1246,7 +1294,8 @@ class MessagePatternValidatorTest extends TestCase
     /**
      * Test containsComplexSyntax with raiseException=false does not throw.
      *
-     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws OutOfBoundsException
      */
     #[Test]
     public function testContainsComplexSyntaxWithRaiseExceptionFalse(): void
@@ -1262,7 +1311,8 @@ class MessagePatternValidatorTest extends TestCase
     /**
      * Test containsComplexSyntax default behavior (raiseException=false).
      *
-     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws OutOfBoundsException
      */
     #[Test]
     public function testContainsComplexSyntaxDefaultBehavior(): void
@@ -1278,7 +1328,8 @@ class MessagePatternValidatorTest extends TestCase
     /**
      * Test that InvalidArgumentException is thrown for validatePluralCompliance.
      *
-     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws OutOfBoundsException
      * @throws PluralComplianceException
      */
     #[Test]

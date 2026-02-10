@@ -72,8 +72,10 @@ final class MessagePatternValidator
     {
         $this->checkForPatternInitialized();
 
-        if($raiseException && $this->parsingException) {
+        if ($raiseException && $this->parsingException) {
             throw $this->parsingException;
+        } elseif (!$raiseException && $this->parsingException) {
+            return false;
         }
 
         foreach ($this->pattern as $part) {
