@@ -18,6 +18,21 @@
         {
             "localized": [
                 {
+                    "en": "Afar"
+                }
+            ],
+            "isocode": "aa",
+            "enabled": true,
+            "rtl": false,
+            "rfc3066code": "aa-ET",
+            "ocr": {
+                "supported": true,
+                "not_supported_or_rtl": false
+            }
+        },
+        {
+            "localized": [
+                {
                     "en": "Afrikaans"
                 }
             ],
@@ -108,21 +123,6 @@
         {
             "localized": [
                 {
-                    "en": "Arabic (United Arab Emirates)"
-                }
-            ],
-            "isocode": "ar",
-            "enabled": true,
-            "rtl": true,
-            "rfc3066code": "ar-AE",
-            "ocr": {
-                "supported": true,
-                "not_supported_or_rtl": false
-            }
-        },
-        {
-            "localized": [
-                {
                     "en": "Arabic (Egypt)"
                 }
             ],
@@ -153,6 +153,21 @@
         {
             "localized": [
                 {
+                    "en": "Arabic (Morocco)"
+                }
+            ],
+            "isocode": "ar",
+            "enabled": true,
+            "rtl": true,
+            "rfc3066code": "ar-MA",
+            "ocr": {
+                "supported": true,
+                "not_supported_or_rtl": false
+            }
+        },
+        {
+            "localized": [
+                {
                     "en": "Arabic (Tunisia)"
                 }
             ],
@@ -160,6 +175,21 @@
             "enabled": true,
             "rtl": true,
             "rfc3066code": "ar-TN",
+            "ocr": {
+                "supported": true,
+                "not_supported_or_rtl": false
+            }
+        },
+        {
+            "localized": [
+                {
+                    "en": "Arabic (United Arab Emirates)"
+                }
+            ],
+            "isocode": "ar",
+            "enabled": true,
+            "rtl": true,
+            "rfc3066code": "ar-AE",
             "ocr": {
                 "supported": true,
                 "not_supported_or_rtl": false
@@ -220,21 +250,6 @@
             "enabled": true,
             "rtl": false,
             "rfc3066code": "ast-ES",
-            "ocr": {
-                "supported": true,
-                "not_supported_or_rtl": false
-            }
-        },
-        {
-            "localized": [
-                {
-                    "en": "German (Austria)"
-                }
-            ],
-            "isocode": "de",
-            "enabled": true,
-            "rtl": false,
-            "rfc3066code": "de-AT",
             "ocr": {
                 "supported": true,
                 "not_supported_or_rtl": false
@@ -439,21 +454,6 @@
         {
             "localized": [
                 {
-                    "en": "French (Belgium)"
-                }
-            ],
-            "isocode": "fr",
-            "enabled": true,
-            "rtl": false,
-            "rfc3066code": "fr-BE",
-            "ocr": {
-                "supported": true,
-                "not_supported_or_rtl": false
-            }
-        },
-        {
-            "localized": [
-                {
                     "en": "Bemba"
                 }
             ],
@@ -574,22 +574,6 @@
         {
             "localized": [
                 {
-                    "en": "Bosnian (Latin script)"
-                }
-            ],
-            "isocode": "bs",
-            "enabled": true,
-            "rtl": false,
-            "rfc3066code": "bs-BA",
-            "ocr": {
-                "supported": true,
-                "not_supported_or_rtl": false
-            },
-            "languageRegionCode": "bs-Latn-BA"
-        },
-        {
-            "localized": [
-                {
                     "en": "Bosnian (Cyrillic script)"
                 }
             ],
@@ -602,6 +586,22 @@
                 "not_supported_or_rtl": false
             },
             "languageRegionCode": "bs-Cyrl-BA"
+        },
+        {
+            "localized": [
+                {
+                    "en": "Bosnian (Latin script)"
+                }
+            ],
+            "isocode": "bs",
+            "enabled": true,
+            "rtl": false,
+            "rfc3066code": "bs-BA",
+            "ocr": {
+                "supported": true,
+                "not_supported_or_rtl": false
+            },
+            "languageRegionCode": "bs-Latn-BA"
         },
         {
             "localized": [
@@ -846,21 +846,6 @@
         {
             "localized": [
                 {
-                    "en": "Chinese (Traditional, Hong Kong)"
-                }
-            ],
-            "isocode": "zh",
-            "enabled": true,
-            "rtl": false,
-            "rfc3066code": "zh-HK",
-            "ocr": {
-                "supported": true,
-                "not_supported_or_rtl": false
-            }
-        },
-        {
-            "localized": [
-                {
                     "en": "Chinese (Simplified, Singapore)"
                 }
             ],
@@ -876,13 +861,13 @@
         {
             "localized": [
                 {
-                    "en": "Chinese (Traditional, Taiwan)"
+                    "en": "Chinese (Traditional, Hong Kong)"
                 }
             ],
             "isocode": "zh",
             "enabled": true,
             "rtl": false,
-            "rfc3066code": "zh-TW",
+            "rfc3066code": "zh-HK",
             "ocr": {
                 "supported": true,
                 "not_supported_or_rtl": false
@@ -898,6 +883,21 @@
             "enabled": true,
             "rtl": false,
             "rfc3066code": "zh-MO",
+            "ocr": {
+                "supported": true,
+                "not_supported_or_rtl": false
+            }
+        },
+        {
+            "localized": [
+                {
+                    "en": "Chinese (Traditional, Taiwan)"
+                }
+            ],
+            "isocode": "zh",
+            "enabled": true,
+            "rtl": false,
+            "rfc3066code": "zh-TW",
             "ocr": {
                 "supported": true,
                 "not_supported_or_rtl": false
@@ -1131,6 +1131,21 @@
         {
             "localized": [
                 {
+                    "en": "Dutch (Belgium)"
+                }
+            ],
+            "isocode": "nl",
+            "enabled": true,
+            "rtl": false,
+            "rfc3066code": "nl-BE",
+            "ocr": {
+                "supported": true,
+                "not_supported_or_rtl": false
+            }
+        },
+        {
+            "localized": [
+                {
                     "en": "Dutch (Netherlands)"
                 }
             ],
@@ -1198,21 +1213,6 @@
             "enabled": true,
             "rtl": false,
             "rfc3066code": "vmw-MZ",
-            "ocr": {
-                "supported": true,
-                "not_supported_or_rtl": false
-            }
-        },
-        {
-            "localized": [
-                {
-                    "en": "English (United Kingdom)"
-                }
-            ],
-            "isocode": "en",
-            "enabled": true,
-            "rtl": false,
-            "rfc3066code": "en-GB",
             "ocr": {
                 "supported": true,
                 "not_supported_or_rtl": false
@@ -1461,21 +1461,6 @@
         {
             "localized": [
                 {
-                    "en": "English (Taiwan)"
-                }
-            ],
-            "isocode": "en",
-            "enabled": true,
-            "rtl": false,
-            "rfc3066code": "en-TW",
-            "ocr": {
-                "supported": true,
-                "not_supported_or_rtl": false
-            }
-        },
-        {
-            "localized": [
-                {
                     "en": "English (Singapore)"
                 }
             ],
@@ -1521,6 +1506,21 @@
         {
             "localized": [
                 {
+                    "en": "English (Taiwan)"
+                }
+            ],
+            "isocode": "en",
+            "enabled": true,
+            "rtl": false,
+            "rfc3066code": "en-TW",
+            "ocr": {
+                "supported": true,
+                "not_supported_or_rtl": false
+            }
+        },
+        {
+            "localized": [
+                {
                     "en": "English (Turkey)"
                 }
             ],
@@ -1528,6 +1528,21 @@
             "enabled": true,
             "rtl": false,
             "rfc3066code": "en-TR",
+            "ocr": {
+                "supported": true,
+                "not_supported_or_rtl": false
+            }
+        },
+        {
+            "localized": [
+                {
+                    "en": "English (United Kingdom)"
+                }
+            ],
+            "isocode": "en",
+            "enabled": true,
+            "rtl": false,
+            "rfc3066code": "en-GB",
             "ocr": {
                 "supported": true,
                 "not_supported_or_rtl": false
@@ -1671,36 +1686,6 @@
         {
             "localized": [
                 {
-                    "en": "Fula (Guinea)"
-                }
-            ],
-            "isocode": "ff",
-            "enabled": true,
-            "rtl": false,
-            "rfc3066code": "ff-GN",
-            "ocr": {
-                "supported": true,
-                "not_supported_or_rtl": false
-            }
-        },
-        {
-            "localized": [
-                {
-                    "en": "Dutch (Belgium)"
-                }
-            ],
-            "isocode": "nl",
-            "enabled": true,
-            "rtl": false,
-            "rfc3066code": "nl-BE",
-            "ocr": {
-                "supported": true,
-                "not_supported_or_rtl": false
-            }
-        },
-        {
-            "localized": [
-                {
                     "en": "Fon"
                 }
             ],
@@ -1708,6 +1693,51 @@
             "enabled": true,
             "rtl": false,
             "rfc3066code": "fon-BJ",
+            "ocr": {
+                "supported": true,
+                "not_supported_or_rtl": false
+            }
+        },
+        {
+            "localized": [
+                {
+                    "en": "For Testing Purposes Only"
+                }
+            ],
+            "isocode": "qnt",
+            "enabled": false,
+            "rtl": false,
+            "rfc3066code": "qnt-Latn-XA",
+            "ocr": {
+                "supported": false,
+                "not_supported_or_rtl": true
+            }
+        },
+        {
+            "localized": [
+                {
+                    "en": "French (Belgium)"
+                }
+            ],
+            "isocode": "fr",
+            "enabled": true,
+            "rtl": false,
+            "rfc3066code": "fr-BE",
+            "ocr": {
+                "supported": true,
+                "not_supported_or_rtl": false
+            }
+        },
+        {
+            "localized": [
+                {
+                    "en": "French (Canada)"
+                }
+            ],
+            "isocode": "fr",
+            "enabled": true,
+            "rtl": false,
+            "rfc3066code": "fr-CA",
             "ocr": {
                 "supported": true,
                 "not_supported_or_rtl": false
@@ -1731,13 +1761,13 @@
         {
             "localized": [
                 {
-                    "en": "French (Canada)"
+                    "en": "French (Marocco)"
                 }
             ],
             "isocode": "fr",
             "enabled": true,
             "rtl": false,
-            "rfc3066code": "fr-CA",
+            "rfc3066code": "fr-MA",
             "ocr": {
                 "supported": true,
                 "not_supported_or_rtl": false
@@ -1791,13 +1821,13 @@
         {
             "localized": [
                 {
-                    "en": "Galician"
+                    "en": "Fula (Guinea)"
                 }
             ],
-            "isocode": "gl",
+            "isocode": "ff",
             "enabled": true,
             "rtl": false,
-            "rfc3066code": "gl-ES",
+            "rfc3066code": "ff-GN",
             "ocr": {
                 "supported": true,
                 "not_supported_or_rtl": false
@@ -1806,13 +1836,13 @@
         {
             "localized": [
                 {
-                    "en": "Malgwa"
+                    "en": "Galician"
                 }
             ],
-            "isocode": "mfi",
+            "isocode": "gl",
             "enabled": true,
             "rtl": false,
-            "rfc3066code": "mfi-NG",
+            "rfc3066code": "gl-ES",
             "ocr": {
                 "supported": true,
                 "not_supported_or_rtl": false
@@ -1851,6 +1881,21 @@
         {
             "localized": [
                 {
+                    "en": "German (Austria)"
+                }
+            ],
+            "isocode": "de",
+            "enabled": true,
+            "rtl": false,
+            "rfc3066code": "de-AT",
+            "ocr": {
+                "supported": true,
+                "not_supported_or_rtl": false
+            }
+        },
+        {
+            "localized": [
+                {
                     "en": "German (Germany)"
                 }
             ],
@@ -1858,6 +1903,21 @@
             "enabled": true,
             "rtl": false,
             "rfc3066code": "de-DE",
+            "ocr": {
+                "supported": true,
+                "not_supported_or_rtl": false
+            }
+        },
+        {
+            "localized": [
+                {
+                    "en": "German (Switzerland)"
+                }
+            ],
+            "isocode": "de",
+            "enabled": true,
+            "rtl": false,
+            "rfc3066code": "de-CH",
             "ocr": {
                 "supported": true,
                 "not_supported_or_rtl": false
@@ -2226,7 +2286,22 @@
         {
             "localized": [
                 {
-                    "en": "Inuktitut Greenlandic"
+                    "en": "Inuktitut"
+                }
+            ],
+            "isocode": "iu",
+            "enabled": true,
+            "rtl": false,
+            "rfc3066code": "iu-CA",
+            "ocr": {
+                "supported": true,
+                "not_supported_or_rtl": false
+            }
+        },
+        {
+            "localized": [
+                {
+                    "en": "Inuktitut (Greenland)"
                 }
             ],
             "isocode": "kal",
@@ -2976,6 +3051,21 @@
         {
             "localized": [
                 {
+                    "en": "Maay Maay"
+                }
+            ],
+            "isocode": "ymm",
+            "enabled": true,
+            "rtl": false,
+            "rfc3066code": "ymm-SO",
+            "ocr": {
+                "supported": true,
+                "not_supported_or_rtl": false
+            }
+        },
+        {
+            "localized": [
+                {
                     "en": "Macedonian"
                 }
             ],
@@ -3081,6 +3171,21 @@
         {
             "localized": [
                 {
+                    "en": "Malgwa"
+                }
+            ],
+            "isocode": "mfi",
+            "enabled": true,
+            "rtl": false,
+            "rfc3066code": "mfi-NG",
+            "ocr": {
+                "supported": true,
+                "not_supported_or_rtl": false
+            }
+        },
+        {
+            "localized": [
+                {
                     "en": "Maltese"
                 }
             ],
@@ -3103,21 +3208,6 @@
             "enabled": true,
             "rtl": false,
             "rfc3066code": "mam-GT",
-            "ocr": {
-                "supported": true,
-                "not_supported_or_rtl": false
-            }
-        },
-        {
-            "localized": [
-                {
-                    "en": "Wandala"
-                }
-            ],
-            "isocode": "mfi",
-            "enabled": true,
-            "rtl": false,
-            "rfc3066code": "mfi-CM",
             "ocr": {
                 "supported": true,
                 "not_supported_or_rtl": false
@@ -3382,21 +3472,6 @@
         {
             "localized": [
                 {
-                    "en": "Arabic (Morocco)"
-                }
-            ],
-            "isocode": "ar",
-            "enabled": true,
-            "rtl": true,
-            "rfc3066code": "ar-MA",
-            "ocr": {
-                "supported": true,
-                "not_supported_or_rtl": false
-            }
-        },
-        {
-            "localized": [
-                {
                     "en": "Mossi"
                 }
             ],
@@ -3623,13 +3698,13 @@
         {
             "localized": [
                 {
-                    "en": "Occitan (France)"
+                    "en": "Occitan (Aran)"
                 }
             ],
             "isocode": "oc",
             "enabled": true,
             "rtl": false,
-            "rfc3066code": "oc-FR",
+            "rfc3066code": "oc-ES",
             "ocr": {
                 "supported": true,
                 "not_supported_or_rtl": false
@@ -3638,13 +3713,13 @@
         {
             "localized": [
                 {
-                    "en": "Occitan (Aran)"
+                    "en": "Occitan (France)"
                 }
             ],
             "isocode": "oc",
             "enabled": true,
             "rtl": false,
-            "rfc3066code": "oc-ES",
+            "rfc3066code": "oc-FR",
             "ocr": {
                 "supported": true,
                 "not_supported_or_rtl": false
@@ -3834,21 +3909,6 @@
         {
             "localized": [
                 {
-                    "en": "Polish"
-                }
-            ],
-            "isocode": "pl",
-            "enabled": true,
-            "rtl": false,
-            "rfc3066code": "pl-PL",
-            "ocr": {
-                "supported": true,
-                "not_supported_or_rtl": false
-            }
-        },
-        {
-            "localized": [
-                {
                     "en": "Pohnpeian (Micronesia)"
                 }
             ],
@@ -3864,13 +3924,13 @@
         {
             "localized": [
                 {
-                    "en": "Portuguese (Portugal)"
+                    "en": "Polish"
                 }
             ],
-            "isocode": "pt",
+            "isocode": "pl",
             "enabled": true,
             "rtl": false,
-            "rfc3066code": "pt-PT",
+            "rfc3066code": "pl-PL",
             "ocr": {
                 "supported": true,
                 "not_supported_or_rtl": false
@@ -3894,28 +3954,13 @@
         {
             "localized": [
                 {
-                    "en": "Pökoot (Kenya)"
+                    "en": "Portuguese (Portugal)"
                 }
             ],
-            "isocode": "pko",
+            "isocode": "pt",
             "enabled": true,
             "rtl": false,
-            "rfc3066code": "pko-KE",
-            "ocr": {
-                "supported": true,
-                "not_supported_or_rtl": false
-            }
-        },
-        {
-            "localized": [
-                {
-                    "en": "Pökoot (Uganda)"
-                }
-            ],
-            "isocode": "pko",
-            "enabled": true,
-            "rtl": false,
-            "rfc3066code": "pko-UG",
+            "rfc3066code": "pt-PT",
             "ocr": {
                 "supported": true,
                 "not_supported_or_rtl": false
@@ -3976,6 +4021,36 @@
             "enabled": true,
             "rtl": true,
             "rfc3066code": "pa-PK",
+            "ocr": {
+                "supported": true,
+                "not_supported_or_rtl": false
+            }
+        },
+        {
+            "localized": [
+                {
+                    "en": "Pökoot (Kenya)"
+                }
+            ],
+            "isocode": "pko",
+            "enabled": true,
+            "rtl": false,
+            "rfc3066code": "pko-KE",
+            "ocr": {
+                "supported": true,
+                "not_supported_or_rtl": false
+            }
+        },
+        {
+            "localized": [
+                {
+                    "en": "Pökoot (Uganda)"
+                }
+            ],
+            "isocode": "pko",
+            "enabled": true,
+            "rtl": false,
+            "rfc3066code": "pko-UG",
             "ocr": {
                 "supported": true,
                 "not_supported_or_rtl": false
@@ -4081,6 +4156,21 @@
             "enabled": true,
             "rtl": false,
             "rfc3066code": "ru-RU",
+            "ocr": {
+                "supported": true,
+                "not_supported_or_rtl": false
+            }
+        },
+        {
+            "localized": [
+                {
+                    "en": "S'gaw Karen (Myanmar)"
+                }
+            ],
+            "isocode": "ksw",
+            "enabled": true,
+            "rtl": false,
+            "rfc3066code": "ksw-MM",
             "ocr": {
                 "supported": true,
                 "not_supported_or_rtl": false
@@ -4301,51 +4391,6 @@
         {
             "localized": [
                 {
-                    "en": "S'gaw Karen (Myanmar)"
-                }
-            ],
-            "isocode": "ksw",
-            "enabled": true,
-            "rtl": false,
-            "rfc3066code": "ksw-MM",
-            "ocr": {
-                "supported": true,
-                "not_supported_or_rtl": false
-            }
-        },
-        {
-            "localized": [
-                {
-                    "en": "Sinte Romani (Netherlands)"
-                }
-            ],
-            "isocode": "rmo",
-            "enabled": true,
-            "rtl": false,
-            "rfc3066code": "rmo-NL",
-            "ocr": {
-                "supported": true,
-                "not_supported_or_rtl": false
-            }
-        },
-        {
-            "localized": [
-                {
-                    "en": "Tswana (South Africa)"
-                }
-            ],
-            "isocode": "tn",
-            "enabled": true,
-            "rtl": false,
-            "rfc3066code": "tn-ZA",
-            "ocr": {
-                "supported": true,
-                "not_supported_or_rtl": false
-            }
-        },
-        {
-            "localized": [
-                {
                     "en": "Shan"
                 }
             ],
@@ -4428,6 +4473,21 @@
             "enabled": true,
             "rtl": false,
             "rfc3066code": "si-LK",
+            "ocr": {
+                "supported": true,
+                "not_supported_or_rtl": false
+            }
+        },
+        {
+            "localized": [
+                {
+                    "en": "Sinte Romani (Netherlands)"
+                }
+            ],
+            "isocode": "rmo",
+            "enabled": true,
+            "rtl": false,
+            "rfc3066code": "rmo-NL",
             "ocr": {
                 "supported": true,
                 "not_supported_or_rtl": false
@@ -4526,21 +4586,6 @@
         {
             "localized": [
                 {
-                    "en": "Southern Pashto"
-                }
-            ],
-            "isocode": "pbt",
-            "enabled": true,
-            "rtl": true,
-            "rfc3066code": "pbt-PK",
-            "ocr": {
-                "supported": true,
-                "not_supported_or_rtl": false
-            }
-        },
-        {
-            "localized": [
-                {
                     "en": "Southern Ndebele"
                 }
             ],
@@ -4557,13 +4602,13 @@
         {
             "localized": [
                 {
-                    "en": "Southwestern Dinka"
+                    "en": "Southern Pashto"
                 }
             ],
-            "isocode": "dik",
+            "isocode": "pbt",
             "enabled": true,
-            "rtl": false,
-            "rfc3066code": "dik-SS",
+            "rtl": true,
+            "rfc3066code": "pbt-PK",
             "ocr": {
                 "supported": true,
                 "not_supported_or_rtl": false
@@ -4572,13 +4617,13 @@
         {
             "localized": [
                 {
-                    "en": "Spanish (Spain)"
+                    "en": "Southwestern Dinka"
                 }
             ],
-            "isocode": "es",
+            "isocode": "dik",
             "enabled": true,
             "rtl": false,
-            "rfc3066code": "es-ES",
+            "rfc3066code": "dik-SS",
             "ocr": {
                 "supported": true,
                 "not_supported_or_rtl": false
@@ -4617,6 +4662,51 @@
         {
             "localized": [
                 {
+                    "en": "Spanish (Dominican Republic)"
+                }
+            ],
+            "isocode": "es",
+            "enabled": true,
+            "rtl": false,
+            "rfc3066code": "es-DO",
+            "ocr": {
+                "supported": true,
+                "not_supported_or_rtl": false
+            }
+        },
+        {
+            "localized": [
+                {
+                    "en": "Spanish (Honduras)"
+                }
+            ],
+            "isocode": "es",
+            "enabled": true,
+            "rtl": false,
+            "rfc3066code": "es-HN",
+            "ocr": {
+                "supported": true,
+                "not_supported_or_rtl": false
+            }
+        },
+        {
+            "localized": [
+                {
+                    "en": "Spanish (Jamaica)"
+                }
+            ],
+            "isocode": "es",
+            "enabled": true,
+            "rtl": false,
+            "rfc3066code": "es-JM",
+            "ocr": {
+                "supported": true,
+                "not_supported_or_rtl": false
+            }
+        },
+        {
+            "localized": [
+                {
                     "en": "Spanish (Latin America)"
                 }
             ],
@@ -4647,28 +4737,13 @@
         {
             "localized": [
                 {
-                    "en": "Spanish (USA)"
+                    "en": "Spanish (Panama)"
                 }
             ],
             "isocode": "es",
             "enabled": true,
             "rtl": false,
-            "rfc3066code": "es-US",
-            "ocr": {
-                "supported": true,
-                "not_supported_or_rtl": false
-            }
-        },
-        {
-            "localized": [
-                {
-                    "en": "Spanish (Venezuela)"
-                }
-            ],
-            "isocode": "es",
-            "enabled": true,
-            "rtl": false,
-            "rfc3066code": "es-VE",
+            "rfc3066code": "es-PA",
             "ocr": {
                 "supported": true,
                 "not_supported_or_rtl": false
@@ -4699,6 +4774,66 @@
             "enabled": true,
             "rtl": false,
             "rfc3066code": "es-PR",
+            "ocr": {
+                "supported": true,
+                "not_supported_or_rtl": false
+            }
+        },
+        {
+            "localized": [
+                {
+                    "en": "Spanish (Spain)"
+                }
+            ],
+            "isocode": "es",
+            "enabled": true,
+            "rtl": false,
+            "rfc3066code": "es-ES",
+            "ocr": {
+                "supported": true,
+                "not_supported_or_rtl": false
+            }
+        },
+        {
+            "localized": [
+                {
+                    "en": "Spanish (Uruguay)"
+                }
+            ],
+            "isocode": "es",
+            "enabled": true,
+            "rtl": false,
+            "rfc3066code": "es-UY",
+            "ocr": {
+                "supported": true,
+                "not_supported_or_rtl": false
+            }
+        },
+        {
+            "localized": [
+                {
+                    "en": "Spanish (USA)"
+                }
+            ],
+            "isocode": "es",
+            "enabled": true,
+            "rtl": false,
+            "rfc3066code": "es-US",
+            "ocr": {
+                "supported": true,
+                "not_supported_or_rtl": false
+            }
+        },
+        {
+            "localized": [
+                {
+                    "en": "Spanish (Venezuela)"
+                }
+            ],
+            "isocode": "es",
+            "enabled": true,
+            "rtl": false,
+            "rfc3066code": "es-VE",
             "ocr": {
                 "supported": true,
                 "not_supported_or_rtl": false
@@ -4820,21 +4955,6 @@
             "enabled": true,
             "rtl": false,
             "rfc3066code": "sv-SE",
-            "ocr": {
-                "supported": true,
-                "not_supported_or_rtl": false
-            }
-        },
-        {
-            "localized": [
-                {
-                    "en": "German (Switzerland)"
-                }
-            ],
-            "isocode": "de",
-            "enabled": true,
-            "rtl": false,
-            "rfc3066code": "de-CH",
             "ocr": {
                 "supported": true,
                 "not_supported_or_rtl": false
@@ -5190,6 +5310,21 @@
         {
             "localized": [
                 {
+                    "en": "Tswana (South Africa)"
+                }
+            ],
+            "isocode": "tn",
+            "enabled": true,
+            "rtl": false,
+            "rfc3066code": "tn-ZA",
+            "ocr": {
+                "supported": true,
+                "not_supported_or_rtl": false
+            }
+        },
+        {
+            "localized": [
+                {
                     "en": "Tumbuka"
                 }
             ],
@@ -5325,13 +5460,13 @@
         {
             "localized": [
                 {
-                    "en": "Urdu (Perso-arabic script)"
+                    "en": "Urdu (Latin script)"
                 }
             ],
             "isocode": "ur",
             "enabled": true,
-            "rtl": true,
-            "rfc3066code": "ur-PK",
+            "rtl": false,
+            "rfc3066code": "ur-Latn-PK",
             "ocr": {
                 "supported": true,
                 "not_supported_or_rtl": false
@@ -5340,13 +5475,13 @@
         {
             "localized": [
                 {
-                    "en": "Urdu (Latin script)"
+                    "en": "Urdu (Perso-arabic script)"
                 }
             ],
             "isocode": "ur",
             "enabled": true,
-            "rtl": false,
-            "rfc3066code": "ur-Latn-PK",
+            "rtl": true,
+            "rfc3066code": "ur-PK",
             "ocr": {
                 "supported": true,
                 "not_supported_or_rtl": false
@@ -5453,6 +5588,21 @@
             "enabled": true,
             "rtl": false,
             "rfc3066code": "wls-WF",
+            "ocr": {
+                "supported": true,
+                "not_supported_or_rtl": false
+            }
+        },
+        {
+            "localized": [
+                {
+                    "en": "Wandala"
+                }
+            ],
+            "isocode": "mfi",
+            "enabled": true,
+            "rtl": false,
+            "rfc3066code": "mfi-CM",
             "ocr": {
                 "supported": true,
                 "not_supported_or_rtl": false
@@ -5591,21 +5741,6 @@
             "ocr": {
                 "supported": true,
                 "not_supported_or_rtl": false
-            }
-        },
-        {
-            "localized": [
-                {
-                    "en": "For Testing Purposes Only"
-                }
-            ],
-            "isocode": "qnt",
-            "enabled": false,
-            "rtl": false,
-            "rfc3066code": "qnt-Latn-XA",
-            "ocr": {
-                "supported": false,
-                "not_supported_or_rtl": true
             }
         }
     ]
