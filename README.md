@@ -5,20 +5,31 @@
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=matecat_icu-intl&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=matecat_icu-intl)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=matecat_icu-intl&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=matecat_icu-intl)
 
-----
+---
 
 A PHP port of ICU4J's MessagePattern parser with locale utilities. Parses ICU MessageFormat patterns into an inspectable
 AST and provides locale data support for internationalization in PHP.
 
 This package focuses on:
 
-1. **ICU MessagePattern Parser** - Parsing ICU MessageFormat patterns into a precise token stream and AST (Abstract
-   Syntax Tree), exposing the internal structure of messages (literals, arguments, selects, plurals, nested
-   sub-messages, offsets, quoted text, etc.).
-2. **Locale Utilities** - Access language data, plural rules, and locale validation for internationalization support.
+- **ICU MessagePattern parser**: Parses ICU MessageFormat patterns into a precise token stream and AST (Abstract Syntax
+  Tree), exposing the internal structure of messages (literals, arguments, selects, plurals, nested sub-messages,
+  offsets, quoted text, etc.).
+- **Locale utilities**: Access language data, plural rules, and locale validation for internationalization support.
 
 This package does not provide locale-aware date/number formatting itself — it provides the pattern model and utilities
 so you can build formatters or validators that interoperate with PHP's intl extension or other formatting libraries.
+
+## Contents
+
+- [Features](#features)
+- [Installation](#installation)
+- [Namespaces](#namespaces)
+- [Quick Usage](#quick-usage)
+- [High-level API](#high-level-api)
+- [Exceptions](#exceptions)
+- [Development](#development)
+- [Project Structure](#project-structure)
 
 ## Authors
 
@@ -44,7 +55,7 @@ so you can build formatters or validators that interoperate with PHP's intl exte
 
 ## Installation
 
-### Install via Composer:
+**Install via Composer**
 
 ```bash
 composer require matecat/icu-intl
@@ -468,7 +479,7 @@ try {
 } catch (MissingComplexFormException $e) {
     echo $e->getMessage();
     // "Argument 'count' has complex form 'PLURAL' in source (en) but is missing in target (fr)."
-    
+
     echo $e->argumentName;     // 'count'
     echo $e->sourceArgType;    // ArgType::PLURAL
     echo $e->targetArgType;    // null (missing)
@@ -488,7 +499,7 @@ try {
 } catch (MissingComplexFormException $e) {
     echo $e->getMessage();
     // "Argument 'count' has complex form 'PLURAL' in source (en) but has 'SELECT' in target (fr)."
-    
+
     echo $e->targetArgType;    // ArgType::SELECT
 }
 ```
@@ -550,6 +561,8 @@ This library focuses on parsing and structure. If you want to format values usin
   libraries.
 
 ## High-level API
+
+Quick reference for the public classes and the most-used methods.
 
 ### Matecat\ICU\MessagePattern
 
@@ -631,13 +644,11 @@ same complex forms (plural, select, choice, selectordinal) as source patterns.
 
 - `__construct(string $sourceLocale, string $targetLocale, string $sourcePattern, string $targetPattern)` - Creates a
   comparator with source/target locales and pattern strings
--
-`static fromValidators(MessagePatternValidator $sourceValidator, MessagePatternValidator $targetValidator): MessagePatternComparator` -
-Factory method to create a comparator from pre-configured validators
--
-`static fromPatterns(string $sourceLocale, string $targetLocale, MessagePattern $sourcePattern, MessagePattern $targetPattern): MessagePatternComparator` -
-Factory method to create a comparator from pre-parsed patterns (useful for reusing parsed patterns across multiple
-locale comparisons)
+- `static fromValidators(MessagePatternValidator $sourceValidator, MessagePatternValidator $targetValidator): MessagePatternComparator` -
+  Factory method to create a comparator from pre-configured validators
+- `static fromPatterns(string $sourceLocale, string $targetLocale, MessagePattern $sourcePattern, MessagePattern $targetPattern): MessagePatternComparator` -
+  Factory method to create a comparator from pre-parsed patterns (useful for reusing parsed patterns across multiple
+  locale comparisons)
 - `validate(bool $validateSource = false, bool $validateTarget = false): ComparisonResult` - Validates that all complex
   forms in source exist in target. Optionally validates plural/ordinal compliance against CLDR rules for the source
   and/or target locale. Returns a `ComparisonResult` with `sourceWarnings` and `targetWarnings` properties (each
@@ -758,7 +769,7 @@ doesn't match.
 
 ## Development
 
-### Run tests
+**Run tests**
 
 ```bash
 vendor/bin/phpunit
@@ -770,7 +781,7 @@ or
 composer test
 ```
 
-### Run static analysis
+**Run static analysis**
 
 ```bash
 vendor/bin/phpstan analyze
