@@ -18,6 +18,21 @@
         {
             "localized": [
                 {
+                    "en": "Afar"
+                }
+            ],
+            "isocode": "aa",
+            "enabled": true,
+            "rtl": false,
+            "rfc3066code": "aa-ET",
+            "ocr": {
+                "supported": true,
+                "not_supported_or_rtl": false
+            }
+        },
+        {
+            "localized": [
+                {
                     "en": "Afrikaans"
                 }
             ],
@@ -446,6 +461,21 @@
             "enabled": true,
             "rtl": false,
             "rfc3066code": "fr-BE",
+            "ocr": {
+                "supported": true,
+                "not_supported_or_rtl": false
+            }
+        },
+        {
+            "localized": [
+                {
+                    "en": "French (Marocco)"
+                }
+            ],
+            "isocode": "fr",
+            "enabled": true,
+            "rtl": false,
+            "rfc3066code": "fr-MA",
             "ocr": {
                 "supported": true,
                 "not_supported_or_rtl": false
@@ -2226,13 +2256,28 @@
         {
             "localized": [
                 {
-                    "en": "Inuktitut Greenlandic"
+                    "en": "Inuktitut (Greenland)"
                 }
             ],
             "isocode": "kal",
             "enabled": true,
             "rtl": false,
             "rfc3066code": "kl-GL",
+            "ocr": {
+                "supported": true,
+                "not_supported_or_rtl": false
+            }
+        },
+        {
+            "localized": [
+                {
+                    "en": "Inuktitut"
+                }
+            ],
+            "isocode": "iu",
+            "enabled": true,
+            "rtl": false,
+            "rfc3066code": "iu-CA",
             "ocr": {
                 "supported": true,
                 "not_supported_or_rtl": false
@@ -2968,6 +3013,21 @@
             "enabled": true,
             "rtl": false,
             "rfc3066code": "mas-KE",
+            "ocr": {
+                "supported": true,
+                "not_supported_or_rtl": false
+            }
+        },
+        {
+            "localized": [
+                {
+                    "en": "Maay Maay"
+                }
+            ],
+            "isocode": "ymm",
+            "enabled": true,
+            "rtl": false,
+            "rfc3066code": "ymm-SO",
             "ocr": {
                 "supported": true,
                 "not_supported_or_rtl": false
@@ -4617,6 +4677,51 @@
         {
             "localized": [
                 {
+                    "en": "Spanish (Dominican Republic)"
+                }
+            ],
+            "isocode": "es",
+            "enabled": true,
+            "rtl": false,
+            "rfc3066code": "es-DO",
+            "ocr": {
+                "supported": true,
+                "not_supported_or_rtl": false
+            }
+        },
+        {
+            "localized": [
+                {
+                    "en": "Spanish (Honduras)"
+                }
+            ],
+            "isocode": "es",
+            "enabled": true,
+            "rtl": false,
+            "rfc3066code": "es-HN",
+            "ocr": {
+                "supported": true,
+                "not_supported_or_rtl": false
+            }
+        },
+        {
+            "localized": [
+                {
+                    "en": "Spanish (Jamaica)"
+                }
+            ],
+            "isocode": "es",
+            "enabled": true,
+            "rtl": false,
+            "rfc3066code": "es-JM",
+            "ocr": {
+                "supported": true,
+                "not_supported_or_rtl": false
+            }
+        },
+        {
+            "localized": [
+                {
                     "en": "Spanish (Latin America)"
                 }
             ],
@@ -4639,6 +4744,36 @@
             "enabled": true,
             "rtl": false,
             "rfc3066code": "es-MX",
+            "ocr": {
+                "supported": true,
+                "not_supported_or_rtl": false
+            }
+        },
+        {
+            "localized": [
+                {
+                    "en": "Spanish (Panama)"
+                }
+            ],
+            "isocode": "es",
+            "enabled": true,
+            "rtl": false,
+            "rfc3066code": "es-PA",
+            "ocr": {
+                "supported": true,
+                "not_supported_or_rtl": false
+            }
+        },
+        {
+            "localized": [
+                {
+                    "en": "Spanish (Uruguay)"
+                }
+            ],
+            "isocode": "es",
+            "enabled": true,
+            "rtl": false,
+            "rfc3066code": "es-UY",
             "ocr": {
                 "supported": true,
                 "not_supported_or_rtl": false
