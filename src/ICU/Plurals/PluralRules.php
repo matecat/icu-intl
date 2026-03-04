@@ -704,7 +704,7 @@ class PluralRules
         'prs' => ['cardinal' => 2, 'ordinal' => 0],   // Dari
         'ps' => ['cardinal' => 1, 'ordinal' => 0],    // Pashto
         'pt' => ['cardinal' => 20, 'ordinal' => 0],   // Portuguese - CLDR 49
-        'pt_PT' => ['cardinal' => 20, 'ordinal' => 0], // European Portuguese - CLDR 49
+        'pt_pt' => ['cardinal' => 20, 'ordinal' => 0], // European Portuguese - CLDR 49
 
         // Q
         'qu' => ['cardinal' => 1, 'ordinal' => 0],    // Quechua
@@ -1487,6 +1487,20 @@ class PluralRules
         $ruleGroup = self::getRuleGroup($locale, 'ordinal');
 
         return self::$ordinalCategoryMap[$ruleGroup][$ordinalIndex] ?? self::CATEGORY_OTHER;
+    }
+
+    /**
+     * Check if a locale code has a direct entry in the rules map.
+     *
+     * Unlike getRuleGroup(), this does NOT fall back to the base language code.
+     * It checks for an exact match only (case-insensitive).
+     *
+     * @param string $locale The locale code to check (e.g. "pt_PT", "pt").
+     * @return bool True if the locale has its own rules entry.
+     */
+    public static function hasRulesFor(string $locale): bool
+    {
+        return isset(static::$rulesMap[strtolower($locale)]);
     }
 
     /**

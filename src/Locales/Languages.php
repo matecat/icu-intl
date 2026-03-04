@@ -199,7 +199,13 @@ class Languages
     {
         $builder = PluralRulesBuilder::getInstance();
         foreach (self::$mapRfc2obj as $rfc => $lang) {
-            $plurals = $builder->getLanguageRules($lang['isocode']);
+            // Try locale-specific code first (e.g. "pt-PT" → "pt_PT"),
+            // then fall back to the base isocode (e.g. "pt").
+            // This allows locale variants like pt_PT to have their own
+            // plural rules distinct from the base language (pt / pt-BR).
+            $localeCode = strtolower(str_replace('-', '_', $rfc));
+            $plurals = $builder->getLanguageRules($localeCode)
+                ?? $builder->getLanguageRules($lang['isocode']);
             self::$mapRfc2obj[$rfc]['plurals'] = $plurals;
             if (isset(self::$enabledLanguageList[$rfc])) {
                 self::$enabledLanguageList[$rfc]['plurals'] = $plurals;

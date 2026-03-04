@@ -804,31 +804,59 @@ class PluralRulesBuilder
             }
             // @codeCoverageIgnoreEnd
 
+            $name = $langInfo['name'];
+
+            // Build locale-specific entry (e.g. "pt-PT" → "pt_pt") when the
+            // variant has its own entry in the PluralRules rulesMap.
+            // This allows pt_PT to carry different overrides/examples than pt.
+            $localeCode = strtolower(str_replace('-', '_', $rfc));
+            if ($localeCode !== $isoCode && PluralRules::hasRulesFor($localeCode)) {
+                $result[$localeCode] = $this->buildLanguageRulesFragment(
+                    $name,
+                    $localeCode,
+                    $overrides
+                );
+            }
+
             // Skip duplicates (same iso code already processed)
             if (isset($result[$isoCode])) {
                 continue;
             }
 
-            $name = $langInfo['name'];
-
-            $cardinalFragments = $this->buildCategoryFragments(
-                PluralRules::getCardinalCategories($isoCode),
-                self::CARDINAL_HUMAN_RULES[PluralRules::getRuleGroup($isoCode)] ?? [],
-                $overrides[$isoCode]['cardinal'] ?? []
+            $result[$isoCode] = $this->buildLanguageRulesFragment(
+                $name,
+                $isoCode,
+                $overrides
             );
-
-            $ordinalFragments = $this->buildCategoryFragments(
-                PluralRules::getOrdinalCategories($isoCode),
-                self::ORDINAL_HUMAN_RULES[PluralRules::getRuleGroup($isoCode, 'ordinal')] ?? [],
-                $overrides[$isoCode]['ordinal'] ?? []
-            );
-
-            $result[$isoCode] = new LanguageRulesFragment($name, $isoCode, $cardinalFragments, $ordinalFragments);
         }
 
         ksort($result);
 
         return $result;
+    }
+
+    /**
+     * Build a LanguageRulesFragment for a given code.
+     *
+     * @param string $name     The display name.
+     * @param string $code     The ISO or locale code (e.g. "pt" or "pt_PT").
+     * @param array<string, array{cardinal?: array<string, array{human_rule?: string, example?: string}>, ordinal?: array<string, array{human_rule?: string, example?: string}>}> $overrides Per-language overrides.
+     */
+    private function buildLanguageRulesFragment(string $name, string $code, array $overrides): LanguageRulesFragment
+    {
+        $cardinalFragments = $this->buildCategoryFragments(
+            PluralRules::getCardinalCategories($code),
+            self::CARDINAL_HUMAN_RULES[PluralRules::getRuleGroup($code)] ?? [],
+            $overrides[$code]['cardinal'] ?? []
+        );
+
+        $ordinalFragments = $this->buildCategoryFragments(
+            PluralRules::getOrdinalCategories($code),
+            self::ORDINAL_HUMAN_RULES[PluralRules::getRuleGroup($code, 'ordinal')] ?? [],
+            $overrides[$code]['ordinal'] ?? []
+        );
+
+        return new LanguageRulesFragment($name, $code, $cardinalFragments, $ordinalFragments);
     }
 
     /**

@@ -2,8 +2,8 @@
     "af": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "1 dag / 1,0 dag"
+                "example": "1 dag / 1,0 dag",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "2 dae / 0,9 dae"
@@ -21,8 +21,8 @@
     "ak": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 0 or 1",
-                "example": "da 1 / da 1.0"
+                "example": "da 1 / da 1.0",
+                "human_rule": "Exactly 0 or 1"
             },
             "other": {
                 "example": "nda 2 / nda 0.1"
@@ -32,8 +32,8 @@
     "am": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 0, 1, or any decimal starting with 0",
-                "example": "1 ቀን / 1.0 ቀን"
+                "example": "1 ቀን / 1.0 ቀን",
+                "human_rule": "Exactly 0, 1, or any decimal starting with 0"
             },
             "other": {
                 "example": "2 ቀናት / 1.1 ቀናት"
@@ -48,8 +48,8 @@
     "an": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "1 día / 1.0 día"
+                "example": "1 día / 1.0 día",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "2 días / 0.9 días"
@@ -57,30 +57,30 @@
         },
         "ordinal": {
             "other": {
-                "human_rule": "Any other number",
-                "example": "Pilla lo 15o a la dreita"
+                "example": "Pilla lo 15o a la dreita",
+                "human_rule": "Any other number"
             }
         }
     },
     "ar": {
         "cardinal": {
-            "zero": {
-                "example": "‫0 ولد حضر / 0.0000 ولد حضر‬"
-            },
-            "one": {
-                "example": "‫ولد واحد حضر / ولد واحد حضر‬"
-            },
-            "two": {
-                "example": "‫ولدان حضرا / ولدان حضرا‬"
-            },
             "few": {
                 "example": "‫3 أولاد حضروا / 3.0 أولاد حضروا‬"
             },
             "many": {
                 "example": "‫11 ولدًا حضروا / 11.0 ولدًا حضروا‬"
             },
+            "one": {
+                "example": "‫ولد واحد حضر / ولد واحد حضر‬"
+            },
             "other": {
                 "example": "‫100 ولد حضروا / 0.1 ولد حضروا‬"
+            },
+            "two": {
+                "example": "‫ولدان حضرا / ولدان حضرا‬"
+            },
+            "zero": {
+                "example": "‫0 ولد حضر / 0.0000 ولد حضر‬"
             }
         },
         "ordinal": {
@@ -92,8 +92,8 @@
     "asa": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "11.0, 1.00, 1.000, 1.0000"
+                "example": "11.0, 1.00, 1.000, 1.0000",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "0, 2–16, 100, 1000, 10000, 100000, 1000000, … | 0.0–0.9, 1.1–1.6, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …"
@@ -111,33 +111,33 @@
         },
         "ordinal": {
             "other": {
-                "human_rule": "Any other number",
-                "example": "Tomar la 15a a la derecha"
+                "example": "Tomar la 15a a la derecha",
+                "human_rule": "Any other number"
             }
         }
     },
     "az": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "Alış-veriş kartınızda 1 var. / Alınsın? / Alış-veriş kartınızda 1,0 var. / Alınsın?"
+                "example": "Alış-veriş kartınızda 1 var. / Alınsın? / Alış-veriş kartınızda 1,0 var. / Alınsın?",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "Alış-veriş kartınızda 2 var. / Alınsınlar? / Alış-veriş kartınızda 0,9 var. / Alınsınlar?"
             }
         },
         "ordinal": {
-            "one": {
-                "human_rule": "Ends in 1, 2, 5, 7, 8, 20, 50, 70 or 80",
-                "example": "1-ci sağ döngəni seçin."
-            },
             "few": {
-                "human_rule": "Ends in 3, 4, 100, 200, 300, 400, 500, 600, 700 , 800, 900",
-                "example": "3-cü sağ döngəni seçin."
+                "example": "3-cü sağ döngəni seçin.",
+                "human_rule": "Ends in 3, 4, 100, 200, 300, 400, 500, 600, 700 , 800, 900"
             },
             "many": {
-                "human_rule": "Exactly 0, or ending in 5, 40, 60 or 90",
-                "example": "6-cı sağ döngəni seçin."
+                "example": "6-cı sağ döngəni seçin.",
+                "human_rule": "Exactly 0, or ending in 5, 40, 60 or 90"
+            },
+            "one": {
+                "example": "1-ci sağ döngəni seçin.",
+                "human_rule": "Ends in 1, 2, 5, 7, 8, 20, 50, 70 or 80"
             },
             "other": {
                 "example": "9-cu sağ döngəni seçin."
@@ -147,8 +147,8 @@
     "bal": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "11.0, 1.00, 1.000, 1.0000"
+                "example": "11.0, 1.00, 1.000, 1.0000",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "0, 2–16, 100, 1000, 10000, 100000, 1000000, … | 0.0–0.9, 1.1–1.6, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …"
@@ -162,14 +162,14 @@
     },
     "be": {
         "cardinal": {
-            "one": {
-                "example": "з 1 кнігі за 1 дзень / з 1,0 кнігі за 1,0 дзень"
-            },
             "few": {
                 "example": "з 2 кніг за 2 дні / з 2,0 кніг за 2,0 дні"
             },
             "many": {
                 "example": "з 5 кніг за 5 дзён / з 5,0 кніг за 5,0 дзён"
+            },
+            "one": {
+                "example": "з 1 кнігі за 1 дзень / з 1,0 кнігі за 1,0 дзень"
             },
             "other": {
                 "example": "з 0,1 кнігі за 0,1 дня"
@@ -177,8 +177,8 @@
         },
         "ordinal": {
             "few": {
-                "human_rule": "Ends in 2 or 3 (except 12 and 13)",
-                "example": "2-і дом злева"
+                "example": "2-і дом злева",
+                "human_rule": "Ends in 2 or 3 (except 12 and 13)"
             },
             "other": {
                 "example": "1-ы дом злева"
@@ -188,8 +188,8 @@
     "bem": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "11.0, 1.00, 1.000, 1.0000"
+                "example": "11.0, 1.00, 1.000, 1.0000",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "0, 2–16, 100, 1000, 10000, 100000, 1000000, … | 0.0–0.9, 1.1–1.6, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …"
@@ -199,8 +199,8 @@
     "bez": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "11.0, 1.00, 1.000, 1.0000"
+                "example": "11.0, 1.00, 1.000, 1.0000",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "0, 2–16, 100, 1000, 10000, 100000, 1000000, … | 0.0–0.9, 1.1–1.6, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …"
@@ -210,27 +210,27 @@
     "bg": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "1 ден / 1,0 ден"
+                "example": "1 ден / 1,0 ден",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "2 дена / 0,9 дена"
             }
         },
         "ordinal": {
-            "zero": {
-                "example": "Завийте надясно по 15-ата пресечка."
-            },
             "other": {
                 "example": "Завийте надясно по 5-ата пресечка."
+            },
+            "zero": {
+                "example": "Завийте надясно по 15-ата пресечка."
             }
         }
     },
     "bho": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 0 or 1",
-                "example": "0, 1, 0.0, 1.0, 0.00, 1.00, 0.000, 1.000, 0.0000, 1.0000"
+                "example": "0, 1, 0.0, 1.0, 0.00, 1.00, 0.000, 1.000, 0.0000, 1.0000",
+                "human_rule": "Exactly 0 or 1"
             },
             "other": {
                 "example": "2–17, 100, 1000, 10000, 100000, 1000000, … | 0.1–0.9, 1.1–1.7, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …"
@@ -239,14 +239,14 @@
     },
     "blo": {
         "cardinal": {
-            "zero": {
-                "example": "00.0, 0.00, 0.000, 0.0000"
-            },
             "one": {
                 "example": "11.0, 1.00, 1.000, 1.0000"
             },
             "other": {
                 "example": "2–17, 100, 1000, 10000, 100000, 1000000, … | 0.1–0.9, 1.1–1.7, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …"
+            },
+            "zero": {
+                "example": "00.0, 0.00, 0.000, 0.0000"
             }
         },
         "ordinal": {
@@ -268,55 +268,55 @@
     "bn": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 0, 1, or any decimal starting with 0",
-                "example": "সসে 1টি আপেল খেল, সেটি ভাল / সসে 1.0টি আপেল খেল, সেটি ভাল"
+                "example": "সসে 1টি আপেল খেল, সেটি ভাল / সসে 1.0টি আপেল খেল, সেটি ভাল",
+                "human_rule": "Exactly 0, 1, or any decimal starting with 0"
             },
             "other": {
                 "example": "সসে 2টি আপেল খেল, সেগুলি ভাল / সসে 1.1টি আপেল খেল, সেগুলি ভাল"
             }
         },
         "ordinal": {
-            "one": {
-                "example": "ডান দিকে 1ম বাঁকটি নিন।"
-            },
-            "two": {
-                "example": "ডান দিকে 2য় বাঁকটি নিন।"
-            },
             "few": {
                 "example": "ডান দিকে 4র্থ বাঁকটি নিন।"
             },
             "many": {
                 "example": "ডান দিকে 6ষ্ঠ বাঁকটি নিন।"
             },
+            "one": {
+                "example": "ডান দিকে 1ম বাঁকটি নিন।"
+            },
             "other": {
                 "example": "ডান দিকে 11তম বাঁকটি নিন।"
+            },
+            "two": {
+                "example": "ডান দিকে 2য় বাঁকটি নিন।"
             }
         }
     },
     "br": {
         "cardinal": {
-            "one": {
-                "example": "1 cʼhi / 1,0 cʼhi"
-            },
-            "two": {
-                "example": "2 gi / 2,0 gi"
-            },
             "few": {
                 "example": "3 cʼhi-error / 3,0 cʼhi-error"
             },
             "many": {
                 "example": "1 000 000 a chas / 1 000 000,0 a chas"
             },
+            "one": {
+                "example": "1 cʼhi / 1,0 cʼhi"
+            },
             "other": {
                 "example": "5 ki / 0,9 ki"
+            },
+            "two": {
+                "example": "2 gi / 2,0 gi"
             }
         }
     },
     "brx": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "11.0, 1.00, 1.000, 1.0000"
+                "example": "11.0, 1.00, 1.000, 1.0000",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "0, 2–16, 100, 1000, 10000, 100000, 1000000, … | 0.0–0.9, 1.1–1.6, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …"
@@ -325,13 +325,13 @@
     },
     "bs": {
         "cardinal": {
-            "one": {
-                "human_rule": "Ends in 1 (except 11), includes visible decimals",
-                "example": "1 sat / 0,1 sat"
-            },
             "few": {
-                "human_rule": "Ends in 2–4 (except 12–14), includes visible decimals",
-                "example": "2 sata / 0,2 sata"
+                "example": "2 sata / 0,2 sata",
+                "human_rule": "Ends in 2–4 (except 12–14), includes visible decimals"
+            },
+            "one": {
+                "example": "1 sat / 0,1 sat",
+                "human_rule": "Ends in 1 (except 11), includes visible decimals"
             },
             "other": {
                 "example": "5 sati / 0,5 sati"
@@ -345,63 +345,63 @@
     },
     "ca": {
         "cardinal": {
-            "one": {
-                "example": "1 dia"
-            },
             "many": {
                 "example": "1.000.000 de dies / 1 M de dies"
+            },
+            "one": {
+                "example": "1 dia"
             },
             "other": {
                 "example": "2 dies / 1,5 dies"
             }
         },
         "ordinal": {
-            "one": {
-                "example": "Agafa el 1r a la dreta."
-            },
-            "two": {
-                "example": "Agafa el 2n a la dreta."
-            },
             "few": {
                 "example": "Agafa el 4t a la dreta."
             },
+            "one": {
+                "example": "Agafa el 1r a la dreta."
+            },
             "other": {
                 "example": "Agafa el 5è a la dreta."
+            },
+            "two": {
+                "example": "Agafa el 2n a la dreta."
             }
         }
     },
     "cav": {
         "cardinal": {
-            "one": {
-                "example": "1 dia"
-            },
             "many": {
                 "example": "1.000.000 de dies / 1 M de dies"
+            },
+            "one": {
+                "example": "1 dia"
             },
             "other": {
                 "example": "2 dies / 1,5 dies"
             }
         },
         "ordinal": {
-            "one": {
-                "example": "Agafa el 1r a la dreta."
-            },
-            "two": {
-                "example": "Agafa el 2n a la dreta."
-            },
             "few": {
                 "example": "Agafa el 4t a la dreta."
             },
+            "one": {
+                "example": "Agafa el 1r a la dreta."
+            },
             "other": {
                 "example": "Agafa el 5è a la dreta."
+            },
+            "two": {
+                "example": "Agafa el 2n a la dreta."
             }
         }
     },
     "ce": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "11.0, 1.00, 1.000, 1.0000"
+                "example": "11.0, 1.00, 1.000, 1.0000",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "0, 2–16, 100, 1000, 10000, 100000, 1000000, … | 0.0–0.9, 1.1–1.6, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …"
@@ -409,16 +409,16 @@
         },
         "ordinal": {
             "other": {
-                "human_rule": "Any other number",
-                "example": "no plural differences"
+                "example": "no plural differences",
+                "human_rule": "Any other number"
             }
         }
     },
     "cgg": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "11.0, 1.00, 1.000, 1.0000"
+                "example": "11.0, 1.00, 1.000, 1.0000",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "0, 2–16, 100, 1000, 10000, 100000, 1000000, … | 0.0–0.9, 1.1–1.6, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …"
@@ -428,8 +428,8 @@
     "chr": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "1 ᎢᎦ / 1.0 ᎢᎦ"
+                "example": "1 ᎢᎦ / 1.0 ᎢᎦ",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "2 ᏏᎢᎦ / 0.9 ᏏᎢᎦ"
@@ -438,15 +438,15 @@
     },
     "cs": {
         "cardinal": {
-            "one": {
-                "example": "1 den"
-            },
             "few": {
                 "example": "2 dny"
             },
             "many": {
-                "human_rule": "Any number with decimal digits",
-                "example": "1,5 dne"
+                "example": "1,5 dne",
+                "human_rule": "Any number with decimal digits"
+            },
+            "one": {
+                "example": "1 den"
             },
             "other": {
                 "example": "5 dní"
@@ -461,8 +461,8 @@
     "csw": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 0 or 1",
-                "example": "0, 1, 0.0, 1.0, 0.00, 1.00, 0.000, 1.000, 0.0000, 1.0000"
+                "example": "0, 1, 0.0, 1.0, 0.00, 1.00, 0.000, 1.000, 0.0000, 1.0000",
+                "human_rule": "Exactly 0 or 1"
             },
             "other": {
                 "example": "2–17, 100, 1000, 10000, 100000, 1000000, … | 0.1–0.9, 1.1–1.7, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …"
@@ -471,51 +471,51 @@
     },
     "cy": {
         "cardinal": {
-            "zero": {
-                "example": "0 cŵn, 0 cathod / 0.0000 cŵn, 0.0000 cathod"
-            },
-            "one": {
-                "example": "1 ci, 1 gath / 1.0 ci, 1.0 gath"
-            },
-            "two": {
-                "example": "2 gi, 2 gath / 2.0 gi, 2.0 gath"
-            },
             "few": {
                 "example": "3 chi, 3 cath / 3.0 chi, 3.0 cath"
             },
             "many": {
                 "example": "6 chi, 6 chath / 6.0 chi, 6.0 chath"
             },
+            "one": {
+                "example": "1 ci, 1 gath / 1.0 ci, 1.0 gath"
+            },
             "other": {
                 "example": "4 ci, 4 cath / 0.1 ci, 0.1 cath"
+            },
+            "two": {
+                "example": "2 gi, 2 gath / 2.0 gi, 2.0 gath"
+            },
+            "zero": {
+                "example": "0 cŵn, 0 cathod / 0.0000 cŵn, 0.0000 cathod"
             }
         },
         "ordinal": {
-            "zero": {
-                "example": "7fed ci"
-            },
-            "one": {
-                "example": "ci 1af"
-            },
-            "two": {
-                "example": "2il gi"
-            },
             "few": {
                 "example": "3ydd ci"
             },
             "many": {
                 "example": "5ed ci"
             },
+            "one": {
+                "example": "ci 1af"
+            },
             "other": {
                 "example": "ci rhif 10"
+            },
+            "two": {
+                "example": "2il gi"
+            },
+            "zero": {
+                "example": "7fed ci"
             }
         }
     },
     "da": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1, or any decimal number between 0 and 2, excluding 0 and 2 themselves",
-                "example": "1 dag / 0,1 dag"
+                "example": "1 dag / 0,1 dag",
+                "human_rule": "Exactly 1, or any decimal number between 0 and 2, excluding 0 and 2 themselves"
             },
             "other": {
                 "example": "2 dage / 2,0 dage"
@@ -545,8 +545,8 @@
     "doi": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 0, 1, or any decimal starting with 0",
-                "example": "0, 1, 0.0–1.0, 0.00–0.04"
+                "example": "0, 1, 0.0–1.0, 0.00–0.04",
+                "human_rule": "Exactly 0, 1, or any decimal starting with 0"
             },
             "other": {
                 "example": "2–17, 100, 1000, 10000, 100000, 1000000, … | 1.1–2.6, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …"
@@ -555,23 +555,23 @@
     },
     "dsb": {
         "cardinal": {
-            "one": {
-                "example": "1 źeń / 0,1 źeń"
-            },
-            "two": {
-                "example": "2 dnja / 0,2 dnja"
-            },
             "few": {
                 "example": "3 dny / 0,3 dny"
             },
+            "one": {
+                "example": "1 źeń / 0,1 źeń"
+            },
             "other": {
                 "example": "5 dnjow / 0,5 dnjow"
+            },
+            "two": {
+                "example": "2 dnja / 0,2 dnja"
             }
         },
         "ordinal": {
             "other": {
-                "human_rule": "Any other number",
-                "example": "Na 15. / wotbocenju napšawo."
+                "example": "Na 15. / wotbocenju napšawo.",
+                "human_rule": "Any other number"
             }
         }
     },
@@ -585,8 +585,8 @@
     "ee": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "11.0, 1.00, 1.000, 1.0000"
+                "example": "11.0, 1.00, 1.000, 1.0000",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "0, 2–16, 100, 1000, 10000, 100000, 1000000, … | 0.0–0.9, 1.1–1.6, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …"
@@ -596,8 +596,8 @@
     "el": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "1 ημέρα / 1,0 ημέρα"
+                "example": "1 ημέρα / 1,0 ημέρα",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "2 ημέρες / 0,9 ημέρες"
@@ -619,25 +619,25 @@
             }
         },
         "ordinal": {
-            "one": {
-                "example": "Take the 1st right."
-            },
-            "two": {
-                "example": "Take the 2nd right."
-            },
             "few": {
                 "example": "Take the 3rd right."
             },
+            "one": {
+                "example": "Take the 1st right."
+            },
             "other": {
                 "example": "Take the 4th right."
+            },
+            "two": {
+                "example": "Take the 2nd right."
             }
         }
     },
     "eo": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "11.0, 1.00, 1.000, 1.0000"
+                "example": "11.0, 1.00, 1.000, 1.0000",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "0, 2–16, 100, 1000, 10000, 100000, 1000000, … | 0.0–0.9, 1.1–1.6, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …"
@@ -646,12 +646,12 @@
     },
     "es": {
         "cardinal": {
-            "one": {
-                "human_rule": "Exactly 1",
-                "example": "1 día / 1,0 día"
-            },
             "many": {
                 "example": "1.000.000 de días / 1 M de días"
+            },
+            "one": {
+                "example": "1 día / 1,0 día",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "2 días / 0,9 días"
@@ -684,8 +684,8 @@
     "eu": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "1 lagun etorri da / 1,0 lagun etorri da"
+                "example": "1 lagun etorri da / 1,0 lagun etorri da",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "2 lagun etorri dira / 0,9 lagun etorri dira"
@@ -700,8 +700,8 @@
     "fa": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 0, 1, or any decimal starting with 0",
-                "example": "‫1 نفر در بازی شرکت کرد. / 1.0 نفر در بازی شرکت کرد.‬"
+                "example": "‫1 نفر در بازی شرکت کرد. / 1.0 نفر در بازی شرکت کرد.‬",
+                "human_rule": "Exactly 0, 1, or any decimal starting with 0"
             },
             "other": {
                 "example": "‫2 نفر در بازی شرکت کردند. / 1.1 نفر در بازی شرکت کردند.‬"
@@ -709,16 +709,16 @@
         },
         "ordinal": {
             "other": {
-                "human_rule": "Any other number",
-                "example": "‫در پیچ 15ام سمت راست بپیچید.‬"
+                "example": "‫در پیچ 15ام سمت راست بپیچید.‬",
+                "human_rule": "Any other number"
             }
         }
     },
     "ff": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 0 or 1, or any decimal number between 0 and 2, excluding 2 itself",
-                "example": "0, 1, 0.0–1.5"
+                "example": "0, 1, 0.0–1.5",
+                "human_rule": "Exactly 0 or 1, or any decimal number between 0 and 2, excluding 2 itself"
             },
             "other": {
                 "example": "2–17, 100, 1000, 10000, 100000, 1000000, … | 2.0–3.5, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …"
@@ -743,8 +743,8 @@
     "fil": {
         "cardinal": {
             "one": {
-                "human_rule": "Does not end in 4, 6, 9 (including the part  aftr the decimal point)",
-                "example": "3 mansanas / 0.3 mansanas"
+                "example": "3 mansanas / 0.3 mansanas",
+                "human_rule": "Does not end in 4, 6, 9 (including the part  aftr the decimal point)"
             },
             "other": {
                 "example": "4 na mansanas / 0.4 na mansanas"
@@ -759,8 +759,8 @@
     "fo": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "1 dag / 1,0 dag"
+                "example": "1 dag / 1,0 dag",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "2 dagar / 0,9 dagar"
@@ -769,12 +769,12 @@
     },
     "fr": {
         "cardinal": {
-            "one": {
-                "human_rule": "Exactly 0 or 1, or any decimal number between 0 and 2, excluding 2 itself",
-                "example": "1 jour / 1,5 jour"
-            },
             "many": {
                 "example": "1 000 000 de jours / 1 M de jours"
+            },
+            "one": {
+                "example": "1 jour / 1,5 jour",
+                "human_rule": "Exactly 0 or 1, or any decimal number between 0 and 2, excluding 2 itself"
             },
             "other": {
                 "example": "2 jours / 2,0 jours"
@@ -792,8 +792,8 @@
     "fur": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "11.0, 1.00, 1.000, 1.0000"
+                "example": "11.0, 1.00, 1.000, 1.0000",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "0, 2–16, 100, 1000, 10000, 100000, 1000000, … | 0.0–0.9, 1.1–1.6, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …"
@@ -817,20 +817,20 @@
     },
     "ga": {
         "cardinal": {
-            "one": {
-                "example": "1 cheann, 1 uair, 1 chat, 1 éan, 1 bhróg / 1.0 cheann, 1.0 uair, 1.0 chat, 1.0 éan, 1.0 bhróg"
-            },
-            "two": {
-                "example": "2 cheann, 2 uair, 2 chat, 2 éan, 2 bhróig / 2.0 cheann, 2.0 uair, 2.0 chat, 2.0 éan, 2.0 bhróig"
-            },
             "few": {
                 "example": "3 cinn, 3 huaire, 3 chat, 3 éan, 3 bhróg / 3.0 cinn, 3.0 huaire, 3.0 chat, 3.0 éan, 3.0 bhróg"
             },
             "many": {
                 "example": "7 gcinn, 7 n-uaire, 7 gcat, 7 n-éan, 7 mbróg / 7.0 gcinn, 7.0 n-uaire, 7.0 gcat, 7.0 n-éan, 7.0 mbróg"
             },
+            "one": {
+                "example": "1 cheann, 1 uair, 1 chat, 1 éan, 1 bhróg / 1.0 cheann, 1.0 uair, 1.0 chat, 1.0 éan, 1.0 bhróg"
+            },
             "other": {
                 "example": "11 ceann, 11 uair, 11 cat, 11 éan, 11 bróg / 0.9 ceann, 0.9 uair, 0.9 cat, 0.9 éan, 0.9 bróg"
+            },
+            "two": {
+                "example": "2 cheann, 2 uair, 2 chat, 2 éan, 2 bhróig / 2.0 cheann, 2.0 uair, 2.0 chat, 2.0 éan, 2.0 bhróig"
             }
         },
         "ordinal": {
@@ -844,32 +844,32 @@
     },
     "gd": {
         "cardinal": {
+            "few": {
+                "example": "3 brògan / 3.0 brògan",
+                "human_rule": "Exactly 3-10 or 13-19"
+            },
             "one": {
                 "example": "1 bhròg / 1.0 bhròg"
             },
-            "two": {
-                "example": "2 bhròig / 2.0 bhròig"
-            },
-            "few": {
-                "human_rule": "Exactly 3-10 or 13-19",
-                "example": "3 brògan / 3.0 brògan"
-            },
             "other": {
                 "example": "20 bròg / 0.9 bròg"
+            },
+            "two": {
+                "example": "2 bhròig / 2.0 bhròig"
             }
         },
         "ordinal": {
-            "one": {
-                "example": "Tionndaidh ris an làimh dheas aig a’ 1d ghobhal."
-            },
-            "two": {
-                "example": "Tionndaidh ris an làimh dheas aig an 2na gobhal."
-            },
             "few": {
                 "example": "Tionndaidh ris an làimh dheas aig an 3s gobhal."
             },
+            "one": {
+                "example": "Tionndaidh ris an làimh dheas aig a’ 1d ghobhal."
+            },
             "other": {
                 "example": "Tionndaidh ris an làimh dheas aig a’ 4mh gobhal."
+            },
+            "two": {
+                "example": "Tionndaidh ris an làimh dheas aig an 2na gobhal."
             }
         }
     },
@@ -884,16 +884,16 @@
         },
         "ordinal": {
             "other": {
-                "human_rule": "Any other number",
-                "example": "Colle a 15.ª curva á dereita."
+                "example": "Colle a 15.ª curva á dereita.",
+                "human_rule": "Any other number"
             }
         }
     },
     "gsw": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "11.0, 1.00, 1.000, 1.0000"
+                "example": "11.0, 1.00, 1.000, 1.0000",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "0, 2–16, 100, 1000, 10000, 100000, 1000000, … | 0.0–0.9, 1.1–1.6, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …"
@@ -908,59 +908,59 @@
     "gu": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 0, 1, or any decimal starting with 0",
-                "example": "1 કિલોગ્રામ / 1.0 કિલોગ્રામ"
+                "example": "1 કિલોગ્રામ / 1.0 કિલોગ્રામ",
+                "human_rule": "Exactly 0, 1, or any decimal starting with 0"
             },
             "other": {
                 "example": "2 કિલોગ્રામ્સ / 1.1 કિલોગ્રામ્સ"
             }
         },
         "ordinal": {
-            "one": {
-                "example": "જમણી બાજુએ 1લો વળાંક લો."
-            },
-            "two": {
-                "example": "જમણી બાજુએ 2જો વળાંક લો."
-            },
             "few": {
                 "example": "જમણી બાજુએ 4થો વળાંક લો."
             },
             "many": {
                 "example": "જમણી બાજુએ 6ઠો વળાંક લો."
             },
+            "one": {
+                "example": "જમણી બાજુએ 1લો વળાંક લો."
+            },
             "other": {
                 "example": "જમણી બાજુએ 5મો વળાંક લો."
+            },
+            "two": {
+                "example": "જમણી બાજુએ 2જો વળાંક લો."
             }
         }
     },
     "gv": {
         "cardinal": {
-            "one": {
-                "human_rule": "Ends in 1, no decimals",
-                "example": "1 thunnag/vuc/ooyl"
-            },
-            "two": {
-                "human_rule": "Ends in 2 (no decimals)",
-                "example": "2 hunnag/vuc/ooyl"
-            },
             "few": {
-                "human_rule": "Ends in 00, 20, 40, 60, or 80 (no decimals)",
-                "example": "20 thunnag/muc/ooyl"
+                "example": "20 thunnag/muc/ooyl",
+                "human_rule": "Ends in 00, 20, 40, 60, or 80 (no decimals)"
             },
             "many": {
-                "human_rule": "Any number with decimal digits",
-                "example": "1.5 dy hunnagyn/dy vucyn/dy ooylyn"
+                "example": "1.5 dy hunnagyn/dy vucyn/dy ooylyn",
+                "human_rule": "Any number with decimal digits"
+            },
+            "one": {
+                "example": "1 thunnag/vuc/ooyl",
+                "human_rule": "Ends in 1, no decimals"
             },
             "other": {
                 "example": "3 thunnagyn/mucyn/ooylyn"
+            },
+            "two": {
+                "example": "2 hunnag/vuc/ooyl",
+                "human_rule": "Ends in 2 (no decimals)"
             }
         }
     },
     "ha": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "rana 1 / rana 1.0"
+                "example": "rana 1 / rana 1.0",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "ranaku 2 / ranaku 0.9"
@@ -970,8 +970,8 @@
     "haw": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "11.0, 1.00, 1.000, 1.0000"
+                "example": "11.0, 1.00, 1.000, 1.0000",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "0, 2–16, 100, 1000, 10000, 100000, 1000000, … | 0.0–0.9, 1.1–1.6, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …"
@@ -981,14 +981,14 @@
     "he": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1, or any decimal number between 0 and 1, excluding 0 itself",
-                "example": "‫יום / יום‬"
-            },
-            "two": {
-                "example": "‫יומיים‬"
+                "example": "‫יום / יום‬",
+                "human_rule": "Exactly 1, or any decimal number between 0 and 1, excluding 0 itself"
             },
             "other": {
                 "example": "‫3 ימים / 1.0 ימים‬"
+            },
+            "two": {
+                "example": "‫יומיים‬"
             }
         },
         "ordinal": {
@@ -1000,29 +1000,29 @@
     "hi": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 0, 1, or any decimal starting with 0",
-                "example": "1 घंटा / 1.0 घंटा"
+                "example": "1 घंटा / 1.0 घंटा",
+                "human_rule": "Exactly 0, 1, or any decimal starting with 0"
             },
             "other": {
                 "example": "2 घंटे / 1.1 घंटे"
             }
         },
         "ordinal": {
-            "one": {
-                "human_rule": "Exactly 1",
-                "example": "1ला दाहिना मोड़ लें."
-            },
-            "two": {
-                "example": "2रा दाहिना मोड़ लें."
-            },
             "few": {
                 "example": "4 दाहिना मोड़ लें."
             },
             "many": {
                 "example": "6ठा दाहिना मोड़ लें."
             },
+            "one": {
+                "example": "1ला दाहिना मोड़ लें.",
+                "human_rule": "Exactly 1"
+            },
             "other": {
                 "example": "5वां दाहिना मोड़ लें."
+            },
+            "two": {
+                "example": "2रा दाहिना मोड़ लें."
             }
         }
     },
@@ -1035,13 +1035,13 @@
     },
     "hr": {
         "cardinal": {
-            "one": {
-                "human_rule": "Ends in 1 (except 11), includes visible decimals",
-                "example": "1 sat / 0,1 sat"
-            },
             "few": {
-                "human_rule": "Ends in 2–4 (except 12–14), includes visible decimals",
-                "example": "2 sata / 0,2 sata"
+                "example": "2 sata / 0,2 sata",
+                "human_rule": "Ends in 2–4 (except 12–14), includes visible decimals"
+            },
+            "one": {
+                "example": "1 sat / 0,1 sat",
+                "human_rule": "Ends in 1 (except 11), includes visible decimals"
             },
             "other": {
                 "example": "5 sati / 0,5 sati"
@@ -1055,17 +1055,17 @@
     },
     "hsb": {
         "cardinal": {
-            "one": {
-                "example": "1 dźeń / 0,1 dźeń"
-            },
-            "two": {
-                "example": "2 dnjej / 0,2 dnjej"
-            },
             "few": {
                 "example": "3 dny / 0,3 dny"
             },
+            "one": {
+                "example": "1 dźeń / 0,1 dźeń"
+            },
             "other": {
                 "example": "5 dnjow / 0,5 dnjow"
+            },
+            "two": {
+                "example": "2 dnjej / 0,2 dnjej"
             }
         },
         "ordinal": {
@@ -1076,12 +1076,12 @@
     },
     "ht": {
         "cardinal": {
-            "one": {
-                "human_rule": "Exactly 0 or 1, or any decimal number between 0 and 2, excluding 2 itself",
-                "example": "1 jour / 1,5 jour"
-            },
             "many": {
                 "example": "1 000 000 de jours / 1 M de jours"
+            },
+            "one": {
+                "example": "1 jour / 1,5 jour",
+                "human_rule": "Exactly 0 or 1, or any decimal number between 0 and 2, excluding 2 itself"
             },
             "other": {
                 "example": "2 jours / 2,0 jours"
@@ -1099,8 +1099,8 @@
     "hu": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "A kosár tartalma: 1 X. / Megveszi? / A kosár tartalma: 1,0 X. / Megveszi?"
+                "example": "A kosár tartalma: 1 X. / Megveszi? / A kosár tartalma: 1,0 X. / Megveszi?",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "A kosár tartalma: 2 X. / Megveszi őket? / A kosár tartalma: 0,9 X. / Megveszi őket?"
@@ -1118,8 +1118,8 @@
     "hy": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 0 or 1, or any decimal number between 0 and 2, excluding 2 itself",
-                "example": "այդ 1 պանակը / այդ 1,5 պանակը"
+                "example": "այդ 1 պանակը / այդ 1,5 պանակը",
+                "human_rule": "Exactly 0 or 1, or any decimal number between 0 and 2, excluding 2 itself"
             },
             "other": {
                 "example": "այդ 2 պանակները / այդ 2,0 պանակները"
@@ -1145,8 +1145,8 @@
         },
         "ordinal": {
             "other": {
-                "human_rule": "Any other number",
-                "example": "no plural differences"
+                "example": "no plural differences",
+                "human_rule": "Any other number"
             }
         }
     },
@@ -1186,8 +1186,8 @@
     "is": {
         "cardinal": {
             "one": {
-                "human_rule": "Ends in 1 (but not 11), including after the decimal point",
-                "example": "1 dagur / 0,1 dagur"
+                "example": "1 dagur / 0,1 dagur",
+                "human_rule": "Ends in 1 (but not 11), including after the decimal point"
             },
             "other": {
                 "example": "2 dagar / 0,2 dagar"
@@ -1201,11 +1201,11 @@
     },
     "it": {
         "cardinal": {
-            "one": {
-                "example": "1 giorno"
-            },
             "many": {
                 "example": "1.000.000 di giorni / 1 Mln di giorni"
+            },
+            "one": {
+                "example": "1 giorno"
             },
             "other": {
                 "example": "2 giorni / 1,5 giorni"
@@ -1225,11 +1225,11 @@
             "one": {
                 "example": "11.0, 1.00, 1.000, 1.0000"
             },
-            "two": {
-                "example": "n = 2"
-            },
             "other": {
                 "example": "0, 3–17, 100, 1000, 10000, 100000, 1000000, … | 0.0–0.9, 1.1–1.6, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …"
+            },
+            "two": {
+                "example": "n = 2"
             }
         }
     },
@@ -1255,8 +1255,8 @@
     "jgo": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "11.0, 1.00, 1.000, 1.0000"
+                "example": "11.0, 1.00, 1.000, 1.0000",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "0, 2–16, 100, 1000, 10000, 100000, 1000000, … | 0.0–0.9, 1.1–1.6, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …"
@@ -1266,8 +1266,8 @@
     "jmc": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "11.0, 1.00, 1.000, 1.0000"
+                "example": "11.0, 1.00, 1.000, 1.0000",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "0, 2–16, 100, 1000, 10000, 100000, 1000000, … | 0.0–0.9, 1.1–1.6, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …"
@@ -1284,20 +1284,20 @@
     "ka": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "კალათში 1 X-ია. / შეიძენთ მას? / კალათში 1,0 X-ია. / შეიძენთ მას?"
+                "example": "კალათში 1 X-ია. / შეიძენთ მას? / კალათში 1,0 X-ია. / შეიძენთ მას?",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "კალათში 2 X-ია. / შეიძენთ მათ? / კალათში 0,9 X-ია. / შეიძენთ მათ?"
             }
         },
         "ordinal": {
+            "many": {
+                "example": "მე-2",
+                "human_rule": "Exactly 0, or ends in 2-16, 20, 40, 60 or 80"
+            },
             "one": {
                 "example": "1-ლი"
-            },
-            "many": {
-                "human_rule": "Exactly 0, or ends in 2-16, 20, 40, 60 or 80",
-                "example": "მე-2"
             },
             "other": {
                 "example": "21-ე"
@@ -1307,8 +1307,8 @@
     "kab": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 0 or 1, or any decimal number between 0 and 2, excluding 2 itself",
-                "example": "1 n wass / 1,5 n wass"
+                "example": "1 n wass / 1,5 n wass",
+                "human_rule": "Exactly 0 or 1, or any decimal number between 0 and 2, excluding 2 itself"
             },
             "other": {
                 "example": "2 n wussan / 2,0 n wussan"
@@ -1318,8 +1318,8 @@
     "kaj": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "11.0, 1.00, 1.000, 1.0000"
+                "example": "11.0, 1.00, 1.000, 1.0000",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "0, 2–16, 100, 1000, 10000, 100000, 1000000, … | 0.0–0.9, 1.1–1.6, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …"
@@ -1329,8 +1329,8 @@
     "kcg": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "11.0, 1.00, 1.000, 1.0000"
+                "example": "11.0, 1.00, 1.000, 1.0000",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "0, 2–16, 100, 1000, 10000, 100000, 1000000, … | 0.0–0.9, 1.1–1.6, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …"
@@ -1354,8 +1354,8 @@
     "kk": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "Cебетте 1 Х бар. / Ол сіздікі ме? / Cебетте 1,0 Х бар. / Ол сіздікі ме?"
+                "example": "Cебетте 1 Х бар. / Ол сіздікі ме? / Cебетте 1,0 Х бар. / Ол сіздікі ме?",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "Себетте 2 Х бар. / Олар сіздікі ме? / Себетте 0,9 Х бар. / Олар сіздікі ме?"
@@ -1363,8 +1363,8 @@
         },
         "ordinal": {
             "many": {
-                "human_rule": "Ends in 6, 9 or 0 (except 0 itself)",
-                "example": "6-ші бұрылыстан оңға бұрылыңыз."
+                "example": "6-ші бұрылыстан оңға бұрылыңыз.",
+                "human_rule": "Ends in 6, 9 or 0 (except 0 itself)"
             },
             "other": {
                 "example": "5-шы бұрылыстан оңға бұрылыңыз."
@@ -1374,8 +1374,8 @@
     "kkj": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "11.0, 1.00, 1.000, 1.0000"
+                "example": "11.0, 1.00, 1.000, 1.0000",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "0, 2–16, 100, 1000, 10000, 100000, 1000000, … | 0.0–0.9, 1.1–1.6, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …"
@@ -1397,8 +1397,8 @@
     "kn": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 0, 1, or any decimal starting with 0",
-                "example": "1 ದಿನ / 1.0 ದಿನ"
+                "example": "1 ದಿನ / 1.0 ದಿನ",
+                "human_rule": "Exactly 0, 1, or any decimal starting with 0"
             },
             "other": {
                 "example": "2 ದಿನಗಳು / 1.1 ದಿನಗಳು"
@@ -1406,8 +1406,8 @@
         },
         "ordinal": {
             "other": {
-                "human_rule": "everything else",
-                "example": "15ನೇ ಬಲತಿರುವನ್ನು ತೆಗೆದುಕೊಳ್ಳಿ."
+                "example": "15ನೇ ಬಲತಿರುವನ್ನು ತೆಗೆದುಕೊಳ್ಳಿ.",
+                "human_rule": "everything else"
             }
         }
     },
@@ -1441,8 +1441,8 @@
     "ks": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "‫1 دۅہ / 1.0 دۅہ‬"
+                "example": "‫1 دۅہ / 1.0 دۅہ‬",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "‫2 دوہٕ / 0.9 دوہٕ‬"
@@ -1452,8 +1452,8 @@
     "ksb": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "11.0, 1.00, 1.000, 1.0000"
+                "example": "11.0, 1.00, 1.000, 1.0000",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "0, 2–16, 100, 1000, 10000, 100000, 1000000, … | 0.0–0.9, 1.1–1.6, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …"
@@ -1462,22 +1462,22 @@
     },
     "ksh": {
         "cardinal": {
-            "zero": {
-                "example": "00.0, 0.00, 0.000, 0.0000"
-            },
             "one": {
                 "example": "n = 1"
             },
             "other": {
                 "example": "2–17, 100, 1000, 10000, 100000, 1000000, … | 0.1–0.9, 1.1–1.7, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …"
+            },
+            "zero": {
+                "example": "00.0, 0.00, 0.000, 0.0000"
             }
         }
     },
     "ku": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "rojek / rojek"
+                "example": "rojek / rojek",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "2 roj / 0,9 roj"
@@ -1486,35 +1486,35 @@
     },
     "kw": {
         "cardinal": {
-            "zero": {
-                "example": "00.0, 0.00, 0.000, 0.0000"
+            "few": {
+                "example": "n % 100 = 3,23,43,63,83",
+                "human_rule": "Ends in 03, 23, 43, 63 or 83"
+            },
+            "many": {
+                "example": "n != 1 and /   n % 100 = 1,21,41,61,81",
+                "human_rule": "Numbers ending in 01, 21, 41, 61, or 81 (excluding 1 itself)"
             },
             "one": {
                 "example": "n = 1"
             },
-            "two": {
-                "human_rule": "Numbers ending in 02, 22, 42, 62, or 82, or specific large multiples of 1,000",
-                "example": "n % 100 = 2,22,42,62,82 or / n % 1000 = 0 and /   n % 100000 = 1000..20000,40000,60000,80000 or / n != 0 and /   n % 1000000 = 100000"
-            },
-            "few": {
-                "human_rule": "Ends in 03, 23, 43, 63 or 83",
-                "example": "n % 100 = 3,23,43,63,83"
-            },
-            "many": {
-                "human_rule": "Numbers ending in 01, 21, 41, 61, or 81 (excluding 1 itself)",
-                "example": "n != 1 and /   n % 100 = 1,21,41,61,81"
-            },
             "other": {
                 "example": "4–19, 100, 1004, 1000000, … | 0.1–0.9, 1.1–1.7, 10.0, 100.0, 1000.1, 1000000.0, …"
+            },
+            "two": {
+                "example": "n % 100 = 2,22,42,62,82 or / n % 1000 = 0 and /   n % 100000 = 1000..20000,40000,60000,80000 or / n != 0 and /   n % 1000000 = 100000",
+                "human_rule": "Numbers ending in 02, 22, 42, 62, or 82, or specific large multiples of 1,000"
+            },
+            "zero": {
+                "example": "00.0, 0.00, 0.000, 0.0000"
             }
         },
         "ordinal": {
-            "one": {
-                "human_rule": "Exactly 1–4, or ends in 01–04, 21–24, 41–44, 61–64, or 81–84",
-                "example": "1–4, 21–24, 41–44, 61–64, 101, 1001, …"
-            },
             "many": {
                 "example": "n = 5 or / n % 100 = 5"
+            },
+            "one": {
+                "example": "1–4, 21–24, 41–44, 61–64, 101, 1001, …",
+                "human_rule": "Exactly 1–4, or ends in 01–04, 21–24, 41–44, 61–64, or 81–84"
             },
             "other": {
                 "example": "0, 6–20, 100, 1000, 10000, 100000, 1000000, …"
@@ -1524,8 +1524,8 @@
     "ky": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "Себетте 1 Х бар. / Аны аласызбы? / Себетте 1,0 Х бар. / Аны аласызбы?"
+                "example": "Себетте 1 Х бар. / Аны аласызбы? / Себетте 1,0 Х бар. / Аны аласызбы?",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "Себетте 2 Х бар. / Аларды аласызбы? / Себетте 0,9 Х бар. / Аларды аласызбы?"
@@ -1539,23 +1539,23 @@
     },
     "lag": {
         "cardinal": {
-            "zero": {
-                "example": "00.0, 0.00, 0.000, 0.0000"
-            },
             "one": {
-                "human_rule": "Exactly 1, or any decimal starting with 0 or 1",
-                "example": "i = 0,1 and /   n != 0"
+                "example": "i = 0,1 and /   n != 0",
+                "human_rule": "Exactly 1, or any decimal starting with 0 or 1"
             },
             "other": {
                 "example": "2–17, 100, 1000, 10000, 100000, 1000000, … | 2.0–3.5, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …"
+            },
+            "zero": {
+                "example": "00.0, 0.00, 0.000, 0.0000"
             }
         }
     },
     "lb": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "11.0, 1.00, 1.000, 1.0000"
+                "example": "11.0, 1.00, 1.000, 1.0000",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "0, 2–16, 100, 1000, 10000, 100000, 1000000, … | 0.0–0.9, 1.1–1.6, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …"
@@ -1573,8 +1573,8 @@
         },
         "ordinal": {
             "many": {
-                "human_rule": "Exactly 8, 11, 80–89 or 800–899",
-                "example": "Piggia l’8ª in sciâ drita."
+                "example": "Piggia l’8ª in sciâ drita.",
+                "human_rule": "Exactly 8, 11, 80–89 or 800–899"
             },
             "other": {
                 "example": "Piggia a 7ª in sciâ drita."
@@ -1590,11 +1590,11 @@
     },
     "lld": {
         "cardinal": {
-            "one": {
-                "example": "1 de"
-            },
             "many": {
                 "example": "1000000, 1c6, 2c6, 3c6, 4c6, 5c6, 6c6, … | 1.0000001c6, 1.1c6, 2.0000001c6, 2.1c6, 3.0000001c6, 3.1c6, …"
+            },
+            "one": {
+                "example": "1 de"
             },
             "other": {
                 "example": "0, 2–16, 100, 1000, 10000, 100000, 1c3, 2c3, 3c3, 4c3, 5c3, 6c3, … | 0.0–1.5, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, 1.0001c3, 1.1c3, 2.0001c3, 2.1c3, 3.0001c3, 3.1c3, …"
@@ -1609,8 +1609,8 @@
     "ln": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 0 or 1",
-                "example": "0, 1, 0.0, 1.0, 0.00, 1.00, 0.000, 1.000, 0.0000, 1.0000"
+                "example": "0, 1, 0.0, 1.0, 0.00, 1.00, 0.000, 1.000, 0.0000, 1.0000",
+                "human_rule": "Exactly 0 or 1"
             },
             "other": {
                 "example": "2–17, 100, 1000, 10000, 100000, 1000000, … | 0.1–0.9, 1.1–1.7, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …"
@@ -1628,22 +1628,22 @@
                 "example": "ລ້ຽວຂວາໂຕທີ 1."
             },
             "other": {
-                "human_rule": "Any number",
-                "example": "ລ້ຽວຂວາທີ 2."
+                "example": "ລ້ຽວຂວາທີ 2.",
+                "human_rule": "Any number"
             }
         }
     },
     "lt": {
         "cardinal": {
-            "one": {
-                "example": "1 obuolys / 1,0 obuolys"
-            },
             "few": {
                 "example": "2 obuoliai / 2,0 obuoliai"
             },
             "many": {
-                "human_rule": "Numbers that have a non-zero value after the decimal point",
-                "example": "0,1 obuolio"
+                "example": "0,1 obuolio",
+                "human_rule": "Numbers that have a non-zero value after the decimal point"
+            },
+            "one": {
+                "example": "1 obuolys / 1,0 obuolys"
             },
             "other": {
                 "example": "10 obuolių / 10,0 obuolių"
@@ -1657,16 +1657,16 @@
     },
     "lv": {
         "cardinal": {
-            "zero": {
-                "human_rule": "Ends in 0, 11–19, or exactly two decimals (.11–.19)",
-                "example": "10 diennakšu / 10,0 diennakšu"
-            },
             "one": {
-                "human_rule": "Ends in 1 (not 11), or decimal part ends in 1 (not 11)",
-                "example": "1 diennakts / 0,1 diennakts"
+                "example": "1 diennakts / 0,1 diennakts",
+                "human_rule": "Ends in 1 (not 11), or decimal part ends in 1 (not 11)"
             },
             "other": {
                 "example": "2 diennaktis / 0,2 diennaktis"
+            },
+            "zero": {
+                "example": "10 diennakšu / 10,0 diennakšu",
+                "human_rule": "Ends in 0, 11–19, or exactly two decimals (.11–.19)"
             }
         },
         "ordinal": {
@@ -1678,8 +1678,8 @@
     "mas": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "11.0, 1.00, 1.000, 1.0000"
+                "example": "11.0, 1.00, 1.000, 1.0000",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "0, 2–16, 100, 1000, 10000, 100000, 1000000, … | 0.0–0.9, 1.1–1.6, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …"
@@ -1689,8 +1689,8 @@
     "mg": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 0 or 1",
-                "example": "0, 1, 0.0, 1.0, 0.00, 1.00, 0.000, 1.000, 0.0000, 1.0000"
+                "example": "0, 1, 0.0, 1.0, 0.00, 1.00, 0.000, 1.000, 0.0000, 1.0000",
+                "human_rule": "Exactly 0 or 1"
             },
             "other": {
                 "example": "2–17, 100, 1000, 10000, 100000, 1000000, … | 0.1–0.9, 1.1–1.7, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …"
@@ -1700,8 +1700,8 @@
     "mgo": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "11.0, 1.00, 1.000, 1.0000"
+                "example": "11.0, 1.00, 1.000, 1.0000",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "0, 2–16, 100, 1000, 10000, 100000, 1000000, … | 0.0–0.9, 1.1–1.6, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …"
@@ -1711,34 +1711,34 @@
     "mk": {
         "cardinal": {
             "one": {
-                "human_rule": "Ends in 1 (except 11), includes visible decimals",
-                "example": "1 ден / 0,1 ден"
+                "example": "1 ден / 0,1 ден",
+                "human_rule": "Ends in 1 (except 11), includes visible decimals"
             },
             "other": {
                 "example": "2 дена / 0,2 дена"
             }
         },
         "ordinal": {
+            "many": {
+                "example": "Сврти на 7-мата улица десно.",
+                "human_rule": "Ends in 7 or 8 (except 17 or 18)"
+            },
             "one": {
                 "example": "Сврти на 1-вата улица десно."
             },
-            "two": {
-                "example": "Сврти на 2-рата улица десно."
-            },
-            "many": {
-                "human_rule": "Ends in 7 or 8 (except 17 or 18)",
-                "example": "Сврти на 7-мата улица десно."
-            },
             "other": {
                 "example": "Сврти на 3-тата улица десно."
+            },
+            "two": {
+                "example": "Сврти на 2-рата улица десно."
             }
         }
     },
     "ml": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "1 വ്യക്തി / 1.0 വ്യക്തി"
+                "example": "1 വ്യക്തി / 1.0 വ്യക്തി",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "2 വ്യക്തികൾ / 0.9 വ്യക്തികൾ"
@@ -1753,8 +1753,8 @@
     "mn": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "Картанд 1 Х байна. / Үүнийг авах уу? / Картанд 1.0 Х байна. / Үүнийг авах уу?"
+                "example": "Картанд 1 Х байна. / Үүнийг авах уу? / Картанд 1.0 Х байна. / Үүнийг авах уу?",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "Картанд 2 Х байна. / Тэднийг авах уу? / Картанд 0.9 Х байна. / Тэднийг авах уу?"
@@ -1768,11 +1768,11 @@
     },
     "mo": {
         "cardinal": {
-            "one": {
-                "example": "1 zi"
-            },
             "few": {
                 "example": "2 zile / 1,5 zile"
+            },
+            "one": {
+                "example": "1 zi"
             },
             "other": {
                 "example": "20 de zile"
@@ -1790,25 +1790,25 @@
     "mr": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "1 घर / 1.0 घर"
+                "example": "1 घर / 1.0 घर",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "2 घरे / 0.9 घरे"
             }
         },
         "ordinal": {
-            "one": {
-                "example": "1ले उजवे वळण घ्या."
-            },
-            "two": {
-                "example": "2रे उजवे वळण घ्या."
-            },
             "few": {
                 "example": "4थे उजवे वळण घ्या."
             },
+            "one": {
+                "example": "1ले उजवे वळण घ्या."
+            },
             "other": {
                 "example": "5वे उजवे वळण घ्या."
+            },
+            "two": {
+                "example": "2रे उजवे वळण घ्या."
             }
         }
     },
@@ -1829,21 +1829,21 @@
     },
     "mt": {
         "cardinal": {
-            "one": {
-                "example": "jum / jum"
-            },
-            "two": {
-                "example": "jumejn / jumejn"
-            },
             "few": {
-                "human_rule": "Exactly 0, or ends in 03–10",
-                "example": "3 ijiem / 3.0 ijiem"
+                "example": "3 ijiem / 3.0 ijiem",
+                "human_rule": "Exactly 0, or ends in 03–10"
             },
             "many": {
                 "example": "11-il jum / 11.0-il jum"
             },
+            "one": {
+                "example": "jum / jum"
+            },
             "other": {
                 "example": "20 jum / 0.1 jum"
+            },
+            "two": {
+                "example": "jumejn / jumejn"
             }
         }
     },
@@ -1864,19 +1864,19 @@
             "one": {
                 "example": "11.0, 1.00, 1.000, 1.0000"
             },
-            "two": {
-                "example": "n = 2"
-            },
             "other": {
                 "example": "0, 3–17, 100, 1000, 10000, 100000, 1000000, … | 0.0–0.9, 1.1–1.6, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …"
+            },
+            "two": {
+                "example": "n = 2"
             }
         }
     },
     "nb": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "1 dag / 1,0 dag"
+                "example": "1 dag / 1,0 dag",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "2 dager / 0,9 dager"
@@ -1884,16 +1884,16 @@
         },
         "ordinal": {
             "other": {
-                "human_rule": "everything else",
-                "example": "Ta 15. / sving til høyre."
+                "example": "Ta 15. / sving til høyre.",
+                "human_rule": "everything else"
             }
         }
     },
     "nd": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "11.0, 1.00, 1.000, 1.0000"
+                "example": "11.0, 1.00, 1.000, 1.0000",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "0, 2–16, 100, 1000, 10000, 100000, 1000000, … | 0.0–0.9, 1.1–1.6, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …"
@@ -1903,8 +1903,8 @@
     "ne": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "तपाईंसँग 1 निम्तो छ / तपाईंसँग 1.0 निम्तो छ"
+                "example": "तपाईंसँग 1 निम्तो छ / तपाईंसँग 1.0 निम्तो छ",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "तपाईंसँग 2 निम्ता छन् / तपाईंसँग 0.9 निम्ता छन्"
@@ -1937,8 +1937,8 @@
     "nn": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "1 dag / 1,0 dag"
+                "example": "1 dag / 1,0 dag",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "2 dagar / 0,9 dagar"
@@ -1948,8 +1948,8 @@
     "nnh": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "11.0, 1.00, 1.000, 1.0000"
+                "example": "11.0, 1.00, 1.000, 1.0000",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "0, 2–16, 100, 1000, 10000, 100000, 1000000, … | 0.0–0.9, 1.1–1.6, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …"
@@ -1959,8 +1959,8 @@
     "no": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "1 dag / 1,0 dag"
+                "example": "1 dag / 1,0 dag",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "2 dager / 0,9 dager"
@@ -1968,8 +1968,8 @@
         },
         "ordinal": {
             "other": {
-                "human_rule": "everything else",
-                "example": "Ta 15. / sving til høyre."
+                "example": "Ta 15. / sving til høyre.",
+                "human_rule": "everything else"
             }
         }
     },
@@ -1983,8 +1983,8 @@
     "nr": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "11.0, 1.00, 1.000, 1.0000"
+                "example": "11.0, 1.00, 1.000, 1.0000",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "0, 2–16, 100, 1000, 10000, 100000, 1000000, … | 0.0–0.9, 1.1–1.6, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …"
@@ -1994,8 +1994,8 @@
     "ny": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "11.0, 1.00, 1.000, 1.0000"
+                "example": "11.0, 1.00, 1.000, 1.0000",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "0, 2–16, 100, 1000, 10000, 100000, 1000000, … | 0.0–0.9, 1.1–1.6, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …"
@@ -2005,8 +2005,8 @@
     "nyn": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "11.0, 1.00, 1.000, 1.0000"
+                "example": "11.0, 1.00, 1.000, 1.0000",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "0, 2–16, 100, 1000, 10000, 100000, 1000000, … | 0.0–0.9, 1.1–1.6, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …"
@@ -2016,8 +2016,8 @@
     "om": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "11.0, 1.00, 1.000, 1.0000"
+                "example": "11.0, 1.00, 1.000, 1.0000",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "0, 2–16, 100, 1000, 10000, 100000, 1000000, … | 0.0–0.9, 1.1–1.6, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …"
@@ -2027,66 +2027,66 @@
     "or": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "1 ଦିନ / 1.0 ଦିନ"
+                "example": "1 ଦିନ / 1.0 ଦିନ",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "2 ଦିନଗୁଡ଼ିକ / 0.9 ଦିନଗୁଡ଼ିକ"
             }
         },
         "ordinal": {
-            "one": {
-                "human_rule": "Exactly 1, 5, 7, 8 or 9",
-                "example": "1, 5, 7–9"
-            },
-            "two": {
-                "example": "n = 2,3"
-            },
             "few": {
                 "example": "n = 4"
             },
             "many": {
                 "example": "n = 6"
             },
+            "one": {
+                "example": "1, 5, 7–9",
+                "human_rule": "Exactly 1, 5, 7, 8 or 9"
+            },
             "other": {
                 "example": "ଡାହାଣରେ ଥିବା 10 ନିଅନ୍ତୁ"
+            },
+            "two": {
+                "example": "n = 2,3"
             }
         }
     },
     "ory": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "1 ଦିନ / 1.0 ଦିନ"
+                "example": "1 ଦିନ / 1.0 ଦିନ",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "2 ଦିନଗୁଡ଼ିକ / 0.9 ଦିନଗୁଡ଼ିକ"
             }
         },
         "ordinal": {
-            "one": {
-                "human_rule": "Exactly 1, 5, 7, 8 or 9",
-                "example": "1, 5, 7–9"
-            },
-            "two": {
-                "example": "n = 2,3"
-            },
             "few": {
                 "example": "n = 4"
             },
             "many": {
                 "example": "n = 6"
             },
+            "one": {
+                "example": "1, 5, 7–9",
+                "human_rule": "Exactly 1, 5, 7, 8 or 9"
+            },
             "other": {
                 "example": "ଡାହାଣରେ ଥିବା 10 ନିଅନ୍ତୁ"
+            },
+            "two": {
+                "example": "n = 2,3"
             }
         }
     },
     "os": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "11.0, 1.00, 1.000, 1.0000"
+                "example": "11.0, 1.00, 1.000, 1.0000",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "0, 2–16, 100, 1000, 10000, 100000, 1000000, … | 0.0–0.9, 1.1–1.6, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …"
@@ -2103,8 +2103,8 @@
     "pa": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 0 or 1",
-                "example": "1 ਘੰਟਾ / 1.0 ਘੰਟਾ"
+                "example": "1 ਘੰਟਾ / 1.0 ਘੰਟਾ",
+                "human_rule": "Exactly 0 or 1"
             },
             "other": {
                 "example": "2 ਘੰਟੇ / 0.1 ਘੰਟੇ"
@@ -2119,8 +2119,8 @@
     "pap": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "11.0, 1.00, 1.000, 1.0000"
+                "example": "11.0, 1.00, 1.000, 1.0000",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "0, 2–16, 100, 1000, 10000, 100000, 1000000, … | 0.0–0.9, 1.1–1.6, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …"
@@ -2130,8 +2130,8 @@
     "pcm": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 0, 1, or any decimal starting with 0",
-                "example": "1 dè / 1.0 dè"
+                "example": "1 dè / 1.0 dè",
+                "human_rule": "Exactly 0, 1, or any decimal starting with 0"
             },
             "other": {
                 "example": "2? / 1.1?"
@@ -2140,16 +2140,16 @@
     },
     "pl": {
         "cardinal": {
-            "one": {
-                "example": "1 miesiąc"
-            },
             "few": {
-                "human_rule": "Ends in 2–4 (except 12–14), no decimals",
-                "example": "2 miesiące"
+                "example": "2 miesiące",
+                "human_rule": "Ends in 2–4 (except 12–14), no decimals"
             },
             "many": {
-                "human_rule": "Ends in 0, 5–9, or 11–14 (no decimals)",
-                "example": "5 miesięcy"
+                "example": "5 miesięcy",
+                "human_rule": "Ends in 0, 5–9, or 11–14 (no decimals)"
+            },
+            "one": {
+                "example": "1 miesiąc"
             },
             "other": {
                 "example": "1,5 miesiąca"
@@ -2163,30 +2163,30 @@
     },
     "prg": {
         "cardinal": {
-            "zero": {
-                "human_rule": "Ends in 0, 11–19, or exactly two decimals (.11–.19)",
-                "example": "0, 10–20, 30, 40, 50, 60, 100, 1000, 10000, 100000, 1000000, … | 0.0, 10.0, 11.0, 12.0, 13.0, 14.0, 15.0, 16.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …"
-            },
             "one": {
-                "human_rule": "Ends in 1 (not 11), or decimal part ends in 1 (not 11)",
-                "example": "n % 10 = 1 and /   n % 100 != 11 or / v = 2 and /   f % 10 = 1 and /   f % 100 != 11 or / v != 2 and /   f % 10 = 1"
+                "example": "n % 10 = 1 and /   n % 100 != 11 or / v = 2 and /   f % 10 = 1 and /   f % 100 != 11 or / v != 2 and /   f % 10 = 1",
+                "human_rule": "Ends in 1 (not 11), or decimal part ends in 1 (not 11)"
             },
             "other": {
                 "example": "2–9, 22–29, 102, 1002, … | 0.2–0.9, 1.2–1.9, 10.2, 100.2, 1000.2, …"
+            },
+            "zero": {
+                "example": "0, 10–20, 30, 40, 50, 60, 100, 1000, 10000, 100000, 1000000, … | 0.0, 10.0, 11.0, 12.0, 13.0, 14.0, 15.0, 16.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …",
+                "human_rule": "Ends in 0, 11–19, or exactly two decimals (.11–.19)"
             }
         },
         "ordinal": {
             "other": {
-                "human_rule": "Any other number",
-                "example": "no plural differences"
+                "example": "no plural differences",
+                "human_rule": "Any other number"
             }
         }
     },
     "prs": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 0, 1, or any decimal starting with 0",
-                "example": "‫1 نفر در بازی شرکت کرد. / 1.0 نفر در بازی شرکت کرد.‬"
+                "example": "‫1 نفر در بازی شرکت کرد. / 1.0 نفر در بازی شرکت کرد.‬",
+                "human_rule": "Exactly 0, 1, or any decimal starting with 0"
             },
             "other": {
                 "example": "‫2 نفر در بازی شرکت کردند. / 1.1 نفر در بازی شرکت کردند.‬"
@@ -2194,16 +2194,16 @@
         },
         "ordinal": {
             "other": {
-                "human_rule": "Any other number",
-                "example": "‫در پیچ 15ام سمت راست بپیچید.‬"
+                "example": "‫در پیچ 15ام سمت راست بپیچید.‬",
+                "human_rule": "Any other number"
             }
         }
     },
     "ps": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "‫1 ورځ / 1,0 ورځ‬"
+                "example": "‫1 ورځ / 1,0 ورځ‬",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "‫2 ورځې / 0,9 ورځې‬"
@@ -2217,12 +2217,12 @@
     },
     "pt": {
         "cardinal": {
-            "one": {
-                "human_rule": "Exactly 0 or 1, or any decimal number between 0 and 2, excluding 2 itself",
-                "example": "1 dia / 1,5 dia"
-            },
             "many": {
                 "example": "1.000.000 de dias / 1 mi de dias"
+            },
+            "one": {
+                "example": "1 dia / 1,5 dia",
+                "human_rule": "Exactly 0 or 1, or any decimal number between 0 and 2, excluding 2 itself"
             },
             "other": {
                 "example": "2 dias / 2,0 dias"
@@ -2234,11 +2234,24 @@
             }
         }
     },
+    "pt_pt": {
+        "cardinal": {
+            "many": {
+                "example": "1000000 de dias / 1M de dias"
+            },
+            "one": {
+                "example": "1 dia"
+            },
+            "other": {
+                "example": "2 dias / 1,5 dias"
+            }
+        }
+    },
     "rm": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "1 di / 1.0 di"
+                "example": "1 di / 1.0 di",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "2 dis / 0.9 dis"
@@ -2247,12 +2260,12 @@
     },
     "ro": {
         "cardinal": {
+            "few": {
+                "example": "2 zile / 1,5 zile",
+                "human_rule": "Exactly 0, decimals, or ends in 01–19"
+            },
             "one": {
                 "example": "1 zi"
-            },
-            "few": {
-                "human_rule": "Exactly 0, decimals, or ends in 01–19",
-                "example": "2 zile / 1,5 zile"
             },
             "other": {
                 "example": "20 de zile"
@@ -2270,8 +2283,8 @@
     "rof": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "11.0, 1.00, 1.000, 1.0000"
+                "example": "11.0, 1.00, 1.000, 1.0000",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "0, 2–16, 100, 1000, 10000, 100000, 1000000, … | 0.0–0.9, 1.1–1.6, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …"
@@ -2280,17 +2293,17 @@
     },
     "ru": {
         "cardinal": {
-            "one": {
-                "human_rule": "Ends in 1 (except 11), no decimals",
-                "example": "из 1 книги за 1 день"
-            },
             "few": {
-                "human_rule": "Ends in 2–4 (except 12–14), no decimals",
-                "example": "из 2 книг за 2 дня"
+                "example": "из 2 книг за 2 дня",
+                "human_rule": "Ends in 2–4 (except 12–14), no decimals"
             },
             "many": {
-                "human_rule": "Ends in 0, 5–9, or 11–14, no decimals",
-                "example": "из 5 книг за 5 дней"
+                "example": "из 5 книг за 5 дней",
+                "human_rule": "Ends in 0, 5–9, or 11–14, no decimals"
+            },
+            "one": {
+                "example": "из 1 книги за 1 день",
+                "human_rule": "Ends in 1 (except 11), no decimals"
             },
             "other": {
                 "example": "из 1,5 книги за 1,5 дня"
@@ -2305,8 +2318,8 @@
     "rwk": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "11.0, 1.00, 1.000, 1.0000"
+                "example": "11.0, 1.00, 1.000, 1.0000",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "0, 2–16, 100, 1000, 10000, 100000, 1000000, … | 0.0–0.9, 1.1–1.6, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …"
@@ -2323,8 +2336,8 @@
     "saq": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "11.0, 1.00, 1.000, 1.0000"
+                "example": "11.0, 1.00, 1.000, 1.0000",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "0, 2–16, 100, 1000, 10000, 100000, 1000000, … | 0.0–0.9, 1.1–1.6, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …"
@@ -2336,11 +2349,11 @@
             "one": {
                 "example": "1 ᱰᱟᱹᱝᱜᱽᱨᱤ / 1.0 ᱰᱟᱹᱝᱜᱽᱨᱤ"
             },
-            "two": {
-                "example": "2 ᱰᱟᱹᱝᱜᱽᱨᱤ ᱠᱤᱱ / 2.0 ᱰᱟᱹᱝᱜᱽᱨᱤ ᱠᱤᱱ"
-            },
             "other": {
                 "example": "3 ᱰᱟᱹᱝᱜᱽᱨᱤ ᱠᱚ / 0.9 ᱰᱟᱹᱝᱜᱽᱨᱤ ᱠᱚ"
+            },
+            "two": {
+                "example": "2 ᱰᱟᱹᱝᱜᱽᱨᱤ ᱠᱤᱱ / 2.0 ᱰᱟᱹᱝᱜᱽᱨᱤ ᱠᱤᱱ"
             }
         }
     },
@@ -2361,11 +2374,11 @@
     },
     "scn": {
         "cardinal": {
-            "one": {
-                "example": "1 jornu"
-            },
             "many": {
                 "example": "1000000, 1c6, 2c6, 3c6, 4c6, 5c6, 6c6, … | 1.0000001c6, 1.1c6, 2.0000001c6, 2.1c6, 3.0000001c6, 3.1c6, …"
+            },
+            "one": {
+                "example": "1 jornu"
             },
             "other": {
                 "example": "0, 2–16, 100, 1000, 10000, 100000, 1c3, 2c3, 3c3, 4c3, 5c3, 6c3, … | 0.0–1.5, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, 1.0001c3, 1.1c3, 2.0001c3, 2.1c3, 3.0001c3, 3.1c3, …"
@@ -2376,16 +2389,16 @@
                 "human_rule": "is 8, 11, 80 or 800"
             },
             "other": {
-                "human_rule": "everything else",
-                "example": "0–7, 9, 10, 12–17, 100, 1000, 10000, 100000, 1000000, …"
+                "example": "0–7, 9, 10, 12–17, 100, 1000, 10000, 100000, 1000000, …",
+                "human_rule": "everything else"
             }
         }
     },
     "sd": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "‫1 ڪتاب / 1.0 ڪتاب‬"
+                "example": "‫1 ڪتاب / 1.0 ڪتاب‬",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "‫2 ڪتابون / 0.9 ڪتابون‬"
@@ -2393,16 +2406,16 @@
         },
         "ordinal": {
             "other": {
-                "human_rule": "everything else",
-                "example": "‫15 ساڄو پاسو وٺو‬"
+                "example": "‫15 ساڄو پاسو وٺو‬",
+                "human_rule": "everything else"
             }
         }
     },
     "sdh": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "11.0, 1.00, 1.000, 1.0000"
+                "example": "11.0, 1.00, 1.000, 1.0000",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "0, 2–16, 100, 1000, 10000, 100000, 1000000, … | 0.0–0.9, 1.1–1.6, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …"
@@ -2414,19 +2427,19 @@
             "one": {
                 "example": "11.0, 1.00, 1.000, 1.0000"
             },
-            "two": {
-                "example": "n = 2"
-            },
             "other": {
                 "example": "0, 3–17, 100, 1000, 10000, 100000, 1000000, … | 0.0–0.9, 1.1–1.6, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …"
+            },
+            "two": {
+                "example": "n = 2"
             }
         }
     },
     "seh": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "11.0, 1.00, 1.000, 1.0000"
+                "example": "11.0, 1.00, 1.000, 1.0000",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "0, 2–16, 100, 1000, 10000, 100000, 1000000, … | 0.0–0.9, 1.1–1.6, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …"
@@ -2449,13 +2462,13 @@
     },
     "shi": {
         "cardinal": {
-            "one": {
-                "human_rule": "Exactly 0, 1, or any decimal starting with 0",
-                "example": "0, 1, 0.0–1.0, 0.00–0.04"
-            },
             "few": {
-                "human_rule": "is 2, 3, 4, 5, 6, 7, 8, 9 or 10",
-                "example": "n = 2..10"
+                "example": "n = 2..10",
+                "human_rule": "is 2, 3, 4, 5, 6, 7, 8, 9 or 10"
+            },
+            "one": {
+                "example": "0, 1, 0.0–1.0, 0.00–0.04",
+                "human_rule": "Exactly 0, 1, or any decimal starting with 0"
             },
             "other": {
                 "example": "11–26, 100, 1000, 10000, 100000, 1000000, … | 1.1–1.9, 2.1–2.7, 10.1, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …"
@@ -2465,8 +2478,8 @@
     "si": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 0 or 1, or any decimal starting with 0 where the fractional part is exactly 1",
-                "example": "1 පොතක් ඇත. / එය කියවීමි. / 0.1 පොතක් ඇත. / එය කියවීමි."
+                "example": "1 පොතක් ඇත. / එය කියවීමි. / 0.1 පොතක් ඇත. / එය කියවීමි.",
+                "human_rule": "Exactly 0 or 1, or any decimal starting with 0 where the fractional part is exactly 1"
             },
             "other": {
                 "example": "පොත් 2ක් ඇත. / ඒවා කියවීමි. / පොත් 0.2ක් ඇත. / ඒවා කියවීමි."
@@ -2474,22 +2487,22 @@
         },
         "ordinal": {
             "other": {
-                "human_rule": "everything else",
-                "example": "15 වන හැරවුම දකුණට"
+                "example": "15 වන හැරවුම දකුණට",
+                "human_rule": "everything else"
             }
         }
     },
     "sk": {
         "cardinal": {
-            "one": {
-                "example": "1 deň"
-            },
             "few": {
                 "example": "2 dni"
             },
             "many": {
-                "human_rule": "Any number with decimal digits",
-                "example": "1,5 dňa"
+                "example": "1,5 dňa",
+                "human_rule": "Any number with decimal digits"
+            },
+            "one": {
+                "example": "1 deň"
             },
             "other": {
                 "example": "5 dní"
@@ -2503,20 +2516,20 @@
     },
     "sl": {
         "cardinal": {
-            "one": {
-                "human_rule": "Exactly 1, or ends in 01 (no decimals)",
-                "example": "1 dan"
-            },
-            "two": {
-                "human_rule": "Exactly 2, or ends in 02 (no decimals)",
-                "example": "2 dneva"
-            },
             "few": {
-                "human_rule": "Exactly 3, 4, ends in 03, 04, or any decimal",
-                "example": "3 dnevi / 1,5 dnevi"
+                "example": "3 dnevi / 1,5 dnevi",
+                "human_rule": "Exactly 3, 4, ends in 03, 04, or any decimal"
+            },
+            "one": {
+                "example": "1 dan",
+                "human_rule": "Exactly 1, or ends in 01 (no decimals)"
             },
             "other": {
                 "example": "5 dni"
+            },
+            "two": {
+                "example": "2 dneva",
+                "human_rule": "Exactly 2, or ends in 02 (no decimals)"
             }
         },
         "ordinal": {
@@ -2530,11 +2543,11 @@
             "one": {
                 "example": "11.0, 1.00, 1.000, 1.0000"
             },
-            "two": {
-                "example": "n = 2"
-            },
             "other": {
                 "example": "0, 3–17, 100, 1000, 10000, 100000, 1000000, … | 0.0–0.9, 1.1–1.6, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …"
+            },
+            "two": {
+                "example": "n = 2"
             }
         }
     },
@@ -2543,11 +2556,11 @@
             "one": {
                 "example": "11.0, 1.00, 1.000, 1.0000"
             },
-            "two": {
-                "example": "n = 2"
-            },
             "other": {
                 "example": "0, 3–17, 100, 1000, 10000, 100000, 1000000, … | 0.0–0.9, 1.1–1.6, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …"
+            },
+            "two": {
+                "example": "n = 2"
             }
         }
     },
@@ -2556,11 +2569,11 @@
             "one": {
                 "example": "11.0, 1.00, 1.000, 1.0000"
             },
-            "two": {
-                "example": "n = 2"
-            },
             "other": {
                 "example": "0, 3–17, 100, 1000, 10000, 100000, 1000000, … | 0.0–0.9, 1.1–1.6, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …"
+            },
+            "two": {
+                "example": "n = 2"
             }
         }
     },
@@ -2569,19 +2582,19 @@
             "one": {
                 "example": "11.0, 1.00, 1.000, 1.0000"
             },
-            "two": {
-                "example": "n = 2"
-            },
             "other": {
                 "example": "0, 3–17, 100, 1000, 10000, 100000, 1000000, … | 0.0–0.9, 1.1–1.6, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …"
+            },
+            "two": {
+                "example": "n = 2"
             }
         }
     },
     "so": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "1 maalin / 1.0 maalin"
+                "example": "1 maalin / 1.0 maalin",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "2 maalmood / 0.9 maalmood"
@@ -2591,20 +2604,20 @@
     "sq": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "1 libër / 1,0 libër"
+                "example": "1 libër / 1,0 libër",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "2 libra / 0,9 libra"
             }
         },
         "ordinal": {
+            "many": {
+                "example": "Merrni kthesën e 4-t në të djathtë.",
+                "human_rule": "Ends in 4 (except 14)"
+            },
             "one": {
                 "example": "Merrni kthesën e 1-rë në të djathtë."
-            },
-            "many": {
-                "human_rule": "Ends in 4 (except 14)",
-                "example": "Merrni kthesën e 4-t në të djathtë."
             },
             "other": {
                 "example": "Merrni kthesën e 2-të në të djathtë."
@@ -2613,13 +2626,13 @@
     },
     "sr": {
         "cardinal": {
-            "one": {
-                "human_rule": "Ends in 1 (except 11), includes visible decimals",
-                "example": "1 сат / 0,1 сат"
-            },
             "few": {
-                "human_rule": "Ends in 2–4 (except 12–14), includes visible decimals",
-                "example": "2 сата / 0,2 сата"
+                "example": "2 сата / 0,2 сата",
+                "human_rule": "Ends in 2–4 (except 12–14), includes visible decimals"
+            },
+            "one": {
+                "example": "1 сат / 0,1 сат",
+                "human_rule": "Ends in 1 (except 11), includes visible decimals"
             },
             "other": {
                 "example": "5 сати / 0,5 сати"
@@ -2634,8 +2647,8 @@
     "ss": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "11.0, 1.00, 1.000, 1.0000"
+                "example": "11.0, 1.00, 1.000, 1.0000",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "0, 2–16, 100, 1000, 10000, 100000, 1000000, … | 0.0–0.9, 1.1–1.6, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …"
@@ -2645,8 +2658,8 @@
     "ssy": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "11.0, 1.00, 1.000, 1.0000"
+                "example": "11.0, 1.00, 1.000, 1.0000",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "0, 2–16, 100, 1000, 10000, 100000, 1000000, … | 0.0–0.9, 1.1–1.6, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …"
@@ -2656,8 +2669,8 @@
     "st": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "11.0, 1.00, 1.000, 1.0000"
+                "example": "11.0, 1.00, 1.000, 1.0000",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "0, 2–16, 100, 1000, 10000, 100000, 1000000, … | 0.0–0.9, 1.1–1.6, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …"
@@ -2682,8 +2695,8 @@
         },
         "ordinal": {
             "one": {
-                "human_rule": "Ends in 1 or 2 (except 11 and 12)",
-                "example": "Ta 1:a svängen till höger"
+                "example": "Ta 1:a svängen till höger",
+                "human_rule": "Ends in 1 or 2 (except 11 and 12)"
             },
             "other": {
                 "example": "Ta 3:e svängen till höger"
@@ -2708,8 +2721,8 @@
     "syr": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "‫ܝܠܐ ܝܠܗ ܥܬܝܕܐ / ܝܠܐ ܝܠܗ ܥܬܝܕܐ‬"
+                "example": "‫ܝܠܐ ܝܠܗ ܥܬܝܕܐ / ܝܠܐ ܝܠܗ ܥܬܝܕܐ‬",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "‫ܝܠ̈ܐ ܝܢܐ ܥܬܝܕ̈ܐ 2 / ܝܠ̈ܐ ܝܢܐ ܥܬܝܕ̈ܐ 0.9‬"
@@ -2719,8 +2732,8 @@
     "ta": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "1 நாள் / 1.0 நாள்"
+                "example": "1 நாள் / 1.0 நாள்",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "2 நாட்கள் / 0.9 நாட்கள்"
@@ -2735,8 +2748,8 @@
     "te": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "1 రోజు / 1.0 రోజు"
+                "example": "1 రోజు / 1.0 రోజు",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "2 రోజులు / 0.9 రోజులు"
@@ -2751,8 +2764,8 @@
     "teo": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "11.0, 1.00, 1.000, 1.0000"
+                "example": "11.0, 1.00, 1.000, 1.0000",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "0, 2–16, 100, 1000, 10000, 100000, 1000000, … | 0.0–0.9, 1.1–1.6, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …"
@@ -2774,8 +2787,8 @@
     "ti": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 0 or 1",
-                "example": "1 መዓልቲ / 1.0 መዓልቲ"
+                "example": "1 መዓልቲ / 1.0 መዓልቲ",
+                "human_rule": "Exactly 0 or 1"
             },
             "other": {
                 "example": "2 መዓልታት / 0.1 መዓልታት"
@@ -2785,8 +2798,8 @@
     "tig": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "11.0, 1.00, 1.000, 1.0000"
+                "example": "11.0, 1.00, 1.000, 1.0000",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "0, 2–16, 100, 1000, 10000, 100000, 1000000, … | 0.0–0.9, 1.1–1.6, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …"
@@ -2796,8 +2809,8 @@
     "tk": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "1 gün / 1,0 gün"
+                "example": "1 gün / 1,0 gün",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "2 günler / 0,9 günler"
@@ -2805,8 +2818,8 @@
         },
         "ordinal": {
             "few": {
-                "human_rule": "Any number ending in 6 or 9, or number 10",
-                "example": "6, 9, 10, 16, 19, 26, 29, 36, 39, 106, 1006, …"
+                "example": "6, 9, 10, 16, 19, 26, 29, 36, 39, 106, 1006, …",
+                "human_rule": "Any number ending in 6 or 9, or number 10"
             },
             "other": {
                 "example": "Sagdan 5-nj. / öwrümden öwrüliň."
@@ -2816,8 +2829,8 @@
     "tl": {
         "cardinal": {
             "one": {
-                "human_rule": "Does not end in 4, 6, 9 (including the part  aftr the decimal point)",
-                "example": "3 mansanas / 0.3 mansanas"
+                "example": "3 mansanas / 0.3 mansanas",
+                "human_rule": "Does not end in 4, 6, 9 (including the part  aftr the decimal point)"
             },
             "other": {
                 "example": "4 na mansanas / 0.4 na mansanas"
@@ -2832,8 +2845,8 @@
     "tn": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "11.0, 1.00, 1.000, 1.0000"
+                "example": "11.0, 1.00, 1.000, 1.0000",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "0, 2–16, 100, 1000, 10000, 100000, 1000000, … | 0.0–0.9, 1.1–1.6, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …"
@@ -2855,8 +2868,8 @@
     "tr": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "Sepetinizde 1 X var. / Bunu almak istiyor musunuz? / Sepetinizde 1,0 X var. / Bunu almak istiyor musunuz?"
+                "example": "Sepetinizde 1 X var. / Bunu almak istiyor musunuz? / Sepetinizde 1,0 X var. / Bunu almak istiyor musunuz?",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "Sepetinizde 2 X var. / Bunları almak istiyor musunuz? / Sepetinizde 0,9 X var. / Bunları almak istiyor musunuz?"
@@ -2871,8 +2884,8 @@
     "ts": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "11.0, 1.00, 1.000, 1.0000"
+                "example": "11.0, 1.00, 1.000, 1.0000",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "0, 2–16, 100, 1000, 10000, 100000, 1000000, … | 0.0–0.9, 1.1–1.6, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …"
@@ -2892,8 +2905,8 @@
     "ug": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "‫1 كىتاب / 1.0 كىتاب‬"
+                "example": "‫1 كىتاب / 1.0 كىتاب‬",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "‫2 بېلىق كۆردۈم ۋە ئۇنى يەۋەتتىم. / 0.9 بېلىق كۆردۈم ۋە ئۇنى يەۋەتتىم.‬"
@@ -2902,17 +2915,17 @@
     },
     "uk": {
         "cardinal": {
-            "one": {
-                "human_rule": "Ends in 1 (except 11), no decimals",
-                "example": "1 день"
-            },
             "few": {
-                "human_rule": "Ends in 2–4 (except 12–14), no decimals",
-                "example": "2 дні"
+                "example": "2 дні",
+                "human_rule": "Ends in 2–4 (except 12–14), no decimals"
             },
             "many": {
-                "human_rule": "Ends in 0, 5–9, or 11–14, no decimals",
-                "example": "5 днів"
+                "example": "5 днів",
+                "human_rule": "Ends in 0, 5–9, or 11–14, no decimals"
+            },
+            "one": {
+                "example": "1 день",
+                "human_rule": "Ends in 1 (except 11), no decimals"
             },
             "other": {
                 "example": "1,5 дня"
@@ -2920,8 +2933,8 @@
         },
         "ordinal": {
             "few": {
-                "human_rule": "Any number ending in 3, except numbers ending in 13",
-                "example": "3-я дивізія, 3-є коло"
+                "example": "3-я дивізія, 3-є коло",
+                "human_rule": "Any number ending in 3, except numbers ending in 13"
             },
             "other": {
                 "example": "2-а дивізія, 2-е коло"
@@ -2946,8 +2959,8 @@
     "uz": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "Bu jildda 1 ta fayl bor. / Uni oʻchirib tashlaysizmi? / Bu jildda 1,0 ta fayl bor. / Uni oʻchirib tashlaysizmi?"
+                "example": "Bu jildda 1 ta fayl bor. / Uni oʻchirib tashlaysizmi? / Bu jildda 1,0 ta fayl bor. / Uni oʻchirib tashlaysizmi?",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "Bu jildda 2 ta fayl bor. / Ularni oʻchirib tashlaysizmi? / Bu jildda 0,9 ta fayl bor. / Ularni oʻchirib tashlaysizmi?"
@@ -2962,8 +2975,8 @@
     "ve": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "11.0, 1.00, 1.000, 1.0000"
+                "example": "11.0, 1.00, 1.000, 1.0000",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "0, 2–16, 100, 1000, 10000, 100000, 1000000, … | 0.0–0.9, 1.1–1.6, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …"
@@ -2972,11 +2985,11 @@
     },
     "vec": {
         "cardinal": {
-            "one": {
-                "example": "1 pomo"
-            },
             "many": {
                 "example": "e = 0 and /   i != 0 and /   i % 1000000 = 0 and /   v = 0 or / e != 0..5"
+            },
+            "one": {
+                "example": "1 pomo"
             },
             "other": {
                 "example": "0, 2–16, 100, 1000, 10000, 100000, 1c3, 2c3, 3c3, 4c3, 5c3, 6c3, … | 0.0–1.5, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, 1.0001c3, 1.1c3, 2.0001c3, 2.1c3, 3.0001c3, 3.1c3, …"
@@ -2996,8 +3009,8 @@
         },
         "ordinal": {
             "other": {
-                "human_rule": "Any number",
-                "example": "Theo lối rẽ thứ 2 bên phải."
+                "example": "Theo lối rẽ thứ 2 bên phải.",
+                "human_rule": "Any number"
             }
         }
     },
@@ -3019,8 +3032,8 @@
     "vo": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "11.0, 1.00, 1.000, 1.0000"
+                "example": "11.0, 1.00, 1.000, 1.0000",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "0, 2–16, 100, 1000, 10000, 100000, 1000000, … | 0.0–0.9, 1.1–1.6, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …"
@@ -3030,8 +3043,8 @@
     "vun": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "11.0, 1.00, 1.000, 1.0000"
+                "example": "11.0, 1.00, 1.000, 1.0000",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "0, 2–16, 100, 1000, 10000, 100000, 1000000, … | 0.0–0.9, 1.1–1.6, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …"
@@ -3041,8 +3054,8 @@
     "wa": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 0 or 1",
-                "example": "0, 1, 0.0, 1.0, 0.00, 1.00, 0.000, 1.000, 0.0000, 1.0000"
+                "example": "0, 1, 0.0, 1.0, 0.00, 1.00, 0.000, 1.000, 0.0000, 1.0000",
+                "human_rule": "Exactly 0 or 1"
             },
             "other": {
                 "example": "2–17, 100, 1000, 10000, 100000, 1000000, … | 0.1–0.9, 1.1–1.7, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …"
@@ -3052,8 +3065,8 @@
     "wae": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "11.0, 1.00, 1.000, 1.0000"
+                "example": "11.0, 1.00, 1.000, 1.0000",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "0, 2–16, 100, 1000, 10000, 100000, 1000000, … | 0.0–0.9, 1.1–1.6, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …"
@@ -3070,8 +3083,8 @@
     "xh": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "11.0, 1.00, 1.000, 1.0000"
+                "example": "11.0, 1.00, 1.000, 1.0000",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "0, 2–16, 100, 1000, 10000, 100000, 1000000, … | 0.0–0.9, 1.1–1.6, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …"
@@ -3081,8 +3094,8 @@
     "xog": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 1",
-                "example": "11.0, 1.00, 1.000, 1.0000"
+                "example": "11.0, 1.00, 1.000, 1.0000",
+                "human_rule": "Exactly 1"
             },
             "other": {
                 "example": "0, 2–16, 100, 1000, 10000, 100000, 1000000, … | 0.0–0.9, 1.1–1.6, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, …"
@@ -3104,8 +3117,8 @@
         },
         "ordinal": {
             "other": {
-                "human_rule": "Any other number",
-                "example": "第 15 本書"
+                "example": "第 15 本書",
+                "human_rule": "Any other number"
             }
         }
     },
@@ -3124,8 +3137,8 @@
     "zu": {
         "cardinal": {
             "one": {
-                "human_rule": "Exactly 0, 1, or any decimal starting with 0",
-                "example": "1 usuku / 1.0 usuku"
+                "example": "1 usuku / 1.0 usuku",
+                "human_rule": "Exactly 0, 1, or any decimal starting with 0"
             },
             "other": {
                 "example": "2 izinsuku / 1.1 izinsuku"
