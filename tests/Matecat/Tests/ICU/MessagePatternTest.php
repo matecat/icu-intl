@@ -1491,7 +1491,7 @@ MSG;
     #[Test]
     public function testTooManyNumericValues(): void
     {
-        $isCoverage = (bool)count(array_filter($_SERVER['argv'], fn($arg) => str_contains($arg, 'coverage')));
+        $isCoverage = (bool)count(array_filter($_SERVER['argv'], fn($arg) => str_contains($arg, 'coverage') && !str_contains($arg, 'no-coverage')));
 
         if ($isCoverage) {
             $this->markTestSkipped(

@@ -169,9 +169,13 @@ class PluralRules
         25 => self::CATEGORIES_ONE_OTHER,
         26 => self::CATEGORIES_ONE_OTHER,
 
-        // nplurals=3; one/few/other (Czech/Slovak; Lithuanian; Romanian; Tachelhit)
-        4  => self::CATEGORIES_ONE_FEW_OTHER,
-        6  => self::CATEGORIES_ONE_FEW_OTHER,
+        // nplurals=4; one/few/many/other (Czech/Slovak — CLDR 49: "many" for decimals only)
+        4  => self::CATEGORIES_ONE_FEW_MANY_OTHER,
+
+        // nplurals=4; one/few/many/other (Lithuanian — CLDR 49: "many" for decimals only)
+        6  => self::CATEGORIES_ONE_FEW_MANY_OTHER,
+
+        // nplurals=3; one/few/other (Romanian; Tachelhit)
         12 => self::CATEGORIES_ONE_FEW_OTHER,
         23 => self::CATEGORIES_ONE_FEW_OTHER,
 
@@ -185,22 +189,29 @@ class PluralRules
         10 => self::CATEGORIES_ZERO_ONE_OTHER,
         22 => self::CATEGORIES_ZERO_ONE_OTHER,
 
-        // nplurals=4; one/few/many/other (Slavic; Maltese; Polish)
+        // nplurals=4; one/few/many/other (Slavic; Polish)
         3  => self::CATEGORIES_ONE_FEW_MANY_OTHER,
-        9  => self::CATEGORIES_ONE_FEW_MANY_OTHER,
         11 => self::CATEGORIES_ONE_FEW_MANY_OTHER,
 
-        // nplurals=4; one/two/few/other (Slovenian; Scottish Gaelic; Manx)
+        // nplurals=4; one/two/few/other (Slovenian; Scottish Gaelic)
         7  => self::CATEGORIES_ONE_TWO_FEW_OTHER,
         16 => self::CATEGORIES_ONE_TWO_FEW_OTHER,
-        18 => self::CATEGORIES_ONE_TWO_FEW_OTHER,
 
-        // nplurals=4; one/two/many/other (Hebrew)
-        19 => self::CATEGORIES_ONE_TWO_MANY_OTHER,
+        // nplurals=5; one/two/few/many/other (Manx — CLDR 49: "many" for decimals only)
+        18 => self::CATEGORIES_ONE_TWO_FEW_MANY_OTHER,
+
+        // nplurals=3; one/two/other (Hebrew — CLDR 49: removed "many")
+        19 => self::CATEGORIES_ONE_TWO_OTHER,
 
         // nplurals=5; one/two/few/many/other (Irish; Breton)
         5  => self::CATEGORIES_ONE_TWO_FEW_MANY_OTHER,
         17 => self::CATEGORIES_ONE_TWO_FEW_MANY_OTHER,
+
+        // nplurals=3; one/few/other (Slavic: Bosnian, Croatian, Serbian — CLDR 49)
+        27 => self::CATEGORIES_ONE_FEW_OTHER,
+
+        // nplurals=5; one/two/few/many/other (Maltese — CLDR 49)
+        28 => self::CATEGORIES_ONE_TWO_FEW_MANY_OTHER,
 
         // nplurals=6; zero/one/two/few/many/other (Arabic; Welsh; Cornish)
         13 => self::CATEGORIES_ZERO_ONE_TWO_FEW_MANY_OTHER,
@@ -232,14 +243,13 @@ class PluralRules
      */
     private static array $ordinalCategoryMap = [
         // Only "other" (no ordinal distinction)
-        // Slavic, Czech/Slovak, Lithuanian, Slovenian, Maltese, Latvian, Polish,
+        // Slavic, Czech/Slovak, Lithuanian, Slovenian, Latvian, Polish,
         // Arabic, Icelandic, Breton, Manx, Hebrew, and many others
         0  => self::CATEGORIES_OTHER,
         3  => self::CATEGORIES_OTHER,
         4  => self::CATEGORIES_OTHER,
         6  => self::CATEGORIES_OTHER,
         7  => self::CATEGORIES_OTHER,
-        9  => self::CATEGORIES_OTHER,
         10 => self::CATEGORIES_OTHER,
         11 => self::CATEGORIES_OTHER,
         13 => self::CATEGORIES_OTHER,
@@ -248,45 +258,76 @@ class PluralRules
         18 => self::CATEGORIES_OTHER,
         19 => self::CATEGORIES_OTHER,
 
-        // one/other (French-like; Irish; Romanian; Bengali/Assamese/Hindi; Marathi)
+        // one/other (French-like; Irish; Romanian)
         2  => self::CATEGORIES_ONE_OTHER,
         5  => self::CATEGORIES_ONE_OTHER,
         12 => self::CATEGORIES_ONE_OTHER,
-        23 => self::CATEGORIES_ONE_OTHER,
-        26 => self::CATEGORIES_ONE_OTHER,
 
-        // one/two/few/other (English-like 1st/2nd/3rd/4th; Scottish Gaelic; Kannada)
+        // one/two/few/other (English-like 1st/2nd/3rd/4th; Scottish Gaelic)
         1  => self::CATEGORIES_ONE_TWO_FEW_OTHER,
         16 => self::CATEGORIES_ONE_TWO_FEW_OTHER,
-        25 => self::CATEGORIES_ONE_TWO_FEW_OTHER,
 
-        // one/two/many/other (Macedonian; Telugu)
+        // one/two/many/other (Macedonian)
         8  => self::CATEGORIES_ONE_TWO_MANY_OTHER,
-        28 => self::CATEGORIES_ONE_TWO_MANY_OTHER,
 
-        // one/two/few/many/other (Gujarati; Odia)
+        // one/two/few/many/other (Bengali/Assamese/Hindi; Gujarati; Odia)
+        23 => self::CATEGORIES_ONE_TWO_FEW_MANY_OTHER,
         24 => self::CATEGORIES_ONE_TWO_FEW_MANY_OTHER,
         27 => self::CATEGORIES_ONE_TWO_FEW_MANY_OTHER,
 
-        // many/other (Italian-like; Kazakh/Azerbaijani)
+        // one/two/few/other (Marathi/Konkani)
+        26 => self::CATEGORIES_ONE_TWO_FEW_OTHER,
+
+        // many/other (Italian-like; Kazakh)
         20 => self::CATEGORIES_MANY_OTHER,
         21 => self::CATEGORIES_MANY_OTHER,
 
-        // one/many/other (Albanian; Cornish)
+        // one/many/other (Albanian; Cornish; Georgian)
         30 => self::CATEGORIES_ONE_MANY_OTHER,
         32 => self::CATEGORIES_ONE_MANY_OTHER,
+        40 => self::CATEGORIES_ONE_MANY_OTHER,
 
-        // few/other (Hungarian/Ukrainian/Turkmen)
+        // few/other (Ukrainian/Turkmen)
         22 => self::CATEGORIES_FEW_OTHER,
 
-        // one/few/other (Nepali)
-        29 => self::CATEGORIES_ONE_FEW_OTHER,
+        // one/other (Nepali — CLDR 49)
+        29 => self::CATEGORIES_ONE_OTHER,
 
         // zero/one/few/other (Anii)
         31 => self::CATEGORIES_ZERO_ONE_FEW_OTHER,
 
         // zero/one/two/few/many/other (Welsh)
         14 => self::CATEGORIES_ZERO_ONE_TWO_FEW_MANY_OTHER,
+
+        // --- New ordinal groups (CLDR 49) ---
+
+        // Rule 33: Afrikaans ordinals (few/other)
+        // few: i % 100 = 2..19
+        33 => self::CATEGORIES_FEW_OTHER,
+
+        // Rule 34: Spanish ordinals (one/other)
+        // one: n = 1
+        34 => self::CATEGORIES_ONE_OTHER,
+
+        // Rule 35: Hungarian ordinals (one/other)
+        // one: n = 1, 5
+        35 => self::CATEGORIES_ONE_OTHER,
+
+        // Rule 36: Azerbaijani ordinals (one/few/many/other)
+        36 => self::CATEGORIES_ONE_FEW_MANY_OTHER,
+
+        // Rule 37: Belarusian ordinals (few/other)
+        // few: n % 10 = 2, 3 and n % 100 != 12, 13
+        37 => self::CATEGORIES_FEW_OTHER,
+
+        // Rule 38: Bulgarian ordinals (zero/one/two/few/many/other)
+        38 => self::CATEGORIES_ZERO_ONE_TWO_FEW_MANY_OTHER,
+
+        // Rule 39: Catalan ordinals (one/two/few/other)
+        39 => self::CATEGORIES_ONE_TWO_FEW_OTHER,
+
+        // Rule 40: Georgian ordinals (one/many/other)
+        // (already declared above in the one/many/other block)
     ];
 
     /**
@@ -297,13 +338,12 @@ class PluralRules
      * 0  - nplurals=1; plural=0; (Asian, no plural forms)
      * 1  - nplurals=2; plural=(n != 1); (Germanic, most European)
      * 2  - nplurals=2; plural=(n > 1); (French, Brazilian Portuguese)
-     * 3  - nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2); (Slavic)
-     * 4  - nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2; (Czech, Slovak)
+     * 3  - nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2); (Slavic: Russian, Ukrainian, Belarusian)
+     * 4  - nplurals=4; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 3; (Czech, Slovak — CLDR 49: "many" for decimals at index 2)
      * 5  - nplurals=5; plural=n==1 ? 0 : n==2 ? 1 : (n>2 && n<7) ? 2 :(n>6 && n<11) ? 3 : 4; (Irish)
-     * 6  - nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2); (Lithuanian)
+     * 6  - nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 3); (Lithuanian — CLDR 49: "many" for decimals at index 2)
      * 7  - nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3); (Slovenian)
      * 8  - nplurals=2; plural=(n%10==1 && n%100!=11) ? 0 : 1; (Macedonian - CLDR 48)
-     * 9  - nplurals=4; plural=(n==1 ? 0 : n==0 || (n%100>0 && n%100<=10) ? 1 : (n%100>10 && n%100<20) ? 2 : 3); (Maltese)
      * 10 - nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2); (Latvian)
      * 11 - nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2); (Polish)
      * 12 - nplurals=3; plural=(n==1 ? 0 : n==0 || n%100>0 && n%100<20 ? 1 : 2); (Romanian)
@@ -311,14 +351,18 @@ class PluralRules
      * 14 - nplurals=6; plural=(n==0) ? 0 : (n==1) ? 1 : (n==2) ? 2 : (n==3) ? 3 : (n==6) ? 4 : 5; (Welsh - CLDR 48)
      * 15 - nplurals=2; plural=(n%10!=1 || n%100==11); (Icelandic)
      * 16 - nplurals=4; plural=(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : (n>2 && n<20) ? 2 : 3; (Scottish Gaelic)
-     * 17 - nplurals=4; plural=(n==1) ? 0 : (n==2) ? 1 : (n==3) ? 2 : 3; (Breton - CLDR 48)
-     * 18 - nplurals=4; plural=(n%10==1) ? 0 : (n%10==2) ? 1 : (n%20==0) ? 2 : 3; (Manx)
-     * 19 - nplurals=4; plural=(n==1) ? 0 : (n==2) ? 1 : (n>10 && n%10==0) ? 2 : 3; (Hebrew - CLDR 48)
+     * 17 - nplurals=5; plural=(n==1) ? 0 : (n==2) ? 1 : (n==3) ? 2 : 3; (Breton - CLDR 48)
+     * 18 - nplurals=5; plural=(n%10==1) ? 0 : (n%10==2) ? 1 : (n%20==0) ? 2 : 4; (Manx — CLDR 49: "many" for decimals at index 3)
+     * 19 - nplurals=3; plural=(n==1) ? 0 : (n==2) ? 1 : 2; (Hebrew — CLDR 49: removed "many")
      * 20 - nplurals=3; plural=(n==1) ? 0 : (n!=0 && n%1000000==0) ? 1 : 2; (Italian, Spanish, French, Portuguese, Catalan - CLDR 49)
-     * 21 - nplurals=3; plural=(n==1) ? 0 : (n==2) ? 1 : 2; (Inuktitut, Sami, Nama, Swampy Cree)
+     * 21 - nplurals=3; plural=(n==1) ? 0 : (n==2) ? 1 : 2; (Inuktitut, Sami, Nama)
      * 22 - nplurals=3; plural=(n==0) ? 0 : (n==1) ? 1 : 2; (Colognian, Anii, Langi)
      * 23 - nplurals=3; plural=(n<=1) ? 0 : (n>=2 && n<=10) ? 1 : 2; (Tachelhit)
      * 24 - nplurals=6; (Cornish - complex CLDR 49 rules)
+     * 25 - nplurals=2; (Filipino/Tagalog - CLDR 49)
+     * 26 - nplurals=2; (Central Atlas Tamazight - CLDR 49)
+     * 27 - nplurals=3; (Bosnian, Croatian, Serbian — CLDR 49: one/few/other)
+     * 28 - nplurals=5; (Maltese — CLDR 49: one/two/few/many/other)
      *
      * Ordinal Rules:
      * 0  - Only "other" (no ordinal distinction)
@@ -330,7 +374,6 @@ class PluralRules
      * 6  - Only "other" (Lithuanian)
      * 7  - Only "other" (Slovenian)
      * 8  - one/two/many/other (Macedonian)
-     * 9  - Only "other" (Maltese)
      * 10 - Only "other" (Latvian)
      * 11 - Only "other" (Polish)
      * 12 - one/other (Romanian)
@@ -342,18 +385,24 @@ class PluralRules
      * 18 - Only "other" (Manx)
      * 19 - Only "other" (Hebrew)
      * 20 - many/other (Italian-like ordinals)
-     * 21 - many/other (Kazakh, Azerbaijani ordinals: n%10=6,9 or n%10=0 && n!=0)
-     * 22 - few/other (Hungarian ordinals: n=1,5)
-     * 23 - one/other (Bengali, Assamese ordinals: n=1,5,7,8,9,10)
+     * 21 - many/other (Kazakh ordinals: n%10=6,9 or n%10=0 && n!=0)
+     * 22 - few/other (Ukrainian, Turkmen ordinals)
+     * 23 - one/two/few/many/other (Bengali, Assamese, Hindi ordinals — CLDR 49)
      * 24 - one/two/few/many/other (Gujarati ordinals)
-     * 25 - one/two/few/other (Kannada ordinals)
-     * 26 - one/other (Marathi ordinals: n=1)
+     * 26 - one/two/few/other (Marathi, Konkani ordinals — CLDR 49)
      * 27 - one/two/few/many/other (Odia ordinals)
-     * 28 - one/two/many/other (Telugu ordinals)
-     * 29 - one/few/other (Nepali ordinals)
+     * 29 - one/other (Nepali ordinals — CLDR 49: simplified)
      * 30 - one/many/other (Albanian ordinals - CLDR 49)
-     * 31 - zero/one/few/other (Anii ordinals: i=0→zero, i=1→one, i=2-6→few, else other)
+     * 31 - zero/one/few/other (Anii ordinals)
      * 32 - one/many/other (Cornish ordinals)
+     * 33 - few/other (Afrikaans ordinals — CLDR 49)
+     * 34 - one/other (Spanish ordinals — CLDR 49)
+     * 35 - one/other (Hungarian ordinals — CLDR 49)
+     * 36 - one/few/many/other (Azerbaijani ordinals — CLDR 49)
+     * 37 - few/other (Belarusian ordinals — CLDR 49)
+     * 38 - zero/one/two/few/many/other (Bulgarian ordinals — CLDR 49)
+     * 39 - one/two/few/other (Catalan ordinals — CLDR 49)
+     * 40 - one/many/other (Georgian ordinals — CLDR 49)
      *
      * @var array<string, array{cardinal: int, ordinal: int}>
      */
@@ -362,32 +411,32 @@ class PluralRules
         'aa' => ['cardinal' => 1, 'ordinal' => 0],    // Afar
         'ace' => ['cardinal' => 0, 'ordinal' => 0],   // Acehnese - no plural
         'acf' => ['cardinal' => 2, 'ordinal' => 0],   // Saint Lucian Creole French
-        'af' => ['cardinal' => 1, 'ordinal' => 0],    // Afrikaans
+        'af' => ['cardinal' => 1, 'ordinal' => 33],    // Afrikaans - CLDR 49 ordinal: few/other
         'aig' => ['cardinal' => 1, 'ordinal' => 0],   // Antigua and Barbuda Creole English
         'ak' => ['cardinal' => 2, 'ordinal' => 0],    // Akan
         'als' => ['cardinal' => 1, 'ordinal' => 30],  // Albanian (Tosk) - inherits from 'sq'
         'am' => ['cardinal' => 2, 'ordinal' => 0],    // Amharic
         'an' => ['cardinal' => 1, 'ordinal' => 0],    // Aragonese
         'ar' => ['cardinal' => 13, 'ordinal' => 0],   // Arabic
-        'as' => ['cardinal' => 1, 'ordinal' => 23],   // Assamese - CLDR 49 ordinal: one/other
+        'as' => ['cardinal' => 1, 'ordinal' => 23],   // Assamese - CLDR 49 ordinal: one/two/few/many/other
         'asa' => ['cardinal' => 1, 'ordinal' => 0],   // Asu - CLDR 49
         'asm' => ['cardinal' => 1, 'ordinal' => 23],  // Assamese (alternate code) - same as 'as'
         'ast' => ['cardinal' => 1, 'ordinal' => 0],   // Asturian
         'awa' => ['cardinal' => 1, 'ordinal' => 0],   // Awadhi
         'ayr' => ['cardinal' => 0, 'ordinal' => 0],   // Central Aymara
-        'az' => ['cardinal' => 1, 'ordinal' => 21],   // Azerbaijani - CLDR 49 ordinal: many/other
-        'azb' => ['cardinal' => 1, 'ordinal' => 21],  // South Azerbaijani
-        'azj' => ['cardinal' => 1, 'ordinal' => 21],  // North Azerbaijani
+        'az' => ['cardinal' => 1, 'ordinal' => 36],   // Azerbaijani - CLDR 49 ordinal: one/few/many/other
+        'azb' => ['cardinal' => 1, 'ordinal' => 36],  // South Azerbaijani
+        'azj' => ['cardinal' => 1, 'ordinal' => 36],  // North Azerbaijani
 
         // B
         'ba' => ['cardinal' => 0, 'ordinal' => 0],    // Bashkir
         'bah' => ['cardinal' => 1, 'ordinal' => 0],   // Bahamas Creole English
-        'bal' => ['cardinal' => 1, 'ordinal' => 0],   // Baluchi
+        'bal' => ['cardinal' => 1, 'ordinal' => 2],   // Baluchi - CLDR 49 ordinal: one/other
         'ban' => ['cardinal' => 0, 'ordinal' => 0],   // Balinese
-        'be' => ['cardinal' => 3, 'ordinal' => 0],    // Belarusian
+        'be' => ['cardinal' => 3, 'ordinal' => 37],    // Belarusian - CLDR 49 ordinal: few/other
         'bem' => ['cardinal' => 1, 'ordinal' => 0],   // Bemba
         'bez' => ['cardinal' => 1, 'ordinal' => 0],   // Bena - CLDR 49
-        'bg' => ['cardinal' => 1, 'ordinal' => 0],    // Bulgarian
+        'bg' => ['cardinal' => 1, 'ordinal' => 38],    // Bulgarian - CLDR 49 ordinal: zero/one/two/few/many/other
         'bh' => ['cardinal' => 2, 'ordinal' => 0],    // Bihari
         'bho' => ['cardinal' => 1, 'ordinal' => 0],   // Bhojpuri
         'bi' => ['cardinal' => 0, 'ordinal' => 0],    // Bislama
@@ -395,18 +444,18 @@ class PluralRules
         'bjs' => ['cardinal' => 1, 'ordinal' => 0],   // Bajan
         'blo' => ['cardinal' => 22, 'ordinal' => 31], // Anii - CLDR 49
         'bm' => ['cardinal' => 0, 'ordinal' => 0],    // Bambara
-        'bn' => ['cardinal' => 1, 'ordinal' => 23],   // Bengali - CLDR 49 ordinal: one/other
+        'bn' => ['cardinal' => 1, 'ordinal' => 23],   // Bengali - CLDR 49 ordinal: one/two/few/many/other
         'bo' => ['cardinal' => 0, 'ordinal' => 0],    // Tibetan
         'bod' => ['cardinal' => 0, 'ordinal' => 0],   // Tibetan (alternate code) - same as 'bo'
         'br' => ['cardinal' => 17, 'ordinal' => 0],   // Breton
         'brx' => ['cardinal' => 1, 'ordinal' => 0],   // Bodo
-        'bs' => ['cardinal' => 3, 'ordinal' => 0],    // Bosnian
+        'bs' => ['cardinal' => 27, 'ordinal' => 0],    // Bosnian - CLDR 49: one/few/other
         'bug' => ['cardinal' => 0, 'ordinal' => 0],   // Buginese
 
         // C
-        'ca' => ['cardinal' => 20, 'ordinal' => 2],   // Catalan - CLDR 49
+        'ca' => ['cardinal' => 20, 'ordinal' => 39],   // Catalan - CLDR 49 ordinal: one/two/few/other
         'cac' => ['cardinal' => 1, 'ordinal' => 0],   // Chuj
-        'cav' => ['cardinal' => 20, 'ordinal' => 2],  // Catalan (Valencia) - CLDR 49
+        'cav' => ['cardinal' => 20, 'ordinal' => 39],  // Catalan (Valencia) - CLDR 49
         'cb' => ['cardinal' => 1, 'ordinal' => 0],    // Cebuano (alternate code) - same as 'ceb'
         'ce' => ['cardinal' => 1, 'ordinal' => 0],    // Chechen
         'ceb' => ['cardinal' => 1, 'ordinal' => 0],   // Cebuano
@@ -420,7 +469,7 @@ class PluralRules
         'crh' => ['cardinal' => 0, 'ordinal' => 0],   // Crimean Tatar
         'crs' => ['cardinal' => 2, 'ordinal' => 0],   // Seselwa Creole French
         'cs' => ['cardinal' => 4, 'ordinal' => 0],    // Czech
-        'csw' => ['cardinal' => 21, 'ordinal' => 0],  // Swampy Cree - CLDR 49
+        'csw' => ['cardinal' => 2, 'ordinal' => 0],  // Swampy Cree - CLDR 49: one/other
         'ctg' => ['cardinal' => 1, 'ordinal' => 0],   // Chittagonian
         'cy' => ['cardinal' => 14, 'ordinal' => 14],  // Welsh - CLDR 49 ordinal: zero/one/two/few/many/other
 
@@ -441,7 +490,7 @@ class PluralRules
         'el' => ['cardinal' => 1, 'ordinal' => 0],    // Greek
         'en' => ['cardinal' => 1, 'ordinal' => 1],    // English - CLDR 49 ordinal: one/two/few/other
         'eo' => ['cardinal' => 1, 'ordinal' => 0],    // Esperanto
-        'es' => ['cardinal' => 20, 'ordinal' => 0],   // Spanish - CLDR 49
+        'es' => ['cardinal' => 20, 'ordinal' => 34],   // Spanish - CLDR 49 ordinal: one/other
         'et' => ['cardinal' => 1, 'ordinal' => 0],    // Estonian
         'eu' => ['cardinal' => 1, 'ordinal' => 0],    // Basque
 
@@ -482,17 +531,17 @@ class PluralRules
         'ha' => ['cardinal' => 1, 'ordinal' => 0],    // Hausa
         'haw' => ['cardinal' => 1, 'ordinal' => 0],   // Hawaiian
         'he' => ['cardinal' => 19, 'ordinal' => 0],   // Hebrew
-        'hi' => ['cardinal' => 2, 'ordinal' => 23],   // Hindi - CLDR 49 ordinal: one/other
+        'hi' => ['cardinal' => 2, 'ordinal' => 23],   // Hindi - CLDR 49 ordinal: one/two/few/many/other
         'hig' => ['cardinal' => 1, 'ordinal' => 0],   // Kamwe
         'hil' => ['cardinal' => 1, 'ordinal' => 0],   // Hiligaynon
         'hmn' => ['cardinal' => 0, 'ordinal' => 0],   // Hmong
         'hne' => ['cardinal' => 1, 'ordinal' => 0],   // Chhattisgarhi
         'hnj' => ['cardinal' => 0, 'ordinal' => 0],   // Hmong Njua - CLDR 49
         'hoc' => ['cardinal' => 1, 'ordinal' => 0],   // Ho
-        'hr' => ['cardinal' => 3, 'ordinal' => 0],    // Croatian
+        'hr' => ['cardinal' => 27, 'ordinal' => 0],    // Croatian - CLDR 49: one/few/other
         'hsb' => ['cardinal' => 7, 'ordinal' => 0],   // Upper Sorbian - CLDR 49
         'ht' => ['cardinal' => 20, 'ordinal' => 2],   // Haitian Creole - CLDR 49: one/many/other
-        'hu' => ['cardinal' => 1, 'ordinal' => 22],   // Hungarian - CLDR 49 ordinal: few/other
+        'hu' => ['cardinal' => 1, 'ordinal' => 35],   // Hungarian - CLDR 49 ordinal: one/other
         'hy' => ['cardinal' => 1, 'ordinal' => 2],    // Armenian - CLDR 49 ordinal: one/other
 
         // I
@@ -516,7 +565,7 @@ class PluralRules
         'jv' => ['cardinal' => 0, 'ordinal' => 0],    // Javanese
 
         // K
-        'ka' => ['cardinal' => 0, 'ordinal' => 21],   // Georgian - CLDR 49 ordinal: many/other
+        'ka' => ['cardinal' => 1, 'ordinal' => 40],   // Georgian - CLDR 49 ordinal: one/many/other
         'kab' => ['cardinal' => 2, 'ordinal' => 0],   // Kabyle
         'kac' => ['cardinal' => 0, 'ordinal' => 0],   // Kachin
         'kaj' => ['cardinal' => 1, 'ordinal' => 0],   // Jju - CLDR 49
@@ -540,10 +589,10 @@ class PluralRules
         'km' => ['cardinal' => 0, 'ordinal' => 0],    // Khmer
         'kmb' => ['cardinal' => 1, 'ordinal' => 0],   // Kimbundu
         'kmr' => ['cardinal' => 1, 'ordinal' => 0],   // Northern Kurdish
-        'kn' => ['cardinal' => 1, 'ordinal' => 25],   // Kannada - CLDR 49 ordinal: one/two/few/other
+        'kn' => ['cardinal' => 1, 'ordinal' => 0],   // Kannada - CLDR 49 ordinal: other only
         'knc' => ['cardinal' => 1, 'ordinal' => 0],   // Central Kanuri
         'ko' => ['cardinal' => 0, 'ordinal' => 0],    // Korean
-        'kok' => ['cardinal' => 1, 'ordinal' => 0],   // Konkani
+        'kok' => ['cardinal' => 1, 'ordinal' => 26],   // Konkani - CLDR 49 ordinal: one/two/few/other
         'kr' => ['cardinal' => 0, 'ordinal' => 0],    // Kanuri
         'ks' => ['cardinal' => 1, 'ordinal' => 0],    // Kashmiri
         'ksb' => ['cardinal' => 1, 'ordinal' => 0],   // Shambala - CLDR 49
@@ -559,7 +608,7 @@ class PluralRules
         'lb' => ['cardinal' => 1, 'ordinal' => 0],    // Luxembourgish
         'lg' => ['cardinal' => 1, 'ordinal' => 0],    // Ganda
         'li' => ['cardinal' => 1, 'ordinal' => 0],    // Limburgish
-        'lij' => ['cardinal' => 1, 'ordinal' => 0],   // Ligurian
+        'lij' => ['cardinal' => 1, 'ordinal' => 20],   // Ligurian - CLDR 49 ordinal: many/other
         'lkt' => ['cardinal' => 0, 'ordinal' => 0],   // Lakota - CLDR 49
         'lld' => ['cardinal' => 20, 'ordinal' => 20], // Ladin - CLDR 49
         'lmo' => ['cardinal' => 1, 'ordinal' => 0],   // Lombard
@@ -580,7 +629,7 @@ class PluralRules
         'mai' => ['cardinal' => 1, 'ordinal' => 0],   // Maithili
         'mam' => ['cardinal' => 1, 'ordinal' => 0],   // Mam
         'mas' => ['cardinal' => 1, 'ordinal' => 0],   // Maasai
-        'me' => ['cardinal' => 3, 'ordinal' => 0],    // Montenegrin - same as Serbian
+        'me' => ['cardinal' => 27, 'ordinal' => 0],    // Montenegrin - same as Serbian (CLDR 49)
         'men' => ['cardinal' => 1, 'ordinal' => 0],   // Mende
         'mer' => ['cardinal' => 1, 'ordinal' => 0],   // Meru
         'mfe' => ['cardinal' => 2, 'ordinal' => 0],   // Mauritian Creole
@@ -599,18 +648,18 @@ class PluralRules
         'mnk' => ['cardinal' => 1, 'ordinal' => 0],   // Mandinka
         'mo' => ['cardinal' => 12, 'ordinal' => 2],   // Moldavian (same as Romanian)
         'mos' => ['cardinal' => 0, 'ordinal' => 0],   // Mossi
-        'mr' => ['cardinal' => 1, 'ordinal' => 26],   // Marathi - CLDR 49 ordinal: one/other
+        'mr' => ['cardinal' => 1, 'ordinal' => 26],   // Marathi - CLDR 49 ordinal: one/two/few/other
         'mrj' => ['cardinal' => 1, 'ordinal' => 0],   // Western Mari
         'mrt' => ['cardinal' => 1, 'ordinal' => 0],   // Marghi Central
         'ms' => ['cardinal' => 0, 'ordinal' => 2],    // Malay - CLDR 49 ordinal: one/other
-        'mt' => ['cardinal' => 9, 'ordinal' => 0],    // Maltese
+        'mt' => ['cardinal' => 28, 'ordinal' => 0],    // Maltese - CLDR 49: one/two/few/many/other
         'my' => ['cardinal' => 0, 'ordinal' => 0],    // Burmese
 
         // N
         'nb' => ['cardinal' => 1, 'ordinal' => 0],    // Norwegian Bokmål
         'nd' => ['cardinal' => 1, 'ordinal' => 0],    // North Ndebele
         'ndc' => ['cardinal' => 1, 'ordinal' => 0],   // Ndau
-        'ne' => ['cardinal' => 1, 'ordinal' => 29],   // Nepali - CLDR 49 ordinal: one/few/other
+        'ne' => ['cardinal' => 1, 'ordinal' => 29],   // Nepali - CLDR 49 ordinal: one/other
         'naq' => ['cardinal' => 21, 'ordinal' => 0],  // Nama - CLDR 49
         'niu' => ['cardinal' => 0, 'ordinal' => 0],   // Niuean
         'nl' => ['cardinal' => 1, 'ordinal' => 0],    // Dutch
@@ -666,7 +715,7 @@ class PluralRules
         // R
         'rhg' => ['cardinal' => 1, 'ordinal' => 0],   // Rohingya
         'rhl' => ['cardinal' => 1, 'ordinal' => 0],   // Rohingya (alternate)
-        'rmn' => ['cardinal' => 3, 'ordinal' => 0],   // Balkan Romani
+        'rmn' => ['cardinal' => 27, 'ordinal' => 0],   // Balkan Romani - same as Serbian (CLDR 49)
         'rmo' => ['cardinal' => 1, 'ordinal' => 0],   // Sinte Romani
         'rn' => ['cardinal' => 1, 'ordinal' => 0],    // Rundi
         'rm' => ['cardinal' => 1, 'ordinal' => 0],    // Romansh - CLDR 49
@@ -682,16 +731,16 @@ class PluralRules
         'sa' => ['cardinal' => 1, 'ordinal' => 0],    // Sanskrit
         'sah' => ['cardinal' => 0, 'ordinal' => 0],   // Yakut - CLDR 49
         'saq' => ['cardinal' => 1, 'ordinal' => 0],   // Samburu - CLDR 49
-        'sat' => ['cardinal' => 1, 'ordinal' => 0],   // Santali
+        'sat' => ['cardinal' => 21, 'ordinal' => 0],   // Santali - CLDR 49: one/two/other
         'sc' => ['cardinal' => 1, 'ordinal' => 20],   // Sardinian - CLDR 49 ordinal: many/other
-        'scn' => ['cardinal' => 1, 'ordinal' => 0],   // Sicilian
+        'scn' => ['cardinal' => 20, 'ordinal' => 20],   // Sicilian - CLDR 49: one/many/other, ordinal: many/other
         'sd' => ['cardinal' => 1, 'ordinal' => 0],    // Sindhi
         'sdh' => ['cardinal' => 1, 'ordinal' => 0],   // Southern Kurdish - CLDR 49
         'se' => ['cardinal' => 21, 'ordinal' => 0],   // Northern Sami - CLDR 49
         'seh' => ['cardinal' => 1, 'ordinal' => 0],   // Sena
         'ses' => ['cardinal' => 0, 'ordinal' => 0],   // Koyraboro Senni - CLDR 49
         'sg' => ['cardinal' => 0, 'ordinal' => 0],    // Sango
-        'sh' => ['cardinal' => 3, 'ordinal' => 0],    // Serbo-Croatian
+        'sh' => ['cardinal' => 27, 'ordinal' => 0],    // Serbo-Croatian - CLDR 49: one/few/other
         'shi' => ['cardinal' => 23, 'ordinal' => 0],  // Tachelhit - CLDR 49
         'shn' => ['cardinal' => 0, 'ordinal' => 0],   // Shan
         'shu' => ['cardinal' => 13, 'ordinal' => 0],  // Chadian Arabic
@@ -709,7 +758,7 @@ class PluralRules
         'snk' => ['cardinal' => 1, 'ordinal' => 0],   // Soninke
         'so' => ['cardinal' => 1, 'ordinal' => 0],    // Somali
         'sq' => ['cardinal' => 1, 'ordinal' => 30],   // Albanian - CLDR 49 ordinal: one/many/other
-        'sr' => ['cardinal' => 3, 'ordinal' => 0],    // Serbian
+        'sr' => ['cardinal' => 27, 'ordinal' => 0],    // Serbian - CLDR 49: one/few/other
         'srn' => ['cardinal' => 1, 'ordinal' => 0],   // Sranan Tongo
         'ss' => ['cardinal' => 1, 'ordinal' => 0],    // Swati
         'ssy' => ['cardinal' => 1, 'ordinal' => 0],   // Saho
@@ -726,7 +775,7 @@ class PluralRules
         // T
         'ta' => ['cardinal' => 1, 'ordinal' => 0],    // Tamil
         'taq' => ['cardinal' => 0, 'ordinal' => 0],   // Tamasheq
-        'te' => ['cardinal' => 1, 'ordinal' => 28],   // Telugu - CLDR 49 ordinal: one/two/many/other
+        'te' => ['cardinal' => 1, 'ordinal' => 0],   // Telugu - CLDR 49 ordinal: other only
         'teo' => ['cardinal' => 1, 'ordinal' => 0],   // Teso - CLDR 49
         'tet' => ['cardinal' => 1, 'ordinal' => 0],   // Tetum
         'tg' => ['cardinal' => 2, 'ordinal' => 0],    // Tajik
@@ -755,7 +804,7 @@ class PluralRules
 
         // U
         'udm' => ['cardinal' => 1, 'ordinal' => 0],   // Udmurt
-        'ug' => ['cardinal' => 0, 'ordinal' => 0],    // Uyghur
+        'ug' => ['cardinal' => 1, 'ordinal' => 0],    // Uyghur - CLDR 49: one/other
         'uk' => ['cardinal' => 3, 'ordinal' => 22],   // Ukrainian - CLDR 49 ordinal: few/other
         'umb' => ['cardinal' => 1, 'ordinal' => 0],   // Umbundu
         'ur' => ['cardinal' => 1, 'ordinal' => 0],    // Urdu
@@ -764,7 +813,7 @@ class PluralRules
 
         // V
         've' => ['cardinal' => 1, 'ordinal' => 0],    // Venda - CLDR 49
-        'vec' => ['cardinal' => 1, 'ordinal' => 0],   // Venetian
+        'vec' => ['cardinal' => 20, 'ordinal' => 20],   // Venetian - CLDR 49: one/many/other, ordinal: many/other
         'vi' => ['cardinal' => 0, 'ordinal' => 2],    // Vietnamese - CLDR 49 ordinal: one/other
         'vic' => ['cardinal' => 1, 'ordinal' => 0],   // Virgin Islands Creole English
         'vls' => ['cardinal' => 1, 'ordinal' => 0],   // Vlaams (West Flemish)
@@ -787,7 +836,7 @@ class PluralRules
         'ydd' => ['cardinal' => 1, 'ordinal' => 0],   // Eastern Yiddish
         'yi' => ['cardinal' => 1, 'ordinal' => 0],    // Yiddish
         'ymm' => ['cardinal' => 1, 'ordinal' => 0],   // Maay Maay
-        'yo' => ['cardinal' => 1, 'ordinal' => 0],    // Yoruba
+        'yo' => ['cardinal' => 0, 'ordinal' => 0],    // Yoruba - CLDR 49: other only
         'yue' => ['cardinal' => 0, 'ordinal' => 0],   // Cantonese - CLDR 49
 
         // Z
@@ -816,17 +865,18 @@ class PluralRules
             0 => 0,
             // nplurals=2; plural=(n > 1); (Amharic, Persian, Hindi, etc. — integer approximation of CLDR "i = 0 or n = 1")
             2 => $n > 1 ? 1 : 0,
-            // nplurals=3; Slavic (Russian, Ukrainian, Belarusian, Serbian, Croatian)
-            3 => match (true) {
+            // nplurals=3/4; Slavic (Rule 3: ru/uk/be → one/few/many/other; Rule 27: bs/hr/sr → one/few/other)
+            // Same integer computation; category arrays differ in $cardinalCategoryMap.
+            3, 27 => match (true) {
                 $n % 10 === 1 && $n % 100 !== 11 => 0,
                 $n % 10 >= 2 && $n % 10 <= 4 && ($n % 100 < 10 || $n % 100 >= 20) => 1,
                 default => 2,
             },
-            // nplurals=3; (Czech, Slovak)
+            // nplurals=4; (Czech, Slovak — CLDR 49: "many" at index 2 is for decimals v!=0, unreachable for int)
             4 => match (true) {
                 $n === 1 => 0,
                 $n >= 2 && $n <= 4 => 1,
-                default => 2,
+                default => 3,   // index 3 = "other" (index 2 = "many" is decimal-only)
             },
             // nplurals=5; (Irish)
             5 => match (true) {
@@ -836,11 +886,11 @@ class PluralRules
                 $n < 11 => 3,
                 default => 4,
             },
-            // nplurals=3; (Lithuanian)
+            // nplurals=4; (Lithuanian — CLDR 49: "many" at index 2 is for decimals f!=0, unreachable for int)
             6 => match (true) {
                 $n % 10 === 1 && $n % 100 !== 11 => 0,
                 $n % 10 >= 2 && ($n % 100 < 10 || $n % 100 >= 20) => 1,
-                default => 2,
+                default => 3,   // index 3 = "other" (index 2 = "many" is decimal-only)
             },
             // nplurals=4; (Slovenian)
             7 => match (true) {
@@ -851,13 +901,6 @@ class PluralRules
             },
             // nplurals=2; (Macedonian - CLDR 48)
             8 => $n % 10 === 1 && $n % 100 !== 11 ? 0 : 1,
-            // nplurals=4; (Maltese)
-            9 => match (true) {
-                $n === 1 => 0,
-                $n === 0 || ($n % 100 > 0 && $n % 100 <= 10) => 1,
-                $n % 100 > 10 && $n % 100 < 20 => 2,
-                default => 3,
-            },
             // nplurals=3; (Latvian - CLDR 48)
             10 => match (true) {
                 $n === 0 => 0,
@@ -905,19 +948,18 @@ class PluralRules
             },
             // nplurals=5; (Breton - CLDR 48)
             17 => self::calculateBreton($n),
-            // nplurals=4; (Manx - CLDR 48)
+            // nplurals=5; (Manx — CLDR 49: "many" at index 3 is for decimals v!=0, unreachable for int)
             18 => match (true) {
                 $n % 10 === 1 => 0,
                 $n % 10 === 2 => 1,
                 $n % 20 === 0 => 2,
-                default => 3,
+                default => 4,   // index 4 = "other" (index 3 = "many" is decimal-only)
             },
-            // nplurals=4; (Hebrew - CLDR 48)
+            // nplurals=3; (Hebrew — CLDR 49: one/two/other, removed "many")
             19 => match (true) {
                 $n === 1 => 0,
                 $n === 2 => 1,
-                $n > 10 && $n % 10 === 0 => 2,
-                default => 3,
+                default => 2,
             },
             // nplurals=3; (Italian, Spanish, Portuguese, French - CLDR 49)
             // one: i = 1 and v = 0
@@ -955,6 +997,14 @@ class PluralRules
             // nplurals=2; (Central Atlas Tamazight - CLDR 49)
             // one: n = 0..1 or n = 11..99
             26 => ($n <= 1 || ($n >= 11 && $n <= 99)) ? 0 : 1,
+            // nplurals=5; (Maltese — CLDR 49: one/two/few/many/other)
+            28 => match (true) {
+                $n === 1 => 0,
+                $n === 2 => 1,
+                $n === 0 || ($n % 100 >= 2 && $n % 100 <= 10) => 2,
+                $n % 100 > 10 && $n % 100 < 20 => 3,
+                default => 4,
+            },
             // nplurals=2; plural=(n != 1); (Germanic, most European)
             // Fallback: Rule 1 (n != 1) is the most common CLDR cardinal rule,
             // covering ~170+ locales (Germanic, most European languages).
@@ -1009,6 +1059,29 @@ class PluralRules
             in_array($n100, [3, 23, 43, 63, 83], true) => 3,
             in_array($n100, [1, 21, 41, 61, 81], true) => 4,
             default => 5,
+        };
+    }
+
+    /**
+     * Calculate the ordinal plural form for Bulgarian (Rule 38 - CLDR 49)
+     * zero: i % 100 = 11
+     * one: i % 100 = 1
+     * two: i % 100 = 2
+     * few: i % 100 = 7,8
+     * many: i % 100 = 3..6
+     * other: everything else
+     */
+    private static function calculateBulgarianOrdinal(int $n): int
+    {
+        $n100 = $n % 100;
+
+        return match (true) {
+            $n100 === 11 => 0,                   // zero
+            $n100 === 1 => 1,                     // one
+            $n100 === 2 => 2,                     // two
+            in_array($n100, [7, 8], true) => 3,  // few
+            $n100 >= 3 && $n100 <= 6 => 4,       // many
+            default => 5,                         // other
         };
     }
 
@@ -1180,7 +1253,7 @@ class PluralRules
         return match ($ruleGroup) {
 
             // Rules with a simple "one: n=1, other: everything else" pattern
-            2, 5, 12, 26 => $n === 1 ? 0 : 1,
+            2, 5, 12 => $n === 1 ? 0 : 1,
             // Rule 1: English-like ordinals (one/two/few/other)
             // one: n % 10 = 1 and n % 100 != 11 (1st, 21st, 31st...)
             // two: n % 10 = 2 and n % 100 != 12 (2nd, 22nd, 32nd...)
@@ -1217,13 +1290,20 @@ class PluralRules
             },
             // Rule 20: Italian ordinals (many/other) - special for 8, 11, 80, 800
             20 => in_array($n, [8, 11, 80, 800], true) ? 0 : 1,
-            // Rule 21: Kazakh, Azerbaijani, Georgian ordinals (many/other)
+            // Rule 21: Kazakh ordinals (many/other)
             // many: n % 10 = 6,9 or n % 10 = 0 and n != 0
             21 => in_array($n % 10, [0, 6, 9], true) && $n !== 0 ? 0 : 1,
-            // Rule 22: Hungarian, Ukrainian, Turkmen ordinals (few/other)
-            22 => in_array($n, [1, 5], true) ? 0 : 1,
-            // Rule 23: Bengali, Assamese, Hindi ordinals (one/other)
-            23 => in_array($n, [1, 5, 7, 8, 9, 10], true) ? 0 : 1,
+            // Rule 22/35: Ukrainian/Turkmen ordinals (few/other); Hungarian ordinals (one/other)
+            // Same integer computation; category arrays differ in $ordinalCategoryMap.
+            22, 35 => in_array($n, [1, 5], true) ? 0 : 1,
+            // Rule 23: Bengali, Assamese, Hindi ordinals (one/two/few/many/other) - CLDR 49
+            23 => match (true) {
+                in_array($n, [1, 5, 7, 8, 9, 10], true) => 0, // one
+                in_array($n, [2, 3], true) => 1,               // two
+                $n === 4 => 2,                                   // few
+                $n === 6 => 3,                                   // many
+                default => 4,                                    // other
+            },
             // Rule 24: Gujarati ordinals (one/two/few/many/other)
             24 => match ($n) { // @codeCoverageIgnore strange behavior of curly brackets and match in code coverage,
                 1 => 0,           // one
@@ -1233,12 +1313,11 @@ class PluralRules
                 default => 4,     // other
             },
 
-            // Rule 25: Kannada ordinals (one/two/few/other)
-            // Rule 28: Telugu ordinals (one/two/many/other) - same pattern
-            25, 28 => match ($n) { // @codeCoverageIgnore strange behavior of curly brackets and match in code coverage,
+            // Rule 26: Marathi/Konkani ordinals (one/two/few/other) — CLDR 49
+            26 => match ($n) { // @codeCoverageIgnore strange behavior of curly brackets and match in code coverage,
                 1 => 0,           // one
                 2, 3 => 1,        // two
-                4 => 2,           // few (Kannada) / many (Telugu)
+                4 => 2,           // few
                 default => 3,     // other
             },
             // Rule 27: Odia ordinals (one/two/few/many/other)
@@ -1249,12 +1328,8 @@ class PluralRules
                 $n === 6 => 3,
                 default => 4,
             },
-            // Rule 29: Nepali ordinals (one/few/other)
-            29 => match (true) {
-                $n >= 1 && $n <= 4 => 0,
-                in_array($n, [5, 6], true) => 1,
-                default => 2,
-            },
+            // Rule 29: Nepali ordinals (one/other) — CLDR 49
+            29 => $n >= 1 && $n <= 4 ? 0 : 1,
             // Rule 30: Albanian ordinals (one/many/other) - CLDR 49
             // one: n = 1
             // many: n = 4
@@ -1279,6 +1354,46 @@ class PluralRules
                     || in_array($n % 100, [1, 2, 3, 4, 21, 22, 23, 24, 41, 42, 43, 44, 61, 62, 63, 64, 81, 82, 83, 84], true) => 0,
                 $n === 5 || $n % 100 === 5 => 1,
                 default => 2,
+            },
+            // Rule 33: Afrikaans ordinals (few/other) — CLDR 49
+            // few: i % 100 = 2..19
+            33 => ($n % 100 >= 2 && $n % 100 <= 19) ? 0 : 1,
+            // Rule 36: Azerbaijani ordinals (one/few/many/other) — CLDR 49
+            // one: i % 10 = 1,2,5,7,8 or i % 100 = 20,50,70,80
+            // few: i % 10 = 3,4 or i % 1000 = 100,200,300,400,500,600,700,800,900
+            // many: i = 0 or i % 10 = 6 or i % 100 = 40,60,90
+            36 => match (true) {
+                in_array($n % 10, [1, 2, 5, 7, 8], true)
+                    || in_array($n % 100, [20, 50, 70, 80], true) => 0,  // one
+                in_array($n % 10, [3, 4], true)
+                    || in_array($n % 1000, [100, 200, 300, 400, 500, 600, 700, 800, 900], true) => 1,  // few
+                $n === 0 || $n % 10 === 6
+                    || in_array($n % 100, [40, 60, 90], true) => 2,      // many
+                default => 3,                                              // other
+            },
+            // Rule 37: Belarusian ordinals (few/other) — CLDR 49
+            // few: n % 10 = 2,3 and n % 100 != 12,13
+            37 => (in_array($n % 10, [2, 3], true) && !in_array($n % 100, [12, 13], true)) ? 0 : 1,
+            // Rule 38: Bulgarian ordinals (zero/one/two/few/many/other) — CLDR 49
+            38 => self::calculateBulgarianOrdinal($n),
+            // Rule 39: Catalan ordinals (one/two/few/other) — CLDR 49
+            // one: n = 1,3
+            // two: n = 2
+            // few: n = 4
+            39 => match ($n) { // @codeCoverageIgnore strange behavior of curly brackets and match in code coverage,
+                1, 3 => 0,        // one
+                2 => 1,           // two
+                4 => 2,           // few
+                default => 3,     // other
+            },
+            // Rule 40: Georgian ordinals (one/many/other) — CLDR 49
+            // one: i = 1
+            // many: i = 0 or i % 100 = 2..20,40,60,80
+            40 => match (true) {
+                $n === 1 => 0,    // one
+                $n === 0 || ($n % 100 >= 2 && $n % 100 <= 20)
+                    || in_array($n % 100, [40, 60, 80], true) => 1,  // many
+                default => 2,     // other
             },
             //IMPORTANT
             // Rules with no ordinal distinction - only "other" (returns 0)

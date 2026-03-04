@@ -686,8 +686,8 @@ class MessagePatternValidatorTest extends TestCase
             // Polish with 'two' selector - 'two' is valid CLDR but not for Polish (expects one/few/many/other)
             ['pl', '{n, plural, one{# file} two{# files} other{# files}}', ['two'], []],
 
-            // Czech with 'many' selector - 'many' is valid CLDR but not for Czech (expects one/few/other)
-            ['cs', '{n, plural, one{# file} many{# files} other{# files}}', ['many'], []],
+            // Czech with 'two' selector - 'two' is valid CLDR but not for Czech (expects one/few/many/other)
+            ['cs', '{n, plural, one{# file} two{# files} other{# files}}', ['two'], ['many']],
 
             // French with 'zero' selector - 'zero' is valid CLDR but not for French (expects one/many/other)
             ['fr', '{n, plural, zero{none} one{# element} many{# elements} other{# elements}}', ['zero'], []],
@@ -721,8 +721,8 @@ class MessagePatternValidatorTest extends TestCase
     public static function pluralComplianceValidProvider(): array
     {
         return [
-            // Czech: one, few, other - complete
-            ['cs', '{n, plural, one{# file} few{# files} other{# files}}'],
+            // Czech: one, few, many, other - complete (CLDR 49: 4 categories)
+            ['cs', '{n, plural, one{# file} few{# files} many{# files} other{# files}}'],
 
             // Japanese: only other (no plural forms)
             ['ja', '{n, plural, other{# items}}'],

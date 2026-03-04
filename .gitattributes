@@ -20,4 +20,5 @@
 /composer.phar export-ignore
 
 /BENCHMARKS.md export-ignore
+/scripts export-ignore
 

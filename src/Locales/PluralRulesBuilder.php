@@ -54,7 +54,8 @@ class PluralRulesBuilder
      *
      * This file contains only the deltas: fields that differ from the
      * rule-group defaults in CARDINAL_HUMAN_RULES / ORDINAL_HUMAN_RULES.
-     * When present, these values replace the defaults during build().
+     * Overrides are keyed by category name (e.g. "one", "other") rather
+     * than positional index, making them resilient to category reordering.
      */
     private const string OVERRIDES_FILE_PATH = __DIR__ . '/pluralRulesOverrides.json';
 
@@ -111,10 +112,11 @@ class PluralRulesBuilder
             ],
             ['rule' => '', 'human_rule' => 'Any other number', 'example' => ''],
         ],
-        // Rule 4: nplurals=3; (Czech, Slovak)
+        // Rule 4: nplurals=4; (Czech, Slovak — CLDR 49: "many" for decimals only)
         4 => [
             ['rule' => 'i = 1 and v = 0', 'human_rule' => 'Exactly 1 (no decimals)', 'example' => '1'],
             ['rule' => 'i = 2–4 and v = 0', 'human_rule' => 'Exactly 2, 3, or 4 (no decimals)', 'example' => '2~4'],
+            ['rule' => 'v != 0', 'human_rule' => 'Any number with decimals (decimal-only category)', 'example' => '0.0~1.5, 10.0, …'],
             ['rule' => '', 'human_rule' => 'Any other number', 'example' => '0, 5~20, 100, 1000, …'],
         ],
         // Rule 5: nplurals=5; (Irish)
@@ -125,7 +127,7 @@ class PluralRulesBuilder
             ['rule' => 'n = 7–10', 'human_rule' => 'Exactly 7, 8, 9, or 10', 'example' => '7~10'],
             ['rule' => '', 'human_rule' => 'Any other number', 'example' => '0, 11~25, 100, 1000, …'],
         ],
-        // Rule 6: nplurals=3; (Lithuanian)
+        // Rule 6: nplurals=4; (Lithuanian — CLDR 49: "many" for decimals only)
         6 => [
             [
                 'rule' => 'n % 10 = 1 and n % 100 != 11',
@@ -137,6 +139,7 @@ class PluralRulesBuilder
                 'human_rule' => 'Ends in 2–9 (except 12–19)',
                 'example' => '2~9, 22~29, 32~39, …'
             ],
+            ['rule' => 'f != 0', 'human_rule' => 'Any number with decimals (decimal-only category)', 'example' => '0.1~0.9, 1.1~1.7, …'],
             ['rule' => '', 'human_rule' => 'Any other number', 'example' => '0, 10~20, 30, 40, 50, 60, 100, …'],
         ],
         // Rule 7: nplurals=4; (Slovenian)
@@ -166,17 +169,6 @@ class PluralRulesBuilder
                 'example' => '1, 21, 31, 41, 51, …'
             ],
             ['rule' => '', 'human_rule' => 'Any other number', 'example' => '0, 2~20, 22~30, …'],
-        ],
-        // Rule 9: nplurals=4; (Maltese)
-        9 => [
-            ['rule' => 'n = 1', 'human_rule' => 'Exactly 1', 'example' => '1'],
-            [
-                'rule' => 'n = 0 or n % 100 = 2–10',
-                'human_rule' => 'Exactly 0 or ends in 02–10',
-                'example' => '0, 2~10, 102~110, …'
-            ],
-            ['rule' => 'n % 100 = 11–19', 'human_rule' => 'Ends in 11–19', 'example' => '11~19, 111~119, …'],
-            ['rule' => '', 'human_rule' => 'Any other number', 'example' => '20~35, 100, 1000, …'],
         ],
         // Rule 10: nplurals=3; (Latvian)
         10 => [
@@ -275,23 +267,19 @@ class PluralRulesBuilder
             ],
             ['rule' => '', 'human_rule' => 'Any other number', 'example' => '0, 5~8, 10~20, 100, 1000, …'],
         ],
-        // Rule 18: nplurals=4; (Manx)
+        // Rule 18: nplurals=5; (Manx — CLDR 49: "many" for decimals only)
         18 => [
             ['rule' => 'n % 10 = 1', 'human_rule' => 'Ends in 1', 'example' => '1, 11, 21, 31, …'],
             ['rule' => 'n % 10 = 2', 'human_rule' => 'Ends in 2', 'example' => '2, 12, 22, 32, …'],
             ['rule' => 'n % 20 = 0', 'human_rule' => 'Multiple of 20', 'example' => '0, 20, 40, 60, 80, 100, …'],
+            ['rule' => 'v != 0', 'human_rule' => 'Any number with decimals (decimal-only category)', 'example' => '0.0~1.5, 10.0, …'],
             ['rule' => '', 'human_rule' => 'Any other number', 'example' => '3~9, 13~19, 23~29, …'],
         ],
-        // Rule 19: nplurals=4; (Hebrew)
+        // Rule 19: nplurals=3; (Hebrew — CLDR 49: removed "many")
         19 => [
-            ['rule' => 'n = 1', 'human_rule' => 'Exactly 1', 'example' => '1'],
-            ['rule' => 'n = 2', 'human_rule' => 'Exactly 2', 'example' => '2'],
-            [
-                'rule' => 'n > 10 and n % 10 = 0',
-                'human_rule' => 'Multiple of 10 (above 10)',
-                'example' => '20, 30, 40, 50, 60, …'
-            ],
-            ['rule' => '', 'human_rule' => 'Any other number', 'example' => '0, 3~9, 11~19, 21~29, …'],
+            ['rule' => 'i = 1 and v = 0', 'human_rule' => 'Exactly 1 (no decimals)', 'example' => '1'],
+            ['rule' => 'i = 2 and v = 0', 'human_rule' => 'Exactly 2 (no decimals)', 'example' => '2'],
+            ['rule' => '', 'human_rule' => 'Any other number', 'example' => '0, 3~17, 100, 1000, …'],
         ],
         // Rule 20: nplurals=3; (Italian, Spanish, French, Portuguese, Catalan - CLDR 49)
         20 => [
@@ -361,6 +349,32 @@ class PluralRulesBuilder
                 'example' => '0, 1, 11~99'
             ],
             ['rule' => '', 'human_rule' => 'Any other number', 'example' => '2~10, 100~110, 1000, …'],
+        ],
+        // Rule 27: nplurals=3; (Bosnian, Croatian, Serbian — CLDR 49: one/few/other)
+        27 => [
+            [
+                'rule' => 'v = 0 and i % 10 = 1 and i % 100 != 11 or f % 10 = 1 and f % 100 != 11',
+                'human_rule' => 'Ends in 1 (except 11)',
+                'example' => '1, 21, 31, 41, 51, 61, 71, 81, 101, …'
+            ],
+            [
+                'rule' => 'v = 0 and i % 10 = 2–4 and i % 100 != 12–14 or f % 10 = 2–4 and f % 100 != 12–14',
+                'human_rule' => 'Ends in 2-4 (except 12–14)',
+                'example' => '2~4, 22~24, 32~34, …'
+            ],
+            ['rule' => '', 'human_rule' => 'Any other number', 'example' => '0, 5~20, 25~30, 35~40, …'],
+        ],
+        // Rule 28: nplurals=5; (Maltese — CLDR 49: one/two/few/many/other)
+        28 => [
+            ['rule' => 'n = 1', 'human_rule' => 'Exactly 1', 'example' => '1'],
+            ['rule' => 'n = 2', 'human_rule' => 'Exactly 2', 'example' => '2'],
+            [
+                'rule' => 'n = 0 or n % 100 = 2–10',
+                'human_rule' => 'Exactly 0 or ends in 02–10',
+                'example' => '0, 3~10, 103~110, …'
+            ],
+            ['rule' => 'n % 100 = 11–19', 'human_rule' => 'Ends in 11–19', 'example' => '11~19, 111~119, …'],
+            ['rule' => '', 'human_rule' => 'Any other number', 'example' => '20~35, 100, 1000, …'],
         ],
     ];
 
@@ -461,14 +475,6 @@ class PluralRulesBuilder
             ],
             ['rule' => '', 'human_rule' => 'Any other number', 'example' => '0, 3~6, 9~19, 23~26, …'],
         ],
-        // Rule 9: Only "other" (Maltese)
-        9 => [
-            [
-                'rule' => '',
-                'human_rule' => 'Any number',
-                'example' => '0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, …'
-            ],
-        ],
         // Rule 10: Only "other" (Latvian)
         10 => [
             [
@@ -560,19 +566,22 @@ class PluralRulesBuilder
             ],
             ['rule' => '', 'human_rule' => 'Any other number', 'example' => '0~5, 7, 8, 11~15, 17, 18, 21, …'],
         ],
-        // Rule 22: Hungarian ordinals (few/other)
+        // Rule 22: Ukrainian, Turkmen ordinals (few/other)
         22 => [
             ['rule' => 'n = 1, 5', 'human_rule' => 'Exactly 1 or 5', 'example' => '1, 5'],
             ['rule' => '', 'human_rule' => 'Any other number', 'example' => '0, 2~4, 6~17, 100, 1000, …'],
         ],
-        // Rule 23: Bengali, Assamese, Hindi ordinals (one/other)
+        // Rule 23: Bengali, Assamese, Hindi ordinals (one/two/few/many/other) — CLDR 49
         23 => [
             [
                 'rule' => 'n = 1, 5, 7, 8, 9, 10',
                 'human_rule' => 'Exactly 1, 5, 7, 8, 9 or 10',
                 'example' => '1, 5, 7, 8, 9, 10'
             ],
-            ['rule' => '', 'human_rule' => 'Any other number', 'example' => '0, 2~4, 6, 11~25, 100, 1000, …'],
+            ['rule' => 'n = 2, 3', 'human_rule' => 'Exactly 2 or 3', 'example' => '2, 3'],
+            ['rule' => 'n = 4', 'human_rule' => 'Exactly 4', 'example' => '4'],
+            ['rule' => 'n = 6', 'human_rule' => 'Exactly 6', 'example' => '6'],
+            ['rule' => '', 'human_rule' => 'Any other number', 'example' => '0, 11~25, 100, 1000, …'],
         ],
         // Rule 24: Gujarati ordinals (one/two/few/many/other)
         24 => [
@@ -582,17 +591,12 @@ class PluralRulesBuilder
             ['rule' => 'n = 6', 'human_rule' => 'Exactly 6', 'example' => '6'],
             ['rule' => '', 'human_rule' => 'Any other number', 'example' => '0, 5, 7~20, 100, 1000, …'],
         ],
-        // Rule 25: Kannada ordinals (one/two/few/other)
-        25 => [
+        // Rule 26: Marathi/Konkani ordinals (one/two/few/other) — CLDR 49
+        26 => [
             ['rule' => 'n = 1', 'human_rule' => 'Exactly 1', 'example' => '1'],
             ['rule' => 'n = 2, 3', 'human_rule' => 'Exactly 2 or 3', 'example' => '2, 3'],
             ['rule' => 'n = 4', 'human_rule' => 'Exactly 4', 'example' => '4'],
             ['rule' => '', 'human_rule' => 'Any other number', 'example' => '0, 5~20, 100, 1000, …'],
-        ],
-        // Rule 26: Marathi ordinals (one/other)
-        26 => [
-            ['rule' => 'n = 1', 'human_rule' => 'Exactly 1', 'example' => '1'],
-            ['rule' => '', 'human_rule' => 'Any other number', 'example' => '0, 2~16, 100, 1000, …'],
         ],
         // Rule 27: Odia ordinals (one/two/few/many/other)
         27 => [
@@ -602,18 +606,10 @@ class PluralRulesBuilder
             ['rule' => 'n = 6', 'human_rule' => 'Exactly 6', 'example' => '6'],
             ['rule' => '', 'human_rule' => 'Any other number', 'example' => '0, 10~25, 100, 1000, …'],
         ],
-        // Rule 28: Telugu ordinals (one/two/many/other)
-        28 => [
-            ['rule' => 'n = 1', 'human_rule' => 'Exactly 1', 'example' => '1'],
-            ['rule' => 'n = 2, 3', 'human_rule' => 'Exactly 2 or 3', 'example' => '2, 3'],
-            ['rule' => 'n = 4', 'human_rule' => 'Exactly 4', 'example' => '4'],
-            ['rule' => '', 'human_rule' => 'Any other number', 'example' => '0, 5~20, 100, 1000, …'],
-        ],
-        // Rule 29: Nepali ordinals (one/few/other)
+        // Rule 29: Nepali ordinals (one/other) — CLDR 49: simplified
         29 => [
             ['rule' => 'n = 1–4', 'human_rule' => 'Exactly 1, 2, 3 or 4', 'example' => '1~4'],
-            ['rule' => 'n = 5, 6', 'human_rule' => 'Exactly 5 or 6', 'example' => '5, 6'],
-            ['rule' => '', 'human_rule' => 'Any other number', 'example' => '0, 7~20, 100, 1000, …'],
+            ['rule' => '', 'human_rule' => 'Any other number', 'example' => '0, 5~20, 100, 1000, …'],
         ],
         // Rule 30: Albanian ordinals (one/many/other)
         30 => [
@@ -641,6 +637,79 @@ class PluralRulesBuilder
                 'example' => '5, 105, 205, …'
             ],
             ['rule' => '', 'human_rule' => 'Any other number', 'example' => '0, 6~20, 25~40, 45~60, …'],
+        ],
+        // Rule 33: Afrikaans ordinals (few/other) — CLDR 49
+        33 => [
+            [
+                'rule' => 'i % 100 = 2–19',
+                'human_rule' => 'Ends in 02–19',
+                'example' => '2~19, 102~119, 202~219, …'
+            ],
+            ['rule' => '', 'human_rule' => 'Any other number', 'example' => '0, 1, 20~101, 120~201, …'],
+        ],
+        // Rule 34: Spanish ordinals (one/other) — CLDR 49
+        34 => [
+            ['rule' => 'n = 1', 'human_rule' => 'Exactly 1', 'example' => '1'],
+            ['rule' => '', 'human_rule' => 'Any other number', 'example' => '0, 2~16, 100, 1000, …'],
+        ],
+        // Rule 35: Hungarian ordinals (one/other) — CLDR 49
+        35 => [
+            ['rule' => 'n = 1, 5', 'human_rule' => 'Exactly 1 or 5', 'example' => '1, 5'],
+            ['rule' => '', 'human_rule' => 'Any other number', 'example' => '0, 2~4, 6~17, 100, 1000, …'],
+        ],
+        // Rule 36: Azerbaijani ordinals (one/few/many/other) — CLDR 49
+        36 => [
+            [
+                'rule' => 'i % 10 = 1, 2, 5, 7, 8 or i % 100 = 20, 50, 70, 80',
+                'human_rule' => 'Ends in 1, 2, 5, 7, 8 or ends in 20, 50, 70, 80',
+                'example' => '1, 2, 5, 7, 8, 11, 12, 15, 17, 18, 20, …'
+            ],
+            [
+                'rule' => 'i % 10 = 3, 4 or i % 1000 = 100, 200, 300, 400, 500, 600, 700, 800, 900',
+                'human_rule' => 'Ends in 3, 4 or multiples of 100',
+                'example' => '3, 4, 13, 14, 23, 24, 100, 200, …'
+            ],
+            [
+                'rule' => 'i = 0 or i % 10 = 6 or i % 100 = 40, 60, 90',
+                'human_rule' => 'Exactly 0, or ends in 6, 40, 60, or 90',
+                'example' => '0, 6, 16, 26, 36, 40, 46, 56, 60, …'
+            ],
+            ['rule' => '', 'human_rule' => 'Any other number', 'example' => '9, 10, 19, 29, 30, 39, 49, 59, …'],
+        ],
+        // Rule 37: Belarusian ordinals (few/other) — CLDR 49
+        37 => [
+            [
+                'rule' => 'n % 10 = 2, 3 and n % 100 != 12, 13',
+                'human_rule' => 'Ends in 2 or 3 (except 12, 13)',
+                'example' => '2, 3, 22, 23, 32, 33, 42, 43, …'
+            ],
+            ['rule' => '', 'human_rule' => 'Any other number', 'example' => '0, 1, 4~21, 24~31, 34~41, …'],
+        ],
+        // Rule 38: Bulgarian ordinals (zero/one/two/few/many/other) — CLDR 49
+        38 => [
+            ['rule' => 'i % 100 = 11', 'human_rule' => 'Ends in 11', 'example' => '11, 111, 211, …'],
+            ['rule' => 'i % 100 = 1', 'human_rule' => 'Ends in 1 (except 11)', 'example' => '1, 21, 31, 41, …'],
+            ['rule' => 'i % 100 = 2', 'human_rule' => 'Ends in 2 (except 12)', 'example' => '2, 22, 32, 42, …'],
+            ['rule' => 'i % 100 = 7, 8', 'human_rule' => 'Ends in 7 or 8', 'example' => '7, 8, 27, 28, …'],
+            ['rule' => 'i % 100 = 3–6', 'human_rule' => 'Ends in 3–6', 'example' => '3~6, 23~26, 43~46, …'],
+            ['rule' => '', 'human_rule' => 'Any other number', 'example' => '0, 9, 10, 12~20, 29, 30, …'],
+        ],
+        // Rule 39: Catalan ordinals (one/two/few/other) — CLDR 49
+        39 => [
+            ['rule' => 'n = 1, 3', 'human_rule' => 'Exactly 1 or 3', 'example' => '1, 3'],
+            ['rule' => 'n = 2', 'human_rule' => 'Exactly 2', 'example' => '2'],
+            ['rule' => 'n = 4', 'human_rule' => 'Exactly 4', 'example' => '4'],
+            ['rule' => '', 'human_rule' => 'Any other number', 'example' => '0, 5~20, 100, 1000, …'],
+        ],
+        // Rule 40: Georgian ordinals (one/many/other) — CLDR 49
+        40 => [
+            ['rule' => 'i = 1', 'human_rule' => 'Exactly 1', 'example' => '1'],
+            [
+                'rule' => 'i = 0 or i % 100 = 2–20, 40, 60, 80',
+                'human_rule' => 'Exactly 0, or ends in 02–20, 40, 60, or 80',
+                'example' => '0, 2~20, 40, 60, 80, 102~120, …'
+            ],
+            ['rule' => '', 'human_rule' => 'Any other number', 'example' => '21~39, 41~59, 61~79, 81~101, …'],
         ],
     ];
 
@@ -768,7 +837,7 @@ class PluralRulesBuilder
      *
      * @param array<int, string> $categories Category names from PluralRules (e.g. ['one', 'other']).
      * @param array<int, array{rule: string, human_rule: string, example: string}> $humanRules Positional human rule data.
-     * @param array<int, array{human_rule?: string, example?: string}> $overrides Per-language overrides (sparse, positional).
+     * @param array<string, array{human_rule?: string, example?: string}> $overrides Per-language overrides keyed by category name (e.g. 'one', 'other').
      * @return CategoryFragment[]
      */
     private function buildCategoryFragments(array $categories, array $humanRules, array $overrides = []): array
@@ -782,9 +851,9 @@ class PluralRulesBuilder
                 'example' => '',
             ];
 
-            // Apply per-language overrides if present
-            $humanRule = $overrides[$index]['human_rule'] ?? $ruleData['human_rule'];
-            $example   = $overrides[$index]['example']    ?? $ruleData['example'];
+            // Apply per-language overrides if present (keyed by category name)
+            $humanRule = $overrides[$category]['human_rule'] ?? $ruleData['human_rule'];
+            $example   = $overrides[$category]['example']    ?? $ruleData['example'];
 
             $fragments[] = new CategoryFragment(
                 category: $category,
@@ -800,28 +869,21 @@ class PluralRulesBuilder
     /**
      * Load per-language overrides for human_rule and example.
      *
-     * Returns a sparse array keyed by ISO code, then 'cardinal'/'ordinal',
-     * then positional index, containing only the fields that differ from defaults.
+     * Returns an array keyed by ISO code, then 'cardinal'/'ordinal',
+     * then category name (e.g. 'one', 'other'), containing only the fields
+     * that differ from the rule-group defaults.
      *
-     * @return array<string, array{cardinal?: array<int, array{human_rule?: string, example?: string}>, ordinal?: array<int, array{human_rule?: string, example?: string}>}>
+     * @return array<string, array{cardinal?: array<string, array{human_rule?: string, example?: string}>, ordinal?: array<string, array{human_rule?: string, example?: string}>}>
      */
     private function loadOverrides(): array
     {
         if (!file_exists(self::OVERRIDES_FILE_PATH)) {
+            // @codeCoverageIgnoreStart
             return [];
+            // @codeCoverageIgnoreEnd
         }
 
-        $json = file_get_contents(self::OVERRIDES_FILE_PATH);
-
-        // @codeCoverageIgnoreStart
-        if ($json === false) {
-            return [];
-        }
-        // @codeCoverageIgnoreEnd
-
-        $data = json_decode($json, true);
-
-        return is_array($data) ? $data : [];
+        return $this->readJsonFile(self::OVERRIDES_FILE_PATH);
     }
 
     /**
@@ -833,21 +895,7 @@ class PluralRulesBuilder
      */
     private function readFromFile(string $filePath): array
     {
-        $json = file_get_contents($filePath);
-
-        // @codeCoverageIgnoreStart
-        if ($json === false) {
-            throw new RuntimeException("Failed to read plural rules cache file: $filePath");
-        }
-        // @codeCoverageIgnoreEnd
-
-        try {
-            $data = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
-        } catch (JsonException $e) {
-            // @codeCoverageIgnoreStart
-            throw new RuntimeException("Failed to decode plural rules cache file: $filePath", 0, $e);
-            // @codeCoverageIgnoreEnd
-        }
+        $data = $this->readJsonFile($filePath);
 
         $result = [];
 
@@ -881,6 +929,34 @@ class PluralRulesBuilder
         }
 
         return $result;
+    }
+
+    /**
+     * Read and decode a JSON file from disk.
+     *
+     * @param string $filePath Path to the JSON file.
+     * @return array<string, mixed>
+     * @throws RuntimeException If the file cannot be read or decoded.
+     */
+    private function readJsonFile(string $filePath): array
+    {
+        $json = file_get_contents($filePath);
+
+        // @codeCoverageIgnoreStart
+        if ($json === false) {
+            throw new RuntimeException("Failed to read JSON file: $filePath");
+        }
+        // @codeCoverageIgnoreEnd
+
+        try {
+            $data = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
+            // @codeCoverageIgnoreStart
+        } catch (JsonException $e) {
+            throw new RuntimeException("Failed to decode JSON file: $filePath", 0, $e);
+            // @codeCoverageIgnoreEnd
+        }
+
+        return is_array($data) ? $data : [];
     }
 
     /**
