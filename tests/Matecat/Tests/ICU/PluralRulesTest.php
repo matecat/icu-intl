@@ -2057,8 +2057,8 @@ final class PluralRulesTest extends TestCase
     }
 
     /**
-     * Test getOrdinalCategories for Hungarian/Ukrainian ordinals (Rule 22: few/other)
-     * Pattern: few for n=1,5
+     * Test getOrdinalCategories for Ukrainian ordinals (Rule 22: few/other),
+     * Hungarian ordinals (Rule 35: one/other), and Turkmen ordinals (Rule 43: few/other)
      */
     public function testOrdinalCategoriesRuleTwentyTwoHungarianUkrainian(): void
     {
@@ -2076,8 +2076,8 @@ final class PluralRulesTest extends TestCase
     }
 
     /**
-     * Test getOrdinalCategories for Bengali/Assamese/Hindi ordinals (Rule 23: one/other)
-     * Pattern: one for n=1,5,7,8,9,10
+     * Test getOrdinalCategories for Bengali/Assamese ordinals (Rule 23) and Hindi (Rule 24)
+     * All share the same categories: one/two/few/many/other
      */
     public function testOrdinalCategoriesRuleTwentyThreeIndicLanguages(): void
     {
@@ -2890,7 +2890,7 @@ final class PluralRulesTest extends TestCase
      *
      * CLDR 49 defines 3 ordinal categories for Albanian:
      *   - one (index 0): n = 1
-     *   - many (index 1): n = 4
+     *   - many (index 1): n % 10 = 4 and n % 100 != 14
      *   - other (index 2): everything else
      */
     public function testGetOrdinalFormIndexRuleThirtyAlbanian(): void
@@ -2898,10 +2898,15 @@ final class PluralRulesTest extends TestCase
         // one: n = 1
         self::assertSame(0, PluralRules::getOrdinalFormIndex('sq', 1));
 
-        // many: n = 4
+        // many: n % 10 = 4 and n % 100 != 14
         self::assertSame(1, PluralRules::getOrdinalFormIndex('sq', 4));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('sq', 24));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('sq', 34));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('sq', 44));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('sq', 104));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('sq', 1004));
 
-        // other: everything else (including 2..9 except 4, and 0, 10, 11, 100…)
+        // other: everything else (including 14)
         self::assertSame(2, PluralRules::getOrdinalFormIndex('sq', 0));
         self::assertSame(2, PluralRules::getOrdinalFormIndex('sq', 2));
         self::assertSame(2, PluralRules::getOrdinalFormIndex('sq', 3));
@@ -2912,6 +2917,7 @@ final class PluralRulesTest extends TestCase
         self::assertSame(2, PluralRules::getOrdinalFormIndex('sq', 9));
         self::assertSame(2, PluralRules::getOrdinalFormIndex('sq', 10));
         self::assertSame(2, PluralRules::getOrdinalFormIndex('sq', 11));
+        self::assertSame(2, PluralRules::getOrdinalFormIndex('sq', 14));  // exception: n%100=14
         self::assertSame(2, PluralRules::getOrdinalFormIndex('sq', 100));
     }
 
@@ -3068,58 +3074,79 @@ final class PluralRulesTest extends TestCase
     /**
      * Test getOrdinalFormIndex for Rule 38 (Bulgarian ordinals — CLDR 49)
      *
-     * calculateBulgarianOrdinal uses n%100:
-     *   zero (0): n%100 = 11
-     *   one (1):  n%100 = 1
-     *   two (2):  n%100 = 2
-     *   few (3):  n%100 in [7,8]
-     *   many (4): n%100 = 3..6
-     *   other (5): everything else
+     * CLDR bg ordinals:
+     *   zero (0): i % 100 = 0 and i != 0 → 100, 200, 300, ...
+     *   one (1):  i % 10 = 1 and i % 100 != 11 → 1, 21, 31, ... (not 11, 111)
+     *   two (2):  i % 10 = 2 and i % 100 != 12 → 2, 22, 32, ... (not 12, 112)
+     *   few (3):  i % 10 = 3,4 and i % 100 != 13,14 → 3, 4, 23, 24, ...
+     *   many (4): i % 10 = 7,8 and i % 100 != 17,18 → 7, 8, 27, 28, ...
+     *   other (5): everything else → 0, 5, 6, 9~20, 25, ...
      */
     public function testGetOrdinalFormIndexRuleThirtyEightBulgarian(): void
     {
-        // zero: n%100 = 11
-        self::assertSame(0, PluralRules::getOrdinalFormIndex('bg', 11));
-        self::assertSame(0, PluralRules::getOrdinalFormIndex('bg', 111));
-        self::assertSame(0, PluralRules::getOrdinalFormIndex('bg', 211));
+        // zero: i % 100 = 0 and i != 0
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('bg', 100));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('bg', 200));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('bg', 300));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('bg', 500));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('bg', 1000));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('bg', 10000));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('bg', 1000000));
 
-        // one: n%100 = 1
+        // one: i % 10 = 1 and i % 100 != 11
         self::assertSame(1, PluralRules::getOrdinalFormIndex('bg', 1));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('bg', 21));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('bg', 31));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('bg', 41));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('bg', 51));
         self::assertSame(1, PluralRules::getOrdinalFormIndex('bg', 101));
-        self::assertSame(1, PluralRules::getOrdinalFormIndex('bg', 201));
         self::assertSame(1, PluralRules::getOrdinalFormIndex('bg', 1001));
 
-        // two: n%100 = 2
+        // two: i % 10 = 2 and i % 100 != 12
         self::assertSame(2, PluralRules::getOrdinalFormIndex('bg', 2));
+        self::assertSame(2, PluralRules::getOrdinalFormIndex('bg', 22));
+        self::assertSame(2, PluralRules::getOrdinalFormIndex('bg', 32));
+        self::assertSame(2, PluralRules::getOrdinalFormIndex('bg', 42));
         self::assertSame(2, PluralRules::getOrdinalFormIndex('bg', 102));
-        self::assertSame(2, PluralRules::getOrdinalFormIndex('bg', 202));
         self::assertSame(2, PluralRules::getOrdinalFormIndex('bg', 1002));
 
-        // few: n%100 in [7, 8]
-        self::assertSame(3, PluralRules::getOrdinalFormIndex('bg', 7));
-        self::assertSame(3, PluralRules::getOrdinalFormIndex('bg', 8));
-        self::assertSame(3, PluralRules::getOrdinalFormIndex('bg', 107));
-        self::assertSame(3, PluralRules::getOrdinalFormIndex('bg', 108));
+        // few: i % 10 = 3,4 and i % 100 != 13,14
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('bg', 3));
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('bg', 4));
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('bg', 23));
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('bg', 24));
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('bg', 33));
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('bg', 34));
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('bg', 103));
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('bg', 1003));
 
-        // many: n%100 = 3..6
-        self::assertSame(4, PluralRules::getOrdinalFormIndex('bg', 3));
-        self::assertSame(4, PluralRules::getOrdinalFormIndex('bg', 4));
-        self::assertSame(4, PluralRules::getOrdinalFormIndex('bg', 5));
-        self::assertSame(4, PluralRules::getOrdinalFormIndex('bg', 6));
-        self::assertSame(4, PluralRules::getOrdinalFormIndex('bg', 103));
-        self::assertSame(4, PluralRules::getOrdinalFormIndex('bg', 104));
+        // many: i % 10 = 7,8 and i % 100 != 17,18
+        self::assertSame(4, PluralRules::getOrdinalFormIndex('bg', 7));
+        self::assertSame(4, PluralRules::getOrdinalFormIndex('bg', 8));
+        self::assertSame(4, PluralRules::getOrdinalFormIndex('bg', 27));
+        self::assertSame(4, PluralRules::getOrdinalFormIndex('bg', 28));
+        self::assertSame(4, PluralRules::getOrdinalFormIndex('bg', 37));
+        self::assertSame(4, PluralRules::getOrdinalFormIndex('bg', 38));
+        self::assertSame(4, PluralRules::getOrdinalFormIndex('bg', 107));
+        self::assertSame(4, PluralRules::getOrdinalFormIndex('bg', 1007));
 
-        // other: everything else
+        // other: everything else (0, 5, 6, 9~20, 25, 26, 105, ...)
         self::assertSame(5, PluralRules::getOrdinalFormIndex('bg', 0));
+        self::assertSame(5, PluralRules::getOrdinalFormIndex('bg', 5));
+        self::assertSame(5, PluralRules::getOrdinalFormIndex('bg', 6));
         self::assertSame(5, PluralRules::getOrdinalFormIndex('bg', 9));
         self::assertSame(5, PluralRules::getOrdinalFormIndex('bg', 10));
+        self::assertSame(5, PluralRules::getOrdinalFormIndex('bg', 11));
         self::assertSame(5, PluralRules::getOrdinalFormIndex('bg', 12));
+        self::assertSame(5, PluralRules::getOrdinalFormIndex('bg', 13));
+        self::assertSame(5, PluralRules::getOrdinalFormIndex('bg', 14));
         self::assertSame(5, PluralRules::getOrdinalFormIndex('bg', 15));
+        self::assertSame(5, PluralRules::getOrdinalFormIndex('bg', 17));
+        self::assertSame(5, PluralRules::getOrdinalFormIndex('bg', 18));
         self::assertSame(5, PluralRules::getOrdinalFormIndex('bg', 20));
         self::assertSame(5, PluralRules::getOrdinalFormIndex('bg', 25));
-        self::assertSame(5, PluralRules::getOrdinalFormIndex('bg', 100));
-        self::assertSame(5, PluralRules::getOrdinalFormIndex('bg', 1000));
-        self::assertSame(5, PluralRules::getOrdinalFormIndex('bg', 1000000));
+        self::assertSame(5, PluralRules::getOrdinalFormIndex('bg', 105));
+        self::assertSame(5, PluralRules::getOrdinalFormIndex('bg', 1005));
     }
 
     /**
@@ -3186,6 +3213,204 @@ final class PluralRulesTest extends TestCase
         self::assertSame(2, PluralRules::getOrdinalFormIndex('ka', 1000));
         self::assertSame(2, PluralRules::getOrdinalFormIndex('ka', 10000));
         self::assertSame(2, PluralRules::getOrdinalFormIndex('ka', 1000000));
+    }
+
+    /**
+     * Test getOrdinalFormIndex for Rule 41 (Swedish ordinals — CLDR 49)
+     * Pattern: one for n%10=1,2 and n%100!=11,12; other for everything else
+     */
+    public function testGetOrdinalFormIndexRuleFortyOneSwedish(): void
+    {
+        // one: n % 10 = 1,2 and n % 100 != 11,12
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('sv', 1));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('sv', 2));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('sv', 21));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('sv', 22));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('sv', 31));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('sv', 32));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('sv', 41));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('sv', 42));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('sv', 51));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('sv', 52));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('sv', 101));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('sv', 1001));
+
+        // other: everything else (including 11, 12)
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('sv', 0));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('sv', 3));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('sv', 4));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('sv', 5));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('sv', 10));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('sv', 11));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('sv', 12));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('sv', 13));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('sv', 17));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('sv', 100));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('sv', 1000));
+    }
+
+    /**
+     * Test getOrdinalFormIndex for Rule 42 (Ligurian/Sicilian ordinals — CLDR 49)
+     * Pattern: many for n=8,11,80..89,800..899; other for everything else
+     */
+    public function testGetOrdinalFormIndexRuleFortyTwoLigurianSicilian(): void
+    {
+        // many: n = 8,11,80..89,800..899
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('lij', 8));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('lij', 11));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('lij', 80));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('lij', 81));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('lij', 85));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('lij', 89));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('lij', 800));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('lij', 801));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('lij', 803));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('lij', 899));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('scn', 8));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('scn', 11));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('scn', 85));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('scn', 800));
+
+        // other: everything else
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('lij', 0));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('lij', 1));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('lij', 7));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('lij', 9));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('lij', 10));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('lij', 12));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('lij', 79));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('lij', 90));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('lij', 100));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('lij', 799));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('lij', 900));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('lij', 1000));
+    }
+
+    /**
+     * Test getOrdinalFormIndex for Rule 43 (Turkmen ordinals — CLDR 49)
+     * Pattern: few for n%10=6,9 or n=10; other for everything else
+     */
+    public function testGetOrdinalFormIndexRuleFortyThreeTurkmen(): void
+    {
+        // few: n % 10 = 6,9 or n = 10
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('tk', 6));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('tk', 9));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('tk', 10));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('tk', 16));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('tk', 19));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('tk', 26));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('tk', 29));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('tk', 36));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('tk', 39));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('tk', 106));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('tk', 1006));
+
+        // other: everything else
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('tk', 0));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('tk', 1));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('tk', 2));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('tk', 3));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('tk', 4));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('tk', 5));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('tk', 7));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('tk', 8));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('tk', 11));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('tk', 15));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('tk', 17));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('tk', 18));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('tk', 20));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('tk', 100));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('tk', 1000));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('tk', 1000000));
+    }
+
+    /**
+     * Test getOrdinalFormIndex for Rule 22 (Ukrainian ordinals — CLDR 49)
+     * Pattern: few for n%10=3 and n%100!=13; other for everything else
+     */
+    public function testGetOrdinalFormIndexRuleTwentyTwoUkrainian(): void
+    {
+        // few: n % 10 = 3 and n % 100 != 13
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('uk', 3));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('uk', 23));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('uk', 33));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('uk', 43));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('uk', 53));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('uk', 103));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('uk', 1003));
+
+        // other: everything else (including 13)
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('uk', 0));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('uk', 1));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('uk', 2));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('uk', 4));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('uk', 5));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('uk', 10));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('uk', 13));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('uk', 16));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('uk', 100));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('uk', 1000));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('uk', 1000000));
+    }
+
+    /**
+     * Test getOrdinalFormIndex for Rule 34 (Spanish ordinals — CLDR 49)
+     * Pattern: one for n%10=1,3 and n%100!=11; other for everything else
+     */
+    public function testGetOrdinalFormIndexRuleThirtyFourSpanish(): void
+    {
+        // one: n % 10 = 1,3 and n % 100 != 11
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('es', 1));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('es', 3));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('es', 13));  // 13%10=3, 13%100=13≠11 → one
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('es', 21));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('es', 23));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('es', 31));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('es', 33));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('es', 41));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('es', 101));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('es', 1001));
+
+        // other: everything else (including 11)
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('es', 0));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('es', 2));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('es', 4));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('es', 5));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('es', 10));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('es', 11));  // exception: n%100=11
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('es', 12));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('es', 14));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('es', 18));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('es', 100));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('es', 1000));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('es', 1000000));
+    }
+
+    /**
+     * Test getOrdinalFormIndex for Hindi (now Rule 24, same as Gujarati)
+     * Pattern: one=1; two=2,3; few=4; many=6; other=everything else
+     */
+    public function testGetOrdinalFormIndexHindiRule24(): void
+    {
+        // one: n = 1
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('hi', 1));
+
+        // two: n = 2,3
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('hi', 2));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('hi', 3));
+
+        // few: n = 4
+        self::assertSame(2, PluralRules::getOrdinalFormIndex('hi', 4));
+
+        // many: n = 6
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('hi', 6));
+
+        // other: everything else
+        self::assertSame(4, PluralRules::getOrdinalFormIndex('hi', 0));
+        self::assertSame(4, PluralRules::getOrdinalFormIndex('hi', 5));
+        self::assertSame(4, PluralRules::getOrdinalFormIndex('hi', 7));
+        self::assertSame(4, PluralRules::getOrdinalFormIndex('hi', 10));
+        self::assertSame(4, PluralRules::getOrdinalFormIndex('hi', 100));
     }
 
     /**

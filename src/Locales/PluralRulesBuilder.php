@@ -503,27 +503,7 @@ class PluralRulesBuilder
      */
     private const array ORDINAL_HUMAN_RULES = [
         // Rule 0: Only "other"
-        // Locales (328, default): All locales not listed in other ordinal rules, including:
-        //   aa, ace, acf, ak, am, an, ar, ast, awa, ayr, ba, bah, ban, bh, bho, bi, bjn,
-        //   bjs, bm, bo, bod, br, brx, bs, bug, cb, ce, ceb, ch, chk, chr, cjk, ckb, cop,
-        //   crh, crs, cs, csw, ctg, da, de, dik, diq, div, doi, dsb, dv, dyu, dz, ee, el,
-        //   eo, et, eu, fa, ff, fi, fj, fn, fo, fon, fuc, fur, fuv, fy, gax, gaz, gcl, gil,
-        //   gl, glw, gn, grc, grt, gsw, guz, gv, gyn, ha, haw, he, hig, hil, hmn, hne, hnj,
-        //   hoc, hr, hsb, ia, id, ig, ii, ilo, io, is, iu, ja, jam, jbo, jgo, ji, jmc, jv,
-        //   kab, kac, kaj, kal, kam, kar, kas, kbp, kcg, kde, kea, kg, kha, khk, ki, kjb,
-        //   kkj, kl, kln, km, kmb, kmr, kn, knc, ko, kr, ks, ksb, ksh, ksw, ku, ky, la,
-        //   lag, lb, lg, li, lkt, lmo, ln, lt, ltg, lua, lug, luo, lus, luy, lv, lvs, mag,
-        //   mai, mam, mas, me, men, mer, mfe, mfi, mfv, mg, mgo, mh, mhr, mi, min, ml, mn,
-        //   mni, mnk, mos, mrj, mrt, mt, my, nb, naq, nd, ndc, niu, nl, nn, nnh, no, nqo,
-        //   nr, ns, nso, nup, nus, ny, nyf, nyn, oc, om, os, osa, pa, pag, pap, pau, pbt,
-        //   pcm, pi, pis, pko, pl, plt, pon, pot, pov, ppk, prg, prs, ps, pt, pt_pt, qnt,
-        //   qu, quc, quy, rhg, rhl, rm, rmn, rmo, rn, rof, roh, ru, run, rw, rwk, sa, sah,
-        //   saq, sat, sd, sdh, se, seh, ses, sg, sh, shi, shn, shu, si, sk, sl, sm, sma,
-        //   smj, smn, smo, sms, sn, sna, snk, so, sr, srn, ss, ssy, st, su, sus, svc, sw,
-        //   syc, syr, szl, ta, taq, te, teo, tet, tg, th, ti, tig, tiv, tkl, tmh, tn, to,
-        //   ton, tpi, tr, trv, ts, tsc, tt, tum, tvl, tw, ty, tzm, udm, ug, umb, ur, uz,
-        //   uzn, ve, vic, vls, vmw, vo, vun, wa, wae, war, wls, wo, xh, xog, ydd, yi, ymm,
-        //   yo, yue, zdj, zh, zu
+        // Locales (default): All locales not listed in other ordinal rules
         0 => [
             [
                 self::K_RULE => self::R_EMPTY,
@@ -531,7 +511,7 @@ class PluralRulesBuilder
                 self::K_EXAMPLE => self::E_ALL_NUMBERS
             ],
         ],
-        // Rule 1: English-like ordinals (one/two/few/other)
+        // Rule 1: English ordinals (one/two/few/other)
         // Locales (1): en
         1 => [
             [
@@ -552,48 +532,10 @@ class PluralRulesBuilder
             [self::K_RULE => self::R_EMPTY, self::K_HUMAN_RULE => self::H_ANY_OTHER, self::K_EXAMPLE => '0, 4~18, 100, 1000, …'],
         ],
         // Rule 2: French-like ordinals (one/other)
-        // Locales (14): bal, fil, fr, ga, ht, hy, lo, mo, ms, ro, sv, tl, vi, zsm
+        // Locales (13): bal, fil, fr, ga, ht, hy, lo, mo, ms, ro, tl, vi, zsm
         2 => [
             [self::K_RULE => self::R_N_EQ_1, self::K_HUMAN_RULE => self::H_EXACTLY_1, self::K_EXAMPLE => self::E_1],
             [self::K_RULE => self::R_EMPTY, self::K_HUMAN_RULE => self::H_ANY_OTHER, self::K_EXAMPLE => self::E_OTHER_0_2_16],
-        ],
-        // Rule 3: Only "other" (Slavic) — no locales directly mapped (kept for safety)
-        // Locales: (included in Rule 0 default pool)
-        3 => [
-            [
-                self::K_RULE => self::R_EMPTY,
-                self::K_HUMAN_RULE => self::H_ANY_NUMBER,
-                self::K_EXAMPLE => self::E_ALL_NUMBERS
-            ],
-        ],
-        // Rule 4: Only "other" (Czech/Slovak) — no locales directly mapped (kept for safety)
-        4 => [
-            [
-                self::K_RULE => self::R_EMPTY,
-                self::K_HUMAN_RULE => self::H_ANY_NUMBER,
-                self::K_EXAMPLE => self::E_ALL_NUMBERS
-            ],
-        ],
-        // Rule 5: Irish ordinals (one/other) — no locales directly mapped (kept for safety)
-        5 => [
-            [self::K_RULE => self::R_N_EQ_1, self::K_HUMAN_RULE => self::H_EXACTLY_1, self::K_EXAMPLE => self::E_1],
-            [self::K_RULE => self::R_EMPTY, self::K_HUMAN_RULE => self::H_ANY_OTHER, self::K_EXAMPLE => self::E_OTHER_0_2_16],
-        ],
-        // Rule 6: Only "other" (Lithuanian) — no locales directly mapped (kept for safety)
-        6 => [
-            [
-                self::K_RULE => self::R_EMPTY,
-                self::K_HUMAN_RULE => self::H_ANY_NUMBER,
-                self::K_EXAMPLE => self::E_ALL_NUMBERS
-            ],
-        ],
-        // Rule 7: Only "other" (Slovenian) — no locales directly mapped (kept for safety)
-        7 => [
-            [
-                self::K_RULE => self::R_EMPTY,
-                self::K_HUMAN_RULE => self::H_ANY_NUMBER,
-                self::K_EXAMPLE => self::E_ALL_NUMBERS
-            ],
         ],
         // Rule 8: Macedonian ordinals (one/two/many/other)
         // Locales (1): mk
@@ -615,52 +557,15 @@ class PluralRulesBuilder
             ],
             [self::K_RULE => self::R_EMPTY, self::K_HUMAN_RULE => self::H_ANY_OTHER, self::K_EXAMPLE => '0, 3~6, 9~19, 23~26, …'],
         ],
-        // Rule 10: Only "other" (Latvian) — no locales directly mapped (kept for safety)
-        10 => [
-            [
-                self::K_RULE => self::R_EMPTY,
-                self::K_HUMAN_RULE => self::H_ANY_NUMBER,
-                self::K_EXAMPLE => self::E_ALL_NUMBERS
-            ],
-        ],
-        // Rule 11: Only "other" (Polish) — no locales directly mapped (kept for safety)
-        11 => [
-            [
-                self::K_RULE => self::R_EMPTY,
-                self::K_HUMAN_RULE => self::H_ANY_NUMBER,
-                self::K_EXAMPLE => self::E_ALL_NUMBERS
-            ],
-        ],
-        // Rule 12: Romanian ordinals (one/other) — no locales directly mapped (ro/mo use ordinal=2)
-        12 => [
-            [self::K_RULE => self::R_N_EQ_1, self::K_HUMAN_RULE => self::H_EXACTLY_1, self::K_EXAMPLE => self::E_1],
-            [self::K_RULE => self::R_EMPTY, self::K_HUMAN_RULE => self::H_ANY_OTHER, self::K_EXAMPLE => self::E_OTHER_0_2_16],
-        ],
-        // Rule 13: Only "other" (Arabic) — no locales directly mapped (kept for safety)
-        13 => [
-            [
-                self::K_RULE => self::R_EMPTY,
-                self::K_HUMAN_RULE => self::H_ANY_NUMBER,
-                self::K_EXAMPLE => self::E_ALL_NUMBERS
-            ],
-        ],
         // Rule 14: Welsh ordinals (zero/one/two/few/many/other)
         // Locales (1): cy
         14 => [
-            [self::K_RULE => 'n = 0, 7, 8, 9', self::K_HUMAN_RULE => 'Exactly 0, 7, 8 ,9', self::K_EXAMPLE => '0, 7, 8, 9'],
+            [self::K_RULE => 'n = 0, 7, 8, 9', self::K_HUMAN_RULE => 'Exactly 0, 7, 8, 9', self::K_EXAMPLE => '0, 7, 8, 9'],
             [self::K_RULE => self::R_N_EQ_1, self::K_HUMAN_RULE => self::H_EXACTLY_1, self::K_EXAMPLE => self::E_1],
             [self::K_RULE => self::R_N_EQ_2, self::K_HUMAN_RULE => self::H_EXACTLY_2, self::K_EXAMPLE => self::E_2],
             [self::K_RULE => 'n = 3, 4', self::K_HUMAN_RULE => 'Exactly 3 or 4', self::K_EXAMPLE => '3, 4'],
             [self::K_RULE => 'n = 5, 6', self::K_HUMAN_RULE => 'Exactly 5 or 6', self::K_EXAMPLE => '5, 6'],
             [self::K_RULE => self::R_EMPTY, self::K_HUMAN_RULE => self::H_ANY_OTHER, self::K_EXAMPLE => '10~25, 100, 1000, …'],
-        ],
-        // Rule 15: Only "other" (Icelandic) — no locales directly mapped (kept for safety)
-        15 => [
-            [
-                self::K_RULE => self::R_EMPTY,
-                self::K_HUMAN_RULE => self::H_ANY_NUMBER,
-                self::K_EXAMPLE => self::E_ALL_NUMBERS
-            ],
         ],
         // Rule 16: Scottish Gaelic ordinals (one/two/few/other)
         // Locales (1): gd
@@ -670,37 +575,13 @@ class PluralRulesBuilder
             [self::K_RULE => 'n = 3, 13', self::K_HUMAN_RULE => 'Exactly 3 or 13', self::K_EXAMPLE => '3, 13'],
             [self::K_RULE => self::R_EMPTY, self::K_HUMAN_RULE => self::H_ANY_OTHER, self::K_EXAMPLE => '0, 4~10, 14~21, 100, …'],
         ],
-        // Rule 17: Only "other" (Breton) — no locales directly mapped (kept for safety)
-        17 => [
-            [
-                self::K_RULE => self::R_EMPTY,
-                self::K_HUMAN_RULE => self::H_ANY_NUMBER,
-                self::K_EXAMPLE => self::E_ALL_NUMBERS
-            ],
-        ],
-        // Rule 18: Only "other" (Manx) — no locales directly mapped (kept for safety)
-        18 => [
-            [
-                self::K_RULE => self::R_EMPTY,
-                self::K_HUMAN_RULE => self::H_ANY_NUMBER,
-                self::K_EXAMPLE => self::E_ALL_NUMBERS
-            ],
-        ],
-        // Rule 19: Only "other" (Hebrew) — no locales directly mapped (kept for safety)
-        19 => [
-            [
-                self::K_RULE => self::R_EMPTY,
-                self::K_HUMAN_RULE => self::H_ANY_NUMBER,
-                self::K_EXAMPLE => self::E_ALL_NUMBERS
-            ],
-        ],
         // Rule 20: Italian ordinals (many/other)
-        // Locales (6): it, lij, lld, sc, scn, vec
+        // Locales (4): it, lld, sc, vec
         20 => [
             [self::K_RULE => 'n = 8, 11, 80, 800', self::K_HUMAN_RULE => 'Exactly 8, 11, 80 or 800', self::K_EXAMPLE => '8, 11, 80, 800'],
             [self::K_RULE => self::R_EMPTY, self::K_HUMAN_RULE => self::H_ANY_OTHER, self::K_EXAMPLE => '0~7, 9, 10, 12~79, 81~99, 100, …'],
         ],
-        // Rule 21: Kazakh, Azerbaijani ordinals (many/other)
+        // Rule 21: Kazakh ordinals (many/other)
         // Locales (1): kk
         21 => [
             [
@@ -710,14 +591,18 @@ class PluralRulesBuilder
             ],
             [self::K_RULE => self::R_EMPTY, self::K_HUMAN_RULE => self::H_ANY_OTHER, self::K_EXAMPLE => '0~5, 7, 8, 11~15, 17, 18, 21, …'],
         ],
-        // Rule 22: Ukrainian, Turkmen ordinals (few/other)
-        // Locales (2): tk, uk
+        // Rule 22: Ukrainian ordinals (few/other)
+        // Locales (1): uk
         22 => [
-            [self::K_RULE => self::R_N_EQ_1_5, self::K_HUMAN_RULE => 'Exactly 1 or 5', self::K_EXAMPLE => self::E_1_5],
-            [self::K_RULE => self::R_EMPTY, self::K_HUMAN_RULE => self::H_ANY_OTHER, self::K_EXAMPLE => '0, 2~4, 6~17, 100, 1000, …'],
+            [
+                self::K_RULE => 'n % 10 = 3 and n % 100 != 13',
+                self::K_HUMAN_RULE => 'Ends in 3 (except 13)',
+                self::K_EXAMPLE => '3, 23, 33, 43, 53, 63, 73, 83, 103, …'
+            ],
+            [self::K_RULE => self::R_EMPTY, self::K_HUMAN_RULE => self::H_ANY_OTHER, self::K_EXAMPLE => '0~2, 4~16, 100, 1000, …'],
         ],
-        // Rule 23: Bengali, Assamese, Hindi ordinals (one/two/few/many/other) — CLDR 49
-        // Locales (4): as, asm, bn, hi
+        // Rule 23: Bengali/Assamese ordinals (one/two/few/many/other)
+        // Locales (3): as, asm, bn
         23 => [
             [
                 self::K_RULE => 'n = 1, 5, 7, 8, 9, 10',
@@ -729,8 +614,8 @@ class PluralRulesBuilder
             [self::K_RULE => self::R_N_EQ_6, self::K_HUMAN_RULE => self::H_EXACTLY_6, self::K_EXAMPLE => self::E_6],
             [self::K_RULE => self::R_EMPTY, self::K_HUMAN_RULE => self::H_ANY_OTHER, self::K_EXAMPLE => '0, 11~25, 100, 1000, …'],
         ],
-        // Rule 24: Gujarati ordinals (one/two/few/many/other)
-        // Locales (1): gu
+        // Rule 24: Gujarati/Hindi ordinals (one/two/few/many/other)
+        // Locales (2): gu, hi
         24 => [
             [self::K_RULE => self::R_N_EQ_1, self::K_HUMAN_RULE => self::H_EXACTLY_1, self::K_EXAMPLE => self::E_1],
             [self::K_RULE => self::R_N_EQ_2_3, self::K_HUMAN_RULE => self::H_EXACTLY_2_OR_3, self::K_EXAMPLE => self::E_2_3],
@@ -738,7 +623,7 @@ class PluralRulesBuilder
             [self::K_RULE => self::R_N_EQ_6, self::K_HUMAN_RULE => self::H_EXACTLY_6, self::K_EXAMPLE => self::E_6],
             [self::K_RULE => self::R_EMPTY, self::K_HUMAN_RULE => self::H_ANY_OTHER, self::K_EXAMPLE => '0, 5, 7~20, 100, 1000, …'],
         ],
-        // Rule 26: Marathi/Konkani ordinals (one/two/few/other) — CLDR 49
+        // Rule 26: Marathi/Konkani ordinals (one/two/few/other)
         // Locales (2): kok, mr
         26 => [
             [self::K_RULE => self::R_N_EQ_1, self::K_HUMAN_RULE => self::H_EXACTLY_1, self::K_EXAMPLE => self::E_1],
@@ -755,7 +640,7 @@ class PluralRulesBuilder
             [self::K_RULE => self::R_N_EQ_6, self::K_HUMAN_RULE => self::H_EXACTLY_6, self::K_EXAMPLE => self::E_6],
             [self::K_RULE => self::R_EMPTY, self::K_HUMAN_RULE => self::H_ANY_OTHER, self::K_EXAMPLE => '0, 10~25, 100, 1000, …'],
         ],
-        // Rule 29: Nepali ordinals (one/other) — CLDR 49: simplified
+        // Rule 29: Nepali ordinals (one/other)
         // Locales (1): ne
         29 => [
             [self::K_RULE => 'n = 1–4', self::K_HUMAN_RULE => 'Exactly 1, 2, 3 or 4', self::K_EXAMPLE => '1~4'],
@@ -765,8 +650,12 @@ class PluralRulesBuilder
         // Locales (2): als, sq
         30 => [
             [self::K_RULE => self::R_N_EQ_1, self::K_HUMAN_RULE => self::H_EXACTLY_1, self::K_EXAMPLE => self::E_1],
-            [self::K_RULE => self::R_N_EQ_4, self::K_HUMAN_RULE => self::H_EXACTLY_4, self::K_EXAMPLE => self::E_4],
-            [self::K_RULE => self::R_EMPTY, self::K_HUMAN_RULE => self::H_ANY_OTHER, self::K_EXAMPLE => '0, 2, 3, 5~16, 100, 1000, …'],
+            [
+                self::K_RULE => 'n % 10 = 4 and n % 100 != 14',
+                self::K_HUMAN_RULE => 'Ends in 4 (except 14)',
+                self::K_EXAMPLE => '4, 24, 34, 44, 54, 64, 74, 84, 104, …'
+            ],
+            [self::K_RULE => self::R_EMPTY, self::K_HUMAN_RULE => self::H_ANY_OTHER, self::K_EXAMPLE => '0, 2, 3, 5~17, 100, 1000, …'],
         ],
         // Rule 31: Anii ordinals (zero/one/few/other)
         // Locales (1): blo
@@ -791,7 +680,7 @@ class PluralRulesBuilder
             ],
             [self::K_RULE => self::R_EMPTY, self::K_HUMAN_RULE => self::H_ANY_OTHER, self::K_EXAMPLE => '0, 6~20, 25~40, 45~60, …'],
         ],
-        // Rule 33: Afrikaans ordinals (few/other) — CLDR 49
+        // Rule 33: Afrikaans ordinals (few/other)
         // Locales (1): af
         33 => [
             [
@@ -801,19 +690,23 @@ class PluralRulesBuilder
             ],
             [self::K_RULE => self::R_EMPTY, self::K_HUMAN_RULE => self::H_ANY_OTHER, self::K_EXAMPLE => '0, 1, 20~101, 120~201, …'],
         ],
-        // Rule 34: Spanish ordinals (one/other) — CLDR 49
+        // Rule 34: Spanish ordinals (one/other)
         // Locales (1): es
         34 => [
-            [self::K_RULE => self::R_N_EQ_1, self::K_HUMAN_RULE => self::H_EXACTLY_1, self::K_EXAMPLE => self::E_1],
-            [self::K_RULE => self::R_EMPTY, self::K_HUMAN_RULE => self::H_ANY_OTHER, self::K_EXAMPLE => self::E_OTHER_0_2_16],
+            [
+                self::K_RULE => 'n % 10 = 1, 3 and n % 100 != 11',
+                self::K_HUMAN_RULE => 'Ends in 1 or 3 (except 11)',
+                self::K_EXAMPLE => '1, 3, 21, 23, 31, 33, 41, 43, 51, …'
+            ],
+            [self::K_RULE => self::R_EMPTY, self::K_HUMAN_RULE => self::H_ANY_OTHER, self::K_EXAMPLE => '0, 2, 4~12, 14~18, 100, 1000, …'],
         ],
-        // Rule 35: Hungarian ordinals (one/other) — CLDR 49
+        // Rule 35: Hungarian ordinals (one/other)
         // Locales (1): hu
         35 => [
             [self::K_RULE => self::R_N_EQ_1_5, self::K_HUMAN_RULE => 'Exactly 1 or 5', self::K_EXAMPLE => self::E_1_5],
             [self::K_RULE => self::R_EMPTY, self::K_HUMAN_RULE => self::H_ANY_OTHER, self::K_EXAMPLE => '0, 2~4, 6~17, 100, 1000, …'],
         ],
-        // Rule 36: Azerbaijani ordinals (one/few/many/other) — CLDR 49
+        // Rule 36: Azerbaijani ordinals (one/few/many/other)
         // Locales (3): az, azb, azj
         36 => [
             [
@@ -833,7 +726,7 @@ class PluralRulesBuilder
             ],
             [self::K_RULE => self::R_EMPTY, self::K_HUMAN_RULE => self::H_ANY_OTHER, self::K_EXAMPLE => '9, 10, 19, 29, 30, 39, 49, 59, …'],
         ],
-        // Rule 37: Belarusian ordinals (few/other) — CLDR 49
+        // Rule 37: Belarusian ordinals (few/other)
         // Locales (1): be
         37 => [
             [
@@ -843,17 +736,29 @@ class PluralRulesBuilder
             ],
             [self::K_RULE => self::R_EMPTY, self::K_HUMAN_RULE => self::H_ANY_OTHER, self::K_EXAMPLE => '0, 1, 4~21, 24~31, 34~41, …'],
         ],
-        // Rule 38: Bulgarian ordinals (zero/one/two/few/many/other) — CLDR 49
+        // Rule 38: Bulgarian ordinals (zero/one/two/few/many/other)
         // Locales (1): bg
         38 => [
-            [self::K_RULE => 'i % 100 = 11', self::K_HUMAN_RULE => 'Ends in 11', self::K_EXAMPLE => '11, 111, 211, …'],
-            [self::K_RULE => 'i % 100 = 1', self::K_HUMAN_RULE => self::H_ENDS_1_EXCEPT_11, self::K_EXAMPLE => '1, 21, 31, 41, …'],
-            [self::K_RULE => 'i % 100 = 2', self::K_HUMAN_RULE => self::H_ENDS_2_EXCEPT_12, self::K_EXAMPLE => '2, 22, 32, 42, …'],
-            [self::K_RULE => 'i % 100 = 7, 8', self::K_HUMAN_RULE => 'Ends in 7 or 8', self::K_EXAMPLE => '7, 8, 27, 28, …'],
-            [self::K_RULE => 'i % 100 = 3–6', self::K_HUMAN_RULE => 'Ends in 3–6', self::K_EXAMPLE => '3~6, 23~26, 43~46, …'],
-            [self::K_RULE => self::R_EMPTY, self::K_HUMAN_RULE => self::H_ANY_OTHER, self::K_EXAMPLE => '0, 9, 10, 12~20, 29, 30, …'],
+            [
+                self::K_RULE => 'i % 100 = 0 and i != 0',
+                self::K_HUMAN_RULE => 'Multiple of 100 (except 0)',
+                self::K_EXAMPLE => '100, 200, 300, 400, 500, …'
+            ],
+            [self::K_RULE => self::R_ENDS_1_NOT_11, self::K_HUMAN_RULE => self::H_ENDS_1_EXCEPT_11, self::K_EXAMPLE => '1, 21, 31, 41, …'],
+            [self::K_RULE => self::R_ENDS_2_NOT_12, self::K_HUMAN_RULE => self::H_ENDS_2_EXCEPT_12, self::K_EXAMPLE => '2, 22, 32, 42, …'],
+            [
+                self::K_RULE => 'i % 10 = 3, 4 and i % 100 != 13, 14',
+                self::K_HUMAN_RULE => 'Ends in 3 or 4 (except 13, 14)',
+                self::K_EXAMPLE => '3, 4, 23, 24, 33, 34, …'
+            ],
+            [
+                self::K_RULE => 'i % 10 = 7, 8 and i % 100 != 17, 18',
+                self::K_HUMAN_RULE => 'Ends in 7 or 8 (except 17, 18)',
+                self::K_EXAMPLE => '7, 8, 27, 28, 37, 38, …'
+            ],
+            [self::K_RULE => self::R_EMPTY, self::K_HUMAN_RULE => self::H_ANY_OTHER, self::K_EXAMPLE => '0, 5, 6, 9~20, 25, 105, …'],
         ],
-        // Rule 39: Catalan ordinals (one/two/few/other) — CLDR 49
+        // Rule 39: Catalan ordinals (one/two/few/other)
         // Locales (2): ca, cav
         39 => [
             [self::K_RULE => 'n = 1, 3', self::K_HUMAN_RULE => 'Exactly 1 or 3', self::K_EXAMPLE => '1, 3'],
@@ -861,7 +766,7 @@ class PluralRulesBuilder
             [self::K_RULE => self::R_N_EQ_4, self::K_HUMAN_RULE => self::H_EXACTLY_4, self::K_EXAMPLE => self::E_4],
             [self::K_RULE => self::R_EMPTY, self::K_HUMAN_RULE => self::H_ANY_OTHER, self::K_EXAMPLE => self::E_OTHER_0_5_20],
         ],
-        // Rule 40: Georgian ordinals (one/many/other) — CLDR 49
+        // Rule 40: Georgian ordinals (one/many/other)
         // Locales (1): ka
         40 => [
             [self::K_RULE => self::R_I_EQ_1, self::K_HUMAN_RULE => self::H_EXACTLY_1, self::K_EXAMPLE => self::E_1],
@@ -871,6 +776,36 @@ class PluralRulesBuilder
                 self::K_EXAMPLE => '0, 2~20, 40, 60, 80, 102~120, …'
             ],
             [self::K_RULE => self::R_EMPTY, self::K_HUMAN_RULE => self::H_ANY_OTHER, self::K_EXAMPLE => '21~39, 41~59, 61~79, 81~101, …'],
+        ],
+        // Rule 41: Swedish ordinals (one/other)
+        // Locales (1): sv
+        41 => [
+            [
+                self::K_RULE => 'n % 10 = 1, 2 and n % 100 != 11, 12',
+                self::K_HUMAN_RULE => 'Ends in 1 or 2 (except 11, 12)',
+                self::K_EXAMPLE => '1, 2, 21, 22, 31, 32, 41, 42, 51, …'
+            ],
+            [self::K_RULE => self::R_EMPTY, self::K_HUMAN_RULE => self::H_ANY_OTHER, self::K_EXAMPLE => '0, 3~17, 100, 1000, …'],
+        ],
+        // Rule 42: Ligurian/Sicilian ordinals (many/other)
+        // Locales (2): lij, scn
+        42 => [
+            [
+                self::K_RULE => 'n = 8, 11, 80–89, 800–899',
+                self::K_HUMAN_RULE => 'Exactly 8, 11, 80–89, or 800–899',
+                self::K_EXAMPLE => '8, 11, 80~89, 800~803, …'
+            ],
+            [self::K_RULE => self::R_EMPTY, self::K_HUMAN_RULE => self::H_ANY_OTHER, self::K_EXAMPLE => '0~7, 9, 10, 12~17, 100, 1000, …'],
+        ],
+        // Rule 43: Turkmen ordinals (few/other)
+        // Locales (1): tk
+        43 => [
+            [
+                self::K_RULE => 'n % 10 = 6, 9 or n = 10',
+                self::K_HUMAN_RULE => 'Ends in 6 or 9, or exactly 10',
+                self::K_EXAMPLE => '6, 9, 10, 16, 19, 26, 29, 36, 39, …'
+            ],
+            [self::K_RULE => self::R_EMPTY, self::K_HUMAN_RULE => self::H_ANY_OTHER, self::K_EXAMPLE => '0~5, 7, 8, 11~15, 17, 18, 20, …'],
         ],
     ];
 
