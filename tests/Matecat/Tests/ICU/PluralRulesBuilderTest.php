@@ -277,7 +277,7 @@ final class PluralRulesBuilderTest extends TestCase
         self::assertCount(2, $cardinals);
 
         self::assertSame('one', $cardinals[0]->category);
-        self::assertSame('Exactly 1 (no decimals)', $cardinals[0]->human_rule);
+        self::assertSame('Exactly 1 (whole number only)', $cardinals[0]->human_rule);
         self::assertStringContainsString('1', $cardinals[0]->example);
 
         self::assertSame('other', $cardinals[1]->category);
@@ -829,7 +829,7 @@ final class PluralRulesBuilderTest extends TestCase
         self::assertSame('Exactly 1', $ar->cardinal[1]->human_rule);
         self::assertSame('Exactly 2', $ar->cardinal[2]->human_rule);
         self::assertSame('Ends in 03–10', $ar->cardinal[3]->human_rule);
-        self::assertSame('Ends in 11-99', $ar->cardinal[4]->human_rule);
+        self::assertSame('Ends in 11–99', $ar->cardinal[4]->human_rule);
         self::assertSame('Any other number', $ar->cardinal[5]->human_rule);
     }
 
@@ -844,9 +844,9 @@ final class PluralRulesBuilderTest extends TestCase
         $en = $rules['en'];
         self::assertCount(4, $en->ordinal);
 
-        self::assertSame('Ends in 1 (except 11)', $en->ordinal[0]->human_rule);
-        self::assertSame('Ends in 2 (except 12)', $en->ordinal[1]->human_rule);
-        self::assertSame('Ends in 3 (except 13)', $en->ordinal[2]->human_rule);
+        self::assertSame('Ends in 1 but not 11', $en->ordinal[0]->human_rule);
+        self::assertSame('Ends in 2 but not 12', $en->ordinal[1]->human_rule);
+        self::assertSame('Ends in 3 but not 13', $en->ordinal[2]->human_rule);
         self::assertSame('Any other number', $en->ordinal[3]->human_rule);
     }
 
