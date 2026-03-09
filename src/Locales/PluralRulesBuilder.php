@@ -398,10 +398,14 @@ class PluralRulesBuilder
     {
         $cardinal = file_exists(self::CARDINAL_HUMAN_LOOKUP_PATH)
             ? $this->readJsonFile(self::CARDINAL_HUMAN_LOOKUP_PATH)
+            // @codeCoverageIgnoreStart
             : [];
+            // @codeCoverageIgnoreEnd
         $ordinal = file_exists(self::ORDINAL_HUMAN_LOOKUP_PATH)
             ? $this->readJsonFile(self::ORDINAL_HUMAN_LOOKUP_PATH)
+            // @codeCoverageIgnoreStart
             : [];
+            // @codeCoverageIgnoreEnd
 
         return [
             self::K_CARDINAL => $cardinal,
