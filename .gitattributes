@@ -20,4 +20,6 @@
 /composer.phar export-ignore
 
 /BENCHMARKS.md export-ignore
-
+/scripts export-ignore
+/benchmarks export-ignore
+qodana.yaml export-ignore

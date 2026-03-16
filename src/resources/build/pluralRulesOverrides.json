@@ -1,0 +1,3552 @@
+{
+    "ace": {
+        "cardinal": {
+            "other": {
+                "example": "15 hari / 1.5 hari"
+            }
+        },
+        "ordinal": {
+            "one": {
+                "example": "Ambil belokan kanan 1."
+            },
+            "other": {
+                "example": "Ambil belokan kanan yang ke-2."
+            }
+        }
+    },
+    "acf": {
+        "cardinal": {
+            "one": {
+                "example": "1 jour / 1,5 jour"
+            },
+            "many": {
+                "example": "1 000 000 de jours / 1 M de jours"
+            },
+            "other": {
+                "example": "2 jours / 2,0 jours"
+            }
+        },
+        "ordinal": {
+            "one": {
+                "example": "Prenez la 1re à droite."
+            },
+            "other": {
+                "example": "Prenez la 2e à droite."
+            }
+        }
+    },
+    "af": {
+        "cardinal": {
+            "one": {
+                "example": "1 dag / 1,0 dag"
+            },
+            "other": {
+                "example": "2 dae / 0,9 dae"
+            }
+        },
+        "ordinal": {
+            "few": {
+                "example": "Neem die 15e afdraai na regs."
+            },
+            "other": {
+                "example": "Neem die 1e afdraai na regs."
+            }
+        }
+    },
+    "aig": {
+        "cardinal": {
+            "one": {
+                "example": "1 day"
+            },
+            "other": {
+                "example": "2 days / 1.5 days"
+            }
+        },
+        "ordinal": {
+            "one": {
+                "example": "Take the 1st right."
+            },
+            "two": {
+                "example": "Take the 2nd right."
+            },
+            "few": {
+                "example": "Take the 3rd right."
+            },
+            "other": {
+                "example": "Take the 4th right."
+            }
+        }
+    },
+    "ak": {
+        "cardinal": {
+            "one": {
+                "example": "da 1 / da 1.0"
+            },
+            "other": {
+                "example": "nda 2 / nda 0.1"
+            }
+        }
+    },
+    "als": {
+        "cardinal": {
+            "one": {
+                "example": "1 libër / 1,0 libër"
+            },
+            "other": {
+                "example": "2 libra / 0,9 libra"
+            }
+        },
+        "ordinal": {
+            "one": {
+                "example": "Merrni kthesën e 1-rë në të djathtë."
+            },
+            "many": {
+                "example": "Merrni kthesën e 4-t në të djathtë."
+            },
+            "other": {
+                "example": "Merrni kthesën e 2-të në të djathtë."
+            }
+        }
+    },
+    "am": {
+        "cardinal": {
+            "one": {
+                "example": "1 ቀን / 1.0 ቀን"
+            },
+            "other": {
+                "example": "2 ቀናት / 1.1 ቀናት"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "በቀኝ በኩል ባለው በ15ኛው መታጠፊያ ግባ።"
+            }
+        }
+    },
+    "an": {
+        "cardinal": {
+            "one": {
+                "example": "1 día / 1.0 día"
+            },
+            "other": {
+                "example": "2 días / 0.9 días"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "Pilla lo 15o a la dreita"
+            }
+        }
+    },
+    "ar": {
+        "cardinal": {
+            "zero": {
+                "example": "‫0 ولد حضر / 0.0000 ولد حضر‬"
+            },
+            "one": {
+                "example": "‫ولد واحد حضر / ولد واحد حضر‬"
+            },
+            "two": {
+                "example": "‫ولدان حضرا / ولدان حضرا‬"
+            },
+            "few": {
+                "example": "‫3 أولاد حضروا / 3.0 أولاد حضروا‬"
+            },
+            "many": {
+                "example": "‫11 ولدًا حضروا / 11.0 ولدًا حضروا‬"
+            },
+            "other": {
+                "example": "‫100 ولد حضروا / 0.1 ولد حضروا‬"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "‫اتجه إلى المنعطف الـ 15 يمينًا.‬"
+            }
+        }
+    },
+    "asm": {
+        "cardinal": {
+            "one": {
+                "example": "আপুনি তাত 1 দিন আছিল, আপোনাৰ দিনটো কেনে আছিল? / আপুনি তাত 1.0 দিন আছিল, আপোনাৰ দিনটো কেনে আছিল?"
+            },
+            "other": {
+                "example": "আপুনি তাত 2 দিন আছিল, আপোনাৰ দিনবোৰ কেনে আছিল? / আপুনি তাত 1.1 দিন আছিল, আপোনাৰ দিনবোৰ কেনে আছিল?"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "সোঁফালে 11ৰ্থ পাক লওক৷"
+            }
+        }
+    },
+    "ast": {
+        "cardinal": {
+            "one": {
+                "example": "1 día"
+            },
+            "other": {
+                "example": "2 díes / 1,5 díes"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "Tomar la 15a a la derecha"
+            }
+        }
+    },
+    "awa": {
+        "cardinal": {
+            "one": {
+                "example": "1 घंटा / 1.0 घंटा"
+            },
+            "other": {
+                "example": "2 घंटे / 1.1 घंटे"
+            }
+        },
+        "ordinal": {
+            "one": {
+                "example": "1ला दाहिना मोड़ लें."
+            },
+            "two": {
+                "example": "2रा दाहिना मोड़ लें."
+            },
+            "few": {
+                "example": "4 दाहिना मोड़ लें."
+            },
+            "many": {
+                "example": "6ठा दाहिना मोड़ लें."
+            },
+            "other": {
+                "example": "5वां दाहिना मोड़ लें."
+            }
+        }
+    },
+    "az": {
+        "cardinal": {
+            "one": {
+                "example": "Alış-veriş kartınızda 1 var. / Alınsın? / Alış-veriş kartınızda 1,0 var. / Alınsın?"
+            },
+            "other": {
+                "example": "Alış-veriş kartınızda 2 var. / Alınsınlar? / Alış-veriş kartınızda 0,9 var. / Alınsınlar?"
+            }
+        },
+        "ordinal": {
+            "one": {
+                "example": "1-ci sağ döngəni seçin."
+            },
+            "few": {
+                "example": "3-cü sağ döngəni seçin."
+            },
+            "many": {
+                "example": "6-cı sağ döngəni seçin."
+            },
+            "other": {
+                "example": "9-cu sağ döngəni seçin."
+            }
+        }
+    },
+    "azb": {
+        "cardinal": {
+            "one": {
+                "example": "Alış-veriş kartınızda 1 var. / Alınsın?"
+            },
+            "other": {
+                "example": "Alış-veriş kartınızda 2 var. / Alınsınlar?"
+            }
+        },
+        "ordinal": {
+            "one": {
+                "example": "1-ci sağ döngəni seçin."
+            },
+            "few": {
+                "example": "3-cü sağ döngəni seçin."
+            },
+            "many": {
+                "example": "6-cı sağ döngəni seçin."
+            },
+            "other": {
+                "example": "9-cu sağ döngəni seçin."
+            }
+        }
+    },
+    "azj": {
+        "cardinal": {
+            "one": {
+                "example": "Alış-veriş kartınızda 1 var. / Alınsın?"
+            },
+            "other": {
+                "example": "Alış-veriş kartınızda 2 var. / Alınsınlar?"
+            }
+        },
+        "ordinal": {
+            "one": {
+                "example": "1-ci sağ döngəni seçin."
+            },
+            "few": {
+                "example": "3-cü sağ döngəni seçin."
+            },
+            "many": {
+                "example": "6-cı sağ döngəni seçin."
+            },
+            "other": {
+                "example": "9-cu sağ döngəni seçin."
+            }
+        }
+    },
+    "bah": {
+        "cardinal": {
+            "one": {
+                "example": "1 day"
+            },
+            "other": {
+                "example": "2 days / 1.5 days"
+            }
+        },
+        "ordinal": {
+            "one": {
+                "example": "Take the 1st right."
+            },
+            "two": {
+                "example": "Take the 2nd right."
+            },
+            "few": {
+                "example": "Take the 3rd right."
+            },
+            "other": {
+                "example": "Take the 4th right."
+            }
+        }
+    },
+    "ban": {
+        "cardinal": {
+            "other": {
+                "example": "15 hari / 1,5 hari"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "Ambil belokan kanan ke-15."
+            }
+        }
+    },
+    "be": {
+        "cardinal": {
+            "one": {
+                "example": "з 1 кнігі за 1 дзень / з 1,0 кнігі за 1,0 дзень"
+            },
+            "few": {
+                "example": "з 2 кніг за 2 дні / з 2,0 кніг за 2,0 дні"
+            },
+            "many": {
+                "example": "з 5 кніг за 5 дзён / з 5,0 кніг за 5,0 дзён"
+            },
+            "other": {
+                "example": "з 0,1 кнігі за 0,1 дня"
+            }
+        },
+        "ordinal": {
+            "few": {
+                "example": "2-і дом злева"
+            },
+            "other": {
+                "example": "1-ы дом злева"
+            }
+        }
+    },
+    "bg": {
+        "cardinal": {
+            "one": {
+                "example": "1 ден / 1,0 ден"
+            },
+            "other": {
+                "example": "2 дена / 0,9 дена"
+            }
+        },
+        "ordinal": {
+            "zero": {
+                "example": "Завийте надясно по 15-ата пресечка."
+            },
+            "other": {
+                "example": "Завийте надясно по 5-ата пресечка."
+            }
+        }
+    },
+    "bh": {
+        "cardinal": {
+            "one": {
+                "example": "1 घंटा / 1.0 घंटा"
+            },
+            "other": {
+                "example": "2 घंटे / 1.1 घंटे"
+            }
+        },
+        "ordinal": {
+            "one": {
+                "example": "1ला दाहिना मोड़ लें."
+            },
+            "two": {
+                "example": "2रा दाहिना मोड़ लें."
+            },
+            "few": {
+                "example": "4 दाहिना मोड़ लें."
+            },
+            "many": {
+                "example": "6ठा दाहिना मोड़ लें."
+            },
+            "other": {
+                "example": "5वां दाहिना मोड़ लें."
+            }
+        }
+    },
+    "bi": {
+        "cardinal": {
+            "one": {
+                "example": "1 day"
+            },
+            "other": {
+                "example": "2 days / 1.5 days"
+            }
+        },
+        "ordinal": {
+            "one": {
+                "example": "Take the 1st right."
+            },
+            "two": {
+                "example": "Take the 2nd right."
+            },
+            "few": {
+                "example": "Take the 3rd right."
+            },
+            "other": {
+                "example": "Take the 4th right."
+            }
+        }
+    },
+    "bjn": {
+        "cardinal": {
+            "other": {
+                "example": "15 hari / 1.5 hari"
+            }
+        },
+        "ordinal": {
+            "one": {
+                "example": "Ambil belokan kanan 1."
+            },
+            "other": {
+                "example": "Ambil belokan kanan yang ke-2."
+            }
+        }
+    },
+    "bjs": {
+        "cardinal": {
+            "one": {
+                "example": "1 day"
+            },
+            "other": {
+                "example": "2 days / 1.5 days"
+            }
+        },
+        "ordinal": {
+            "one": {
+                "example": "Take the 1st right."
+            },
+            "two": {
+                "example": "Take the 2nd right."
+            },
+            "few": {
+                "example": "Take the 3rd right."
+            },
+            "other": {
+                "example": "Take the 4th right."
+            }
+        }
+    },
+    "blo": {
+        "cardinal": {
+            "zero": {
+                "example": "baa ʊshilé 0 / baa ʊshilé 0,0000"
+            },
+            "one": {
+                "example": "ʊshilé 1 / ʊshilé 1,0"
+            },
+            "other": {
+                "example": "ɩshilé 2 / ɩshilé 0,1"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "Tɔ̂ɔ n’ʊnyɩŋca 7ja na gʊnyɩsono."
+            }
+        }
+    },
+    "bm": {
+        "cardinal": {
+            "other": {
+                "example": "no plural differences"
+            }
+        }
+    },
+    "bn": {
+        "cardinal": {
+            "one": {
+                "example": "সসে 1টি আপেল খেল, সেটি ভাল / সসে 1.0টি আপেল খেল, সেটি ভাল"
+            },
+            "other": {
+                "example": "সসে 2টি আপেল খেল, সেগুলি ভাল / সসে 1.1টি আপেল খেল, সেগুলি ভাল"
+            }
+        },
+        "ordinal": {
+            "one": {
+                "example": "ডান দিকে 1ম বাঁকটি নিন।"
+            },
+            "two": {
+                "example": "ডান দিকে 2য় বাঁকটি নিন।"
+            },
+            "few": {
+                "example": "ডান দিকে 4র্থ বাঁকটি নিন।"
+            },
+            "many": {
+                "example": "ডান দিকে 6ষ্ঠ বাঁকটি নিন।"
+            },
+            "other": {
+                "example": "ডান দিকে 11তম বাঁকটি নিন।"
+            }
+        }
+    },
+    "bod": {
+        "cardinal": {
+            "other": {
+                "example": "no plural differences"
+            }
+        }
+    },
+    "br": {
+        "cardinal": {
+            "one": {
+                "example": "1 cʼhi / 1,0 cʼhi"
+            },
+            "two": {
+                "example": "2 gi / 2,0 gi"
+            },
+            "few": {
+                "example": "3 cʼhi-error / 3,0 cʼhi-error"
+            },
+            "many": {
+                "example": "1 000 000 a chas / 1 000 000,0 a chas"
+            },
+            "other": {
+                "example": "5 ki / 0,9 ki"
+            }
+        }
+    },
+    "bs": {
+        "cardinal": {
+            "one": {
+                "example": "1 sat / 0,1 sat"
+            },
+            "few": {
+                "example": "2 sata / 0,2 sata"
+            },
+            "other": {
+                "example": "5 sati / 0,5 sati"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "Skrenite na 15. / križanju desno."
+            }
+        }
+    },
+    "bug": {
+        "cardinal": {
+            "other": {
+                "example": "15 hari / 1,5 hari"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "Ambil belokan kanan ke-15."
+            }
+        }
+    },
+    "ca": {
+        "cardinal": {
+            "one": {
+                "example": "1 dia"
+            },
+            "many": {
+                "example": "1.000.000 de dies / 1 M de dies"
+            },
+            "other": {
+                "example": "2 dies / 1,5 dies"
+            }
+        },
+        "ordinal": {
+            "one": {
+                "example": "Agafa el 1r a la dreta."
+            },
+            "two": {
+                "example": "Agafa el 2n a la dreta."
+            },
+            "few": {
+                "example": "Agafa el 4t a la dreta."
+            },
+            "other": {
+                "example": "Agafa el 5è a la dreta."
+            }
+        }
+    },
+    "cav": {
+        "cardinal": {
+            "one": {
+                "example": "1 dia"
+            },
+            "many": {
+                "example": "1.000.000 de dies / 1 M de dies"
+            },
+            "other": {
+                "example": "2 dies / 1,5 dies"
+            }
+        },
+        "ordinal": {
+            "one": {
+                "example": "Agafa el 1r a la dreta."
+            },
+            "two": {
+                "example": "Agafa el 2n a la dreta."
+            },
+            "few": {
+                "example": "Agafa el 4t a la dreta."
+            },
+            "other": {
+                "example": "Agafa el 5è a la dreta."
+            }
+        }
+    },
+    "cb": {
+        "cardinal": {
+            "one": {
+                "example": "3 ka adlaw / 0.3 ka adlaw"
+            },
+            "other": {
+                "example": "4 ka mga adlaw / 0.4 ka mga adlaw"
+            }
+        }
+    },
+    "ce": {
+        "ordinal": {
+            "other": {
+                "example": "no plural differences"
+            }
+        }
+    },
+    "chr": {
+        "cardinal": {
+            "one": {
+                "example": "1 ᎢᎦ / 1.0 ᎢᎦ"
+            },
+            "other": {
+                "example": "2 ᏏᎢᎦ / 0.9 ᏏᎢᎦ"
+            }
+        }
+    },
+    "crh": {
+        "cardinal": {
+            "one": {
+                "example": "Sepetinizde 1 X var. / Bunu almak istiyor musunuz?"
+            },
+            "other": {
+                "example": "Sepetinizde 2 X var. / Bunları almak istiyor musunuz?"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "15. / sağdan dönün."
+            }
+        }
+    },
+    "crs": {
+        "cardinal": {
+            "one": {
+                "example": "1 jour / 1,5 jour"
+            },
+            "many": {
+                "example": "1 000 000 de jours / 1 M de jours"
+            },
+            "other": {
+                "example": "2 jours / 2,0 jours"
+            }
+        },
+        "ordinal": {
+            "one": {
+                "example": "Prenez la 1re à droite."
+            },
+            "other": {
+                "example": "Prenez la 2e à droite."
+            }
+        }
+    },
+    "cs": {
+        "cardinal": {
+            "one": {
+                "example": "1 den"
+            },
+            "few": {
+                "example": "2 dny"
+            },
+            "many": {
+                "example": "1,5 dne"
+            },
+            "other": {
+                "example": "5 dní"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "Na 15. / křižovatce odbočte vpravo."
+            }
+        }
+    },
+    "csw": {
+        "cardinal": {
+            "one": {
+                "example": "1 ᑮᓯᑳᐤ / 1.0 ᑮᓯᑳᐤ"
+            },
+            "other": {
+                "example": "2 ᑮᓯᑳᐘ / 0.1 ᑮᓯᑳᐘ"
+            }
+        }
+    },
+    "ctg": {
+        "cardinal": {
+            "one": {
+                "example": "সসে 1টি আপেল খেল, সেটি ভাল / সসে 1.0টি আপেল খেল, সেটি ভাল"
+            },
+            "other": {
+                "example": "সসে 2টি আপেল খেল, সেগুলি ভাল / সসে 1.1টি আপেল খেল, সেগুলি ভাল"
+            }
+        },
+        "ordinal": {
+            "one": {
+                "example": "ডান দিকে 1ম বাঁকটি নিন।"
+            },
+            "two": {
+                "example": "ডান দিকে 2য় বাঁকটি নিন।"
+            },
+            "few": {
+                "example": "ডান দিকে 4র্থ বাঁকটি নিন।"
+            },
+            "many": {
+                "example": "ডান দিকে 6ষ্ঠ বাঁকটি নিন।"
+            },
+            "other": {
+                "example": "ডান দিকে 11তম বাঁকটি নিন।"
+            }
+        }
+    },
+    "cy": {
+        "cardinal": {
+            "zero": {
+                "example": "0 cŵn, 0 cathod / 0.0000 cŵn, 0.0000 cathod"
+            },
+            "one": {
+                "example": "1 ci, 1 gath / 1.0 ci, 1.0 gath"
+            },
+            "two": {
+                "example": "2 gi, 2 gath / 2.0 gi, 2.0 gath"
+            },
+            "few": {
+                "example": "3 chi, 3 cath / 3.0 chi, 3.0 cath"
+            },
+            "many": {
+                "example": "6 chi, 6 chath / 6.0 chi, 6.0 chath"
+            },
+            "other": {
+                "example": "4 ci, 4 cath / 0.1 ci, 0.1 cath"
+            }
+        },
+        "ordinal": {
+            "zero": {
+                "example": "7fed ci"
+            },
+            "one": {
+                "example": "ci 1af"
+            },
+            "two": {
+                "example": "2il gi"
+            },
+            "few": {
+                "example": "3ydd ci"
+            },
+            "many": {
+                "example": "5ed ci"
+            },
+            "other": {
+                "example": "ci rhif 10"
+            }
+        }
+    },
+    "da": {
+        "cardinal": {
+            "one": {
+                "example": "1 dag / 0,1 dag"
+            },
+            "other": {
+                "example": "2 dage / 2,0 dage"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "Tag den 15. / vej til højre."
+            }
+        }
+    },
+    "de": {
+        "cardinal": {
+            "one": {
+                "example": "1 Tag"
+            },
+            "other": {
+                "example": "2 Tage / 1,5 Tage"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "15. / Abzweigung nach rechts nehmen"
+            }
+        }
+    },
+    "dsb": {
+        "cardinal": {
+            "one": {
+                "example": "1 źeń / 0,1 źeń"
+            },
+            "two": {
+                "example": "2 dnja / 0,2 dnja"
+            },
+            "few": {
+                "example": "3 dny / 0,3 dny"
+            },
+            "other": {
+                "example": "5 dnjow / 0,5 dnjow"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "Na 15. / wotbocenju napšawo."
+            }
+        }
+    },
+    "dyu": {
+        "cardinal": {
+            "other": {
+                "example": "no plural differences"
+            }
+        }
+    },
+    "dz": {
+        "cardinal": {
+            "other": {
+                "example": "ཉིནམ་ 15 / ཉིནམ་ 1.5"
+            }
+        }
+    },
+    "el": {
+        "cardinal": {
+            "one": {
+                "example": "1 ημέρα / 1,0 ημέρα"
+            },
+            "other": {
+                "example": "2 ημέρες / 0,9 ημέρες"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "Στρίψτε στην 15η δεξιά."
+            }
+        }
+    },
+    "en": {
+        "cardinal": {
+            "one": {
+                "example": "1 day"
+            },
+            "other": {
+                "example": "2 days / 1.5 days"
+            }
+        },
+        "ordinal": {
+            "one": {
+                "example": "Take the 1st right."
+            },
+            "two": {
+                "example": "Take the 2nd right."
+            },
+            "few": {
+                "example": "Take the 3rd right."
+            },
+            "other": {
+                "example": "Take the 4th right."
+            }
+        }
+    },
+    "eo": {
+        "cardinal": {
+            "one": {
+                "example": "1 tago / 1,0 tago"
+            },
+            "other": {
+                "example": "2 tagoj / 0,9 tagoj"
+            }
+        }
+    },
+    "es": {
+        "cardinal": {
+            "one": {
+                "example": "1 día / 1,0 día"
+            },
+            "many": {
+                "example": "1.000.000 de días / 1 M de días"
+            },
+            "other": {
+                "example": "2 días / 0,9 días"
+            }
+        },
+        "ordinal": {
+            "one": {
+                "example": "Toma la 15.ª a la derecha."
+            },
+            "other": {
+                "example": "El equipo 2.º clasificado ganó."
+            }
+        }
+    },
+    "et": {
+        "cardinal": {
+            "one": {
+                "example": "1 dia"
+            },
+            "other": {
+                "example": "2 dias / 1,5 dias"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "Tehke 15. / parempööre."
+            }
+        }
+    },
+    "eu": {
+        "cardinal": {
+            "one": {
+                "example": "1 lagun etorri da / 1,0 lagun etorri da"
+            },
+            "other": {
+                "example": "2 lagun etorri dira / 0,9 lagun etorri dira"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "15. / bira eskuinetara"
+            }
+        }
+    },
+    "fa": {
+        "cardinal": {
+            "one": {
+                "example": "‫1 نفر در بازی شرکت کرد. / 1.0 نفر در بازی شرکت کرد.‬"
+            },
+            "other": {
+                "example": "‫2 نفر در بازی شرکت کردند. / 1.1 نفر در بازی شرکت کردند.‬"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "‫در پیچ 15ام سمت راست بپیچید.‬"
+            }
+        }
+    },
+    "fi": {
+        "cardinal": {
+            "one": {
+                "example": "1 päivä"
+            },
+            "other": {
+                "example": "2 päivää / 1,5 päivää"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "Käänny 15. / risteyksestä oikealle."
+            }
+        }
+    },
+    "fil": {
+        "cardinal": {
+            "one": {
+                "example": "3 mansanas / 0.3 mansanas"
+            },
+            "other": {
+                "example": "4 na mansanas / 0.4 na mansanas"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "Kunin ang ika-2 (na) kanan."
+            }
+        }
+    },
+    "fn": {
+        "cardinal": {
+            "one": {
+                "example": "1 usuku / 1.0 usuku"
+            },
+            "other": {
+                "example": "2 izinsuku / 1.1 izinsuku"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "Thatha indlela ejikela kwesokudla engu-15"
+            }
+        }
+    },
+    "fo": {
+        "cardinal": {
+            "one": {
+                "example": "1 dag / 1,0 dag"
+            },
+            "other": {
+                "example": "2 dagar / 0,9 dagar"
+            }
+        }
+    },
+    "fr": {
+        "cardinal": {
+            "one": {
+                "example": "1 jour / 1,5 jour"
+            },
+            "many": {
+                "example": "1 000 000 de jours / 1 M de jours"
+            },
+            "other": {
+                "example": "2 jours / 2,0 jours"
+            }
+        },
+        "ordinal": {
+            "one": {
+                "example": "Prenez la 1re à droite."
+            },
+            "other": {
+                "example": "Prenez la 2e à droite."
+            }
+        }
+    },
+    "fy": {
+        "cardinal": {
+            "one": {
+                "example": "1 dei"
+            },
+            "other": {
+                "example": "2 dagen / 1,5 dagen"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "no plural differences"
+            }
+        }
+    },
+    "ga": {
+        "cardinal": {
+            "one": {
+                "example": "1 cheann, 1 uair, 1 chat, 1 éan, 1 bhróg / 1.0 cheann, 1.0 uair, 1.0 chat, 1.0 éan, 1.0 bhróg"
+            },
+            "two": {
+                "example": "2 cheann, 2 uair, 2 chat, 2 éan, 2 bhróig / 2.0 cheann, 2.0 uair, 2.0 chat, 2.0 éan, 2.0 bhróig"
+            },
+            "few": {
+                "example": "3 cinn, 3 huaire, 3 chat, 3 éan, 3 bhróg / 3.0 cinn, 3.0 huaire, 3.0 chat, 3.0 éan, 3.0 bhróg"
+            },
+            "many": {
+                "example": "7 gcinn, 7 n-uaire, 7 gcat, 7 n-éan, 7 mbróg / 7.0 gcinn, 7.0 n-uaire, 7.0 gcat, 7.0 n-éan, 7.0 mbróg"
+            },
+            "other": {
+                "example": "11 ceann, 11 uair, 11 cat, 11 éan, 11 bróg / 0.9 ceann, 0.9 uair, 0.9 cat, 0.9 éan, 0.9 bróg"
+            }
+        },
+        "ordinal": {
+            "one": {
+                "example": "Glac an 1ú chasadh ar dheis."
+            },
+            "other": {
+                "example": "Glac an 2ú casadh ar dheis."
+            }
+        }
+    },
+    "gcl": {
+        "cardinal": {
+            "one": {
+                "example": "1 day"
+            },
+            "other": {
+                "example": "2 days / 1.5 days"
+            }
+        },
+        "ordinal": {
+            "one": {
+                "example": "Take the 1st right."
+            },
+            "two": {
+                "example": "Take the 2nd right."
+            },
+            "few": {
+                "example": "Take the 3rd right."
+            },
+            "other": {
+                "example": "Take the 4th right."
+            }
+        }
+    },
+    "gd": {
+        "cardinal": {
+            "one": {
+                "example": "1 bhròg / 1.0 bhròg"
+            },
+            "two": {
+                "example": "2 bhròig / 2.0 bhròig"
+            },
+            "few": {
+                "example": "3 brògan / 3.0 brògan"
+            },
+            "other": {
+                "example": "20 bròg / 0.9 bròg"
+            }
+        },
+        "ordinal": {
+            "one": {
+                "example": "Tionndaidh ris an làimh dheas aig a’ 1d ghobhal."
+            },
+            "two": {
+                "example": "Tionndaidh ris an làimh dheas aig an 2na gobhal."
+            },
+            "few": {
+                "example": "Tionndaidh ris an làimh dheas aig an 3s gobhal."
+            },
+            "other": {
+                "example": "Tionndaidh ris an làimh dheas aig a’ 4mh gobhal."
+            }
+        }
+    },
+    "gl": {
+        "cardinal": {
+            "one": {
+                "example": "1 día"
+            },
+            "other": {
+                "example": "2 días / 1,5 días"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "Colle a 15.ª curva á dereita."
+            }
+        }
+    },
+    "grc": {
+        "cardinal": {
+            "one": {
+                "example": "1 ημέρα / 1,0 ημέρα"
+            },
+            "other": {
+                "example": "2 ημέρες / 0,9 ημέρες"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "Στρίψτε στην 15η δεξιά."
+            }
+        }
+    },
+    "gsw": {
+        "ordinal": {
+            "other": {
+                "example": "no plural differences"
+            }
+        }
+    },
+    "gu": {
+        "cardinal": {
+            "one": {
+                "example": "1 કિલોગ્રામ / 1.0 કિલોગ્રામ"
+            },
+            "other": {
+                "example": "2 કિલોગ્રામ્સ / 1.1 કિલોગ્રામ્સ"
+            }
+        },
+        "ordinal": {
+            "one": {
+                "example": "જમણી બાજુએ 1લો વળાંક લો."
+            },
+            "two": {
+                "example": "જમણી બાજુએ 2જો વળાંક લો."
+            },
+            "few": {
+                "example": "જમણી બાજુએ 4થો વળાંક લો."
+            },
+            "many": {
+                "example": "જમણી બાજુએ 6ઠો વળાંક લો."
+            },
+            "other": {
+                "example": "જમણી બાજુએ 5મો વળાંક લો."
+            }
+        }
+    },
+    "gv": {
+        "cardinal": {
+            "one": {
+                "example": "1 thunnag/vuc/ooyl"
+            },
+            "two": {
+                "example": "2 hunnag/vuc/ooyl"
+            },
+            "few": {
+                "example": "20 thunnag/muc/ooyl"
+            },
+            "many": {
+                "example": "1.5 dy hunnagyn/dy vucyn/dy ooylyn"
+            },
+            "other": {
+                "example": "3 thunnagyn/mucyn/ooylyn"
+            }
+        }
+    },
+    "gyn": {
+        "cardinal": {
+            "one": {
+                "example": "1 day"
+            },
+            "other": {
+                "example": "2 days / 1.5 days"
+            }
+        },
+        "ordinal": {
+            "one": {
+                "example": "Take the 1st right."
+            },
+            "two": {
+                "example": "Take the 2nd right."
+            },
+            "few": {
+                "example": "Take the 3rd right."
+            },
+            "other": {
+                "example": "Take the 4th right."
+            }
+        }
+    },
+    "ha": {
+        "cardinal": {
+            "one": {
+                "example": "rana 1 / rana 1.0"
+            },
+            "other": {
+                "example": "ranaku 2 / ranaku 0.9"
+            }
+        }
+    },
+    "he": {
+        "cardinal": {
+            "one": {
+                "example": "‫יום / יום‬"
+            },
+            "two": {
+                "example": "‫יומיים‬"
+            },
+            "other": {
+                "example": "‫3 ימים / 1.0 ימים‬"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "‫פנה ימינה בפנייה ה-15‬"
+            }
+        }
+    },
+    "hi": {
+        "cardinal": {
+            "one": {
+                "example": "1 घंटा / 1.0 घंटा"
+            },
+            "other": {
+                "example": "2 घंटे / 1.1 घंटे"
+            }
+        },
+        "ordinal": {
+            "one": {
+                "example": "1ला दाहिना मोड़ लें."
+            },
+            "two": {
+                "example": "2रा दाहिना मोड़ लें."
+            },
+            "few": {
+                "example": "4 दाहिना मोड़ लें."
+            },
+            "many": {
+                "example": "6ठा दाहिना मोड़ लें."
+            },
+            "other": {
+                "example": "5वां दाहिना मोड़ लें."
+            }
+        }
+    },
+    "hil": {
+        "cardinal": {
+            "one": {
+                "example": "3 mansanas / 0.3 mansanas"
+            },
+            "other": {
+                "example": "4 na mansanas / 0.4 na mansanas"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "Kunin ang ika-2 (na) kanan."
+            }
+        }
+    },
+    "hne": {
+        "cardinal": {
+            "one": {
+                "example": "1 घंटा / 1.0 घंटा"
+            },
+            "other": {
+                "example": "2 घंटे / 1.1 घंटे"
+            }
+        },
+        "ordinal": {
+            "one": {
+                "example": "1ला दाहिना मोड़ लें."
+            },
+            "two": {
+                "example": "2रा दाहिना मोड़ लें."
+            },
+            "few": {
+                "example": "4 दाहिना मोड़ लें."
+            },
+            "many": {
+                "example": "6ठा दाहिना मोड़ लें."
+            },
+            "other": {
+                "example": "5वां दाहिना मोड़ लें."
+            }
+        }
+    },
+    "hnj": {
+        "cardinal": {
+            "other": {
+                "example": "no plural differences"
+            }
+        }
+    },
+    "hr": {
+        "cardinal": {
+            "one": {
+                "example": "1 sat / 0,1 sat"
+            },
+            "few": {
+                "example": "2 sata / 0,2 sata"
+            },
+            "other": {
+                "example": "5 sati / 0,5 sati"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "Skrenite 15. / desno."
+            }
+        }
+    },
+    "hsb": {
+        "cardinal": {
+            "one": {
+                "example": "1 dźeń / 0,1 dźeń"
+            },
+            "two": {
+                "example": "2 dnjej / 0,2 dnjej"
+            },
+            "few": {
+                "example": "3 dny / 0,3 dny"
+            },
+            "other": {
+                "example": "5 dnjow / 0,5 dnjow"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "Na 15. / wotbóčce naprawo."
+            }
+        }
+    },
+    "ht": {
+        "cardinal": {
+            "one": {
+                "example": "1 jour / 1,5 jour"
+            },
+            "many": {
+                "example": "1 000 000 de jours / 1 M de jours"
+            },
+            "other": {
+                "example": "2 jours / 2,0 jours"
+            }
+        },
+        "ordinal": {
+            "one": {
+                "example": "Prenez la 1re à droite."
+            },
+            "other": {
+                "example": "Prenez la 2e à droite."
+            }
+        }
+    },
+    "hu": {
+        "cardinal": {
+            "one": {
+                "example": "A kosár tartalma: 1 X. / Megveszi? / A kosár tartalma: 1,0 X. / Megveszi?"
+            },
+            "other": {
+                "example": "A kosár tartalma: 2 X. / Megveszi őket? / A kosár tartalma: 0,9 X. / Megveszi őket?"
+            }
+        },
+        "ordinal": {
+            "one": {
+                "example": "Az 1. / lehetőségnél forduljon jobbra."
+            },
+            "other": {
+                "example": "A 2. / lehetőségnél forduljon jobbra."
+            }
+        }
+    },
+    "hy": {
+        "cardinal": {
+            "one": {
+                "example": "այդ 1 պանակը / այդ 1,5 պանակը"
+            },
+            "other": {
+                "example": "այդ 2 պանակները / այդ 2,0 պանակները"
+            }
+        },
+        "ordinal": {
+            "one": {
+                "example": "Թեքվեք աջ 1-ին խաչմերուկից:"
+            },
+            "other": {
+                "example": "Թեքվեք աջ 2-րդ խաչմերուկից:"
+            }
+        }
+    },
+    "ia": {
+        "cardinal": {
+            "one": {
+                "example": "1 die"
+            },
+            "other": {
+                "example": "2 dies / 1,5 dies"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "no plural differences"
+            }
+        }
+    },
+    "id": {
+        "cardinal": {
+            "other": {
+                "example": "15 hari / 1,5 hari"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "Ambil belokan kanan ke-15."
+            }
+        }
+    },
+    "ig": {
+        "cardinal": {
+            "other": {
+                "example": "ubochi 15 / ubochi 1.5"
+            }
+        }
+    },
+    "ii": {
+        "cardinal": {
+            "other": {
+                "example": "no plural differences"
+            }
+        }
+    },
+    "ilo": {
+        "cardinal": {
+            "one": {
+                "example": "3 mansanas / 0.3 mansanas"
+            },
+            "other": {
+                "example": "4 na mansanas / 0.4 na mansanas"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "Kunin ang ika-2 (na) kanan."
+            }
+        }
+    },
+    "is": {
+        "cardinal": {
+            "one": {
+                "example": "1 dagur / 0,1 dagur"
+            },
+            "other": {
+                "example": "2 dagar / 0,2 dagar"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "Taktu 15. / beygju til hægri."
+            }
+        }
+    },
+    "it": {
+        "cardinal": {
+            "one": {
+                "example": "1 giorno"
+            },
+            "many": {
+                "example": "1.000.000 di giorni / 1 Mln di giorni"
+            },
+            "other": {
+                "example": "2 giorni / 1,5 giorni"
+            }
+        },
+        "ordinal": {
+            "many": {
+                "example": "Prendi l’8° a destra."
+            },
+            "other": {
+                "example": "Prendi la 7° a destra."
+            }
+        }
+    },
+    "iu": {
+        "cardinal": {
+            "two": {
+                "example": "n = 2"
+            }
+        }
+    },
+    "ja": {
+        "cardinal": {
+            "other": {
+                "example": "15日 / 1.5日"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "15 番目の角を右折します。"
+            }
+        }
+    },
+    "jam": {
+        "cardinal": {
+            "one": {
+                "example": "1 day"
+            },
+            "other": {
+                "example": "2 days / 1.5 days"
+            }
+        },
+        "ordinal": {
+            "one": {
+                "example": "Take the 1st right."
+            },
+            "two": {
+                "example": "Take the 2nd right."
+            },
+            "few": {
+                "example": "Take the 3rd right."
+            },
+            "other": {
+                "example": "Take the 4th right."
+            }
+        }
+    },
+    "jbo": {
+        "cardinal": {
+            "other": {
+                "example": "no plural differences"
+            }
+        }
+    },
+    "jv": {
+        "cardinal": {
+            "other": {
+                "example": "15 dino / 1,5 dino"
+            }
+        }
+    },
+    "ka": {
+        "cardinal": {
+            "one": {
+                "example": "კალათში 1 X-ია. / შეიძენთ მას? / კალათში 1,0 X-ია. / შეიძენთ მას?"
+            },
+            "other": {
+                "example": "კალათში 2 X-ია. / შეიძენთ მათ? / კალათში 0,9 X-ია. / შეიძენთ მათ?"
+            }
+        },
+        "ordinal": {
+            "one": {
+                "example": "1-ლი"
+            },
+            "many": {
+                "example": "მე-2"
+            },
+            "other": {
+                "example": "21-ე"
+            }
+        }
+    },
+    "kab": {
+        "cardinal": {
+            "one": {
+                "example": "1 n wass / 1,5 n wass"
+            },
+            "other": {
+                "example": "2 n wussan / 2,0 n wussan"
+            }
+        }
+    },
+    "kal": {
+        "cardinal": {
+            "one": {
+                "example": "1 Ulloq / 1,0 Ulloq"
+            },
+            "other": {
+                "example": "2 Ullut / 0,9 Ullut"
+            }
+        }
+    },
+    "kar": {
+        "cardinal": {
+            "other": {
+                "example": "15 ရက် / 1.5 ရက်"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "15 အုပ်မြောက်"
+            }
+        }
+    },
+    "kas": {
+        "cardinal": {
+            "one": {
+                "example": "‫1 دۅہ / 1.0 دۅہ‬"
+            },
+            "other": {
+                "example": "‫2 دوہٕ / 0.9 دوہٕ‬"
+            }
+        }
+    },
+    "kde": {
+        "cardinal": {
+            "other": {
+                "example": "no plural differences"
+            }
+        }
+    },
+    "kea": {
+        "cardinal": {
+            "other": {
+                "example": "15 dia / 1,5 dia"
+            }
+        }
+    },
+    "khk": {
+        "cardinal": {
+            "one": {
+                "example": "Картанд 1 Х байна. / Үүнийг авах уу?"
+            },
+            "other": {
+                "example": "Картанд 2 Х байна. / Тэднийг авах уу?"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "15-р баруун эргэлтээр орно уу"
+            }
+        }
+    },
+    "kk": {
+        "cardinal": {
+            "one": {
+                "example": "Cебетте 1 Х бар. / Ол сіздікі ме? / Cебетте 1,0 Х бар. / Ол сіздікі ме?"
+            },
+            "other": {
+                "example": "Себетте 2 Х бар. / Олар сіздікі ме? / Себетте 0,9 Х бар. / Олар сіздікі ме?"
+            }
+        },
+        "ordinal": {
+            "many": {
+                "example": "6-ші бұрылыстан оңға бұрылыңыз."
+            },
+            "other": {
+                "example": "5-шы бұрылыстан оңға бұрылыңыз."
+            }
+        }
+    },
+    "km": {
+        "cardinal": {
+            "other": {
+                "example": "15 ថ្ងៃ / 1,5 ថ្ងៃ"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "បត់​ស្តាំ​លើក​ទី​ 15"
+            }
+        }
+    },
+    "kmr": {
+        "cardinal": {
+            "one": {
+                "example": "rojek"
+            },
+            "other": {
+                "example": "2 roj / 0,9 roj"
+            }
+        }
+    },
+    "kn": {
+        "cardinal": {
+            "one": {
+                "example": "1 ದಿನ / 1.0 ದಿನ"
+            },
+            "other": {
+                "example": "2 ದಿನಗಳು / 1.1 ದಿನಗಳು"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "15ನೇ ಬಲತಿರುವನ್ನು ತೆಗೆದುಕೊಳ್ಳಿ."
+            }
+        }
+    },
+    "ko": {
+        "cardinal": {
+            "other": {
+                "example": "15일 / 1.5일"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "15번째 길목에서 우회전하세요."
+            }
+        }
+    },
+    "kok": {
+        "cardinal": {
+            "one": {
+                "example": "1 वांटो / 1.0 वांटो"
+            },
+            "other": {
+                "example": "2 वांटे / 1.1 वांटे"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "5व्या उजव्या वाटेन वच."
+            }
+        }
+    },
+    "ks": {
+        "cardinal": {
+            "one": {
+                "example": "‫1 دۅہ / 1.0 دۅہ‬"
+            },
+            "other": {
+                "example": "‫2 دوہٕ / 0.9 دوہٕ‬"
+            }
+        }
+    },
+    "ksh": {
+        "cardinal": {
+            "one": {
+                "example": "n = 1"
+            }
+        }
+    },
+    "ksw": {
+        "cardinal": {
+            "other": {
+                "example": "15 ရက် / 1.5 ရက်"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "15 အုပ်မြောက်"
+            }
+        }
+    },
+    "ku": {
+        "cardinal": {
+            "one": {
+                "example": "rojek / rojek"
+            },
+            "other": {
+                "example": "2 roj / 0,9 roj"
+            }
+        }
+    },
+    "kw": {
+        "cardinal": {
+            "one": {
+                "example": "n = 1"
+            },
+            "two": {
+                "example": "n % 100 = 2,22,42,62,82 or / n % 1000 = 0 and /   n % 100000 = 1000..20000,40000,60000,80000 or / n != 0 and /   n % 1000000 = 100000"
+            },
+            "few": {
+                "example": "n % 100 = 3,23,43,63,83"
+            },
+            "many": {
+                "example": "n != 1 and /   n % 100 = 1,21,41,61,81"
+            }
+        },
+        "ordinal": {
+            "many": {
+                "example": "n = 5 or / n % 100 = 5"
+            }
+        }
+    },
+    "ky": {
+        "cardinal": {
+            "one": {
+                "example": "Себетте 1 Х бар. / Аны аласызбы? / Себетте 1,0 Х бар. / Аны аласызбы?"
+            },
+            "other": {
+                "example": "Себетте 2 Х бар. / Аларды аласызбы? / Себетте 0,9 Х бар. / Аларды аласызбы?"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "15-бурулуштан оңго бурулуңуз."
+            }
+        }
+    },
+    "la": {
+        "cardinal": {
+            "one": {
+                "example": "1 giorno"
+            },
+            "many": {
+                "example": "1.000.000 di giorni / 1 Mln di giorni"
+            },
+            "other": {
+                "example": "2 giorni / 1,5 giorni"
+            }
+        },
+        "ordinal": {
+            "many": {
+                "example": "Prendi l’8° a destra."
+            },
+            "other": {
+                "example": "Prendi la 7° a destra."
+            }
+        }
+    },
+    "lag": {
+        "cardinal": {
+            "one": {
+                "example": "i = 0,1 and /   n != 0"
+            }
+        }
+    },
+    "li": {
+        "cardinal": {
+            "one": {
+                "example": "1 dag"
+            },
+            "other": {
+                "example": "2 dagen / 1,5 dagen"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "Neem de 15e afslag rechts."
+            }
+        }
+    },
+    "lij": {
+        "cardinal": {
+            "one": {
+                "example": "1 giorno"
+            },
+            "other": {
+                "example": "2 giorni / 1.5 giorni"
+            }
+        },
+        "ordinal": {
+            "many": {
+                "example": "Piggia l’8ª in sciâ drita."
+            },
+            "other": {
+                "example": "Piggia a 7ª in sciâ drita."
+            }
+        }
+    },
+    "lkt": {
+        "cardinal": {
+            "other": {
+                "example": "no plural differences"
+            }
+        }
+    },
+    "lld": {
+        "cardinal": {
+            "one": {
+                "example": "1 de"
+            },
+            "many": {
+                "example": "1000000, 1c6, 2c6, 3c6, 4c6, 5c6, 6c6, … | 1.0000001c6, 1.1c6, 2.0000001c6, 2.1c6, 3.0000001c6, 3.1c6, …"
+            },
+            "other": {
+                "example": "0, 2–16, 100, 1000, 10000, 100000, 1c3, 2c3, 3c3, 4c3, 5c3, 6c3, … | 0.0–1.5, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, 1.0001c3, 1.1c3, 2.0001c3, 2.1c3, 3.0001c3, 3.1c3, …"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "Té la 7 a man dërta."
+            }
+        }
+    },
+    "lmo": {
+        "cardinal": {
+            "one": {
+                "example": "1 giorno"
+            },
+            "many": {
+                "example": "1.000.000 di giorni / 1 Mln di giorni"
+            },
+            "other": {
+                "example": "2 giorni / 1,5 giorni"
+            }
+        },
+        "ordinal": {
+            "many": {
+                "example": "Prendi l’8° a destra."
+            },
+            "other": {
+                "example": "Prendi la 7° a destra."
+            }
+        }
+    },
+    "lo": {
+        "cardinal": {
+            "other": {
+                "example": "15 ມື້ / 1,5 ມື້"
+            }
+        },
+        "ordinal": {
+            "one": {
+                "example": "ລ້ຽວຂວາໂຕທີ 1."
+            },
+            "other": {
+                "example": "ລ້ຽວຂວາທີ 2."
+            }
+        }
+    },
+    "lt": {
+        "cardinal": {
+            "one": {
+                "example": "1 obuolys / 1,0 obuolys"
+            },
+            "few": {
+                "example": "2 obuoliai / 2,0 obuoliai"
+            },
+            "many": {
+                "example": "0,1 obuolio"
+            },
+            "other": {
+                "example": "10 obuolių / 10,0 obuolių"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "15-ame posūkyje sukite į dešinę."
+            }
+        }
+    },
+    "ltg": {
+        "cardinal": {
+            "zero": {
+                "example": "10 diennakšu / 10,0 diennakšu"
+            },
+            "one": {
+                "example": "1 diennakts / 0,1 diennakts"
+            },
+            "other": {
+                "example": "2 diennaktis / 0,2 diennaktis"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "Dodieties 15. / pagriezienā pa labi."
+            }
+        }
+    },
+    "lv": {
+        "cardinal": {
+            "zero": {
+                "example": "10 diennakšu / 10,0 diennakšu"
+            },
+            "one": {
+                "example": "1 diennakts / 0,1 diennakts"
+            },
+            "other": {
+                "example": "2 diennaktis / 0,2 diennaktis"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "Dodieties 15. / pagriezienā pa labi."
+            }
+        }
+    },
+    "lvs": {
+        "cardinal": {
+            "zero": {
+                "example": "10 diennakšu / 10,0 diennakšu"
+            },
+            "one": {
+                "example": "1 diennakts / 0,1 diennakts"
+            },
+            "other": {
+                "example": "2 diennaktis / 0,2 diennaktis"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "Dodieties 15. / pagriezienā pa labi."
+            }
+        }
+    },
+    "mag": {
+        "cardinal": {
+            "one": {
+                "example": "1 घंटा / 1.0 घंटा"
+            },
+            "other": {
+                "example": "2 घंटे / 1.1 घंटे"
+            }
+        },
+        "ordinal": {
+            "one": {
+                "example": "1ला दाहिना मोड़ लें."
+            },
+            "two": {
+                "example": "2रा दाहिना मोड़ लें."
+            },
+            "few": {
+                "example": "4 दाहिना मोड़ लें."
+            },
+            "many": {
+                "example": "6ठा दाहिना मोड़ लें."
+            },
+            "other": {
+                "example": "5वां दाहिना मोड़ लें."
+            }
+        }
+    },
+    "mai": {
+        "cardinal": {
+            "one": {
+                "example": "1 घंटा / 1.0 घंटा"
+            },
+            "other": {
+                "example": "2 घंटे / 1.1 घंटे"
+            }
+        },
+        "ordinal": {
+            "one": {
+                "example": "1ला दाहिना मोड़ लें."
+            },
+            "two": {
+                "example": "2रा दाहिना मोड़ लें."
+            },
+            "few": {
+                "example": "4 दाहिना मोड़ लें."
+            },
+            "many": {
+                "example": "6ठा दाहिना मोड़ लें."
+            },
+            "other": {
+                "example": "5वां दाहिना मोड़ लें."
+            }
+        }
+    },
+    "me": {
+        "cardinal": {
+            "one": {
+                "example": "1 сат / 0,1 сат"
+            },
+            "few": {
+                "example": "2 сата / 0,2 сата"
+            },
+            "other": {
+                "example": "5 сати / 0,5 сати"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "Скрените у 15. / десно."
+            }
+        }
+    },
+    "mfe": {
+        "cardinal": {
+            "one": {
+                "example": "1 jour / 1,5 jour"
+            },
+            "many": {
+                "example": "1 000 000 de jours / 1 M de jours"
+            },
+            "other": {
+                "example": "2 jours / 2,0 jours"
+            }
+        },
+        "ordinal": {
+            "one": {
+                "example": "Prenez la 1re à droite."
+            },
+            "other": {
+                "example": "Prenez la 2e à droite."
+            }
+        }
+    },
+    "min": {
+        "cardinal": {
+            "other": {
+                "example": "15 hari / 1.5 hari"
+            }
+        },
+        "ordinal": {
+            "one": {
+                "example": "Ambil belokan kanan 1."
+            },
+            "other": {
+                "example": "Ambil belokan kanan yang ke-2."
+            }
+        }
+    },
+    "mk": {
+        "cardinal": {
+            "one": {
+                "example": "1 ден / 0,1 ден"
+            },
+            "other": {
+                "example": "2 дена / 0,2 дена"
+            }
+        },
+        "ordinal": {
+            "one": {
+                "example": "Сврти на 1-вата улица десно."
+            },
+            "two": {
+                "example": "Сврти на 2-рата улица десно."
+            },
+            "many": {
+                "example": "Сврти на 7-мата улица десно."
+            },
+            "other": {
+                "example": "Сврти на 3-тата улица десно."
+            }
+        }
+    },
+    "ml": {
+        "cardinal": {
+            "one": {
+                "example": "1 വ്യക്തി / 1.0 വ്യക്തി"
+            },
+            "other": {
+                "example": "2 വ്യക്തികൾ / 0.9 വ്യക്തികൾ"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "15-ാമത്തെ വലത്തേക്ക് തിരിയുക."
+            }
+        }
+    },
+    "mn": {
+        "cardinal": {
+            "one": {
+                "example": "Картанд 1 Х байна. / Үүнийг авах уу? / Картанд 1.0 Х байна. / Үүнийг авах уу?"
+            },
+            "other": {
+                "example": "Картанд 2 Х байна. / Тэднийг авах уу? / Картанд 0.9 Х байна. / Тэднийг авах уу?"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "15-р баруун эргэлтээр орно уу"
+            }
+        }
+    },
+    "mo": {
+        "cardinal": {
+            "one": {
+                "example": "1 zi"
+            },
+            "few": {
+                "example": "2 zile / 1,5 zile"
+            },
+            "other": {
+                "example": "20 de zile"
+            }
+        },
+        "ordinal": {
+            "one": {
+                "example": "Faceți virajul nr. / 1 la dreapta."
+            },
+            "other": {
+                "example": "Faceți virajul al 2-lea la dreapta."
+            }
+        }
+    },
+    "mr": {
+        "cardinal": {
+            "one": {
+                "example": "1 घर / 1.0 घर"
+            },
+            "other": {
+                "example": "2 घरे / 0.9 घरे"
+            }
+        },
+        "ordinal": {
+            "one": {
+                "example": "1ले उजवे वळण घ्या."
+            },
+            "two": {
+                "example": "2रे उजवे वळण घ्या."
+            },
+            "few": {
+                "example": "4थे उजवे वळण घ्या."
+            },
+            "other": {
+                "example": "5वे उजवे वळण घ्या."
+            }
+        }
+    },
+    "ms": {
+        "cardinal": {
+            "other": {
+                "example": "15 hari / 1.5 hari"
+            }
+        },
+        "ordinal": {
+            "one": {
+                "example": "Ambil belokan kanan 1."
+            },
+            "other": {
+                "example": "Ambil belokan kanan yang ke-2."
+            }
+        }
+    },
+    "mt": {
+        "cardinal": {
+            "one": {
+                "example": "jum / jum"
+            },
+            "two": {
+                "example": "jumejn / jumejn"
+            },
+            "few": {
+                "example": "3 ijiem / 3.0 ijiem"
+            },
+            "many": {
+                "example": "11-il jum / 11.0-il jum"
+            },
+            "other": {
+                "example": "20 jum / 0.1 jum"
+            }
+        }
+    },
+    "my": {
+        "cardinal": {
+            "other": {
+                "example": "15 ရက် / 1.5 ရက်"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "15 အုပ်မြောက်"
+            }
+        }
+    },
+    "naq": {
+        "cardinal": {
+            "two": {
+                "example": "n = 2"
+            }
+        }
+    },
+    "nb": {
+        "cardinal": {
+            "one": {
+                "example": "1 dag / 1,0 dag"
+            },
+            "other": {
+                "example": "2 dager / 0,9 dager"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "Ta 15. / sving til høyre."
+            }
+        }
+    },
+    "ne": {
+        "cardinal": {
+            "one": {
+                "example": "तपाईंसँग 1 निम्तो छ / तपाईंसँग 1.0 निम्तो छ"
+            },
+            "other": {
+                "example": "तपाईंसँग 2 निम्ता छन् / तपाईंसँग 0.9 निम्ता छन्"
+            }
+        },
+        "ordinal": {
+            "one": {
+                "example": "1 ओ दायाँ घुम्ति लिनुहोस्"
+            },
+            "other": {
+                "example": "5 औं दायाँ घुम्ति लिनुहोस्"
+            }
+        }
+    },
+    "nl": {
+        "cardinal": {
+            "one": {
+                "example": "1 dag"
+            },
+            "other": {
+                "example": "2 dagen / 1,5 dagen"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "Neem de 15e afslag rechts."
+            }
+        }
+    },
+    "nn": {
+        "cardinal": {
+            "one": {
+                "example": "1 dag / 1,0 dag"
+            },
+            "other": {
+                "example": "2 dagar / 0,9 dagar"
+            }
+        }
+    },
+    "no": {
+        "cardinal": {
+            "one": {
+                "example": "1 dag / 1,0 dag"
+            },
+            "other": {
+                "example": "2 dager / 0,9 dager"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "Ta 15. / sving til høyre."
+            }
+        }
+    },
+    "nqo": {
+        "cardinal": {
+            "other": {
+                "example": "no plural differences"
+            }
+        }
+    },
+    "or": {
+        "cardinal": {
+            "one": {
+                "example": "1 ଦିନ / 1.0 ଦିନ"
+            },
+            "other": {
+                "example": "2 ଦିନଗୁଡ଼ିକ / 0.9 ଦିନଗୁଡ଼ିକ"
+            }
+        },
+        "ordinal": {
+            "two": {
+                "example": "n = 2,3"
+            },
+            "few": {
+                "example": "n = 4"
+            },
+            "many": {
+                "example": "n = 6"
+            },
+            "other": {
+                "example": "ଡାହାଣରେ ଥିବା 10 ନିଅନ୍ତୁ"
+            }
+        }
+    },
+    "ory": {
+        "cardinal": {
+            "one": {
+                "example": "1 ଦିନ / 1.0 ଦିନ"
+            },
+            "other": {
+                "example": "2 ଦିନଗୁଡ଼ିକ / 0.9 ଦିନଗୁଡ଼ିକ"
+            }
+        },
+        "ordinal": {
+            "two": {
+                "example": "n = 2,3"
+            },
+            "few": {
+                "example": "n = 4"
+            },
+            "many": {
+                "example": "n = 6"
+            },
+            "other": {
+                "example": "ଡାହାଣରେ ଥିବା 10 ନିଅନ୍ତୁ"
+            }
+        }
+    },
+    "osa": {
+        "cardinal": {
+            "other": {
+                "example": "no plural differences"
+            }
+        }
+    },
+    "pa": {
+        "cardinal": {
+            "one": {
+                "example": "1 ਘੰਟਾ / 1.0 ਘੰਟਾ"
+            },
+            "other": {
+                "example": "2 ਘੰਟੇ / 0.1 ਘੰਟੇ"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "ਸਜੇ ਪਾਸੇ 15 ਮੋੜ ਲਵੋ"
+            }
+        }
+    },
+    "pag": {
+        "cardinal": {
+            "one": {
+                "example": "3 mansanas / 0.3 mansanas"
+            },
+            "other": {
+                "example": "4 na mansanas / 0.4 na mansanas"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "Kunin ang ika-2 (na) kanan."
+            }
+        }
+    },
+    "pap": {
+        "cardinal": {
+            "one": {
+                "example": "1 dia / 1.0 dia"
+            },
+            "other": {
+                "example": "2 dia / 0.9 dia"
+            }
+        }
+    },
+    "pbt": {
+        "cardinal": {
+            "one": {
+                "example": "‫1 ورځ / 1,0 ورځ‬"
+            },
+            "other": {
+                "example": "‫2 ورځې / 0,9 ورځې‬"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "‫15 کور کیڼ اړخ ته دی‬"
+            }
+        }
+    },
+    "pcm": {
+        "cardinal": {
+            "one": {
+                "example": "1 dè / 1.0 dè"
+            },
+            "other": {
+                "example": "2? / 1.1?"
+            }
+        }
+    },
+    "pis": {
+        "cardinal": {
+            "one": {
+                "example": "1 day"
+            },
+            "other": {
+                "example": "2 days / 1.5 days"
+            }
+        },
+        "ordinal": {
+            "one": {
+                "example": "Take the 1st right."
+            },
+            "two": {
+                "example": "Take the 2nd right."
+            },
+            "few": {
+                "example": "Take the 3rd right."
+            },
+            "other": {
+                "example": "Take the 4th right."
+            }
+        }
+    },
+    "pl": {
+        "cardinal": {
+            "one": {
+                "example": "1 miesiąc"
+            },
+            "few": {
+                "example": "2 miesiące"
+            },
+            "many": {
+                "example": "5 miesięcy"
+            },
+            "other": {
+                "example": "1,5 miesiąca"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "Skręć w 15. / w prawo."
+            }
+        }
+    },
+    "pov": {
+        "cardinal": {
+            "one": {
+                "example": "1 dia / 1,5 dia"
+            },
+            "many": {
+                "example": "1.000.000 de dias / 1 mi de dias"
+            },
+            "other": {
+                "example": "2 dias / 2,0 dias"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "Pegue a 15ª à direita."
+            }
+        }
+    },
+    "ppk": {
+        "cardinal": {
+            "other": {
+                "example": "15 hari / 1,5 hari"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "Ambil belokan kanan ke-15."
+            }
+        }
+    },
+    "prg": {
+        "cardinal": {
+            "one": {
+                "example": "n % 10 = 1 and /   n % 100 != 11 or / v = 2 and /   f % 10 = 1 and /   f % 100 != 11 or / v != 2 and /   f % 10 = 1"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "no plural differences"
+            }
+        }
+    },
+    "prs": {
+        "cardinal": {
+            "one": {
+                "example": "‫1 نفر در بازی شرکت کرد. / 1.0 نفر در بازی شرکت کرد.‬"
+            },
+            "other": {
+                "example": "‫2 نفر در بازی شرکت کردند. / 1.1 نفر در بازی شرکت کردند.‬"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "‫در پیچ 15ام سمت راست بپیچید.‬"
+            }
+        }
+    },
+    "ps": {
+        "cardinal": {
+            "one": {
+                "example": "‫1 ورځ / 1,0 ورځ‬"
+            },
+            "other": {
+                "example": "‫2 ورځې / 0,9 ورځې‬"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "‫15 کور کیڼ اړخ ته دی‬"
+            }
+        }
+    },
+    "pt": {
+        "cardinal": {
+            "one": {
+                "example": "1 dia / 1,5 dia"
+            },
+            "many": {
+                "example": "1.000.000 de dias / 1 mi de dias"
+            },
+            "other": {
+                "example": "2 dias / 2,0 dias"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "Pegue a 15ª à direita."
+            }
+        }
+    },
+    "rm": {
+        "cardinal": {
+            "one": {
+                "example": "1 di / 1.0 di"
+            },
+            "other": {
+                "example": "2 dis / 0.9 dis"
+            }
+        }
+    },
+    "rmn": {
+        "cardinal": {
+            "one": {
+                "example": "1 сат / 0,1 сат"
+            },
+            "few": {
+                "example": "2 сата / 0,2 сата"
+            },
+            "other": {
+                "example": "5 сати / 0,5 сати"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "Скрените у 15. / десно."
+            }
+        }
+    },
+    "ro": {
+        "cardinal": {
+            "one": {
+                "example": "1 zi"
+            },
+            "few": {
+                "example": "2 zile / 1,5 zile"
+            },
+            "other": {
+                "example": "20 de zile"
+            }
+        },
+        "ordinal": {
+            "one": {
+                "example": "Faceți virajul nr. / 1 la dreapta."
+            },
+            "other": {
+                "example": "Faceți virajul al 2-lea la dreapta."
+            }
+        }
+    },
+    "ru": {
+        "cardinal": {
+            "one": {
+                "example": "из 1 книги за 1 день"
+            },
+            "few": {
+                "example": "из 2 книг за 2 дня"
+            },
+            "many": {
+                "example": "из 5 книг за 5 дней"
+            },
+            "other": {
+                "example": "из 1,5 книги за 1,5 дня"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "15-й перекресток — поворот направо."
+            }
+        }
+    },
+    "sa": {
+        "cardinal": {
+            "one": {
+                "example": "1 घंटा / 1.0 घंटा"
+            },
+            "other": {
+                "example": "2 घंटे / 1.1 घंटे"
+            }
+        },
+        "ordinal": {
+            "one": {
+                "example": "1ला दाहिना मोड़ लें."
+            },
+            "two": {
+                "example": "2रा दाहिना मोड़ लें."
+            },
+            "few": {
+                "example": "4 दाहिना मोड़ लें."
+            },
+            "many": {
+                "example": "6ठा दाहिना मोड़ लें."
+            },
+            "other": {
+                "example": "5वां दाहिना मोड़ लें."
+            }
+        }
+    },
+    "sah": {
+        "cardinal": {
+            "other": {
+                "example": "no plural differences"
+            }
+        }
+    },
+    "sat": {
+        "cardinal": {
+            "one": {
+                "example": "1 ᱰᱟᱹᱝᱜᱽᱨᱤ / 1.0 ᱰᱟᱹᱝᱜᱽᱨᱤ"
+            },
+            "two": {
+                "example": "2 ᱰᱟᱹᱝᱜᱽᱨᱤ ᱠᱤᱱ / 2.0 ᱰᱟᱹᱝᱜᱽᱨᱤ ᱠᱤᱱ"
+            },
+            "other": {
+                "example": "3 ᱰᱟᱹᱝᱜᱽᱨᱤ ᱠᱚ / 0.9 ᱰᱟᱹᱝᱜᱽᱨᱤ ᱠᱚ"
+            }
+        }
+    },
+    "sc": {
+        "cardinal": {
+            "one": {
+                "example": "1 die"
+            },
+            "other": {
+                "example": "2 dies / 1,5 dies"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "Piga sa 7a a destra."
+            }
+        }
+    },
+    "scn": {
+        "cardinal": {
+            "one": {
+                "example": "1 jornu"
+            },
+            "many": {
+                "example": "1000000, 1c6, 2c6, 3c6, 4c6, 5c6, 6c6, … | 1.0000001c6, 1.1c6, 2.0000001c6, 2.1c6, 3.0000001c6, 3.1c6, …"
+            },
+            "other": {
+                "example": "0, 2–16, 100, 1000, 10000, 100000, 1c3, 2c3, 3c3, 4c3, 5c3, 6c3, … | 0.0–1.5, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, 1.0001c3, 1.1c3, 2.0001c3, 2.1c3, 3.0001c3, 3.1c3, …"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "Pigghia a 7ª a manu dritta."
+            }
+        }
+    },
+    "sd": {
+        "cardinal": {
+            "one": {
+                "example": "‫1 ڪتاب / 1.0 ڪتاب‬"
+            },
+            "other": {
+                "example": "‫2 ڪتابون / 0.9 ڪتابون‬"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "‫15 ساڄو پاسو وٺو‬"
+            }
+        }
+    },
+    "se": {
+        "cardinal": {
+            "two": {
+                "example": "n = 2"
+            }
+        }
+    },
+    "ses": {
+        "cardinal": {
+            "other": {
+                "example": "no plural differences"
+            }
+        }
+    },
+    "sg": {
+        "cardinal": {
+            "other": {
+                "example": "no plural differences"
+            }
+        }
+    },
+    "shi": {
+        "cardinal": {
+            "few": {
+                "example": "n = 2..10"
+            }
+        }
+    },
+    "shn": {
+        "cardinal": {
+            "other": {
+                "example": "15 ရက် / 1.5 ရက်"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "15 အုပ်မြောက်"
+            }
+        }
+    },
+    "shu": {
+        "cardinal": {
+            "zero": {
+                "example": "‫0 ولد حضر / 0.0000 ولد حضر‬"
+            },
+            "one": {
+                "example": "‫ولد واحد حضر / ولد واحد حضر‬"
+            },
+            "two": {
+                "example": "‫ولدان حضرا / ولدان حضرا‬"
+            },
+            "few": {
+                "example": "‫3 أولاد حضروا / 3.0 أولاد حضروا‬"
+            },
+            "many": {
+                "example": "‫11 ولدًا حضروا / 11.0 ولدًا حضروا‬"
+            },
+            "other": {
+                "example": "‫100 ولد حضروا / 0.1 ولد حضروا‬"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "‫اتجه إلى المنعطف الـ 15 يمينًا.‬"
+            }
+        }
+    },
+    "si": {
+        "cardinal": {
+            "one": {
+                "example": "1 පොතක් ඇත. / එය කියවීමි. / 0.1 පොතක් ඇත. / එය කියවීමි."
+            },
+            "other": {
+                "example": "පොත් 2ක් ඇත. / ඒවා කියවීමි. / පොත් 0.2ක් ඇත. / ඒවා කියවීමි."
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "15 වන හැරවුම දකුණට"
+            }
+        }
+    },
+    "sk": {
+        "cardinal": {
+            "one": {
+                "example": "1 deň"
+            },
+            "few": {
+                "example": "2 dni"
+            },
+            "many": {
+                "example": "1,5 dňa"
+            },
+            "other": {
+                "example": "5 dní"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "Na 15. / križovatke odbočte doprava."
+            }
+        }
+    },
+    "sl": {
+        "cardinal": {
+            "one": {
+                "example": "1 dan"
+            },
+            "two": {
+                "example": "2 dneva"
+            },
+            "few": {
+                "example": "3 dnevi / 1,5 dnevi"
+            },
+            "other": {
+                "example": "5 dni"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "V 15. / križišču zavijte desno."
+            }
+        }
+    },
+    "sma": {
+        "cardinal": {
+            "two": {
+                "example": "n = 2"
+            }
+        }
+    },
+    "smj": {
+        "cardinal": {
+            "two": {
+                "example": "n = 2"
+            }
+        }
+    },
+    "smn": {
+        "cardinal": {
+            "two": {
+                "example": "n = 2"
+            }
+        }
+    },
+    "sms": {
+        "cardinal": {
+            "two": {
+                "example": "n = 2"
+            }
+        }
+    },
+    "so": {
+        "cardinal": {
+            "one": {
+                "example": "1 maalin / 1.0 maalin"
+            },
+            "other": {
+                "example": "2 maalmood / 0.9 maalmood"
+            }
+        }
+    },
+    "sq": {
+        "cardinal": {
+            "one": {
+                "example": "1 libër / 1,0 libër"
+            },
+            "other": {
+                "example": "2 libra / 0,9 libra"
+            }
+        },
+        "ordinal": {
+            "one": {
+                "example": "Merrni kthesën e 1-rë në të djathtë."
+            },
+            "many": {
+                "example": "Merrni kthesën e 4-t në të djathtë."
+            },
+            "other": {
+                "example": "Merrni kthesën e 2-të në të djathtë."
+            }
+        }
+    },
+    "sr": {
+        "cardinal": {
+            "one": {
+                "example": "1 сат / 0,1 сат"
+            },
+            "few": {
+                "example": "2 сата / 0,2 сата"
+            },
+            "other": {
+                "example": "5 сати / 0,5 сати"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "Скрените у 15. / десно."
+            }
+        }
+    },
+    "srn": {
+        "cardinal": {
+            "one": {
+                "example": "1 dag"
+            },
+            "other": {
+                "example": "2 dagen / 1,5 dagen"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "Neem de 15e afslag rechts."
+            }
+        }
+    },
+    "su": {
+        "cardinal": {
+            "other": {
+                "example": "no plural differences"
+            }
+        }
+    },
+    "sv": {
+        "cardinal": {
+            "one": {
+                "example": "om 1 dag"
+            },
+            "other": {
+                "example": "om 2 dagar / om 1,5 dagar"
+            }
+        },
+        "ordinal": {
+            "one": {
+                "example": "Ta 1:a svängen till höger"
+            },
+            "other": {
+                "example": "Ta 3:e svängen till höger"
+            }
+        }
+    },
+    "svc": {
+        "cardinal": {
+            "one": {
+                "example": "1 day"
+            },
+            "other": {
+                "example": "2 days / 1.5 days"
+            }
+        },
+        "ordinal": {
+            "one": {
+                "example": "Take the 1st right."
+            },
+            "two": {
+                "example": "Take the 2nd right."
+            },
+            "few": {
+                "example": "Take the 3rd right."
+            },
+            "other": {
+                "example": "Take the 4th right."
+            }
+        }
+    },
+    "sw": {
+        "cardinal": {
+            "one": {
+                "example": "siku 1 iliyopita"
+            },
+            "other": {
+                "example": "siku 2 zilizopita / siku 1.5 zilizopita"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "Chukua mpinduko wa 15 kulia."
+            }
+        }
+    },
+    "syr": {
+        "cardinal": {
+            "one": {
+                "example": "‫ܝܠܐ ܝܠܗ ܥܬܝܕܐ / ܝܠܐ ܝܠܗ ܥܬܝܕܐ‬"
+            },
+            "other": {
+                "example": "‫ܝܠ̈ܐ ܝܢܐ ܥܬܝܕ̈ܐ 2 / ܝܠ̈ܐ ܝܢܐ ܥܬܝܕ̈ܐ 0.9‬"
+            }
+        }
+    },
+    "szl": {
+        "cardinal": {
+            "one": {
+                "example": "1 miesiąc"
+            },
+            "few": {
+                "example": "2 miesiące"
+            },
+            "many": {
+                "example": "5 miesięcy"
+            },
+            "other": {
+                "example": "1,5 miesiąca"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "Skręć w 15. / w prawo."
+            }
+        }
+    },
+    "ta": {
+        "cardinal": {
+            "one": {
+                "example": "1 நாள் / 1.0 நாள்"
+            },
+            "other": {
+                "example": "2 நாட்கள் / 0.9 நாட்கள்"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "15வது வலது திருப்பத்தை எடு."
+            }
+        }
+    },
+    "te": {
+        "cardinal": {
+            "one": {
+                "example": "1 రోజు / 1.0 రోజు"
+            },
+            "other": {
+                "example": "2 రోజులు / 0.9 రోజులు"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "15వ కుడి మలుపు తీసుకోండి."
+            }
+        }
+    },
+    "tet": {
+        "cardinal": {
+            "one": {
+                "example": "1 dia / 1,5 dia"
+            },
+            "many": {
+                "example": "1.000.000 de dias / 1 mi de dias"
+            },
+            "other": {
+                "example": "2 dias / 2,0 dias"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "Pegue a 15ª à direita."
+            }
+        }
+    },
+    "tg": {
+        "cardinal": {
+            "one": {
+                "example": "‫1 نفر در بازی شرکت کرد. / 1.0 نفر در بازی شرکت کرد.‬"
+            },
+            "other": {
+                "example": "‫2 نفر در بازی شرکت کردند. / 1.1 نفر در بازی شرکت کردند.‬"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "‫در پیچ 15ام سمت راست بپیچید.‬"
+            }
+        }
+    },
+    "th": {
+        "cardinal": {
+            "other": {
+                "example": "15 วัน / 1.5 วัน"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "เลี้ยวขวาที่ทางเลี้ยวที่ 15"
+            }
+        }
+    },
+    "ti": {
+        "cardinal": {
+            "one": {
+                "example": "1 መዓልቲ / 1.0 መዓልቲ"
+            },
+            "other": {
+                "example": "2 መዓልታት / 0.1 መዓልታት"
+            }
+        }
+    },
+    "tk": {
+        "cardinal": {
+            "one": {
+                "example": "1 gün / 1,0 gün"
+            },
+            "other": {
+                "example": "2 günler / 0,9 günler"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "Sagdan 5-nj. / öwrümden öwrüliň."
+            }
+        }
+    },
+    "tl": {
+        "cardinal": {
+            "one": {
+                "example": "3 mansanas / 0.3 mansanas"
+            },
+            "other": {
+                "example": "4 na mansanas / 0.4 na mansanas"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "Kunin ang ika-2 (na) kanan."
+            }
+        }
+    },
+    "ton": {
+        "cardinal": {
+            "other": {
+                "example": "Ngaahi ʻaho ʻe 15 / Ngaahi ʻaho ʻe 1.5"
+            }
+        }
+    },
+    "tpi": {
+        "cardinal": {
+            "other": {
+                "example": "no plural differences"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "no plural differences"
+            }
+        }
+    },
+    "tr": {
+        "cardinal": {
+            "one": {
+                "example": "Sepetinizde 1 X var. / Bunu almak istiyor musunuz? / Sepetinizde 1,0 X var. / Bunu almak istiyor musunuz?"
+            },
+            "other": {
+                "example": "Sepetinizde 2 X var. / Bunları almak istiyor musunuz? / Sepetinizde 0,9 X var. / Bunları almak istiyor musunuz?"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "15. / sağdan dönün."
+            }
+        }
+    },
+    "tw": {
+        "cardinal": {
+            "one": {
+                "example": "da 1 / da 1.0"
+            },
+            "other": {
+                "example": "nda 2 / nda 0.1"
+            }
+        }
+    },
+    "ug": {
+        "cardinal": {
+            "one": {
+                "example": "‫1 كىتاب / 1.0 كىتاب‬"
+            },
+            "other": {
+                "example": "‫2 بېلىق كۆردۈم ۋە ئۇنى يەۋەتتىم. / 0.9 بېلىق كۆردۈم ۋە ئۇنى يەۋەتتىم.‬"
+            }
+        }
+    },
+    "uk": {
+        "cardinal": {
+            "one": {
+                "example": "1 день"
+            },
+            "few": {
+                "example": "2 дні"
+            },
+            "many": {
+                "example": "5 днів"
+            },
+            "other": {
+                "example": "1,5 дня"
+            }
+        },
+        "ordinal": {
+            "few": {
+                "example": "3-я дивізія, 3-є коло"
+            },
+            "other": {
+                "example": "2-а дивізія, 2-е коло"
+            }
+        }
+    },
+    "ur": {
+        "cardinal": {
+            "one": {
+                "example": "‫1 گھنٹہ‬"
+            },
+            "other": {
+                "example": "‫2 گھنٹے / 1.5 گھنٹے‬"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "‫دایاں موڑ نمبر 15 مڑیں۔‬"
+            }
+        }
+    },
+    "uz": {
+        "cardinal": {
+            "one": {
+                "example": "Bu jildda 1 ta fayl bor. / Uni oʻchirib tashlaysizmi? / Bu jildda 1,0 ta fayl bor. / Uni oʻchirib tashlaysizmi?"
+            },
+            "other": {
+                "example": "Bu jildda 2 ta fayl bor. / Ularni oʻchirib tashlaysizmi? / Bu jildda 0,9 ta fayl bor. / Ularni oʻchirib tashlaysizmi?"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "15-chorrahadan o‘ngga buriling"
+            }
+        }
+    },
+    "uzn": {
+        "cardinal": {
+            "one": {
+                "example": "Bu jildda 1 ta fayl bor. / Uni oʻchirib tashlaysizmi?"
+            },
+            "other": {
+                "example": "Bu jildda 2 ta fayl bor. / Ularni oʻchirib tashlaysizmi?"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "15-chorrahadan o‘ngga buriling"
+            }
+        }
+    },
+    "vec": {
+        "cardinal": {
+            "one": {
+                "example": "1 pomo"
+            },
+            "many": {
+                "example": "e = 0 and /   i != 0 and /   i % 1000000 = 0 and /   v = 0 or / e != 0..5"
+            },
+            "other": {
+                "example": "0, 2–16, 100, 1000, 10000, 100000, 1c3, 2c3, 3c3, 4c3, 5c3, 6c3, … | 0.0–1.5, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, 1.0001c3, 1.1c3, 2.0001c3, 2.1c3, 3.0001c3, 3.1c3, …"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "Ciapa la 7ª a dreta"
+            }
+        }
+    },
+    "vi": {
+        "cardinal": {
+            "other": {
+                "example": "15 ngày / 1,5 ngày"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "Theo lối rẽ thứ 2 bên phải."
+            }
+        }
+    },
+    "vic": {
+        "cardinal": {
+            "one": {
+                "example": "1 day"
+            },
+            "other": {
+                "example": "2 days / 1.5 days"
+            }
+        },
+        "ordinal": {
+            "one": {
+                "example": "Take the 1st right."
+            },
+            "two": {
+                "example": "Take the 2nd right."
+            },
+            "few": {
+                "example": "Take the 3rd right."
+            },
+            "other": {
+                "example": "Take the 4th right."
+            }
+        }
+    },
+    "vls": {
+        "cardinal": {
+            "one": {
+                "example": "1 dag"
+            },
+            "other": {
+                "example": "2 dagen / 1,5 dagen"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "Neem de 15e afslag rechts."
+            }
+        }
+    },
+    "war": {
+        "cardinal": {
+            "one": {
+                "example": "3 mansanas / 0.3 mansanas"
+            },
+            "other": {
+                "example": "4 na mansanas / 0.4 na mansanas"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "Kunin ang ika-2 (na) kanan."
+            }
+        }
+    },
+    "wo": {
+        "cardinal": {
+            "other": {
+                "example": "no plural differences"
+            }
+        }
+    },
+    "xh": {
+        "cardinal": {
+            "one": {
+                "example": "usuku 1 / usuku 1.0"
+            },
+            "other": {
+                "example": "intsuku eziyi-2 / intsuku eziyi-0.9"
+            }
+        }
+    },
+    "ymm": {
+        "cardinal": {
+            "one": {
+                "example": "1 maalin / 1.0 maalin"
+            },
+            "other": {
+                "example": "2 maalmood / 0.9 maalmood"
+            }
+        }
+    },
+    "yo": {
+        "cardinal": {
+            "other": {
+                "example": "Àwọn ọjọ́ 15 / Àwọn ọjọ́ 1.5"
+            }
+        }
+    },
+    "yue": {
+        "cardinal": {
+            "other": {
+                "example": "15 本書 / 1.5 本書"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "第 15 本書"
+            }
+        }
+    },
+    "zdj": {
+        "cardinal": {
+            "zero": {
+                "example": "‫0 ولد حضر / 0.0000 ولد حضر‬"
+            },
+            "one": {
+                "example": "‫ولد واحد حضر / ولد واحد حضر‬"
+            },
+            "two": {
+                "example": "‫ولدان حضرا / ولدان حضرا‬"
+            },
+            "few": {
+                "example": "‫3 أولاد حضروا / 3.0 أولاد حضروا‬"
+            },
+            "many": {
+                "example": "‫11 ولدًا حضروا / 11.0 ولدًا حضروا‬"
+            },
+            "other": {
+                "example": "‫100 ولد حضروا / 0.1 ولد حضروا‬"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "‫اتجه إلى المنعطف الـ 15 يمينًا.‬"
+            }
+        }
+    },
+    "zh": {
+        "cardinal": {
+            "other": {
+                "example": "15 天 / 1.5 天"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "在第 15 个路口右转。"
+            }
+        }
+    },
+    "zsm": {
+        "cardinal": {
+            "other": {
+                "example": "15 hari / 1.5 hari"
+            }
+        },
+        "ordinal": {
+            "one": {
+                "example": "Ambil belokan kanan 1."
+            },
+            "other": {
+                "example": "Ambil belokan kanan yang ke-2."
+            }
+        }
+    },
+    "zu": {
+        "cardinal": {
+            "one": {
+                "example": "1 usuku / 1.0 usuku"
+            },
+            "other": {
+                "example": "2 izinsuku / 1.1 izinsuku"
+            }
+        },
+        "ordinal": {
+            "other": {
+                "example": "Thatha indlela ejikela kwesokudla engu-15"
+            }
+        }
+    }
+}

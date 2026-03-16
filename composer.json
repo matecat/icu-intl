@@ -26,7 +26,8 @@
     "phpunit/phpunit": "^12",
     "phpunit/php-code-coverage": "^12",
     "phpstan/phpstan": "@stable",
-    "ext-xdebug": "*"
+    "ext-xdebug": "*",
+    "ext-dom": "*"
   },
   "autoload-dev": {
     "psr-4": {

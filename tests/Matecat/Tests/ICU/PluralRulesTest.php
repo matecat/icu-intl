@@ -18,7 +18,7 @@ use PHPUnit\Framework\TestCase;
  *
  * - Rule 0: Languages with no plural forms (Asian languages like Japanese, Chinese, Korean)
  * - Rule 1: Languages with 2 forms using n != 1 (English, German, Spanish, etc.)
- * - Rule 2: Languages with 2 forms using n > 1 (French, Brazilian Portuguese)
+ * - Rule 2: Languages with 2 forms using n > 1 (Amharic, Persian, Hindi, Fulah, Armenian, Sinhala)
  * - Rule 3: Slavic languages with 3 forms (Russian, Ukrainian, Serbian, Croatian)
  * - Rule 4: Czech and Slovak with 3 forms
  * - Rule 5: Irish with 5 forms
@@ -26,7 +26,7 @@ use PHPUnit\Framework\TestCase;
  * - Rule 7: Slovenian with 4 forms
  * - Rule 8: Macedonian with 2 forms (CLDR 48)
  * - Rule 9: Maltese with 4 forms
- * - Rule 10: Latvian with 3 forms (CLDR 48: zero/one/other)
+ * - Rule 10: Latvian with 3 forms (CLDR 49: zero/one/other)
  * - Rule 11: Polish with 3 forms
  * - Rule 12: Romanian with 3 forms
  * - Rule 13: Arabic with 6 forms
@@ -36,6 +36,8 @@ use PHPUnit\Framework\TestCase;
  * - Rule 17: Breton with 5 forms (CLDR 48)
  * - Rule 18: Manx with 4 forms (CLDR 48)
  * - Rule 19: Hebrew with 4 forms (CLDR 48)
+ * - Rule 20: Italian, Spanish, Catalan with 3 forms (CLDR 49: one = n=1)
+ * - Rule 29: French, Portuguese with 3 forms (CLDR 49: one = n<=1)
  * - Locale fallback mechanism (handling locale variants like en-US, fr_FR)
  * - Unknown locale handling
  */
@@ -169,12 +171,24 @@ final class PluralRulesTest extends TestCase
             ['bg', 0, 1],
             ['bg', 1, 0],
             ['bg', 2, 1],
+            // Turkish (CLDR 49: n = 1)
+            ['tr', 0, 1],
+            ['tr', 1, 0],
+            ['tr', 2, 1],
+            // Uzbek (CLDR 49: n = 1)
+            ['uz', 0, 1],
+            ['uz', 1, 0],
+            ['uz', 2, 1],
+            // Occitan (one = i = 1 and v = 0)
+            ['oc', 0, 1],
+            ['oc', 1, 0],
+            ['oc', 2, 1],
         ];
     }
 
     // =========================================================================
     // Rule 2: Two forms, singular for n=0 or n=1 (nplurals=2; plural=(n > 1))
-    // Languages: French, Brazilian Portuguese, Occitan, etc.
+    // Languages: Amharic, Persian, Hindi, Fulah, Armenian, Sinhala, etc.
     // =========================================================================
 
     /**
@@ -198,18 +212,6 @@ final class PluralRulesTest extends TestCase
     public static function rule2Provider(): array
     {
         return [
-            // Filipino
-            ['fil', 0, 0],
-            ['fil', 1, 0],
-            ['fil', 2, 1],
-            // Turkish
-            ['tr', 0, 0],
-            ['tr', 1, 0],
-            ['tr', 2, 1],
-            // Occitan
-            ['oc', 0, 0],
-            ['oc', 1, 0],
-            ['oc', 2, 1],
             // Tigrinya
             ['ti', 0, 0],
             ['ti', 1, 0],
@@ -218,6 +220,18 @@ final class PluralRulesTest extends TestCase
             ['ln', 0, 0],
             ['ln', 1, 0],
             ['ln', 2, 1],
+            // Fulah (CLDR: one = i = 0,1)
+            ['ff', 0, 0],
+            ['ff', 1, 0],
+            ['ff', 2, 1],
+            // Armenian (CLDR: one = i = 0,1)
+            ['hy', 0, 0],
+            ['hy', 1, 0],
+            ['hy', 2, 1],
+            // Sinhala (CLDR: one = n = 0,1 or i = 0 and f = 1)
+            ['si', 0, 0],
+            ['si', 1, 0],
+            ['si', 2, 1],
         ];
     }
 
@@ -294,11 +308,11 @@ final class PluralRulesTest extends TestCase
     }
 
     // =========================================================================
-    // Rule 4: Czech and Slovak (nplurals=3)
+    // Rule 4: Czech and Slovak (nplurals=4, CLDR 49: "many" at index 2 for decimals only)
     // =========================================================================
 
     /**
-     * Tests Rule 4: Czech and Slovak with 3 forms.
+     * Tests Rule 4: Czech and Slovak with 4 forms (many is decimal-only, unreachable for int).
      *
      * @param string $locale   The locale code.
      * @param int    $n        The number to test.
@@ -318,24 +332,24 @@ final class PluralRulesTest extends TestCase
     public static function rule4Provider(): array
     {
         return [
-            // Czech
-            ['cs', 0, 2],   // "0 jablek" (other)
+            // Czech — index 3 = "other" (index 2 = "many" is decimal-only)
+            ['cs', 0, 3],   // "0 jablek" (other)
             ['cs', 1, 0],   // "1 jablko" (one)
             ['cs', 2, 1],   // "2 jablka" (few)
             ['cs', 3, 1],   // "3 jablka" (few)
             ['cs', 4, 1],   // "4 jablka" (few)
-            ['cs', 5, 2],   // "5 jablek" (other)
-            ['cs', 10, 2],
-            ['cs', 21, 2],  // Different from Russian!
-            ['cs', 100, 2],
+            ['cs', 5, 3],   // "5 jablek" (other)
+            ['cs', 10, 3],
+            ['cs', 21, 3],  // Different from Russian!
+            ['cs', 100, 3],
             // Slovak
-            ['sk', 0, 2],
+            ['sk', 0, 3],
             ['sk', 1, 0],
             ['sk', 2, 1],
             ['sk', 3, 1],
             ['sk', 4, 1],
-            ['sk', 5, 2],
-            ['sk', 10, 2],
+            ['sk', 5, 3],
+            ['sk', 10, 3],
         ];
     }
 
@@ -365,6 +379,7 @@ final class PluralRulesTest extends TestCase
     {
         return [
             // Irish
+            ['ga', 0, 4],   // other (n=0 is not in any specific range)
             ['ga', 1, 0],   // one
             ['ga', 2, 1],   // two
             ['ga', 3, 2],   // few (3-6)
@@ -407,19 +422,19 @@ final class PluralRulesTest extends TestCase
     public static function rule6Provider(): array
     {
         return [
-            ['lt', 0, 2],   // other
+            ['lt', 0, 3],   // other
             ['lt', 1, 0],   // one
             ['lt', 2, 1],   // few
             ['lt', 9, 1],   // few
-            ['lt', 10, 2],  // other
-            ['lt', 11, 2],  // other (special case)
-            ['lt', 12, 2],  // other
-            ['lt', 19, 2],  // other
-            ['lt', 20, 2],  // other
+            ['lt', 10, 3],  // other
+            ['lt', 11, 3],  // other (special case)
+            ['lt', 12, 3],  // other
+            ['lt', 19, 3],  // other
+            ['lt', 20, 3],  // other
             ['lt', 21, 0],  // one
             ['lt', 22, 1],  // few
             ['lt', 29, 1],  // few
-            ['lt', 100, 2], // other
+            ['lt', 100, 3], // other
             ['lt', 101, 0], // one
         ];
     }
@@ -534,19 +549,20 @@ final class PluralRulesTest extends TestCase
     {
         return [
             ['mt', 1, 0],   // one
-            ['mt', 0, 1],   // few (n==0 or n%100 in 1..10)
-            ['mt', 2, 1],   // few
-            ['mt', 3, 1],   // few
-            ['mt', 10, 1],  // few
-            ['mt', 11, 2],  // many (n%100 in 11..19)
-            ['mt', 15, 2],  // many
-            ['mt', 19, 2],  // many
-            ['mt', 20, 3],  // other
-            ['mt', 21, 3],  // other
-            ['mt', 100, 3], // other
-            ['mt', 101, 1], // few
-            ['mt', 102, 1], // few
-            ['mt', 111, 2], // many
+            ['mt', 2, 1],   // two (CLDR 49)
+            ['mt', 0, 2],   // few (n==0 or n%100 in 2..10)
+            ['mt', 3, 2],   // few
+            ['mt', 10, 2],  // few
+            ['mt', 11, 3],  // many (n%100 in 11..19)
+            ['mt', 15, 3],  // many
+            ['mt', 19, 3],  // many
+            ['mt', 20, 4],  // other
+            ['mt', 21, 4],  // other
+            ['mt', 100, 4], // other
+            ['mt', 101, 4], // other
+            ['mt', 102, 4], // other (n%100=2 is NOT in 3..10)
+            ['mt', 103, 2], // few (n%100=3, in 3..10)
+            ['mt', 111, 3], // many
         ];
     }
 
@@ -576,17 +592,22 @@ final class PluralRulesTest extends TestCase
     public static function rule10Provider(): array
     {
         return [
-            // CLDR 48: zero = n = 0; one = n % 10 = 1 and n % 100 != 11; other = everything else
-            ['lv', 0, 0],   // zero (n == 0)
+            // CLDR 49: zero = n%10=0 or n%100=11..19; one = n%10=1 and n%100!=11; other = rest
+            ['lv', 0, 0],   // zero (n%10 == 0)
             ['lv', 1, 1],   // one (n%10 == 1, n%100 != 11)
             ['lv', 2, 2],   // other
-            ['lv', 10, 2],  // other
-            ['lv', 11, 2],  // other (special case: n%100 == 11)
-            ['lv', 21, 1],  // one
+            ['lv', 10, 0],  // zero (n%10 == 0)
+            ['lv', 11, 0],  // zero (n%100 == 11, in 11..19)
+            ['lv', 12, 0],  // zero (n%100 == 12, in 11..19)
+            ['lv', 19, 0],  // zero (n%100 == 19, in 11..19)
+            ['lv', 20, 0],  // zero (n%10 == 0)
+            ['lv', 21, 1],  // one (n%10 == 1, n%100 == 21)
+            ['lv', 30, 0],  // zero (n%10 == 0)
             ['lv', 31, 1],  // one
-            ['lv', 100, 2], // other
-            ['lv', 101, 1], // one
-            ['lv', 111, 2], // other (special case: n%100 == 11)
+            ['lv', 100, 0], // zero (n%10 == 0)
+            ['lv', 101, 1], // one (n%10 == 1, n%100 == 1)
+            ['lv', 111, 0], // zero (n%100 == 11, in 11..19)
+            ['lv', 112, 0], // zero (n%100 == 12, in 11..19)
         ];
     }
 
@@ -971,20 +992,20 @@ final class PluralRulesTest extends TestCase
             ['gv', 0, 2],   // few (n%20 = 0)
             ['gv', 20, 2],  // few
             ['gv', 40, 2],  // few
-            ['gv', 3, 3],   // other
-            ['gv', 5, 3],   // other
-            ['gv', 10, 3],  // other
-            ['gv', 15, 3],  // other
+            ['gv', 3, 4],   // other
+            ['gv', 5, 4],   // other
+            ['gv', 10, 4],  // other (note: 10 % 20 != 0 and 10 % 10 != 1 and 10 % 10 != 2)
+            ['gv', 15, 4],  // other
         ];
     }
 
     // =========================================================================
-    // Rule 19: Hebrew (nplurals=4 - CLDR 48)
-    // Category order: one, two, many, other
+    // Rule 19: Hebrew (nplurals=3 - CLDR 49)
+    // Category order: one, two, other
     // =========================================================================
 
     /**
-     * Tests Rule 19: Hebrew with 4 forms (CLDR 48).
+     * Tests Rule 19: Hebrew with 3 forms (CLDR 49 — removed "many").
      *
      * @param string $locale   The locale code.
      * @param int    $n        The number to test.
@@ -1004,32 +1025,31 @@ final class PluralRulesTest extends TestCase
     public static function rule19Provider(): array
     {
         return [
-            // CLDR 48 Hebrew rules:
+            // CLDR 49 Hebrew rules:
             // one: i = 1 and v = 0
             // two: i = 2 and v = 0
-            // many: v = 0 and n != 0..10 and n % 10 = 0
             // other: everything else
             ['he', 1, 0],   // one
             ['he', 2, 1],   // two
-            ['he', 20, 2],  // many (n > 10 and n%10 = 0)
-            ['he', 30, 2],  // many
-            ['he', 100, 2], // many
-            ['he', 0, 3],   // other
-            ['he', 3, 3],   // other
-            ['he', 10, 3],  // other (n = 10 doesn't match n > 10)
-            ['he', 11, 3],  // other
-            ['he', 15, 3],  // other
-            ['he', 21, 3],  // other
+            ['he', 0, 2],   // other
+            ['he', 3, 2],   // other
+            ['he', 10, 2],  // other
+            ['he', 11, 2],  // other
+            ['he', 15, 2],  // other
+            ['he', 20, 2],  // other (was "many" in CLDR 48)
+            ['he', 21, 2],  // other
+            ['he', 30, 2],  // other
+            ['he', 100, 2], // other
         ];
     }
 
     // =========================================================================
-    // Rule 20: Italian, Spanish, French, Portuguese, Catalan (nplurals=3 - CLDR 49)
+    // Rule 20: Italian, Spanish, Catalan (nplurals=3 - CLDR 49: one = i = 1)
     // Category order: one, many, other
     // =========================================================================
 
     /**
-     * Tests Rule 20: Italian, Spanish, French, Portuguese, Catalan with 3 forms (CLDR 49).
+     * Tests Rule 20: Italian, Spanish, Catalan with 3 forms (CLDR 49: one = n=1).
      *
      * @param string $locale   The locale code.
      * @param int    $n        The number to test.
@@ -1049,8 +1069,8 @@ final class PluralRulesTest extends TestCase
     public static function rule20Provider(): array
     {
         return [
-            // CLDR 49 rules for Italian, Spanish, French, Portuguese, Catalan:
-            // one: i = 1 and v = 0
+            // CLDR 49 rules for Italian, Spanish, Catalan:
+            // one: i = 1 and v = 0 (or n = 1 for es)
             // many: e = 0 and i != 0 and i % 1000000 = 0 and v = 0
             // other: everything else
 
@@ -1073,23 +1093,67 @@ final class PluralRulesTest extends TestCase
             ['es', 2, 2],         // other
             ['es', 1000000, 1],   // many
 
-            // French
-            ['fr', 1, 0],         // one
-            ['fr', 0, 2],         // other
-            ['fr', 2, 2],         // other
-            ['fr', 1000000, 1],   // many
-
-            // Portuguese
-            ['pt', 1, 0],         // one
-            ['pt', 0, 2],         // other
-            ['pt', 2, 2],         // other
-            ['pt', 1000000, 1],   // many
-
             // Catalan
             ['ca', 1, 0],         // one
             ['ca', 0, 2],         // other
             ['ca', 2, 2],         // other
             ['ca', 1000000, 1],   // many
+        ];
+    }
+
+    // =========================================================================
+    // Rule 29: French, Portuguese (nplurals=3 - CLDR 49: one = i = 0,1)
+    // Category order: one, many, other
+    // Differs from Rule 20: n=0 is "one" (not "other")
+    // =========================================================================
+
+    /**
+     * Tests Rule 29: French, Portuguese with 3 forms (CLDR 49: one = n<=1).
+     *
+     * @param string $locale   The locale code.
+     * @param int    $n        The number to test.
+     * @param int    $expected The expected plural form index.
+     *
+     * @return void
+     */
+    #[DataProvider('rule29Provider')]
+    public function testRule29FrenchPortuguese(string $locale, int $n, int $expected): void
+    {
+        self::assertSame($expected, PluralRules::getCardinalFormIndex($locale, $n));
+    }
+
+    /**
+     * @return array<array<string|int>>
+     */
+    public static function rule29Provider(): array
+    {
+        return [
+            // CLDR 49 rules for French, Portuguese:
+            // one: i = 0,1 (or i = 0..1) — n=0 and n=1 are "one"
+            // many: e = 0 and i != 0 and i % 1000000 = 0 and v = 0
+            // other: everything else
+
+            // French
+            ['fr', 0, 0],         // one (n <= 1)
+            ['fr', 1, 0],         // one
+            ['fr', 2, 2],         // other
+            ['fr', 5, 2],         // other
+            ['fr', 100, 2],       // other
+            ['fr', 1000000, 1],   // many (1 million)
+            ['fr', 2000000, 1],   // many
+            ['fr', 1000001, 2],   // other
+
+            // Portuguese
+            ['pt', 0, 0],         // one (n <= 1)
+            ['pt', 1, 0],         // one
+            ['pt', 2, 2],         // other
+            ['pt', 1000000, 1],   // many
+
+            // Haitian Creole (follows French)
+            ['ht', 0, 0],         // one
+            ['ht', 1, 0],         // one
+            ['ht', 2, 2],         // other
+            ['ht', 1000000, 1],   // many
         ];
     }
 
@@ -1103,8 +1167,8 @@ final class PluralRulesTest extends TestCase
         self::assertSame(0, PluralRules::getCardinalFormIndex('en-US', 1));
         self::assertSame(1, PluralRules::getCardinalFormIndex('en-US', 2));
 
-        // Should extract 'fr' from 'fr-CA' and use French rules (CLDR 49: one/many/other)
-        self::assertSame(2, PluralRules::getCardinalFormIndex('fr-CA', 0));  // other
+        // Should extract 'fr' from 'fr-CA' and use French rules (CLDR 49: one/many/other, Rule 29)
+        self::assertSame(0, PluralRules::getCardinalFormIndex('fr-CA', 0));  // one (n <= 1)
         self::assertSame(0, PluralRules::getCardinalFormIndex('fr-CA', 1));  // one
         self::assertSame(2, PluralRules::getCardinalFormIndex('fr-CA', 2));  // other
 
@@ -1182,7 +1246,7 @@ final class PluralRulesTest extends TestCase
     {
         // Different languages handle zero differently
         self::assertSame(1, PluralRules::getCardinalFormIndex('en', 0));  // "0 items" (plural)
-        self::assertSame(2, PluralRules::getCardinalFormIndex('fr', 0));  // "0 éléments" (other in French - CLDR 49)
+        self::assertSame(0, PluralRules::getCardinalFormIndex('fr', 0));  // "0 élément" (one in French - CLDR 49: Rule 29)
         self::assertSame(0, PluralRules::getCardinalFormIndex('ar', 0));  // "zero" form
         self::assertSame(0, PluralRules::getCardinalFormIndex('ja', 0));  // no plural
     }
@@ -1201,10 +1265,16 @@ final class PluralRulesTest extends TestCase
         self::assertSame(0, PluralRules::getCardinalFormIndex('ast', 1));
         self::assertSame(1, PluralRules::getCardinalFormIndex('ast', 2));
 
-        // Filipino (fil) - rule 2
+        // Filipino (fil) - rule 25 (CLDR 49: does not end in 4,6,9 → one)
         self::assertSame(0, PluralRules::getCardinalFormIndex('fil', 0));
         self::assertSame(0, PluralRules::getCardinalFormIndex('fil', 1));
-        self::assertSame(1, PluralRules::getCardinalFormIndex('fil', 2));
+        self::assertSame(0, PluralRules::getCardinalFormIndex('fil', 2));  // "one" — doesn't end in 4,6,9
+        self::assertSame(1, PluralRules::getCardinalFormIndex('fil', 4));  // "other" — ends in 4
+
+        // Northern Uzbek (uzn) - rule 1 (CLDR 49: n = 1)
+        self::assertSame(1, PluralRules::getCardinalFormIndex('uzn', 0));
+        self::assertSame(0, PluralRules::getCardinalFormIndex('uzn', 1));
+        self::assertSame(1, PluralRules::getCardinalFormIndex('uzn', 2));
     }
 
     // =========================================================================
@@ -1230,9 +1300,9 @@ final class PluralRulesTest extends TestCase
     public function testCzechVsRussian(): void
     {
         // Czech and Russian differ significantly
-        // For n=21: Russian returns 0 (one), Czech returns 2 (other)
+        // For n=21: Russian returns 0 (one), Czech returns 3 (other, CLDR 49)
         self::assertSame(0, PluralRules::getCardinalFormIndex('ru', 21));
-        self::assertSame(2, PluralRules::getCardinalFormIndex('cs', 21));
+        self::assertSame(3, PluralRules::getCardinalFormIndex('cs', 21));
 
         // Both use "few" for 2-4
         self::assertSame(1, PluralRules::getCardinalFormIndex('ru', 2));
@@ -1241,12 +1311,12 @@ final class PluralRulesTest extends TestCase
 
     public function testEnglishVsFrench(): void
     {
-        // French (CLDR 49): Rule 20 - one (n=1), many (n=millions), other (everything else)
+        // French (CLDR 49): Rule 29 - one (n<=1), many (n=millions), other (everything else)
         // English: Rule 1 - one (n=1), other (n!=1)
 
-        // Zero: English=other(1), French=other(2)
+        // Zero: English=other(1), French=one(0)
         self::assertSame(1, PluralRules::getCardinalFormIndex('en', 0));
-        self::assertSame(2, PluralRules::getCardinalFormIndex('fr', 0));
+        self::assertSame(0, PluralRules::getCardinalFormIndex('fr', 0));
 
         // Both treat 1 as 'one' (index 0)
         self::assertSame(0, PluralRules::getCardinalFormIndex('en', 1));
@@ -1290,11 +1360,12 @@ final class PluralRulesTest extends TestCase
             ['de', 1, PluralRules::CATEGORY_ONE],
             ['de', 5, PluralRules::CATEGORY_OTHER],
 
-            // Rule 20: Three forms (one, many, other) - CLDR 49
-            ['fr', 0, PluralRules::CATEGORY_OTHER],
+            // Rule 29: Three forms (one, many, other) - CLDR 49 (French, Portuguese: one = n <= 1)
+            ['fr', 0, PluralRules::CATEGORY_ONE],
             ['fr', 1, PluralRules::CATEGORY_ONE],
             ['fr', 2, PluralRules::CATEGORY_OTHER],
             ['fr', 1000000, PluralRules::CATEGORY_MANY],
+            ['pt', 0, PluralRules::CATEGORY_ONE],
             ['pt', 1, PluralRules::CATEGORY_ONE],
             ['pt', 2, PluralRules::CATEGORY_OTHER],
             ['pt', 1000000, PluralRules::CATEGORY_MANY],
@@ -1350,21 +1421,22 @@ final class PluralRulesTest extends TestCase
             ['mk', 3, PluralRules::CATEGORY_OTHER],
             ['mk', 11, PluralRules::CATEGORY_OTHER],
 
-            // Rule 9: Maltese - "one", "few", "many", "other"
+            // Rule 28: Maltese - "one", "two", "few", "many", "other" (CLDR 49)
             ['mt', 1, PluralRules::CATEGORY_ONE],
+            ['mt', 2, PluralRules::CATEGORY_TWO],
             ['mt', 0, PluralRules::CATEGORY_FEW],
-            ['mt', 2, PluralRules::CATEGORY_FEW],
             ['mt', 10, PluralRules::CATEGORY_FEW],
             ['mt', 11, PluralRules::CATEGORY_MANY],
             ['mt', 19, PluralRules::CATEGORY_MANY],
             ['mt', 20, PluralRules::CATEGORY_OTHER],
 
-            // Rule 10: Latvian - "zero", "one", "other" (CLDR 48)
+            // Rule 10: Latvian - "zero", "one", "other" (CLDR 49: zero = n%10=0 or n%100=11..19)
             ['lv', 0, PluralRules::CATEGORY_ZERO],
             ['lv', 1, PluralRules::CATEGORY_ONE],
             ['lv', 21, PluralRules::CATEGORY_ONE],
             ['lv', 2, PluralRules::CATEGORY_OTHER],
-            ['lv', 11, PluralRules::CATEGORY_OTHER],
+            ['lv', 10, PluralRules::CATEGORY_ZERO],
+            ['lv', 11, PluralRules::CATEGORY_ZERO],
 
             // Rule 11: Polish - "one", "few", "many"
             ['pl', 1, PluralRules::CATEGORY_ONE],
@@ -1455,14 +1527,16 @@ final class PluralRulesTest extends TestCase
             ['pt', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_MANY, PluralRules::CATEGORY_OTHER]],
             ['ca', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_MANY, PluralRules::CATEGORY_OTHER]],
 
-            // Rule 3: Slavic
+            // Rule 3: Slavic (Russian, Ukrainian still 4-cat)
             ['ru', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_MANY, PluralRules::CATEGORY_OTHER]],
             ['uk', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_MANY, PluralRules::CATEGORY_OTHER]],
-            ['sr', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_MANY, PluralRules::CATEGORY_OTHER]],
 
-            // Rule 4: Czech/Slovak
-            ['cs', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_OTHER]],
-            ['sk', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_OTHER]],
+            // Rule 27: Slavic 3-cat (bs, hr, sr — CLDR 49: one/few/other)
+            ['sr', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_OTHER]],
+
+            // Rule 4: Czech/Slovak (CLDR 49: one/few/many/other)
+            ['cs', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_MANY, PluralRules::CATEGORY_OTHER]],
+            ['sk', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_MANY, PluralRules::CATEGORY_OTHER]],
 
             // Rule 5: Irish
             [
@@ -1476,8 +1550,8 @@ final class PluralRulesTest extends TestCase
                 ]
             ],
 
-            // Rule 6: Lithuanian
-            ['lt', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_OTHER]],
+            // Rule 6: Lithuanian (CLDR 49: one/few/many/other)
+            ['lt', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_MANY, PluralRules::CATEGORY_OTHER]],
 
             // Rule 7: Slovenian
             [
@@ -1493,11 +1567,12 @@ final class PluralRulesTest extends TestCase
             // Rule 8: Macedonian (CLDR 48)
             ['mk', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_OTHER]],
 
-            // Rule 9: Maltese
+            // Rule 28: Maltese (CLDR 49: one/two/few/many/other)
             [
                 'mt',
                 [
                     PluralRules::CATEGORY_ONE,
+                    PluralRules::CATEGORY_TWO,
                     PluralRules::CATEGORY_FEW,
                     PluralRules::CATEGORY_MANY,
                     PluralRules::CATEGORY_OTHER
@@ -1565,27 +1640,20 @@ final class PluralRulesTest extends TestCase
                 ]
             ],
 
-            // Rule 18: Manx (CLDR 48)
+            // Rule 18: Manx (CLDR 49: one/two/few/many/other)
             [
                 'gv',
                 [
                     PluralRules::CATEGORY_ONE,
                     PluralRules::CATEGORY_TWO,
                     PluralRules::CATEGORY_FEW,
-                    PluralRules::CATEGORY_OTHER
-                ]
-            ],
-
-            // Rule 19: Hebrew (CLDR 48)
-            [
-                'he',
-                [
-                    PluralRules::CATEGORY_ONE,
-                    PluralRules::CATEGORY_TWO,
                     PluralRules::CATEGORY_MANY,
                     PluralRules::CATEGORY_OTHER
                 ]
             ],
+
+            // Rule 19: Hebrew (CLDR 49: one/two/other)
+            ['he', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_TWO, PluralRules::CATEGORY_OTHER]],
 
             // Unknown locale - defaults to rule 0
             ['xyz', [PluralRules::CATEGORY_OTHER]],
@@ -1603,9 +1671,9 @@ final class PluralRulesTest extends TestCase
         self::assertSame(PluralRules::CATEGORY_ONE, PluralRules::getCardinalCategoryName('en_US', 1));
         self::assertSame(PluralRules::CATEGORY_OTHER, PluralRules::getCardinalCategoryName('en_US', 2));
         self::assertSame(
-            PluralRules::CATEGORY_OTHER,
+            PluralRules::CATEGORY_ONE,
             PluralRules::getCardinalCategoryName('fr_FR', 0)
-        );  // CLDR 49: 0 is 'other'
+        );  // CLDR 49 Rule 29: 0 is 'one'
         self::assertSame(PluralRules::CATEGORY_OTHER, PluralRules::getCardinalCategoryName('fr_FR', 2));
 
         // Test with hyphen separator
@@ -1693,11 +1761,11 @@ final class PluralRulesTest extends TestCase
             ['fi', 2],
             ['et', 2],
             ['bg', 2],
+            ['oc', 2],
 
             // Rule 2: Two forms (nplurals=2)
             ['fil', 2],
             ['tr', 2],
-            ['oc', 2],
             ['ti', 2],
             ['ln', 2],
 
@@ -1708,23 +1776,25 @@ final class PluralRulesTest extends TestCase
             ['pt', 3],
             ['ca', 3],
 
-            // Rule 3: Slavic (nplurals=4)
+            // Rule 3: Slavic (nplurals=4 — Russian, Ukrainian, Belarusian)
             ['ru', 4],
             ['uk', 4],
-            ['sr', 4],
-            ['hr', 4],
             ['be', 4],
-            ['bs', 4],
 
-            // Rule 4: Czech/Slovak (nplurals=3)
-            ['cs', 3],
-            ['sk', 3],
+            // Rule 27: Slavic 3-cat (nplurals=3 — Serbian, Croatian, Bosnian — CLDR 49)
+            ['sr', 3],
+            ['hr', 3],
+            ['bs', 3],
+
+            // Rule 4: Czech/Slovak (nplurals=4 — CLDR 49: one/few/many/other)
+            ['cs', 4],
+            ['sk', 4],
 
             // Rule 5: Irish (nplurals=5)
             ['ga', 5],
 
-            // Rule 6: Lithuanian (nplurals=3)
-            ['lt', 3],
+            // Rule 6: Lithuanian (nplurals=4 — CLDR 49)
+            ['lt', 4],
 
             // Rule 7: Slovenian (nplurals=4)
             ['sl', 4],
@@ -1732,8 +1802,8 @@ final class PluralRulesTest extends TestCase
             // Rule 8: Macedonian (nplurals=2)
             ['mk', 2],
 
-            // Rule 9: Maltese (nplurals=4)
-            ['mt', 4],
+            // Rule 9: Maltese (nplurals=5 — CLDR 49)
+            ['mt', 5],
 
             // Rule 10: Latvian (nplurals=3)
             ['lv', 3],
@@ -1759,11 +1829,11 @@ final class PluralRulesTest extends TestCase
             // Rule 17: Breton (nplurals=5)
             ['br', 5],
 
-            // Rule 18: Manx (nplurals=4)
-            ['gv', 4],
+            // Rule 18: Manx (nplurals=5 — CLDR 49)
+            ['gv', 5],
 
-            // Rule 19: Hebrew (nplurals=4)
-            ['he', 4],
+            // Rule 19: Hebrew (nplurals=3 — CLDR 49)
+            ['he', 3],
 
             // Unknown locale - defaults to rule 0 (nplurals=1)
             ['xyz', 1],
@@ -1872,8 +1942,11 @@ final class PluralRulesTest extends TestCase
         self::assertSame($expected, PluralRules::getOrdinalCategories('fr-FR'));
         self::assertSame($expected, PluralRules::getOrdinalCategories('fr-CA'));
 
-        // Catalan
-        self::assertSame($expected, PluralRules::getOrdinalCategories('ca'));
+        // Catalan — CLDR 49: one/two/few/other (rule 39)
+        self::assertSame(
+            [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_TWO, PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_OTHER],
+            PluralRules::getOrdinalCategories('ca')
+        );
 
         // Filipino
         self::assertSame($expected, PluralRules::getOrdinalCategories('fil'));
@@ -1962,45 +2035,59 @@ final class PluralRulesTest extends TestCase
      */
     public function testOrdinalCategoriesRuleTwentyOneKazakhAzerbaijani(): void
     {
-        $expected = [PluralRules::CATEGORY_MANY, PluralRules::CATEGORY_OTHER];
+        $expectedKazakh = [PluralRules::CATEGORY_MANY, PluralRules::CATEGORY_OTHER];
 
-        // Kazakh
-        self::assertSame($expected, PluralRules::getOrdinalCategories('kk'));
+        // Kazakh — still rule 21
+        self::assertSame($expectedKazakh, PluralRules::getOrdinalCategories('kk'));
 
-        // Azerbaijani variants
-        self::assertSame($expected, PluralRules::getOrdinalCategories('az'));
-        self::assertSame($expected, PluralRules::getOrdinalCategories('azb'));
-        self::assertSame($expected, PluralRules::getOrdinalCategories('azj'));
+        // Azerbaijani — CLDR 49: one/few/many/other (rule 36)
+        $expectedAz = [
+            PluralRules::CATEGORY_ONE,
+            PluralRules::CATEGORY_FEW,
+            PluralRules::CATEGORY_MANY,
+            PluralRules::CATEGORY_OTHER
+        ];
+        self::assertSame($expectedAz, PluralRules::getOrdinalCategories('az'));
+        self::assertSame($expectedAz, PluralRules::getOrdinalCategories('azb'));
+        self::assertSame($expectedAz, PluralRules::getOrdinalCategories('azj'));
 
-        // Georgian
-        self::assertSame($expected, PluralRules::getOrdinalCategories('ka'));
+        // Georgian — CLDR 49: one/many/other (rule 40)
+        $expectedKa = [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_MANY, PluralRules::CATEGORY_OTHER];
+        self::assertSame($expectedKa, PluralRules::getOrdinalCategories('ka'));
     }
 
     /**
-     * Test getOrdinalCategories for Hungarian/Ukrainian ordinals (Rule 22: few/other)
-     * Pattern: few for n=1,5
+     * Test getOrdinalCategories for Ukrainian ordinals (Rule 22: few/other),
+     * Hungarian ordinals (Rule 35: one/other), and Turkmen ordinals (Rule 43: few/other)
      */
     public function testOrdinalCategoriesRuleTwentyTwoHungarianUkrainian(): void
     {
-        $expected = [PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_OTHER];
+        $expectedFewOther = [PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_OTHER];
 
-        // Hungarian
-        self::assertSame($expected, PluralRules::getOrdinalCategories('hu'));
+        // Hungarian — CLDR 49: one/other (rule 35)
+        $expectedHu = [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_OTHER];
+        self::assertSame($expectedHu, PluralRules::getOrdinalCategories('hu'));
 
-        // Ukrainian
-        self::assertSame($expected, PluralRules::getOrdinalCategories('uk'));
+        // Ukrainian — still few/other (rule 22)
+        self::assertSame($expectedFewOther, PluralRules::getOrdinalCategories('uk'));
 
-        // Turkmen
-        self::assertSame($expected, PluralRules::getOrdinalCategories('tk'));
+        // Turkmen — still few/other (rule 22)
+        self::assertSame($expectedFewOther, PluralRules::getOrdinalCategories('tk'));
     }
 
     /**
-     * Test getOrdinalCategories for Bengali/Assamese/Hindi ordinals (Rule 23: one/other)
-     * Pattern: one for n=1,5,7,8,9,10
+     * Test getOrdinalCategories for Bengali/Assamese ordinals (Rule 23) and Hindi (Rule 24)
+     * All share the same categories: one/two/few/many/other
      */
     public function testOrdinalCategoriesRuleTwentyThreeIndicLanguages(): void
     {
-        $expected = [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_OTHER];
+        $expected = [
+            PluralRules::CATEGORY_ONE,
+            PluralRules::CATEGORY_TWO,
+            PluralRules::CATEGORY_FEW,
+            PluralRules::CATEGORY_MANY,
+            PluralRules::CATEGORY_OTHER
+        ];
 
         // Bengali
         self::assertSame($expected, PluralRules::getOrdinalCategories('bn'));
@@ -2033,13 +2120,8 @@ final class PluralRulesTest extends TestCase
      */
     public function testOrdinalCategoriesRuleTwentyFiveKannada(): void
     {
-        $expected = [
-            PluralRules::CATEGORY_ONE,
-            PluralRules::CATEGORY_TWO,
-            PluralRules::CATEGORY_FEW,
-            PluralRules::CATEGORY_OTHER
-        ];
-
+        // CLDR 49: Kannada ordinals are just "other"
+        $expected = [PluralRules::CATEGORY_OTHER];
         self::assertSame($expected, PluralRules::getOrdinalCategories('kn'));
     }
 
@@ -2048,8 +2130,12 @@ final class PluralRulesTest extends TestCase
      */
     public function testOrdinalCategoriesRuleTwentySixMarathi(): void
     {
-        $expected = [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_OTHER];
-
+        $expected = [
+            PluralRules::CATEGORY_ONE,
+            PluralRules::CATEGORY_TWO,
+            PluralRules::CATEGORY_FEW,
+            PluralRules::CATEGORY_OTHER
+        ];
         self::assertSame($expected, PluralRules::getOrdinalCategories('mr'));
     }
 
@@ -2075,13 +2161,8 @@ final class PluralRulesTest extends TestCase
      */
     public function testOrdinalCategoriesRuleTwentyEightTelugu(): void
     {
-        $expected = [
-            PluralRules::CATEGORY_ONE,
-            PluralRules::CATEGORY_TWO,
-            PluralRules::CATEGORY_MANY,
-            PluralRules::CATEGORY_OTHER
-        ];
-
+        // CLDR 49: Telugu ordinals are just "other"
+        $expected = [PluralRules::CATEGORY_OTHER];
         self::assertSame($expected, PluralRules::getOrdinalCategories('te'));
     }
 
@@ -2090,24 +2171,19 @@ final class PluralRulesTest extends TestCase
      */
     public function testOrdinalCategoriesRuleTwentyNineNepali(): void
     {
-        $expected = [
-            PluralRules::CATEGORY_ONE,
-            PluralRules::CATEGORY_FEW,
-            PluralRules::CATEGORY_OTHER
-        ];
-
+        // CLDR 49: Nepali ordinals simplified to one/other
+        $expected = [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_OTHER];
         self::assertSame($expected, PluralRules::getOrdinalCategories('ne'));
     }
 
     /**
-     * Test getOrdinalCategories for Albanian ordinals (Rule 30: one/two/few/other)
+     * Test getOrdinalCategories for Albanian ordinals (Rule 30: one/many/other - CLDR 49)
      */
     public function testOrdinalCategoriesRuleThirtyAlbanian(): void
     {
         $expected = [
             PluralRules::CATEGORY_ONE,
-            PluralRules::CATEGORY_TWO,
-            PluralRules::CATEGORY_FEW,
+            PluralRules::CATEGORY_MANY,
             PluralRules::CATEGORY_OTHER
         ];
 
@@ -2133,13 +2209,12 @@ final class PluralRulesTest extends TestCase
         self::assertCount(2, $cardinalEn);
         self::assertCount(4, $ordinalEn);
 
-        // Hungarian: cardinal has one/other, ordinal has few/other
+        // Hungarian: cardinal has one/other, ordinal has one/other (rule 35, CLDR 49)
         $cardinalHu = PluralRules::getCardinalCategories('hu');
         $ordinalHu = PluralRules::getOrdinalCategories('hu');
-        self::assertNotSame($cardinalHu, $ordinalHu);
+        self::assertSame($cardinalHu, $ordinalHu); // Both are one/other in CLDR 49
         self::assertContains(PluralRules::CATEGORY_ONE, $cardinalHu);
-        self::assertContains(PluralRules::CATEGORY_FEW, $ordinalHu);
-        self::assertNotContains(PluralRules::CATEGORY_ONE, $ordinalHu);
+        self::assertContains(PluralRules::CATEGORY_ONE, $ordinalHu);
 
         // Italian: cardinal has one/many/other, ordinal has many/other
         $cardinalIt = PluralRules::getCardinalCategories('it');
@@ -2187,16 +2262,15 @@ final class PluralRulesTest extends TestCase
         self::assertCount(2, PluralRules::getOrdinalCategories('it'));
         self::assertCount(2, PluralRules::getOrdinalCategories('kk'));
         self::assertCount(2, PluralRules::getOrdinalCategories('hu'));
+        self::assertCount(2, PluralRules::getOrdinalCategories('ne')); // CLDR 49: one/other
 
-        // 3 categories (one/few/other)
-        self::assertCount(3, PluralRules::getOrdinalCategories('ne'));
+        // 3 categories (one/many/other)
+        self::assertCount(3, PluralRules::getOrdinalCategories('sq'));
 
         // 4 categories (one/two/few/other or one/two/many/other)
         self::assertCount(4, PluralRules::getOrdinalCategories('en'));
         self::assertCount(4, PluralRules::getOrdinalCategories('mk'));
         self::assertCount(4, PluralRules::getOrdinalCategories('gd'));
-        self::assertCount(4, PluralRules::getOrdinalCategories('sq'));
-        self::assertCount(4, PluralRules::getOrdinalCategories('te'));
 
         // 5 categories (one/two/few/many/other)
         self::assertCount(5, PluralRules::getOrdinalCategories('gu'));
@@ -2253,7 +2327,17 @@ final class PluralRulesTest extends TestCase
             // Rule 2: one/other
             'French' => ['fr', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_OTHER]],
             'Swedish' => ['sv', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_OTHER]],
-            'Catalan' => ['ca', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_OTHER]],
+
+            // Rule 39: Catalan (one/two/few/other) — CLDR 49
+            'Catalan' => [
+                'ca',
+                [
+                    PluralRules::CATEGORY_ONE,
+                    PluralRules::CATEGORY_TWO,
+                    PluralRules::CATEGORY_FEW,
+                    PluralRules::CATEGORY_OTHER
+                ]
+            ],
 
             // Rule 8: Macedonian (one/two/many/other)
             'Macedonian' => [
@@ -2293,20 +2377,66 @@ final class PluralRulesTest extends TestCase
             // Rule 20: Italian (many/other)
             'Italian' => ['it', [PluralRules::CATEGORY_MANY, PluralRules::CATEGORY_OTHER]],
 
-            // Rule 21: Kazakh/Azerbaijani (many/other)
+            // Rule 21: Kazakh (many/other)
             'Kazakh' => ['kk', [PluralRules::CATEGORY_MANY, PluralRules::CATEGORY_OTHER]],
-            'Azerbaijani' => ['az', [PluralRules::CATEGORY_MANY, PluralRules::CATEGORY_OTHER]],
-            'Georgian' => ['ka', [PluralRules::CATEGORY_MANY, PluralRules::CATEGORY_OTHER]],
 
-            // Rule 22: Hungarian/Ukrainian (few/other)
-            'Hungarian' => ['hu', [PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_OTHER]],
+            // Rule 36: Azerbaijani (one/few/many/other) — CLDR 49
+            'Azerbaijani' => [
+                'az',
+                [
+                    PluralRules::CATEGORY_ONE,
+                    PluralRules::CATEGORY_FEW,
+                    PluralRules::CATEGORY_MANY,
+                    PluralRules::CATEGORY_OTHER
+                ]
+            ],
+
+            // Rule 40: Georgian (one/many/other) — CLDR 49
+            'Georgian' => [
+                'ka',
+                [
+                    PluralRules::CATEGORY_ONE,
+                    PluralRules::CATEGORY_MANY,
+                    PluralRules::CATEGORY_OTHER
+                ]
+            ],
+
+            // Rule 35: Hungarian (one/other) — CLDR 49
+            'Hungarian' => ['hu', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_OTHER]],
             'Ukrainian' => ['uk', [PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_OTHER]],
             'Turkmen' => ['tk', [PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_OTHER]],
 
-            // Rule 23: Bengali/Assamese/Hindi (one/other)
-            'Bengali' => ['bn', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_OTHER]],
-            'Assamese' => ['as', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_OTHER]],
-            'Hindi' => ['hi', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_OTHER]],
+            // Rule 23: Bengali/Assamese/Hindi (one/two/few/many/other) — CLDR 49
+            'Bengali' => [
+                'bn',
+                [
+                    PluralRules::CATEGORY_ONE,
+                    PluralRules::CATEGORY_TWO,
+                    PluralRules::CATEGORY_FEW,
+                    PluralRules::CATEGORY_MANY,
+                    PluralRules::CATEGORY_OTHER
+                ]
+            ],
+            'Assamese' => [
+                'as',
+                [
+                    PluralRules::CATEGORY_ONE,
+                    PluralRules::CATEGORY_TWO,
+                    PluralRules::CATEGORY_FEW,
+                    PluralRules::CATEGORY_MANY,
+                    PluralRules::CATEGORY_OTHER
+                ]
+            ],
+            'Hindi' => [
+                'hi',
+                [
+                    PluralRules::CATEGORY_ONE,
+                    PluralRules::CATEGORY_TWO,
+                    PluralRules::CATEGORY_FEW,
+                    PluralRules::CATEGORY_MANY,
+                    PluralRules::CATEGORY_OTHER
+                ]
+            ],
 
             // Rule 24: Gujarati (one/two/few/many/other)
             'Gujarati' => [
@@ -2320,9 +2450,12 @@ final class PluralRulesTest extends TestCase
                 ]
             ],
 
-            // Rule 25: Kannada (one/two/few/other)
-            'Kannada' => [
-                'kn',
+            // Rule 0: Kannada (other only) — CLDR 49
+            'Kannada' => ['kn', [PluralRules::CATEGORY_OTHER]],
+
+            // Rule 26: Marathi (one/two/few/other) — CLDR 49
+            'Marathi' => [
+                'mr',
                 [
                     PluralRules::CATEGORY_ONE,
                     PluralRules::CATEGORY_TWO,
@@ -2331,8 +2464,6 @@ final class PluralRulesTest extends TestCase
                 ]
             ],
 
-            // Rule 26: Marathi (one/other)
-            'Marathi' => ['mr', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_OTHER]],
 
             // Rule 27: Odia (one/two/few/many/other)
             'Odia' => [
@@ -2346,27 +2477,18 @@ final class PluralRulesTest extends TestCase
                 ]
             ],
 
-            // Rule 28: Telugu (one/two/many/other)
-            'Telugu' => [
-                'te',
-                [
-                    PluralRules::CATEGORY_ONE,
-                    PluralRules::CATEGORY_TWO,
-                    PluralRules::CATEGORY_MANY,
-                    PluralRules::CATEGORY_OTHER
-                ]
-            ],
+            // Rule 0: Telugu (other only) — CLDR 49
+            'Telugu' => ['te', [PluralRules::CATEGORY_OTHER]],
 
-            // Rule 29: Nepali (one/few/other)
-            'Nepali' => ['ne', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_FEW, PluralRules::CATEGORY_OTHER]],
+            // Rule 29: Nepali (one/other) — CLDR 49
+            'Nepali' => ['ne', [PluralRules::CATEGORY_ONE, PluralRules::CATEGORY_OTHER]],
 
-            // Rule 30: Albanian (one/two/few/other)
+            // Rule 30: Albanian (one/many/other) - CLDR 49
             'Albanian' => [
                 'sq',
                 [
                     PluralRules::CATEGORY_ONE,
-                    PluralRules::CATEGORY_TWO,
-                    PluralRules::CATEGORY_FEW,
+                    PluralRules::CATEGORY_MANY,
                     PluralRules::CATEGORY_OTHER
                 ]
             ],
@@ -2582,12 +2704,12 @@ final class PluralRulesTest extends TestCase
     }
 
     /**
-     * Test getOrdinalFormIndex for Rule 22 (Hungarian ordinals)
-     * Pattern: few for n=1,5; other for everything else
+     * Test getOrdinalFormIndex for Rule 35 (Hungarian ordinals — CLDR 49)
+     * Pattern: one for n=1,5; other for everything else
      */
     public function testGetOrdinalFormIndexRuleTwentyTwoHungarian(): void
     {
-        // few: n = 1,5
+        // one: n = 1,5
         self::assertSame(0, PluralRules::getOrdinalFormIndex('hu', 1));
         self::assertSame(0, PluralRules::getOrdinalFormIndex('hu', 5));
 
@@ -2607,6 +2729,7 @@ final class PluralRulesTest extends TestCase
      */
     public function testGetOrdinalFormIndexRuleTwentyThreeBengali(): void
     {
+        // CLDR 49: one/two/few/many/other
         // one: n = 1,5,7,8,9,10
         self::assertSame(0, PluralRules::getOrdinalFormIndex('bn', 1));
         self::assertSame(0, PluralRules::getOrdinalFormIndex('bn', 5));
@@ -2615,14 +2738,20 @@ final class PluralRulesTest extends TestCase
         self::assertSame(0, PluralRules::getOrdinalFormIndex('bn', 9));
         self::assertSame(0, PluralRules::getOrdinalFormIndex('bn', 10));
 
-        // other: everything else
-        self::assertSame(1, PluralRules::getOrdinalFormIndex('bn', 0));
+        // two: n = 2,3
         self::assertSame(1, PluralRules::getOrdinalFormIndex('bn', 2));
         self::assertSame(1, PluralRules::getOrdinalFormIndex('bn', 3));
-        self::assertSame(1, PluralRules::getOrdinalFormIndex('bn', 4));
-        self::assertSame(1, PluralRules::getOrdinalFormIndex('bn', 6));
-        self::assertSame(1, PluralRules::getOrdinalFormIndex('bn', 11));
-        self::assertSame(1, PluralRules::getOrdinalFormIndex('bn', 100));
+
+        // few: n = 4
+        self::assertSame(2, PluralRules::getOrdinalFormIndex('bn', 4));
+
+        // many: n = 6
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('bn', 6));
+
+        // other: everything else
+        self::assertSame(4, PluralRules::getOrdinalFormIndex('bn', 0));
+        self::assertSame(4, PluralRules::getOrdinalFormIndex('bn', 11));
+        self::assertSame(4, PluralRules::getOrdinalFormIndex('bn', 100));
     }
 
     /**
@@ -2657,21 +2786,15 @@ final class PluralRulesTest extends TestCase
      */
     public function testGetOrdinalFormIndexRuleTwentyFiveKannada(): void
     {
-        // one: n = 1
+        // CLDR 49: Kannada ordinals — just "other" (rule 0)
         self::assertSame(0, PluralRules::getOrdinalFormIndex('kn', 1));
-
-        // two: n = 2,3
-        self::assertSame(1, PluralRules::getOrdinalFormIndex('kn', 2));
-        self::assertSame(1, PluralRules::getOrdinalFormIndex('kn', 3));
-
-        // few: n = 4
-        self::assertSame(2, PluralRules::getOrdinalFormIndex('kn', 4));
-
-        // other: everything else
-        self::assertSame(3, PluralRules::getOrdinalFormIndex('kn', 0));
-        self::assertSame(3, PluralRules::getOrdinalFormIndex('kn', 5));
-        self::assertSame(3, PluralRules::getOrdinalFormIndex('kn', 6));
-        self::assertSame(3, PluralRules::getOrdinalFormIndex('kn', 100));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('kn', 2));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('kn', 3));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('kn', 4));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('kn', 0));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('kn', 5));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('kn', 6));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('kn', 100));
     }
 
     /**
@@ -2679,14 +2802,22 @@ final class PluralRulesTest extends TestCase
      */
     public function testGetOrdinalFormIndexRuleTwentySixMarathi(): void
     {
+        // CLDR 49: one/two/few/other
         // one: n = 1
         self::assertSame(0, PluralRules::getOrdinalFormIndex('mr', 1));
 
-        // other: everything else
-        self::assertSame(1, PluralRules::getOrdinalFormIndex('mr', 0));
+        // two: n = 2,3
         self::assertSame(1, PluralRules::getOrdinalFormIndex('mr', 2));
-        self::assertSame(1, PluralRules::getOrdinalFormIndex('mr', 10));
-        self::assertSame(1, PluralRules::getOrdinalFormIndex('mr', 100));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('mr', 3));
+
+        // few: n = 4
+        self::assertSame(2, PluralRules::getOrdinalFormIndex('mr', 4));
+
+        // other: everything else
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('mr', 0));
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('mr', 5));
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('mr', 10));
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('mr', 100));
     }
 
     /**
@@ -2722,21 +2853,15 @@ final class PluralRulesTest extends TestCase
      */
     public function testGetOrdinalFormIndexRuleTwentyEightTelugu(): void
     {
-        // one: n = 1
+        // CLDR 49: Telugu ordinals — just "other" (rule 0)
         self::assertSame(0, PluralRules::getOrdinalFormIndex('te', 1));
-
-        // two: n = 2,3
-        self::assertSame(1, PluralRules::getOrdinalFormIndex('te', 2));
-        self::assertSame(1, PluralRules::getOrdinalFormIndex('te', 3));
-
-        // many: n = 4
-        self::assertSame(2, PluralRules::getOrdinalFormIndex('te', 4));
-
-        // other: everything else
-        self::assertSame(3, PluralRules::getOrdinalFormIndex('te', 0));
-        self::assertSame(3, PluralRules::getOrdinalFormIndex('te', 5));
-        self::assertSame(3, PluralRules::getOrdinalFormIndex('te', 6));
-        self::assertSame(3, PluralRules::getOrdinalFormIndex('te', 100));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('te', 2));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('te', 3));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('te', 4));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('te', 0));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('te', 5));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('te', 6));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('te', 100));
     }
 
     /**
@@ -2744,35 +2869,45 @@ final class PluralRulesTest extends TestCase
      */
     public function testGetOrdinalFormIndexRuleTwentyNineNepali(): void
     {
+        // CLDR 49: one/other
         // one: n = 1..4
         self::assertSame(0, PluralRules::getOrdinalFormIndex('ne', 1));
         self::assertSame(0, PluralRules::getOrdinalFormIndex('ne', 2));
         self::assertSame(0, PluralRules::getOrdinalFormIndex('ne', 3));
         self::assertSame(0, PluralRules::getOrdinalFormIndex('ne', 4));
 
-        // few: n = 5,6
+        // other: everything else
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('ne', 0));
         self::assertSame(1, PluralRules::getOrdinalFormIndex('ne', 5));
         self::assertSame(1, PluralRules::getOrdinalFormIndex('ne', 6));
-
-        // other: everything else
-        self::assertSame(2, PluralRules::getOrdinalFormIndex('ne', 0));
-        self::assertSame(2, PluralRules::getOrdinalFormIndex('ne', 7));
-        self::assertSame(2, PluralRules::getOrdinalFormIndex('ne', 10));
-        self::assertSame(2, PluralRules::getOrdinalFormIndex('ne', 100));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('ne', 7));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('ne', 10));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('ne', 100));
     }
 
     /**
      * Test getOrdinalFormIndex for Rule 30 (Albanian ordinals)
+     *
+     * CLDR 49 defines 3 ordinal categories for Albanian:
+     *   - one (index 0): n = 1
+     *   - many (index 1): n % 10 = 4 and n % 100 != 14
+     *   - other (index 2): everything else
      */
     public function testGetOrdinalFormIndexRuleThirtyAlbanian(): void
     {
         // one: n = 1
         self::assertSame(0, PluralRules::getOrdinalFormIndex('sq', 1));
 
-        // two: n = 4
+        // many: n % 10 = 4 and n % 100 != 14
         self::assertSame(1, PluralRules::getOrdinalFormIndex('sq', 4));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('sq', 24));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('sq', 34));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('sq', 44));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('sq', 104));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('sq', 1004));
 
-        // few: n = 2..9 except 4
+        // other: everything else (including 14)
+        self::assertSame(2, PluralRules::getOrdinalFormIndex('sq', 0));
         self::assertSame(2, PluralRules::getOrdinalFormIndex('sq', 2));
         self::assertSame(2, PluralRules::getOrdinalFormIndex('sq', 3));
         self::assertSame(2, PluralRules::getOrdinalFormIndex('sq', 5));
@@ -2780,12 +2915,502 @@ final class PluralRulesTest extends TestCase
         self::assertSame(2, PluralRules::getOrdinalFormIndex('sq', 7));
         self::assertSame(2, PluralRules::getOrdinalFormIndex('sq', 8));
         self::assertSame(2, PluralRules::getOrdinalFormIndex('sq', 9));
+        self::assertSame(2, PluralRules::getOrdinalFormIndex('sq', 10));
+        self::assertSame(2, PluralRules::getOrdinalFormIndex('sq', 11));
+        self::assertSame(2, PluralRules::getOrdinalFormIndex('sq', 14));  // exception: n%100=14
+        self::assertSame(2, PluralRules::getOrdinalFormIndex('sq', 100));
+    }
+
+    /**
+     * Test getOrdinalFormIndex for Rule 33 (Afrikaans ordinals — CLDR 49)
+     * Pattern: few for i%100 = 2..19; other for everything else
+     */
+    public function testGetOrdinalFormIndexRuleThirtyThreeAfrikaans(): void
+    {
+        // few: i % 100 = 2..19
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('af', 2));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('af', 10));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('af', 17));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('af', 19));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('af', 102));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('af', 1002));
 
         // other: everything else
-        self::assertSame(3, PluralRules::getOrdinalFormIndex('sq', 0));
-        self::assertSame(3, PluralRules::getOrdinalFormIndex('sq', 10));
-        self::assertSame(3, PluralRules::getOrdinalFormIndex('sq', 11));
-        self::assertSame(3, PluralRules::getOrdinalFormIndex('sq', 100));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('af', 0));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('af', 1));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('af', 20));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('af', 33));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('af', 100));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('af', 1000000));
+    }
+
+    /**
+     * Test getOrdinalFormIndex for Rule 36 (Azerbaijani ordinals — CLDR 49)
+     * Pattern:
+     *   one (0): i%10 = 1,2,5,7,8 or i%100 = 20,50,70,80
+     *   few (1): i%10 = 3,4 or i%1000 = 100,200,...,900
+     *   many (2): i = 0 or i%10 = 6 or i%100 = 40,60,90
+     *   other (3): everything else
+     */
+    public function testGetOrdinalFormIndexRuleThirtySixAzerbaijani(): void
+    {
+        // one: i%10 = 1,2,5,7,8
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('az', 1));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('az', 2));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('az', 5));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('az', 7));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('az', 8));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('az', 11));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('az', 12));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('az', 15));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('az', 18));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('az', 21));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('az', 22));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('az', 25));
+        // one: i%100 = 20,50,70,80
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('az', 20));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('az', 50));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('az', 70));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('az', 80));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('az', 1001));
+
+        // few: i%10 = 3,4
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('az', 3));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('az', 4));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('az', 13));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('az', 14));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('az', 23));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('az', 24));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('az', 33));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('az', 34));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('az', 43));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('az', 44));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('az', 53));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('az', 54));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('az', 63));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('az', 64));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('az', 73));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('az', 74));
+        // few: i%1000 = 100,200,...,900
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('az', 100));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('az', 200));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('az', 300));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('az', 900));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('az', 1003));
+
+        // many: i = 0
+        self::assertSame(2, PluralRules::getOrdinalFormIndex('az', 0));
+        // many: i%10 = 6
+        self::assertSame(2, PluralRules::getOrdinalFormIndex('az', 6));
+        self::assertSame(2, PluralRules::getOrdinalFormIndex('az', 16));
+        self::assertSame(2, PluralRules::getOrdinalFormIndex('az', 26));
+        self::assertSame(2, PluralRules::getOrdinalFormIndex('az', 36));
+        self::assertSame(2, PluralRules::getOrdinalFormIndex('az', 46));
+        self::assertSame(2, PluralRules::getOrdinalFormIndex('az', 56));
+        self::assertSame(2, PluralRules::getOrdinalFormIndex('az', 106));
+        self::assertSame(2, PluralRules::getOrdinalFormIndex('az', 1006));
+        // many: i%100 = 40,60,90
+        self::assertSame(2, PluralRules::getOrdinalFormIndex('az', 40));
+        self::assertSame(2, PluralRules::getOrdinalFormIndex('az', 60));
+        self::assertSame(2, PluralRules::getOrdinalFormIndex('az', 90));
+
+        // other: everything else
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('az', 9));
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('az', 10));
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('az', 19));
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('az', 29));
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('az', 30));
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('az', 39));
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('az', 49));
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('az', 59));
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('az', 69));
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('az', 79));
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('az', 109));
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('az', 1000));
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('az', 10000));
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('az', 1000000));
+    }
+
+    /**
+     * Test getOrdinalFormIndex for Rule 37 (Belarusian ordinals — CLDR 49)
+     * Pattern: few for n%10 = 2,3 and n%100 != 12,13; other for everything else
+     */
+    public function testGetOrdinalFormIndexRuleThirtySevenBelarusian(): void
+    {
+        // few: n%10 = 2,3 and n%100 != 12,13
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('be', 2));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('be', 3));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('be', 22));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('be', 23));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('be', 32));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('be', 33));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('be', 42));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('be', 43));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('be', 52));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('be', 53));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('be', 62));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('be', 63));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('be', 102));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('be', 1002));
+
+        // other: n%100 = 12,13 (exception)
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('be', 12));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('be', 13));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('be', 112));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('be', 113));
+
+        // other: everything else
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('be', 0));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('be', 1));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('be', 4));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('be', 5));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('be', 10));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('be', 11));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('be', 17));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('be', 100));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('be', 1000000));
+    }
+
+    /**
+     * Test getOrdinalFormIndex for Rule 38 (Bulgarian ordinals — CLDR 49)
+     *
+     * CLDR bg ordinals:
+     *   zero (0): i % 100 = 0 and i != 0 → 100, 200, 300, ...
+     *   one (1):  i % 10 = 1 and i % 100 != 11 → 1, 21, 31, ... (not 11, 111)
+     *   two (2):  i % 10 = 2 and i % 100 != 12 → 2, 22, 32, ... (not 12, 112)
+     *   few (3):  i % 10 = 3,4 and i % 100 != 13,14 → 3, 4, 23, 24, ...
+     *   many (4): i % 10 = 7,8 and i % 100 != 17,18 → 7, 8, 27, 28, ...
+     *   other (5): everything else → 0, 5, 6, 9~20, 25, ...
+     */
+    public function testGetOrdinalFormIndexRuleThirtyEightBulgarian(): void
+    {
+        // zero: i % 100 = 0 and i != 0
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('bg', 100));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('bg', 200));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('bg', 300));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('bg', 500));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('bg', 1000));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('bg', 10000));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('bg', 1000000));
+
+        // one: i % 10 = 1 and i % 100 != 11
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('bg', 1));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('bg', 21));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('bg', 31));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('bg', 41));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('bg', 51));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('bg', 101));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('bg', 1001));
+
+        // two: i % 10 = 2 and i % 100 != 12
+        self::assertSame(2, PluralRules::getOrdinalFormIndex('bg', 2));
+        self::assertSame(2, PluralRules::getOrdinalFormIndex('bg', 22));
+        self::assertSame(2, PluralRules::getOrdinalFormIndex('bg', 32));
+        self::assertSame(2, PluralRules::getOrdinalFormIndex('bg', 42));
+        self::assertSame(2, PluralRules::getOrdinalFormIndex('bg', 102));
+        self::assertSame(2, PluralRules::getOrdinalFormIndex('bg', 1002));
+
+        // few: i % 10 = 3,4 and i % 100 != 13,14
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('bg', 3));
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('bg', 4));
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('bg', 23));
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('bg', 24));
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('bg', 33));
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('bg', 34));
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('bg', 103));
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('bg', 1003));
+
+        // many: i % 10 = 7,8 and i % 100 != 17,18
+        self::assertSame(4, PluralRules::getOrdinalFormIndex('bg', 7));
+        self::assertSame(4, PluralRules::getOrdinalFormIndex('bg', 8));
+        self::assertSame(4, PluralRules::getOrdinalFormIndex('bg', 27));
+        self::assertSame(4, PluralRules::getOrdinalFormIndex('bg', 28));
+        self::assertSame(4, PluralRules::getOrdinalFormIndex('bg', 37));
+        self::assertSame(4, PluralRules::getOrdinalFormIndex('bg', 38));
+        self::assertSame(4, PluralRules::getOrdinalFormIndex('bg', 107));
+        self::assertSame(4, PluralRules::getOrdinalFormIndex('bg', 1007));
+
+        // other: everything else (0, 5, 6, 9~20, 25, 26, 105, ...)
+        self::assertSame(5, PluralRules::getOrdinalFormIndex('bg', 0));
+        self::assertSame(5, PluralRules::getOrdinalFormIndex('bg', 5));
+        self::assertSame(5, PluralRules::getOrdinalFormIndex('bg', 6));
+        self::assertSame(5, PluralRules::getOrdinalFormIndex('bg', 9));
+        self::assertSame(5, PluralRules::getOrdinalFormIndex('bg', 10));
+        self::assertSame(5, PluralRules::getOrdinalFormIndex('bg', 11));
+        self::assertSame(5, PluralRules::getOrdinalFormIndex('bg', 12));
+        self::assertSame(5, PluralRules::getOrdinalFormIndex('bg', 13));
+        self::assertSame(5, PluralRules::getOrdinalFormIndex('bg', 14));
+        self::assertSame(5, PluralRules::getOrdinalFormIndex('bg', 15));
+        self::assertSame(5, PluralRules::getOrdinalFormIndex('bg', 17));
+        self::assertSame(5, PluralRules::getOrdinalFormIndex('bg', 18));
+        self::assertSame(5, PluralRules::getOrdinalFormIndex('bg', 20));
+        self::assertSame(5, PluralRules::getOrdinalFormIndex('bg', 25));
+        self::assertSame(5, PluralRules::getOrdinalFormIndex('bg', 105));
+        self::assertSame(5, PluralRules::getOrdinalFormIndex('bg', 1005));
+    }
+
+    /**
+     * Test getOrdinalFormIndex for Rule 39 (Catalan ordinals — CLDR 49)
+     * Pattern: one for n=1,3; two for n=2; few for n=4; other for everything else
+     */
+    public function testGetOrdinalFormIndexRuleThirtyNineCatalan(): void
+    {
+        // one: n = 1,3
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('ca', 1));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('ca', 3));
+
+        // two: n = 2
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('ca', 2));
+
+        // few: n = 4
+        self::assertSame(2, PluralRules::getOrdinalFormIndex('ca', 4));
+
+        // other: everything else
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('ca', 0));
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('ca', 5));
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('ca', 6));
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('ca', 10));
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('ca', 19));
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('ca', 100));
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('ca', 1000));
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('ca', 1000000));
+    }
+
+    /**
+     * Test getOrdinalFormIndex for Rule 40 (Georgian ordinals — CLDR 49)
+     * Pattern:
+     *   one (0):  i = 1
+     *   many (1): i = 0 or i%100 = 2..20,40,60,80
+     *   other (2): everything else
+     */
+    public function testGetOrdinalFormIndexRuleFortyGeorgian(): void
+    {
+        // one: i = 1
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('ka', 1));
+
+        // many: i = 0
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('ka', 0));
+        // many: i%100 = 2..20
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('ka', 2));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('ka', 3));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('ka', 10));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('ka', 16));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('ka', 20));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('ka', 102));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('ka', 1002));
+        // many: i%100 = 40,60,80
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('ka', 40));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('ka', 60));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('ka', 80));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('ka', 140));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('ka', 160));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('ka', 180));
+
+        // other: everything else
+        self::assertSame(2, PluralRules::getOrdinalFormIndex('ka', 21));
+        self::assertSame(2, PluralRules::getOrdinalFormIndex('ka', 36));
+        self::assertSame(2, PluralRules::getOrdinalFormIndex('ka', 100));
+        self::assertSame(2, PluralRules::getOrdinalFormIndex('ka', 1000));
+        self::assertSame(2, PluralRules::getOrdinalFormIndex('ka', 10000));
+        self::assertSame(2, PluralRules::getOrdinalFormIndex('ka', 1000000));
+    }
+
+    /**
+     * Test getOrdinalFormIndex for Rule 41 (Swedish ordinals — CLDR 49)
+     * Pattern: one for n%10=1,2 and n%100!=11,12; other for everything else
+     */
+    public function testGetOrdinalFormIndexRuleFortyOneSwedish(): void
+    {
+        // one: n % 10 = 1,2 and n % 100 != 11,12
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('sv', 1));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('sv', 2));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('sv', 21));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('sv', 22));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('sv', 31));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('sv', 32));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('sv', 41));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('sv', 42));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('sv', 51));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('sv', 52));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('sv', 101));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('sv', 1001));
+
+        // other: everything else (including 11, 12)
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('sv', 0));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('sv', 3));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('sv', 4));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('sv', 5));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('sv', 10));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('sv', 11));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('sv', 12));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('sv', 13));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('sv', 17));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('sv', 100));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('sv', 1000));
+    }
+
+    /**
+     * Test getOrdinalFormIndex for Rule 42 (Ligurian/Sicilian ordinals — CLDR 49)
+     * Pattern: many for n=8,11,80..89,800..899; other for everything else
+     */
+    public function testGetOrdinalFormIndexRuleFortyTwoLigurianSicilian(): void
+    {
+        // many: n = 8,11,80..89,800..899
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('lij', 8));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('lij', 11));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('lij', 80));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('lij', 81));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('lij', 85));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('lij', 89));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('lij', 800));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('lij', 801));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('lij', 803));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('lij', 899));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('scn', 8));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('scn', 11));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('scn', 85));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('scn', 800));
+
+        // other: everything else
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('lij', 0));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('lij', 1));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('lij', 7));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('lij', 9));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('lij', 10));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('lij', 12));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('lij', 79));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('lij', 90));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('lij', 100));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('lij', 799));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('lij', 900));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('lij', 1000));
+    }
+
+    /**
+     * Test getOrdinalFormIndex for Rule 43 (Turkmen ordinals — CLDR 49)
+     * Pattern: few for n%10=6,9 or n=10; other for everything else
+     */
+    public function testGetOrdinalFormIndexRuleFortyThreeTurkmen(): void
+    {
+        // few: n % 10 = 6,9 or n = 10
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('tk', 6));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('tk', 9));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('tk', 10));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('tk', 16));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('tk', 19));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('tk', 26));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('tk', 29));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('tk', 36));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('tk', 39));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('tk', 106));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('tk', 1006));
+
+        // other: everything else
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('tk', 0));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('tk', 1));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('tk', 2));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('tk', 3));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('tk', 4));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('tk', 5));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('tk', 7));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('tk', 8));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('tk', 11));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('tk', 15));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('tk', 17));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('tk', 18));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('tk', 20));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('tk', 100));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('tk', 1000));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('tk', 1000000));
+    }
+
+    /**
+     * Test getOrdinalFormIndex for Rule 22 (Ukrainian ordinals — CLDR 49)
+     * Pattern: few for n%10=3 and n%100!=13; other for everything else
+     */
+    public function testGetOrdinalFormIndexRuleTwentyTwoUkrainian(): void
+    {
+        // few: n % 10 = 3 and n % 100 != 13
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('uk', 3));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('uk', 23));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('uk', 33));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('uk', 43));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('uk', 53));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('uk', 103));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('uk', 1003));
+
+        // other: everything else (including 13)
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('uk', 0));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('uk', 1));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('uk', 2));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('uk', 4));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('uk', 5));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('uk', 10));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('uk', 13));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('uk', 16));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('uk', 100));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('uk', 1000));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('uk', 1000000));
+    }
+
+    /**
+     * Test getOrdinalFormIndex for Rule 34 (Spanish ordinals — CLDR 49)
+     * Pattern: one for n%10=1,3 and n%100!=11; other for everything else
+     */
+    public function testGetOrdinalFormIndexRuleThirtyFourSpanish(): void
+    {
+        // one: n % 10 = 1,3 and n % 100 != 11
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('es', 1));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('es', 3));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('es', 13));  // 13%10=3, 13%100=13≠11 → one
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('es', 21));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('es', 23));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('es', 31));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('es', 33));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('es', 41));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('es', 101));
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('es', 1001));
+
+        // other: everything else (including 11)
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('es', 0));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('es', 2));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('es', 4));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('es', 5));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('es', 10));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('es', 11));  // exception: n%100=11
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('es', 12));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('es', 14));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('es', 18));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('es', 100));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('es', 1000));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('es', 1000000));
+    }
+
+    /**
+     * Test getOrdinalFormIndex for Hindi (now Rule 24, same as Gujarati)
+     * Pattern: one=1; two=2,3; few=4; many=6; other=everything else
+     */
+    public function testGetOrdinalFormIndexHindiRule24(): void
+    {
+        // one: n = 1
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('hi', 1));
+
+        // two: n = 2,3
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('hi', 2));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('hi', 3));
+
+        // few: n = 4
+        self::assertSame(2, PluralRules::getOrdinalFormIndex('hi', 4));
+
+        // many: n = 6
+        self::assertSame(3, PluralRules::getOrdinalFormIndex('hi', 6));
+
+        // other: everything else
+        self::assertSame(4, PluralRules::getOrdinalFormIndex('hi', 0));
+        self::assertSame(4, PluralRules::getOrdinalFormIndex('hi', 5));
+        self::assertSame(4, PluralRules::getOrdinalFormIndex('hi', 7));
+        self::assertSame(4, PluralRules::getOrdinalFormIndex('hi', 10));
+        self::assertSame(4, PluralRules::getOrdinalFormIndex('hi', 100));
     }
 
     /**
@@ -2922,9 +3547,9 @@ final class PluralRulesTest extends TestCase
      */
     public function testGetOrdinalCategoryNameHungarian(): void
     {
-        // few: n = 1,5
-        self::assertSame(PluralRules::CATEGORY_FEW, PluralRules::getOrdinalCategoryName('hu', 1));
-        self::assertSame(PluralRules::CATEGORY_FEW, PluralRules::getOrdinalCategoryName('hu', 5));
+        // CLDR 49: one for n=1,5; other for everything else
+        self::assertSame(PluralRules::CATEGORY_ONE, PluralRules::getOrdinalCategoryName('hu', 1));
+        self::assertSame(PluralRules::CATEGORY_ONE, PluralRules::getOrdinalCategoryName('hu', 5));
 
         // other: everything else
         self::assertSame(PluralRules::CATEGORY_OTHER, PluralRules::getOrdinalCategoryName('hu', 0));
@@ -3036,7 +3661,7 @@ final class PluralRulesTest extends TestCase
             'Welsh 10' => ['cy', 10, PluralRules::CATEGORY_OTHER],
             'Kazakh 6' => ['kk', 6, PluralRules::CATEGORY_MANY],
             'Kazakh 1' => ['kk', 1, PluralRules::CATEGORY_OTHER],
-            'Hungarian 1' => ['hu', 1, PluralRules::CATEGORY_FEW],
+            'Hungarian 1' => ['hu', 1, PluralRules::CATEGORY_ONE],
             'Hungarian 2' => ['hu', 2, PluralRules::CATEGORY_OTHER],
             'Japanese 1' => ['ja', 1, PluralRules::CATEGORY_OTHER],
         ];
@@ -3077,18 +3702,19 @@ final class PluralRulesTest extends TestCase
             'Macedonian' => ['mk', 2],
 
             // Languages with 3 plural forms
-            'Czech' => ['cs', 3],
-            'Slovak' => ['sk', 3],
             'Romanian' => ['ro', 3],
-            'Lithuanian' => ['lt', 3],
             'Latvian' => ['lv', 3],
+            'Croatian' => ['hr', 3],
+            'Serbian' => ['sr', 3],
+            'Hebrew' => ['he', 3],
 
             // Languages with 4 plural forms
+            'Czech' => ['cs', 4],
+            'Slovak' => ['sk', 4],
+            'Lithuanian' => ['lt', 4],
             'Russian' => ['ru', 4],
             'Ukrainian' => ['uk', 4],
             'Polish' => ['pl', 4],
-            'Croatian' => ['hr', 4],
-            'Serbian' => ['sr', 4],
             'Italian' => ['it', 3],
             'Spanish' => ['es', 3],
             'French' => ['fr', 3],
@@ -3096,12 +3722,11 @@ final class PluralRulesTest extends TestCase
 
             // Languages with 4 plural forms
             'Slovenian' => ['sl', 4],
-            'Maltese' => ['mt', 4],
             'Scottish Gaelic' => ['gd', 4],
-            'Hebrew' => ['he', 4],
-            'Manx' => ['gv', 4],
 
             // Languages with 5 plural forms
+            'Maltese' => ['mt', 5],
+            'Manx' => ['gv', 5],
             'Irish' => ['ga', 5],
             'Breton' => ['br', 5],
 
@@ -3157,6 +3782,449 @@ final class PluralRulesTest extends TestCase
         self::assertSame(1, PluralRulesWithUnknownRule::getCardinalFormIndex('xx_unknown', 2));
         self::assertSame(1, PluralRulesWithUnknownRule::getCardinalFormIndex('xx_unknown', 5));
         self::assertSame(1, PluralRulesWithUnknownRule::getCardinalFormIndex('xx_unknown', 100));
+    }
+
+    // =========================================================================
+    // Rule 21: Three forms, one/two/other (Inuktitut, Sami, Nama, Swampy Cree)
+    // n=1 → 0 (one), n=2 → 1 (two), other → 2
+    // =========================================================================
+
+    #[DataProvider('rule21Provider')]
+    public function testRule21OneTwoOther(string $locale, int $n, int $expected): void
+    {
+        self::assertSame($expected, PluralRules::getCardinalFormIndex($locale, $n));
+    }
+
+    /**
+     * @return array<array<string|int>>
+     */
+    public static function rule21Provider(): array
+    {
+        return [
+            // Inuktitut
+            ['iu', 0, 2],
+            ['iu', 1, 0],
+            ['iu', 2, 1],
+            ['iu', 3, 2],
+            ['iu', 10, 2],
+            ['iu', 100, 2],
+            // Northern Sami
+            ['se', 1, 0],
+            ['se', 2, 1],
+            ['se', 5, 2],
+            // Inari Sami
+            ['smn', 1, 0],
+            ['smn', 2, 1],
+            ['smn', 3, 2],
+            // Nama
+            ['naq', 1, 0],
+            ['naq', 2, 1],
+            ['naq', 11, 2],
+            // Swampy Cree (csw) — moved to rule 2 in CLDR 49 (one/other)
+            ['csw', 1, 0],
+            ['csw', 2, 1],
+            ['csw', 0, 0],  // rule 2: n > 1 → 1, else → 0
+        ];
+    }
+
+    // =========================================================================
+    // Rule 22: Three forms, zero/one/other (Colognian, Anii, Langi)
+    // n=0 → 0 (zero), n=1 → 1 (one), other → 2
+    // =========================================================================
+
+    #[DataProvider('rule22Provider')]
+    public function testRule22ZeroOneOther(string $locale, int $n, int $expected): void
+    {
+        self::assertSame($expected, PluralRules::getCardinalFormIndex($locale, $n));
+    }
+
+    /**
+     * @return array<array<string|int>>
+     */
+    public static function rule22Provider(): array
+    {
+        return [
+            // Colognian
+            ['ksh', 0, 0],
+            ['ksh', 1, 1],
+            ['ksh', 2, 2],
+            ['ksh', 10, 2],
+            ['ksh', 100, 2],
+            // Anii
+            ['blo', 0, 0],
+            ['blo', 1, 1],
+            ['blo', 5, 2],
+            // Langi
+            ['lag', 0, 0],
+            ['lag', 1, 1],
+            ['lag', 3, 2],
+        ];
+    }
+
+    // =========================================================================
+    // Rule 23: Three forms, one/few/other (Tachelhit)
+    // n in 0..1 → 0 (one), n in 2..10 → 1 (few), other → 2
+    // =========================================================================
+
+    #[DataProvider('rule23Provider')]
+    public function testRule23OneFewOther(string $locale, int $n, int $expected): void
+    {
+        self::assertSame($expected, PluralRules::getCardinalFormIndex($locale, $n));
+    }
+
+    /**
+     * @return array<array<string|int>>
+     */
+    public static function rule23Provider(): array
+    {
+        return [
+            ['shi', 0, 0],
+            ['shi', 1, 0],
+            ['shi', 2, 1],
+            ['shi', 3, 1],
+            ['shi', 10, 1],
+            ['shi', 11, 2],
+            ['shi', 20, 2],
+            ['shi', 100, 2],
+        ];
+    }
+
+    // =========================================================================
+    // Rule 24: Six forms (Cornish)
+    // zero=0, one=1, two=%100{2,22,42,62,82}+, few=%100{3,23,43,63,83},
+    // many: n!=1 and %100{1,21,41,61,81}, other: rest
+    // =========================================================================
+
+    #[DataProvider('rule24Provider')]
+    public function testRule24Cornish(string $locale, int $n, int $expected): void
+    {
+        self::assertSame($expected, PluralRules::getCardinalFormIndex($locale, $n));
+    }
+
+    /**
+     * @return array<array<string|int>>
+     */
+    public static function rule24Provider(): array
+    {
+        return [
+            // zero
+            ['kw', 0, 0],
+            // one
+            ['kw', 1, 1],
+            // two: 2, 22, 42, 62, 82, 102, 122...
+            ['kw', 2, 2],
+            ['kw', 22, 2],
+            ['kw', 42, 2],
+            ['kw', 62, 2],
+            ['kw', 82, 2],
+            ['kw', 102, 2],
+            // few: 3, 23, 43, 63, 83, 103...
+            ['kw', 3, 3],
+            ['kw', 23, 3],
+            ['kw', 43, 3],
+            ['kw', 63, 3],
+            ['kw', 83, 3],
+            // many: n!=1 and %100 in {1,21,41,61,81}
+            ['kw', 21, 4],
+            ['kw', 41, 4],
+            ['kw', 61, 4],
+            ['kw', 81, 4],
+            ['kw', 101, 4],
+            // other: everything else
+            ['kw', 4, 5],
+            ['kw', 5, 5],
+            ['kw', 10, 5],
+            ['kw', 11, 5],
+            ['kw', 20, 5],
+            ['kw', 100, 5],
+        ];
+    }
+
+    // =========================================================================
+    // Rule 25: Filipino/Tagalog (CLDR 49)
+    // one: does not end in 4, 6, 9; other: ends in 4, 6, 9
+    // =========================================================================
+
+    #[DataProvider('rule25Provider')]
+    public function testRule25Filipino(string $locale, int $n, int $expected): void
+    {
+        self::assertSame($expected, PluralRules::getCardinalFormIndex($locale, $n));
+    }
+
+    /**
+     * @return array<array<string|int>>
+     */
+    public static function rule25Provider(): array
+    {
+        return [
+            // "one" category: numbers NOT ending in 4, 6, 9
+            ['fil', 0, 0],
+            ['fil', 1, 0],
+            ['fil', 2, 0],
+            ['fil', 3, 0],
+            ['fil', 5, 0],
+            ['fil', 7, 0],
+            ['fil', 8, 0],
+            ['fil', 10, 0],
+            ['fil', 11, 0],
+            ['fil', 12, 0],
+            ['fil', 15, 0],
+            ['fil', 20, 0],
+            ['fil', 21, 0],
+            ['fil', 100, 0],
+            ['fil', 1000, 0],
+            // "other" category: numbers ending in 4, 6, 9
+            ['fil', 4, 1],
+            ['fil', 6, 1],
+            ['fil', 9, 1],
+            ['fil', 14, 1],
+            ['fil', 16, 1],
+            ['fil', 19, 1],
+            ['fil', 24, 1],
+            ['fil', 26, 1],
+            ['fil', 29, 1],
+            ['fil', 34, 1],
+            ['fil', 104, 1],
+            ['fil', 1006, 1],
+            // Tagalog — same rule
+            ['tl', 0, 0],
+            ['tl', 1, 0],
+            ['tl', 4, 1],
+            ['tl', 6, 1],
+            ['tl', 9, 1],
+            ['tl', 10, 0],
+        ];
+    }
+
+    // =========================================================================
+    // Rule 26: Central Atlas Tamazight (CLDR 49)
+    // one: n = 0–1 or n = 11–99; other: everything else
+    // =========================================================================
+
+    #[DataProvider('rule26Provider')]
+    public function testRule26Tamazight(string $locale, int $n, int $expected): void
+    {
+        self::assertSame($expected, PluralRules::getCardinalFormIndex($locale, $n));
+    }
+
+    /**
+     * @return array<array<string|int>>
+     */
+    public static function rule26Provider(): array
+    {
+        return [
+            // "one" category: 0, 1, 11–99
+            ['tzm', 0, 0],
+            ['tzm', 1, 0],
+            ['tzm', 11, 0],
+            ['tzm', 12, 0],
+            ['tzm', 50, 0],
+            ['tzm', 99, 0],
+            // "other" category: 2–10, 100+
+            ['tzm', 2, 1],
+            ['tzm', 3, 1],
+            ['tzm', 10, 1],
+            ['tzm', 100, 1],
+            ['tzm', 101, 1],
+            ['tzm', 110, 1],
+            ['tzm', 1000, 1],
+        ];
+    }
+
+    // =========================================================================
+    // Ordinal Rule 31: Anii ordinals (zero/one/few/other)
+    // =========================================================================
+
+    #[DataProvider('ordinalRule31Provider')]
+    public function testOrdinalRule31Anii(string $locale, int $n, int $expected): void
+    {
+        self::assertSame($expected, PluralRules::getOrdinalFormIndex($locale, $n));
+    }
+
+    /**
+     * @return array<array<string|int>>
+     */
+    public static function ordinalRule31Provider(): array
+    {
+        return [
+            ['blo', 0, 0],  // zero
+            ['blo', 1, 1],  // one
+            ['blo', 2, 2],  // few
+            ['blo', 3, 2],  // few
+            ['blo', 6, 2],  // few
+            ['blo', 7, 3],  // other
+            ['blo', 10, 3], // other
+            ['blo', 100, 3], // other
+        ];
+    }
+
+    // =========================================================================
+    // Ordinal Rule 32: Cornish ordinals (one/many/other)
+    // =========================================================================
+
+    #[DataProvider('ordinalRule32Provider')]
+    public function testOrdinalRule32Cornish(string $locale, int $n, int $expected): void
+    {
+        self::assertSame($expected, PluralRules::getOrdinalFormIndex($locale, $n));
+    }
+
+    /**
+     * @return array<array<string|int>>
+     */
+    public static function ordinalRule32Provider(): array
+    {
+        return [
+            ['kw', 1, 0],   // one
+            ['kw', 2, 0],   // one
+            ['kw', 3, 0],   // one
+            ['kw', 4, 0],   // one
+            ['kw', 5, 1],   // many
+            ['kw', 6, 2],   // other
+            ['kw', 10, 2],  // other
+            ['kw', 21, 0],  // one
+            ['kw', 22, 0],  // one
+            ['kw', 105, 1], // many (n%100=5)
+            ['kw', 100, 2], // other
+        ];
+    }
+
+    // =========================================================================
+    // Moldavian (mo) = Romanian (ro) - cardinal rule 12, ordinal rule 2
+    // =========================================================================
+
+    #[DataProvider('moldavianProvider')]
+    public function testMoldavianSameAsRomanian(string $locale, int $n, int $expected): void
+    {
+        self::assertSame($expected, PluralRules::getCardinalFormIndex($locale, $n));
+    }
+
+    /**
+     * @return array<array<string|int>>
+     */
+    public static function moldavianProvider(): array
+    {
+        return [
+            ['mo', 1, 0],   // one
+            ['mo', 0, 1],   // few
+            ['mo', 2, 1],   // few
+            ['mo', 12, 1],  // few
+            ['mo', 19, 1],  // few
+            ['mo', 101, 1], // few (n%100=1 and n!=1)
+            ['mo', 20, 2],  // other
+            ['mo', 100, 2], // other
+        ];
+    }
+
+    public function testMoldavianOrdinalSameAsRomanian(): void
+    {
+        // Ordinal rule 2: n=1 → 0 (one), else → 1 (other)
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('mo', 1));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('mo', 2));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('mo', 10));
+    }
+
+    // =========================================================================
+    // Haitian Creole (ht) fix: cardinal 29 (follows French), ordinal 2 (CLDR 49)
+    // =========================================================================
+
+    public function testHaitianCreoleCLDR49(): void
+    {
+        // Cardinal rule 29: one/many/other (one = n <= 1)
+        self::assertSame(0, PluralRules::getCardinalFormIndex('ht', 1));  // one
+        self::assertSame(0, PluralRules::getCardinalFormIndex('ht', 0));  // one (n <= 1)
+        self::assertSame(2, PluralRules::getCardinalFormIndex('ht', 2));  // other
+        self::assertSame(2, PluralRules::getCardinalFormIndex('ht', 5));  // other
+        self::assertSame(1, PluralRules::getCardinalFormIndex('ht', 1000000)); // many
+
+        // Ordinal rule 2: one/other
+        self::assertSame(0, PluralRules::getOrdinalFormIndex('ht', 1));
+        self::assertSame(1, PluralRules::getOrdinalFormIndex('ht', 2));
+    }
+
+    // =========================================================================
+    // Category name tests for new rules
+    // =========================================================================
+
+    public function testCategoryNamesForNewRules(): void
+    {
+        // Rule 21: one/two/other
+        self::assertSame('one', PluralRules::getCardinalCategoryName('iu', 1));
+        self::assertSame('two', PluralRules::getCardinalCategoryName('iu', 2));
+        self::assertSame('other', PluralRules::getCardinalCategoryName('iu', 3));
+
+        // Rule 22: zero/one/other
+        self::assertSame('zero', PluralRules::getCardinalCategoryName('ksh', 0));
+        self::assertSame('one', PluralRules::getCardinalCategoryName('ksh', 1));
+        self::assertSame('other', PluralRules::getCardinalCategoryName('ksh', 2));
+
+        // Rule 23: one/few/other
+        self::assertSame('one', PluralRules::getCardinalCategoryName('shi', 0));
+        self::assertSame('one', PluralRules::getCardinalCategoryName('shi', 1));
+        self::assertSame('few', PluralRules::getCardinalCategoryName('shi', 5));
+        self::assertSame('other', PluralRules::getCardinalCategoryName('shi', 11));
+
+        // Rule 24: zero/one/two/few/many/other (Cornish)
+        self::assertSame('zero', PluralRules::getCardinalCategoryName('kw', 0));
+        self::assertSame('one', PluralRules::getCardinalCategoryName('kw', 1));
+        self::assertSame('two', PluralRules::getCardinalCategoryName('kw', 2));
+        self::assertSame('few', PluralRules::getCardinalCategoryName('kw', 3));
+        self::assertSame('many', PluralRules::getCardinalCategoryName('kw', 21));
+        self::assertSame('other', PluralRules::getCardinalCategoryName('kw', 10));
+    }
+
+    public function testOrdinalCategoryNamesForNewRules(): void
+    {
+        // Rule 31: zero/one/few/other (Anii)
+        self::assertSame('zero', PluralRules::getOrdinalCategoryName('blo', 0));
+        self::assertSame('one', PluralRules::getOrdinalCategoryName('blo', 1));
+        self::assertSame('few', PluralRules::getOrdinalCategoryName('blo', 3));
+        self::assertSame('other', PluralRules::getOrdinalCategoryName('blo', 10));
+
+        // Rule 32: one/many/other (Cornish)
+        self::assertSame('one', PluralRules::getOrdinalCategoryName('kw', 1));
+        self::assertSame('many', PluralRules::getOrdinalCategoryName('kw', 5));
+        self::assertSame('other', PluralRules::getOrdinalCategoryName('kw', 10));
+    }
+
+    // =========================================================================
+    // Plural count and categories for new rules
+    // =========================================================================
+
+    public function testPluralCountForNewRules(): void
+    {
+        // Rule 21: 3 forms (one/two/other)
+        self::assertSame(3, PluralRules::getPluralCount('iu'));
+        self::assertSame(3, PluralRules::getPluralCount('se'));
+
+        // Rule 22: 3 forms (zero/one/other)
+        self::assertSame(3, PluralRules::getPluralCount('ksh'));
+        self::assertSame(3, PluralRules::getPluralCount('lag'));
+
+        // Rule 23: 3 forms (one/few/other)
+        self::assertSame(3, PluralRules::getPluralCount('shi'));
+
+        // Rule 24: 6 forms (Cornish)
+        self::assertSame(6, PluralRules::getPluralCount('kw'));
+
+        // Moldavian = Romanian = 3 forms
+        self::assertSame(3, PluralRules::getPluralCount('mo'));
+    }
+
+    public function testCardinalCategoriesForNewRules(): void
+    {
+        self::assertSame(['one', 'two', 'other'], PluralRules::getCardinalCategories('iu'));
+        self::assertSame(['zero', 'one', 'other'], PluralRules::getCardinalCategories('ksh'));
+        self::assertSame(['one', 'few', 'other'], PluralRules::getCardinalCategories('shi'));
+        self::assertSame(
+            ['zero', 'one', 'two', 'few', 'many', 'other'],
+            PluralRules::getCardinalCategories('kw')
+        );
+    }
+
+    public function testOrdinalCategoriesForNewRules(): void
+    {
+        self::assertSame(['zero', 'one', 'few', 'other'], PluralRules::getOrdinalCategories('blo'));
+        self::assertSame(['one', 'many', 'other'], PluralRules::getOrdinalCategories('kw'));
     }
 
 }

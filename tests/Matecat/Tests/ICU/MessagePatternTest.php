@@ -1491,14 +1491,6 @@ MSG;
     #[Test]
     public function testTooManyNumericValues(): void
     {
-        $isCoverage = (bool)count(array_filter($_SERVER['argv'], fn($arg) => str_contains($arg, 'coverage')));
-
-        if ($isCoverage) {
-            $this->markTestSkipped(
-                'This test is very expensive when coverage is enabled.',
-            );
-        }
-
         $this->expectException(OutOfBoundsException::class);
         $this->expectExceptionMessage('Too many numeric values');
 
