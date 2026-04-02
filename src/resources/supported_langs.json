@@ -6211,21 +6211,6 @@
         {
             "localized": [
                 {
-                    "en": "Norwegian"
-                }
-            ],
-            "isocode": "no",
-            "enabled": true,
-            "rtl": false,
-            "bcp47code": "no-NO",
-            "ocr": {
-                "supported": true,
-                "not_supported_or_rtl": false
-            }
-        },
-        {
-            "localized": [
-                {
                     "en": "N'Ko"
                 }
             ],
