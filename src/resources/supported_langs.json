@@ -831,6 +831,21 @@
         {
             "localized": [
                 {
+                    "en": "Chinese (Laos)"
+                }
+            ],
+            "isocode": "zh",
+            "enabled": true,
+            "rtl": false,
+            "bcp47code": "zh-LA",
+            "ocr": {
+                "supported": true,
+                "not_supported_or_rtl": false
+            }
+        },
+        {
+            "localized": [
+                {
                     "en": "Chinese (Simplified, mainland China)"
                 }
             ],
@@ -1813,6 +1828,21 @@
             "enabled": true,
             "rtl": false,
             "bcp47code": "fr-CH",
+            "ocr": {
+                "supported": true,
+                "not_supported_or_rtl": false
+            }
+        },
+        {
+            "localized": [
+                {
+                    "en": "French (Luxembourg)"
+                }
+            ],
+            "isocode": "fr",
+            "enabled": true,
+            "rtl": false,
+            "bcp47code": "fr-LU",
             "ocr": {
                 "supported": true,
                 "not_supported_or_rtl": false
@@ -3471,18 +3501,32 @@
         {
             "localized": [
                 {
-                    "en": "Montenegrin"
+                    "en": "Montenegrin (Cyrillic script)"
                 }
             ],
-            "isocode": "me",
+            "isocode": "sr",
             "enabled": true,
             "rtl": false,
-            "bcp47code": "sr-ME",
+            "bcp47code": "sr-Cyrl-ME",
             "ocr": {
                 "supported": true,
                 "not_supported_or_rtl": false
-            },
-            "languageRegionCode": "sr-Latn-RS"
+            }
+        },
+        {
+            "localized": [
+                {
+                    "en": "Montenegrin (Latin script)"
+                }
+            ],
+            "isocode": "sr",
+            "enabled": true,
+            "rtl": false,
+            "bcp47code": "sr-Latn-ME",
+            "ocr": {
+                "supported": true,
+                "not_supported_or_rtl": false
+            }
         },
         {
             "localized": [
