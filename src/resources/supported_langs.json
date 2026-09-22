@@ -5848,7 +5848,7 @@
         {
             "localized": [
                 {
-                    "en": "Urdu (Latin script)"
+                    "en": "Urdu (Latin script, Pakistan)"
                 }
             ],
             "isocode": "ur",
@@ -5863,13 +5863,28 @@
         {
             "localized": [
                 {
-                    "en": "Urdu (Perso-arabic script)"
+                    "en": "Urdu (Perso-arabic script, Pakistan)"
                 }
             ],
             "isocode": "ur",
             "enabled": true,
             "rtl": true,
             "bcp47code": "ur-PK",
+            "ocr": {
+                "supported": true,
+                "not_supported_or_rtl": false
+            }
+        },
+        {
+            "localized": [
+                {
+                    "en": "Urdu (Perso-arabic script, India)"
+                }
+            ],
+            "isocode": "ur",
+            "enabled": true,
+            "rtl": true,
+            "bcp47code": "ur-IN",
             "ocr": {
                 "supported": true,
                 "not_supported_or_rtl": false

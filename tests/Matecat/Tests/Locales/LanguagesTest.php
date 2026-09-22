@@ -102,7 +102,8 @@ final class LanguagesTest extends TestCase
             'Arabic (Egypt)' => ['ar-EG'],
             'Hebrew' => ['he-IL'],
             'Persian' => ['fa-IR'],
-            'Urdu' => ['ur-PK'],
+            'Urdu (Pakistan)' => ['ur-PK'],
+            'Urdu (India)' => ['ur-IN'],
         ];
     }
 
