@@ -530,7 +530,8 @@ class CardinalDecimalRule
         // because ($v === 2 && $f10 === 1) || ($v !== 2 && $f10 === 1) covers every
         // value of v and thus reduces to just "$f10 === 1".
         //
-        // @phpstan-ignore notIdentical.alwaysTrue (redundant $f100 !== 11 kept on purpose to mirror the CLDR rule text; see comment above)
+        // The PHPStan notIdentical.alwaysTrue on "$f100 !== 11" is ignored in phpstan.neon (it is only
+        // reported by some PHPStan versions, so an inline ignore comment fails CI when unmatched).
         if (($n10 == 1 && $n100 != 11) || ($v === 2 && $f10 === 1 && $f100 !== 11) || ($v !== 2 && $f10 === 1)) {
             return 1;
         }
