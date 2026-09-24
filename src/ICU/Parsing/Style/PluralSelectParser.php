@@ -14,6 +14,7 @@ use Closure;
 use Matecat\ICU\Exceptions\BadPluralSelectPatternSyntaxException;
 use Matecat\ICU\Exceptions\InvalidArgumentException;
 use Matecat\ICU\Exceptions\InvalidNumericValueException;
+use Matecat\ICU\Exceptions\MissingOtherCategoryException;
 use Matecat\ICU\Exceptions\OutOfBoundsException;
 use Matecat\ICU\Exceptions\UnmatchedBracesException;
 use Matecat\ICU\Parsing\ParseContext;
@@ -58,14 +59,16 @@ final class PluralSelectParser
     {
         $start = $index;
         $isEmpty = true;
-        $hasOther = false;
+        $argName = $this->currentArgumentName();
+        /** @var list<string> $selectors */
+        $selectors = [];
 
         while (true) {
             $index = CharUtils::skipWhiteSpace($this->ctx->msg, $index);
             $eos = $index === $this->ctx->msgLength;
 
             if ($eos || CharUtils::charAt($this->ctx->chars, $index) === '}') {
-                $this->validateEnd($eos, $hasOther, $argType, $start, $inMessageFormatPattern);
+                $this->validateEnd($eos, $selectors, $argType, $argName, $start, $inMessageFormatPattern);
                 return $index;
             }
 
@@ -79,8 +82,8 @@ final class PluralSelectParser
                     $isEmpty = false;
                     continue;
                 }
-                $hasOther = $hasOther || $this->isOtherSelector($selectorIndex, $index - $selectorIndex);
             }
+            $selectors[] = mb_substr($this->ctx->msg, $selectorIndex, $index - $selectorIndex);
 
             $this->requireMessageFragment($argType, $index, $selectorIndex);
             $index = ($this->parseMessage)($index, 1, $nestingLevel + 1, $argType);
@@ -93,9 +96,18 @@ final class PluralSelectParser
      *
      * @throws UnmatchedBracesException
      * @throws BadPluralSelectPatternSyntaxException
+     * @param list<string> $selectors
+     *
+     * @throws MissingOtherCategoryException
      */
-    private function validateEnd(bool $eos, bool $hasOther, ArgType $argType, int $start, bool $inMessageFormatPattern): void
-    {
+    private function validateEnd(
+        bool $eos,
+        array $selectors,
+        ArgType $argType,
+        ?string $argName,
+        int $start,
+        bool $inMessageFormatPattern
+    ): void {
         if ($eos) {
             $this->checkUnmatchedBraces();
         }
@@ -103,8 +115,8 @@ final class PluralSelectParser
         if ($eos === $inMessageFormatPattern) {
             throw new BadPluralSelectPatternSyntaxException($argType->name, CharUtils::errorContext($this->ctx->msg, $start));
         }
-        if (!$hasOther) {
-            throw new BadPluralSelectPatternSyntaxException($argType->name, CharUtils::errorContext($this->ctx->msg, $start));
+        if (!in_array('other', $selectors, true)) {
+            throw new MissingOtherCategoryException(strtolower($argType->name), $argName, $selectors);
         }
     }
 
@@ -224,11 +236,24 @@ final class PluralSelectParser
     }
 
     /**
-     * Checks whether the selector at the given position is "other".
+     * Returns the name (or number) of the argument whose style is about to be parsed.
+     * Must be called on entry to parse(), before any selector or nested part is added.
+     * Returns null when parsing a standalone style (e.g. parsePluralStyle()), which has no argument.
      */
-    private function isOtherSelector(int $selectorIndex, int $len): bool
+    private function currentArgumentName(): ?string
     {
-        return mb_substr($this->ctx->msg, $selectorIndex, $len) === 'other';
+        for ($i = count($this->ctx->parts) - 1; $i >= 0; $i--) {
+            $part = $this->ctx->parts[$i];
+            $type = $part->getType();
+            if ($type === TokenType::ARG_NAME || $type === TokenType::ARG_NUMBER) {
+                return mb_substr($this->ctx->msg, $part->getIndex(), $part->getLength());
+            }
+            if ($type !== TokenType::ARG_TYPE) {
+                return null;
+            }
+        }
+
+        return null;
     }
 
     /**

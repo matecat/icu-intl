@@ -762,6 +762,7 @@ doesn't match.
 - `Matecat\ICU\Exceptions\UnmatchedBracesException` — unmatched `{` or `}` in patterns
 - `Matecat\ICU\Exceptions\BadChoicePatternSyntaxException` — invalid choice pattern syntax
 - `Matecat\ICU\Exceptions\BadPluralSelectPatternSyntaxException` — invalid plural/select pattern syntax
+- `Matecat\ICU\Exceptions\MissingOtherCategoryException` — plural/select/selectordinal missing the mandatory `other` category (extends `BadPluralSelectPatternSyntaxException`)
 - `Matecat\ICU\Exceptions\InvalidNumericValueException` — bad numeric value syntax in patterns
 - `Matecat\ICU\Exceptions\MissingComplexFormException` — missing or mismatched complex forms in pattern comparisons
 - `Matecat\ICU\Plurals\PluralComplianceException` — invalid CLDR plural category names
@@ -821,6 +822,7 @@ src/ICU/
     ├── UnmatchedBracesException.php
     ├── BadChoicePatternSyntaxException.php
     ├── BadPluralSelectPatternSyntaxException.php
+    ├── MissingOtherCategoryException.php
     ├── InvalidNumericValueException.php
     └── MissingComplexFormException.php
 

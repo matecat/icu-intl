@@ -8,6 +8,7 @@ namespace Matecat\Tests\ICU;
 use Exception;
 use Matecat\ICU\Exceptions\BadPluralSelectPatternSyntaxException;
 use Matecat\ICU\Exceptions\InvalidArgumentException;
+use Matecat\ICU\Exceptions\MissingOtherCategoryException;
 use Matecat\ICU\Exceptions\OutOfBoundsException;
 use Matecat\ICU\Exceptions\UnmatchedBracesException;
 use Matecat\ICU\MessagePattern;
@@ -928,8 +929,8 @@ MSG;
     #[Test]
     public function testPluralStyleMissingOther(): void
     {
-        $this->expectException(BadPluralSelectPatternSyntaxException::class);
-        $this->expectExceptionMessage("Bad plural pattern syntax");
+        $this->expectException(MissingOtherCategoryException::class);
+        $this->expectExceptionMessage('Category "other" missing from ICU message: plural style (found: one)');
 
         $pattern = new MessagePattern();
         $pattern->parsePluralStyle('one{# item}');
@@ -1043,8 +1044,8 @@ MSG;
     public function testMessagePatternPluralWithoutOther(): void
     {
         // Test using full message pattern syntax with plural style but NO other keyword
-        $this->expectException(BadPluralSelectPatternSyntaxException::class);
-        $this->expectExceptionMessage("Bad plural pattern syntax");
+        $this->expectException(MissingOtherCategoryException::class);
+        $this->expectExceptionMessage('Category "other" missing from ICU message: plural argument "count" (found: one)');
 
         $pattern = new MessagePattern();
         // This pattern has a plural style with 'one' selector but NO 'other' selector
@@ -1061,12 +1062,116 @@ MSG;
     public function testMessagePatternPluralFewWithoutOther(): void
     {
         // Test with multiple selectors but still missing 'other' keyword
-        $this->expectException(BadPluralSelectPatternSyntaxException::class);
-        $this->expectExceptionMessage("Bad plural pattern syntax");
+        $this->expectException(MissingOtherCategoryException::class);
+        $this->expectExceptionMessage('Category "other" missing from ICU message: plural argument "count" (found: one, few, many)');
 
         $pattern = new MessagePattern();
         // Russian plural form with one/few/many but NO 'other'
         $pattern->parse('{count, plural, one{# item} few{# items} many{# items}}');
+    }
+
+    /**
+     * Tests that select without 'other' throws MissingOtherCategoryException.
+     *
+     * @throws InvalidArgumentException
+     * @throws OutOfBoundsException
+     */
+    #[Test]
+    public function testMessagePatternSelectWithoutOther(): void
+    {
+        $this->expectException(MissingOtherCategoryException::class);
+        $this->expectExceptionMessage('Category "other" missing from ICU message: select argument "gender" (found: male, female)');
+
+        $pattern = new MessagePattern();
+        $pattern->parse('{gender, select, male{He} female{She}}');
+    }
+
+    /**
+     * Tests that selectordinal without 'other' throws MissingOtherCategoryException.
+     *
+     * @throws InvalidArgumentException
+     * @throws OutOfBoundsException
+     */
+    #[Test]
+    public function testMessagePatternSelectOrdinalWithoutOther(): void
+    {
+        $this->expectException(MissingOtherCategoryException::class);
+        $this->expectExceptionMessage('Category "other" missing from ICU message: selectordinal argument "n" (found: one, two)');
+
+        $pattern = new MessagePattern();
+        $pattern->parse('{n, selectordinal, one{#st} two{#nd}}');
+    }
+
+    /**
+     * Tests that a translated "other" keyword (e.g. French "autre") is listed among the found selectors,
+     * with argument details exposed through getters.
+     *
+     * @throws InvalidArgumentException
+     * @throws OutOfBoundsException
+     */
+    #[Test]
+    public function testMissingOtherListsTranslatedKeyword(): void
+    {
+        $pattern = new MessagePattern();
+        try {
+            $pattern->parse("{gender,select, male{Il est à l'heure} femme{Elle est à l'heure} autre{Ils sont à l'heure}}");
+            self::fail('Expected MissingOtherCategoryException');
+        } catch (MissingOtherCategoryException $e) {
+            self::assertSame(
+                'Category "other" missing from ICU message: select argument "gender" (found: male, femme, autre)',
+                $e->getMessage()
+            );
+            self::assertSame('select', $e->getArgumentType());
+            self::assertSame('gender', $e->getArgumentName());
+            self::assertSame(['male', 'femme', 'autre'], $e->getSelectors());
+        }
+    }
+
+    /**
+     * Tests that a missing "other" in a nested plural reports the inner argument, and offset is not a selector.
+     *
+     * @throws InvalidArgumentException
+     * @throws OutOfBoundsException
+     */
+    #[Test]
+    public function testMissingOtherReportsInnermostArgument(): void
+    {
+        $this->expectException(MissingOtherCategoryException::class);
+        $this->expectExceptionMessage('Category "other" missing from ICU message: plural argument "n" (found: =0, one)');
+
+        $pattern = new MessagePattern();
+        $pattern->parse('{g, select, male{{n, plural, offset:1 =0{none} one{# item}}} other{x}}');
+    }
+
+    /**
+     * Tests that numbered arguments are reported by number.
+     *
+     * @throws InvalidArgumentException
+     * @throws OutOfBoundsException
+     */
+    #[Test]
+    public function testMissingOtherReportsNumberedArgument(): void
+    {
+        $this->expectException(MissingOtherCategoryException::class);
+        $this->expectExceptionMessage('Category "other" missing from ICU message: select argument "0" (found: a, b)');
+
+        $pattern = new MessagePattern();
+        $pattern->parse('Hi {name}, {0, select, a{x} b{y}}');
+    }
+
+    /**
+     * Tests that MissingOtherCategoryException is still catchable as BadPluralSelectPatternSyntaxException.
+     *
+     * @throws InvalidArgumentException
+     * @throws OutOfBoundsException
+     */
+    #[Test]
+    public function testMissingOtherIsBadPluralSelectPatternSyntaxException(): void
+    {
+        $this->expectException(BadPluralSelectPatternSyntaxException::class);
+
+        $pattern = new MessagePattern();
+        $pattern->parseSelectStyle('male{He} female{She}');
     }
 
     /**
