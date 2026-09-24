@@ -6,6 +6,7 @@ declare(strict_types=1);
 namespace Matecat\Tests\ICU;
 
 use Exception;
+use Matecat\ICU\Exceptions\BadChoicePatternSyntaxException;
 use Matecat\ICU\Exceptions\BadPluralSelectPatternSyntaxException;
 use Matecat\ICU\Exceptions\InvalidArgumentException;
 use Matecat\ICU\Exceptions\MissingOtherCategoryException;
@@ -853,6 +854,38 @@ MSG;
         $pattern = new MessagePattern();
         $longStyle = str_repeat('a', Part::MAX_LENGTH + 1);
         $pattern->parse("{name, number, $longStyle}");
+    }
+
+    /**
+     * Tests that a choice selector number running to the end of the pattern throws BadChoicePatternSyntaxException.
+     *
+     * @throws InvalidArgumentException
+     * @throws OutOfBoundsException
+     */
+    #[Test]
+    public function testChoiceStyleSelectorAtEndOfPattern(): void
+    {
+        $this->expectException(BadChoicePatternSyntaxException::class);
+        $this->expectExceptionMessage('Bad choice pattern syntax: [at pattern index 10] "1"');
+
+        $pattern = new MessagePattern();
+        $pattern->parse('{0,choice,1');
+    }
+
+    /**
+     * Tests that an argument type starting with the digit "0" is rejected as bad argument syntax.
+     *
+     * @throws InvalidArgumentException
+     * @throws OutOfBoundsException
+     */
+    #[Test]
+    public function testArgumentTypeStartingWithZeroIsBadSyntax(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Bad argument syntax: [at pattern index 1] "a, 0}"');
+
+        $pattern = new MessagePattern();
+        $pattern->parse('{a, 0}');
     }
 
     /**

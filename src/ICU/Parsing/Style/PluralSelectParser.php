@@ -242,18 +242,14 @@ final class PluralSelectParser
      */
     private function currentArgumentName(): ?string
     {
-        for ($i = count($this->ctx->parts) - 1; $i >= 0; $i--) {
-            $part = $this->ctx->parts[$i];
-            $type = $part->getType();
-            if ($type === TokenType::ARG_NAME || $type === TokenType::ARG_NUMBER) {
-                return mb_substr($this->ctx->msg, $part->getIndex(), $part->getLength());
-            }
-            if ($type !== TokenType::ARG_TYPE) {
-                return null;
-            }
+        // A plural/select style has no ARG_TYPE part: its ARG_NAME/ARG_NUMBER is the last part added.
+        // Standalone styles (parsePluralStyle() etc.) have no parts yet, hence no argument.
+        $last = $this->ctx->parts[count($this->ctx->parts) - 1] ?? null;
+        if ($last === null || !in_array($last->getType(), [TokenType::ARG_NAME, TokenType::ARG_NUMBER], true)) {
+            return null;
         }
 
-        return null;
+        return mb_substr($this->ctx->msg, $last->getIndex(), $last->getLength());
     }
 
     /**

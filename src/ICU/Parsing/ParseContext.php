@@ -113,7 +113,7 @@ final class ParseContext
     {
         $numericIndex = count($this->numericValues);
         if ($numericIndex > Part::MAX_VALUE) {
-            throw new OutOfBoundsException("Too many numeric values"); // @codeCoverageIgnore
+            throw new OutOfBoundsException("Too many numeric values");
         }
         $this->numericValues[] = $numericValue;
         $this->addPart(TokenType::ARG_DOUBLE, $start, $length, $numericIndex);
