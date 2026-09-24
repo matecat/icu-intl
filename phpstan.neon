@@ -5,3 +5,12 @@ parameters:
 		- tests
 	excludePaths:
 	    - tests/Matecat/benchmark.php
+	ignoreErrors:
+		# Redundant $f100 !== 11 in CardinalDecimalRule is kept on purpose to mirror the CLDR
+		# rule text (see the comment there). Only some PHPStan versions flag it (2.2.5 does,
+		# 2.2.15 does not), and composer.lock is not committed, so the ignore must not fail
+		# when unmatched.
+		-
+			identifier: notIdentical.alwaysTrue
+			path: src/ICU/Plurals/Rules/CardinalDecimalRule.php
+			reportUnmatched: false

@@ -1,0 +1,284 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# CI: tests + coverage, PHPStan, PHPMD, SonarCloud, test-guard, Slack.
+# Replaces .travis.yml.
+#
+# SECRETS required (repo or org level):
+#   SONAR_TOKEN     – SonarCloud analysis (sonarcloud job)
+#   GEMINI_API_KEY  – test-guard Layer 3 AI review (without it the AI phase is skipped)
+#   SLACK_WEBHOOK   – Slack notification
+# ─────────────────────────────────────────────────────────────────────────────
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+    # Naming `types` REPLACES the default set, so the three defaults are relisted.
+    # `edited` fires when a PR's base branch changes (including GitHub's automatic
+    # retarget of a stacked PR), which otherwise leaves the PR with no checks.
+    types: [ opened, synchronize, reopened, edited ]
+
+# Permissions are set per job: test-guard needs pull-requests:write and phpmd needs
+# security-events:write, while everything else only reads.
+permissions:
+  contents: read
+
+env:
+  PHP_VERSION: '8.3'
+
+jobs:
+  # ───────────────────────────────────────────────────────────────────────────
+  # PHPUnit with coverage. The clover report feeds test-guard and SonarCloud.
+  # ───────────────────────────────────────────────────────────────────────────
+  tests:
+    name: Run tests
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ env.PHP_VERSION }}
+          extensions: mbstring, intl, dom
+          coverage: xdebug
+          tools: composer
+
+      # composer.lock is gitignored (library), so dependencies resolve fresh, as on Travis.
+      - name: Install dependencies
+        run: composer install --no-interaction --prefer-dist --no-progress
+
+      # Blocking: a failing test suite must fail the build.
+      - name: Run PHPUnit
+        env:
+          XDEBUG_MODE: coverage
+        run: ./vendor/bin/phpunit -d memory_limit=-1 --coverage-clover=coverage.xml
+
+      # `always()`: upload whatever coverage exists even when tests failed, so a
+      # regression can still be inspected. The assertion below owns the verdict.
+      - name: Upload coverage artifact
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: coverage-report
+          path: coverage.xml
+          retention-days: 7
+          if-no-files-found: warn
+
+      # A missing or truncated report would otherwise surface downstream in
+      # test-guard as a coverage regression; this makes the two cases distinct.
+      - name: Assert coverage report is usable
+        if: always()
+        shell: bash
+        run: |
+          set -uo pipefail
+          FILE=coverage.xml
+          if [ ! -s "$FILE" ]; then
+            echo "::error title=Coverage report missing::$FILE was not produced or is empty, so test-guard and SonarCloud have nothing to measure."
+            exit 1
+          fi
+          if ! grep -q '<coverage' "$FILE"; then
+            echo "::error title=Coverage report unreadable::$FILE contains no <coverage> element, so it is not a clover report."
+            exit 1
+          fi
+          echo "$FILE OK ($(wc -c < "$FILE" | tr -d ' ') bytes)"
+
+  # ───────────────────────────────────────────────────────────────────────────
+  # PHPStan (config: phpstan.neon). Blocking, with inline PR annotations.
+  # A JSON report is also produced for SonarCloud.
+  # ───────────────────────────────────────────────────────────────────────────
+  phpstan:
+    name: Run PHPStan
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ env.PHP_VERSION }}
+          extensions: mbstring, intl, dom
+          coverage: none
+          tools: composer
+
+      # ext-xdebug is a require-dev platform requirement, only needed for coverage.
+      - name: Install dependencies
+        run: composer install --no-interaction --prefer-dist --no-progress --ignore-platform-req=ext-xdebug
+
+      - name: Run PHPStan
+        run: ./vendor/bin/phpstan analyse --no-progress --memory-limit=1G --error-format=github
+
+      - name: Generate PHPStan report for SonarCloud
+        if: always()
+        run: ./vendor/bin/phpstan analyse --no-progress --memory-limit=1G --error-format=json > phpstan-report.json || true
+
+      - name: Upload PHPStan report
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: phpstan-report
+          path: phpstan-report.json
+          retention-days: 7
+          if-no-files-found: warn
+
+  # ───────────────────────────────────────────────────────────────────────────
+  # PHPMD (codesize rules). Non-blocking: findings go to GitHub code scanning
+  # (Security tab / PR annotations) as SARIF, as in matecat.
+  # ───────────────────────────────────────────────────────────────────────────
+  phpmd:
+    name: Run PHPMD
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      security-events: write
+      actions: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ env.PHP_VERSION }}
+          extensions: mbstring, intl, dom
+          coverage: none
+          tools: composer
+
+      # ext-xdebug is a require-dev platform requirement, only needed for coverage.
+      - name: Install dependencies
+        run: composer install --no-interaction --prefer-dist --no-progress --ignore-platform-req=ext-xdebug
+
+      - name: Run PHPMD
+        run: ./vendor/bin/phpmd ./src/ sarif codesize --reportfile phpmd-results.sarif
+        continue-on-error: true
+
+      # Fork PRs get a read-only token, so the upload would fail there.
+      - name: Upload analysis results to GitHub
+        if: github.event_name != 'pull_request' || !github.event.pull_request.head.repo.fork
+        uses: github/codeql-action/upload-sarif@v4
+        with:
+          sarif_file: phpmd-results.sarif
+          category: phpmd
+          wait-for-processing: true
+
+  # ───────────────────────────────────────────────────────────────────────────
+  # SonarCloud (was Travis after_success). Uses the coverage and PHPStan reports.
+  # Skipped on fork PRs, where SONAR_TOKEN is not available.
+  # ───────────────────────────────────────────────────────────────────────────
+  sonarcloud:
+    name: SonarCloud analysis
+    runs-on: ubuntu-24.04
+    needs: [ tests, phpstan ]
+    if: github.event_name != 'pull_request' || !github.event.pull_request.head.repo.fork
+    steps:
+      # Full history so Sonar can attribute new code and blame correctly.
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Download coverage artifact
+        uses: actions/download-artifact@v8
+        with:
+          name: coverage-report
+
+      - name: Download PHPStan report
+        uses: actions/download-artifact@v8
+        with:
+          name: phpstan-report
+
+      - name: SonarCloud scan
+        uses: SonarSource/sonarqube-scan-action@v8
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.organization=matecat
+            -Dsonar.projectKey=matecat_icu-intl
+            -Dsonar.sources=src
+            -Dsonar.tests=tests/
+            -Dsonar.php.coverage.reportPaths=coverage.xml
+            -Dsonar.php.phpstan.reportPaths=phpstan-report.json
+
+  # ───────────────────────────────────────────────────────────────────────────
+  # test-guard (PR only): test adequacy on changed files.
+  # Skippable with the 'test-guard-exception' PR label.
+  # ───────────────────────────────────────────────────────────────────────────
+  test-guard:
+    name: Test adequacy gate
+    runs-on: ubuntu-24.04
+    needs: tests
+    if: >-
+      github.event_name == 'pull_request' &&
+      !contains(github.event.pull_request.labels.*.name, 'test-guard-exception')
+    concurrency:
+      group: icu-intl-test-guard-${{ github.ref }}
+      cancel-in-progress: true
+    permissions:
+      contents: read
+      pull-requests: write
+      checks: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Download coverage artifact
+        uses: actions/download-artifact@v8
+        with:
+          name: coverage-report
+
+      - name: Test Guard
+        uses: ostico/test-guard@v2
+        with:
+          coverage-file: coverage.xml
+          # Current line coverage is ~99%.
+          coverage-threshold: '95'
+          extra-exclude-patterns: >-
+            .github/**, benchmarks/**, scripts/**, docs/**
+          ai-enabled: 'true'
+          # test-guard v2: Layer 3 calls any OpenAI-compatible endpoint and needs a
+          # provider key. Without ai-api-key the AI phase is skipped and the gate
+          # falls back to Layer 1 + Layer 2.
+          ai-api-key: ${{ secrets.GEMINI_API_KEY }}
+          # Trailing slash is required — without it the compat layer 404s.
+          ai-base-url: 'https://generativelanguage.googleapis.com/v1beta/openai/'
+          ai-model: 'gemini-3.1-flash-lite'
+          # Gemini 3.x cannot disable thinking; low keeps code-reasoning quality.
+          ai-reasoning-effort: 'low'
+          # Gemini 3.x warns that lowering temperature degrades reasoning.
+          ai-temperature: '1.0'
+          ai-max-input-tokens: '32000'
+          test-patterns: |
+            {
+              "php-unit": {"src_pattern": "src/**/*.php", "test_template": "tests/**/{name}Test.php"}
+            }
+
+  # ───────────────────────────────────────────────────────────────────────────
+  # Slack: one message per run with the overall result.
+  # Skipped on fork PRs, where SLACK_WEBHOOK is not available.
+  # ───────────────────────────────────────────────────────────────────────────
+  slack-notification:
+    name: Slack Notification
+    runs-on: ubuntu-24.04
+    needs: [ tests, phpstan, phpmd, sonarcloud, test-guard ]
+    if: >-
+      always() &&
+      (github.event_name != 'pull_request' || !github.event.pull_request.head.repo.fork)
+    permissions: {}
+    steps:
+      - name: Slack Notification
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_CHANNEL: travis-ci
+          SLACK_TITLE: icu-intl CI for ${{ github.head_ref || github.ref_name }}
+          SLACK_COLOR: ${{ (contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')) && 'failure' || 'success' }}
+          SLACK_MESSAGE: >-
+            tests: ${{ needs.tests.result }} | phpstan: ${{ needs.phpstan.result }} |
+            phpmd: ${{ needs.phpmd.result }} | sonarcloud: ${{ needs.sonarcloud.result }} |
+            test-guard: ${{ needs.test-guard.result }}
