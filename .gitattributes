@@ -7,7 +7,6 @@
 /.github export-ignore
 /.idea export-ignore
 /.phpunit.cache export-ignore
-/.travis.yml export-ignore
 
 /tests export-ignore
 /vendor export-ignore

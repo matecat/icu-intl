@@ -1,5 +1,7 @@
 .*
 !.gitignore
+!.gitattributes
+!.github/
 # Composer
 composer.lock
 vendor/
