@@ -156,10 +156,8 @@ final class CharUtils
      */
     public static function isArgTypeChar(?string $c): bool
     {
-        if (empty($c)) {
-            return false; // @codeCoverageIgnore
-        }
-        return ctype_alpha($c);
+        // Not empty(): empty('0') is true. ctype_alpha('') is already false.
+        return $c !== null && ctype_alpha($c);
     }
 
     /**

@@ -80,7 +80,7 @@ final class NumericParser
     public static function parseArgNumberFromString(string $s, int $start, int $limit): int
     {
         if ($start >= $limit) {
-            return MessagePattern::ARG_NAME_NOT_VALID; // @codeCoverageIgnore
+            return MessagePattern::ARG_NAME_NOT_VALID;
         }
 
         $number = self::parseDigits($s, $start, $limit);

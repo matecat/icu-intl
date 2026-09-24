@@ -192,26 +192,28 @@ class OrdinalRule
             // two: n = 2
             // few: n = 3,4
             // many: n = 5,6
-            14 => match ($n) { // @codeCoverageIgnore strange behavior of curly brackets and match in code coverage,
+            // xdebug does not report the header and closing lines of a nested match; both carry the
+            // exact "// @codeCoverageIgnore" marker (php-code-coverage ignores it if any text follows).
+            14 => match ($n) { // @codeCoverageIgnore
                 0, 7, 8, 9 => 0,  // zero
                 1 => 1,           // one
                 2 => 2,           // two
                 3, 4 => 3,        // few
                 5, 6 => 4,        // many
                 default => 5,     // other
-            },
+            }, // @codeCoverageIgnore
 
             // Rule 16: Scottish Gaelic ordinals (one/two/few/other)
             // Locales: gd
             // one: n = 1,11
             // two: n = 2,12
             // few: n = 3,13
-            16 => match ($n) { // @codeCoverageIgnore strange behavior of curly brackets and match in code coverage,
+            16 => match ($n) { // @codeCoverageIgnore
                 1, 11 => 0,       // one
                 2, 12 => 1,       // two
                 3, 13 => 2,       // few
                 default => 3,     // other
-            },
+            }, // @codeCoverageIgnore
 
             // Rule 20: Italian ordinals (many/other)
             // Locales: it, lld, sc, vec
@@ -248,25 +250,25 @@ class OrdinalRule
             // two: n = 2,3
             // few: n = 4
             // many: n = 6
-            24 => match ($n) { // @codeCoverageIgnore strange behavior of curly brackets and match in code coverage,
+            24 => match ($n) { // @codeCoverageIgnore
                 1 => 0,           // one
                 2, 3 => 1,        // two
                 4 => 2,           // few
                 6 => 3,           // many
                 default => 4,     // other
-            },
+            }, // @codeCoverageIgnore
 
             // Rule 26: Marathi/Konkani ordinals (one/two/few/other)
             // Locales: kok, mr
             // one: n = 1
             // two: n = 2,3
             // few: n = 4
-            26 => match ($n) { // @codeCoverageIgnore strange behavior of curly brackets and match in code coverage,
+            26 => match ($n) { // @codeCoverageIgnore
                 1 => 0,           // one
                 2, 3 => 1,        // two
                 4 => 2,           // few
                 default => 3,     // other
-            },
+            }, // @codeCoverageIgnore
 
             // Rule 27: Odia ordinals (one/two/few/many/other)
             // Locales: or, ory
@@ -364,12 +366,12 @@ class OrdinalRule
             // one: n = 1,3
             // two: n = 2
             // few: n = 4
-            39 => match ($n) { // @codeCoverageIgnore strange behavior of curly brackets and match in code coverage,
+            39 => match ($n) { // @codeCoverageIgnore
                 1, 3 => 0,        // one
                 2 => 1,           // two
                 4 => 2,           // few
                 default => 3,     // other
-            },
+            }, // @codeCoverageIgnore
 
             // Rule 40: Georgian ordinals (one/many/other)
             // Locales: ka

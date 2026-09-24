@@ -119,9 +119,7 @@ final class ChoiceStyleParser
     private function parseSeparator(int $index, int $length, int $start): int
     {
         if ($index === $length) {
-            // @codeCoverageIgnoreStart
             throw new BadChoicePatternSyntaxException(CharUtils::errorContext($this->ctx->msg, $start));
-            // @codeCoverageIgnoreEnd
         }
 
         $c = CharUtils::charAt($this->ctx->chars, $index);

@@ -229,7 +229,9 @@ class CardinalIntegerRule
             // Rule 14 — nplurals=6; zero/one/two/few/many/other (Welsh)
             // CLDR: zero = n=0; one = n=1; two = n=2; few = n=3; many = n=6; other = rest
             // Locales: cy
-            14 => match ($n) { // @codeCoverageIgnore strange behavior of curly brackets and match in code coverage,
+            // xdebug does not report the header and closing lines of a nested match; both carry the
+            // exact "// @codeCoverageIgnore" marker (php-code-coverage ignores it if any text follows).
+            14 => match ($n) { // @codeCoverageIgnore
                 0 => 0,
                 1 => 1,
                 2 => 2,

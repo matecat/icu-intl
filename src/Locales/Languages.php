@@ -108,11 +108,9 @@ class Languages
                 self::$ocrSupported[$localizedTag] = $lang['bcp47code'];
             }
 
-            // @codeCoverageIgnoreStart
             if ($lang['ocr']['not_supported_or_rtl'] === true) {
                 self::$ocrNotSupported[$localizedTag] = $lang['bcp47code'];
             }
-            // @codeCoverageIgnoreEnd
         }
     }
 
