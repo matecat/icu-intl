@@ -296,6 +296,50 @@ final class LanguagesTest extends TestCase
     }
 
     /**
+     * Tests the English name, ISO code and enabled status of locales
+     * renamed or added to align with MyMemory.
+     *
+     * @param string $rfcCode
+     * @param string $expectedName
+     * @param string $expectedIsoCode
+     *
+     * @return void
+     * @throws InvalidLanguageException
+     */
+    #[DataProvider('myMemoryAlignedLocalesProvider')]
+    public function testMyMemoryAlignedLocales(string $rfcCode, string $expectedName, string $expectedIsoCode): void
+    {
+        $langs = Languages::getInstance();
+
+        self::assertSame($expectedName, $langs->getLocalizedNameRFC($rfcCode));
+        self::assertSame($expectedIsoCode, Languages::convertLanguageToIsoCode($rfcCode));
+        self::assertTrue($langs->isEnabled($rfcCode));
+        self::assertFalse(Languages::isRTL($rfcCode));
+    }
+
+    /**
+     * @return array<string, array{0: string, 1: string, 2: string}>
+     */
+    public static function myMemoryAlignedLocalesProvider(): array
+    {
+        return [
+            // renamed
+            'az-AZ' => ['az-AZ', 'Azerbaijani (Azerbaijan)', 'az'],
+            'yue-HK' => ['yue-HK', 'Cantonese (Hong Kong)', 'yue'],
+            'mfi-CM' => ['mfi-CM', 'Wandala (Cameroon)', 'mfi'],
+            'mfi-NG' => ['mfi-NG', 'Wandala (Nigeria)', 'mfi'],
+            'hi-IN' => ['hi-IN', 'Hindi (India)', 'hi'],
+            'oc-ES' => ['oc-ES', 'Occitan (Spain)', 'oc'],
+            'os-GE' => ['os-GE', 'Ossetian (Georgia)', 'os'],
+            // added
+            'az-IR' => ['az-IR', 'Azerbaijani (Iran)', 'az'],
+            'bal-IR' => ['bal-IR', 'Baluchi (Iran)', 'bal'],
+            'yue-CN' => ['yue-CN', 'Cantonese (mainland China)', 'yue'],
+            'os-RU' => ['os-RU', 'Ossetian (Russia)', 'os'],
+        ];
+    }
+
+    /**
      * Tests that getLocalizedNameRFC throws exception for invalid code.
      *
      * @return void
