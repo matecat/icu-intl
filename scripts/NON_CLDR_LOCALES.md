@@ -1,10 +1,10 @@
 # Locales in $rulesMap not in CLDR 49 — Parent Language Derivation
 
-- **Total in $rulesMap**: 386
+- **Total in $rulesMap**: 391
 - **In CLDR 49**: 214
-- **NOT in CLDR 49**: 172
-  - With derivable parent: 89
-  - Standalone (no parent): 83
+- **NOT in CLDR 49**: 177
+  - With derivable parent: 93
+  - Standalone (no parent): 84
 
 ---
 
@@ -46,6 +46,10 @@
 | `hil` | `fil` | 25 | 2 | Hiligaynon — Austronesian → Filipino |
 | `hne` | `hi` | 2 | 24 | Chhattisgarhi — Indo-Aryan → Hindi |
 | `ht` | `fr` | 29 | 2 | Haitian Creole → French |
+| `ifa` | `fil` | 25 | 2 | Amganad Ifugao — Austronesian → Filipino |
+| `ifb` | `fil` | 25 | 2 | Batad Ifugao — Austronesian → Filipino |
+| `ifk` | `fil` | 25 | 2 | Tuwali Ifugao — Austronesian → Filipino |
+| `ifu` | `fil` | 25 | 2 | Mayoyao Ifugao — Austronesian → Filipino |
 | `ilo` | `fil` | 25 | 2 | Ilocano — Austronesian → Filipino |
 | `jam` | `en` | 1 | 1 | Jamaican Creole English |
 | `kal` | `kl` | 1 | 0 | Kalaallisut (alt. ISO code) |
@@ -187,6 +191,7 @@ These languages have no close relative in CLDR 49. They all use rule 0 (only `ot
 | `tum` | Tumbuka | Bantu |
 | `tvl` | Tuvalu | Polynesian |
 | `ty` | Tahitian | Polynesian |
+| `tyv` | Tuvan | Turkic |
 | `udm` | Udmurt | Uralic |
 | `umb` | Umbundu | Bantu |
 | `vmw` | Makhuwa | Bantu |
