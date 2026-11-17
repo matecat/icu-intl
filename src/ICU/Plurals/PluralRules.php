@@ -375,6 +375,10 @@ class PluralRules
         // I
         'ia' => ['cardinal' => 1, 'ordinal' => 0],    // Interlingua - CLDR 49
         'id' => ['cardinal' => 0, 'ordinal' => 0],    // Indonesian
+        'ifa' => ['cardinal' => 25, 'ordinal' => 2],   // Amganad Ifugao - inherits from 'fil'
+        'ifb' => ['cardinal' => 25, 'ordinal' => 2],   // Batad Ifugao - inherits from 'fil'
+        'ifk' => ['cardinal' => 25, 'ordinal' => 2],   // Tuwali Ifugao - inherits from 'fil'
+        'ifu' => ['cardinal' => 25, 'ordinal' => 2],   // Mayoyao Ifugao - inherits from 'fil'
         'ig' => ['cardinal' => 0, 'ordinal' => 0],    // Igbo
         'ii' => ['cardinal' => 0, 'ordinal' => 0],    // Sichuan Yi - CLDR 49
         'ilo' => ['cardinal' => 25, 'ordinal' => 2],   // Ilocano - inherits from 'fil'
@@ -628,6 +632,7 @@ class PluralRules
         'tvl' => ['cardinal' => 0, 'ordinal' => 0],   // Tuvalu
         'tw' => ['cardinal' => 2, 'ordinal' => 0],     // Twi - inherits from 'ak'
         'ty' => ['cardinal' => 0, 'ordinal' => 0],    // Tahitian
+        'tyv' => ['cardinal' => 0, 'ordinal' => 0],   // Tuvan
         'tzm' => ['cardinal' => 26, 'ordinal' => 0],   // Central Atlas Tamazight - CLDR 49: n = 0–1 or n = 11–99
 
         // U

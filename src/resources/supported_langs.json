@@ -78,6 +78,21 @@
         {
             "localized": [
                 {
+                    "en": "Amganad Ifugao"
+                }
+            ],
+            "isocode": "ifa",
+            "enabled": true,
+            "rtl": false,
+            "bcp47code": "ifa-PH",
+            "ocr": {
+                "supported": true,
+                "not_supported_or_rtl": false
+            }
+        },
+        {
+            "localized": [
+                {
                     "en": "Amharic"
                 }
             ],
@@ -431,6 +446,21 @@
             "enabled": true,
             "rtl": false,
             "bcp47code": "eu-ES",
+            "ocr": {
+                "supported": true,
+                "not_supported_or_rtl": false
+            }
+        },
+        {
+            "localized": [
+                {
+                    "en": "Batad Ifugao"
+                }
+            ],
+            "isocode": "ifb",
+            "enabled": true,
+            "rtl": false,
+            "bcp47code": "ifb-PH",
             "ocr": {
                 "supported": true,
                 "not_supported_or_rtl": false
@@ -3530,6 +3560,21 @@
         {
             "localized": [
                 {
+                    "en": "Mayoyao Ifugao"
+                }
+            ],
+            "isocode": "ifu",
+            "enabled": true,
+            "rtl": false,
+            "bcp47code": "ifu-PH",
+            "ocr": {
+                "supported": true,
+                "not_supported_or_rtl": false
+            }
+        },
+        {
+            "localized": [
+                {
                     "en": "Mende"
                 }
             ],
@@ -5765,6 +5810,36 @@
             "enabled": true,
             "rtl": false,
             "bcp47code": "tvl-TV",
+            "ocr": {
+                "supported": true,
+                "not_supported_or_rtl": false
+            }
+        },
+        {
+            "localized": [
+                {
+                    "en": "Tuvan"
+                }
+            ],
+            "isocode": "tyv",
+            "enabled": true,
+            "rtl": false,
+            "bcp47code": "tyv-RU",
+            "ocr": {
+                "supported": true,
+                "not_supported_or_rtl": false
+            }
+        },
+        {
+            "localized": [
+                {
+                    "en": "Tuwali Ifugao"
+                }
+            ],
+            "isocode": "ifk",
+            "enabled": true,
+            "rtl": false,
+            "bcp47code": "ifk-PH",
             "ocr": {
                 "supported": true,
                 "not_supported_or_rtl": false

@@ -136,6 +136,11 @@ final class LanguagesTest extends TestCase
             'Russian' => ['ru-RU'],
             'Chinese' => ['zh-CN'],
             'Japanese' => ['ja-JP'],
+            'Amganad Ifugao' => ['ifa-PH'],
+            'Batad Ifugao' => ['ifb-PH'],
+            'Mayoyao Ifugao' => ['ifu-PH'],
+            'Tuwali Ifugao' => ['ifk-PH'],
+            'Tuvan' => ['tyv-RU'],
         ];
     }
 
