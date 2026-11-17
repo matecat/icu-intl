@@ -288,7 +288,7 @@
         {
             "localized": [
                 {
-                    "en": "Azerbaijani"
+                    "en": "Azerbaijani (Azerbaijan)"
                 }
             ],
             "isocode": "az",
@@ -300,6 +300,21 @@
                 "not_supported_or_rtl": false
             },
             "languageRegionCode": "az-Latn-AZ"
+        },
+        {
+            "localized": [
+                {
+                    "en": "Azerbaijani (Iran)"
+                }
+            ],
+            "isocode": "az",
+            "enabled": true,
+            "rtl": false,
+            "bcp47code": "az-IR",
+            "ocr": {
+                "supported": true,
+                "not_supported_or_rtl": false
+            }
         },
         {
             "localized": [
@@ -356,6 +371,21 @@
             "enabled": true,
             "rtl": false,
             "bcp47code": "rmn-BG",
+            "ocr": {
+                "supported": true,
+                "not_supported_or_rtl": false
+            }
+        },
+        {
+            "localized": [
+                {
+                    "en": "Baluchi (Iran)"
+                }
+            ],
+            "isocode": "bal",
+            "enabled": true,
+            "rtl": false,
+            "bcp47code": "bal-IR",
             "ocr": {
                 "supported": true,
                 "not_supported_or_rtl": false
@@ -2237,7 +2267,8 @@
                 "supported": true,
                 "not_supported_or_rtl": false
             }
-        },{
+        },
+        {
             "localized": [
                 {
                     "en": "Hausa  (Nigeria)"
@@ -2330,7 +2361,7 @@
         {
             "localized": [
                 {
-                    "en": "Hindi"
+                    "en": "Hindi (India)"
                 }
             ],
             "isocode": "hi",
@@ -3350,7 +3381,7 @@
         {
             "localized": [
                 {
-                    "en": "Malgwa"
+                    "en": "Wandala (Nigeria)"
                 }
             ],
             "isocode": "mfi",
@@ -3891,7 +3922,7 @@
         {
             "localized": [
                 {
-                    "en": "Occitan (Aran)"
+                    "en": "Occitan (Spain)"
                 }
             ],
             "isocode": "oc",
@@ -5999,7 +6030,7 @@
         {
             "localized": [
                 {
-                    "en": "Wandala"
+                    "en": "Wandala (Cameroon)"
                 }
             ],
             "isocode": "mfi",
@@ -6629,13 +6660,28 @@
         {
             "localized": [
                 {
-                    "en": "Ossetic"
+                    "en": "Ossetian (Georgia)"
                 }
             ],
             "isocode": "os",
             "enabled": true,
             "rtl": false,
             "bcp47code": "os-GE",
+            "ocr": {
+                "supported": false,
+                "not_supported_or_rtl": true
+            }
+        },
+        {
+            "localized": [
+                {
+                    "en": "Ossetian (Russia)"
+                }
+            ],
+            "isocode": "os",
+            "enabled": true,
+            "rtl": false,
+            "bcp47code": "os-RU",
             "ocr": {
                 "supported": false,
                 "not_supported_or_rtl": true
@@ -7004,13 +7050,28 @@
         {
             "localized": [
                 {
-                    "en": "Cantonese"
+                    "en": "Cantonese (Hong Kong)"
                 }
             ],
             "isocode": "yue",
             "enabled": true,
             "rtl": false,
             "bcp47code": "yue-HK",
+            "ocr": {
+                "supported": true,
+                "not_supported_or_rtl": false
+            }
+        },
+        {
+            "localized": [
+                {
+                    "en": "Cantonese (mainland China)"
+                }
+            ],
+            "isocode": "yue",
+            "enabled": true,
+            "rtl": false,
+            "bcp47code": "yue-CN",
             "ocr": {
                 "supported": true,
                 "not_supported_or_rtl": false

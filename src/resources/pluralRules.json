@@ -498,7 +498,7 @@
         ]
     },
     "az": {
-        "name": "Azerbaijani",
+        "name": "Azerbaijani (Azerbaijan)",
         "isoCode": "az",
         "cardinal": [
             {
@@ -694,7 +694,7 @@
         ]
     },
     "bal": {
-        "name": "Baluchi (Pakistan)",
+        "name": "Baluchi (Iran)",
         "isoCode": "bal",
         "cardinal": [
             {
@@ -3292,7 +3292,7 @@
         ]
     },
     "hi": {
-        "name": "Hindi",
+        "name": "Hindi (Fiji)",
         "isoCode": "hi",
         "cardinal": [
             {
@@ -5736,7 +5736,7 @@
         ]
     },
     "mfi": {
-        "name": "Malgwa",
+        "name": "Wandala (Cameroon)",
         "isoCode": "mfi",
         "cardinal": [
             {
@@ -6726,7 +6726,7 @@
         ]
     },
     "oc": {
-        "name": "Occitan (Aran)",
+        "name": "Occitan (France)",
         "isoCode": "oc",
         "cardinal": [
             {
@@ -6878,7 +6878,7 @@
         ]
     },
     "os": {
-        "name": "Ossetic",
+        "name": "Ossetian (Georgia)",
         "isoCode": "os",
         "cardinal": [
             {
@@ -10354,7 +10354,7 @@
         ]
     },
     "yue": {
-        "name": "Cantonese",
+        "name": "Cantonese (Hong Kong)",
         "isoCode": "yue",
         "cardinal": [
             {
